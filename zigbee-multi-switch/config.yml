@@ -1,0 +1,4 @@
+name: 'Zigbee Multi Switch'
+packageKey: 'Zigbee_Multi_Switch'
+permissions:
+  zigbee: {}

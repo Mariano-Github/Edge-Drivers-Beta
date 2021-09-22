@@ -1,0 +1,6 @@
+zigbeeManufacturer:
+  - id: "LIDL/TS011F"
+    deviceLabel: Lidl MultiPlug
+    manufacturer: _TZ3000_1obwwnmq
+    model: TS011F
+    deviceProfileName: three-outlet
