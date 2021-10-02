@@ -1,0 +1,4 @@
+name: 'SmartThings Multipurpose Sensor-pref'
+packageKey: 'smartthingsMultipurposeSensor-pref'
+permissions:
+  zigbee: {}
