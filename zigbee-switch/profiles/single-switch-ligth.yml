@@ -1,0 +1,14 @@
+name: single-switch-ligth
+components:
+- id: main
+  capabilities:
+  - id: switch
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: Switch
+metadata:
+  deviceType: Ligth
+  ocfDeviceType: oic.d.ligth
+  deviceTypeId: Ligth 
