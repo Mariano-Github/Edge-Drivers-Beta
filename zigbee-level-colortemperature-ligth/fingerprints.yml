@@ -1,0 +1,26 @@
+zigbeeManufacturer:
+  - id: "LIDL/TS0502A"
+    deviceLabel: Lidl Bulb
+    manufacturer: _TZ3000_49qchf10
+    model: TS0502A
+    deviceProfileName: level-colortemp-2700-6000
+  - id: "OSRAM/Classic"
+    deviceLabel: OSRAM Classic
+    manufacturer: OSRAM
+    model: Classic A60 W clear - LIGHTIFY
+    deviceProfileName: switch-level
+  - id: "OSRAM/LIGHTIFY BR"
+    deviceLabel: OSRAM LIGHTIFY BR
+    manufacturer: OSRAM
+    model: LIGHTIFY BR Tunable White
+    deviceProfileName: level-colortemp-2700-6500
+  - id: "Ecosmart-ZBT-A19-CCT"
+    deviceLabel: Ecosmart-ZBT
+    manufacturer: The Home Depot
+    model: Ecosmart-ZBT-A19-CCT-Bulb
+    deviceProfileName: level-colortemp-2700-6500
+  - id: "Sengled/E11-G13"
+    deviceLabel: Sengled E11-G13
+    manufacturer: sengled
+    model: E11-G13
+    deviceProfileName: switch-level

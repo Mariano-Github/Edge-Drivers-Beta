@@ -1,0 +1,4 @@
+name: 'Zigbee Level ColorTemperature Ligth'
+packageKey: 'Zigbee_Level_ColorTemperature_Ligth'
+permissions:
+  zigbee: {}
