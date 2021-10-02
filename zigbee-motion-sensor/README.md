@@ -1,4 +1,4 @@
-## Zigbee Motion Sensor : Modified fron original Beta Driver smartthings and added:
+## Zigbee Motion Sensor : Modified from original Beta Driver smartthings and added:
 
 - Lidl Motion Sensor
 - ST Motion Sensor with custom temperature reports settings
