@@ -1,5 +1,5 @@
-# Sample Edge Driver for SmartThings Multipurpose Sensor
-
+## SmartThings Multipurpose Sensor-Pref: Modified fron original Driver to add settings with preferences for custom Temperature Reports
+  ## Modified by Mariano Colmenarejo with help of Nayely Zarazua (SmartThings)
 Model: IM6001-MPP04
 
 Protocol: Zigbee
