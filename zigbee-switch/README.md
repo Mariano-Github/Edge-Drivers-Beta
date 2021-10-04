@@ -1,7 +1,7 @@
-##Edge Driver zigbee switch:
+## Edge Driver zigbee switch:
 Created by Mariano Colmenarejo from smartthing edge default libraries
 
-Devices 3-Oct-2021:
+## Devices 3-Oct-2021:
 zigbeeManufacturer:
 
 id: "LIDL Plug/TS011F" deviceLabel: Lidl Plug manufacturer: _TZ3000_kdi2o9m6 model: TS011F deviceProfileName: single-switch-plug
