@@ -1,4 +1,4 @@
-Edge Driver zigbee switch:
+##Edge Driver zigbee switch:
 Created by Mariano Colmenarejo from smartthing edge default libraries
 
 Devices 3-Oct-2021:
