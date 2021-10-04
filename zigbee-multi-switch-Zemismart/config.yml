@@ -1,0 +1,4 @@
+name: 'Zigbee Multi Switch Zemismart'
+packageKey: 'Zigbee_Multi_Switch_Zemismart'
+permissions:
+  zigbee: {}
