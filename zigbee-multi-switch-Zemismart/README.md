@@ -15,13 +15,13 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_1obwwnmq
     model: TS011F
     deviceProfileName: three-outlet
---## tested by others users
+## tested by others users
   - id: "FeiBit/3-Switch" 
     deviceLabel: FeiBit 3 Switch
     manufacturer: FeiBit
     model: FNB56-ZSW03LX2.0
     deviceProfileName: three-switch
-# tested by others users
+
   - id: "3A Smart/LXN2S2" 
     deviceLabel: 3A Smart 2 Switch
     manufacturer: 3A Smart Home DE
