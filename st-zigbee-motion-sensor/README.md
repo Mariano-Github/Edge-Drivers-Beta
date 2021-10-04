@@ -1,4 +1,4 @@
-## Edge Drive for SmartThings Motion sensor:
+## Edge Driver for SmartThings Motion sensor:
 
 GP-U999SJVLBEA
 With settings for Custom temperature Reports
