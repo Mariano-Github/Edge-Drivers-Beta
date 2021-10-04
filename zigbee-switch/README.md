@@ -2,7 +2,7 @@
 
 Created by Mariano Colmenarejo from smartthing edge default libraries
 
-## Devices 3-Oct-2021:
+## Devices 4-Oct-2021:
 zigbeeManufacturer:
   - id: "LIDL Plug/TS011F"
     deviceLabel: Lidl Plug
