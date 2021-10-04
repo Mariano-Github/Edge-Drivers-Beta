@@ -1,0 +1,6 @@
+zigbeeManufacturer:
+  - id: "SmartThings-Motion-Sensor"
+    deviceLabel: ST Motion Sensor
+    manufacturer: Samjin
+    model: motion
+    deviceProfileName: motion-temp-battery
