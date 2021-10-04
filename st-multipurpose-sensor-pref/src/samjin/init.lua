@@ -4,7 +4,11 @@ local device_management = require "st.zigbee.device_management"
 local tempMeasurement_defaults = require "st.zigbee.defaults.temperatureMeasurement_defaults"
 
 local can_handle = function(opts, driver, device)
+  if device:get_manufacturer() == "Samjin" then
     return device:get_manufacturer() == "Samjin"
+  elseif device:get_manufacturer() == "SmartThings" then
+    return device:get_manufacturer() == "SmartThings"
+  end
 end
 
 local function do_configure(self,device)
