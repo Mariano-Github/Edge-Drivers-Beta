@@ -1,0 +1,27 @@
+name: switch-colortemperature
+components:
+- id: main
+  capabilities:
+  - id: switch
+    version: 1
+  - id: colorTemperature
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: Light
+preferences:
+  - name: "version"
+    title: "Version 1.1 (Oct 2021)"
+    description: "Add: Profile switch-ColorTemperature default range"  
+    required: false
+    preferenceType: string
+    definition:
+      stringType: text
+      minLength: 0
+      maxLength: 0
+      default: ""
+metadata:
+  deviceType: Light
+  ocfDeviceType: oic.d.light
+  deviceTypeId: Light

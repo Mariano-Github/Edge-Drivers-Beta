@@ -1,0 +1,31 @@
+name: level-colortemp-2700-6500
+components:
+- id: main
+  capabilities:
+  - id: switch
+    version: 1
+  - id: switchLevel
+    version: 1
+  - id: colorTemperature
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: Light
+preferences:
+  - name: "version"
+    title: "Version 1.1 (Oct 2021)"
+    description: "Add:TRADFRI bulb E27 WS and E27 WW with 2700k-6000k" 
+    required: false
+    preferenceType: string
+    definition:
+      stringType: text
+      minLength: 0
+      maxLength: 0
+      default: ""
+metadata:
+  deviceType: Light
+  ocfDeviceType: oic.d.light
+  deviceTypeId: Light
+  mnmn: SmartThingsCommunity
+  vid: bf27505c-c984-3c60-b2c7-fd7b40eb0e98
