@@ -6,6 +6,7 @@ Author: Mariano Colmenarejo (Oct 2021)
 
  - It is in the testing phase.
  - It does not work well when the physical switch on the power strip is turned off and switch 1, main is off. All switches are turned off on  the device, but in the app, switches 2 and 3 do not update their off state until the periodic refresh arrives, adjusted every 3 minutes
+ - Plug 2 & 3 do not work with smart Lighting
 
 
 ## devices 04-oct-2021:
