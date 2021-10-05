@@ -95,32 +95,19 @@ local function on_off_attr_handler(self, device, value, zb_rx)
   print ("function: on_off_attr_handler")
   local src_endpoint = zb_rx.address_header.src_endpoint.value
   local attr_value = value.value
-  if src_endpoint == 1 then
-    device:send(zcl_clusters.OnOff.attributes.OnOff:read(device):to_endpoint (2))
-    device:send(zcl_clusters.OnOff.attributes.OnOff:read(device):to_endpoint (3))
-    if attr_value == false then
-      device:emit_event_for_endpoint(src_endpoint, capabilities.switch.switch.off())
-    else
-      device:emit_event_for_endpoint(src_endpoint, capabilities.switch.switch.on())
-    end
-  end
-  if src_endpoint == 2 then
-    if attr_value == false then
-      device:send(OnOff.server.commands.Off(device):to_endpoint(src_endpoint))
-      device:emit_event_for_endpoint(src_endpoint, capabilities.switch.switch.off())
-    else
-      device:send(OnOff.server.commands.On(device):to_endpoint(src_endpoint))
-      device:emit_event_for_endpoint(src_endpoint, capabilities.switch.switch.on())
-    end
-  end
-  if src_endpoint == 3 then
-    if attr_value == false then
-      device:send(OnOff.server.commands.Off(device):to_endpoint(src_endpoint))
-      device:emit_event_for_endpoint(src_endpoint, capabilities.switch.switch.off())
-    else
-      device:send(OnOff.server.commands.On(device):to_endpoint(src_endpoint))
-      device:emit_event_for_endpoint(src_endpoint, capabilities.switch.switch.on())
-    end
+  if src_endpoint == ep_ini then
+   --- Detect general button pressed in lidl strip device
+   if device:get_manufacturer() == "_TZ3000_1obwwnmq" then
+    device:send(zcl_clusters.OnOff.attributes.OnOff:read(device):to_endpoint (ep_ini + 1))
+    device:send(zcl_clusters.OnOff.attributes.OnOff:read(device):to_endpoint (ep_ini + 2))
+   end 
+  end 
+
+  --- Emit event from zigbee message recived
+  if attr_value == false then
+    device:emit_event_for_endpoint(src_endpoint, capabilities.switch.switch.off())
+  else
+    device:emit_event_for_endpoint(src_endpoint, capabilities.switch.switch.on())
   end
   print ("src_endpoint , value:", zb_rx.address_header.src_endpoint.value, value.value)
 end
