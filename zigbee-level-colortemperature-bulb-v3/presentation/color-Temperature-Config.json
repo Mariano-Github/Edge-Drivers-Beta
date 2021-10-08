@@ -1,0 +1,151 @@
+{
+    "mnmn": "SmartThingsCommunity",
+    "vid": "28f56c94-c226-3205-8f4c-460efd6280c3",
+    "version": "0.0.1",
+    "type": "profile",
+    "dashboard": {
+        "states": [
+            {
+                "component": "main",
+                "capability": "switch",
+                "version": 1,
+                "idx": 0,
+                "group": "main",
+                "values": []
+            }
+        ],
+        "actions": [
+            {
+                "component": "main",
+                "capability": "switch",
+                "version": 1,
+                "idx": 0,
+                "group": "main"
+            }
+        ]
+    },
+    "detailView": [
+        {
+            "component": "main",
+            "capability": "switch",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "main",
+            "capability": "switchLevel",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "main",
+            "capability": "colorTemperature",
+            "version": 1,
+            "values": [
+                {
+                    "key": "colorTemperature.value",
+                    "enabledValues": [],
+                    "range": [
+                        2700,
+                        6000
+                    ],
+                    "step": 1
+                }
+            ],
+            "patch": []
+        },
+        {
+            "component": "main",
+            "capability": "refresh",
+            "version": 1,
+            "values": [],
+            "patch": []
+        }
+    ],
+    "automation": {
+        "conditions": [
+            {
+                "component": "main",
+                "capability": "switch",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "main",
+                "capability": "switchLevel",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "main",
+                "capability": "colorTemperature",
+                "version": 1,
+                "values": [
+                    {
+                        "key": "colorTemperature.value",
+                        "enabledValues": [],
+                        "range": [
+                            2700,
+                            6000
+                        ],
+                        "step": 1
+                    }
+                ],
+                "patch": [],
+                "exclusion": []
+            }
+        ],
+        "actions": [
+            {
+                "component": "main",
+                "capability": "switch",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "main",
+                "capability": "switchLevel",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "main",
+                "capability": "colorTemperature",
+                "version": 1,
+                "values": [
+                    {
+                        "key": "colorTemperature.value",
+                        "enabledValues": [],
+                        "range": [
+                            2700,
+                            6600
+                        ],
+                        "step": 1
+                    }
+                ],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "main",
+                "capability": "refresh",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            }
+        ]
+    },
+    "presentationId": "28f56c94-c226-3205-8f4c-460efd6280c3",
+    "manufacturerName": "SmartThingsCommunity"
+}
