@@ -25,7 +25,7 @@ When the Random function is activated, the progressive ON and OFF functions are 
 
 You can create scenes and automations to activate and deactivate the function.
 
-When deactivating the function you can select how the progressive ON and OFF in each bulb to be configured again.
+When deactivating the function you can select in the automation how the progressive ON and OFF in each bulb to be configured again.
 
 I will include this function in the zigbee switch driver to be able to use controlled lights with switches and plugs.
 
