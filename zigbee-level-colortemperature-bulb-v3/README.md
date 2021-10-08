@@ -34,20 +34,22 @@ If you see that something does not work as expected, tell me.
 
 ## Note for installing the new version and applying the new capabilities presentation without having to uninstall your devices or lose settings, automations and scenes:
 
-Install in the Hub, from the channel, the driver "Zigbee Level ColorTemperature Light"
-Open the Hub device in the App
-In the 3-point menu select “driver”
-Click on “Select another driver”
-Choose "Zigbee Level ColorTemperature Light"
-Click on Use this driver
-Although network error, ignore and go back. Wait half a minute or so
-Close App and reopen it
-Open the device and repeat the steps to install the new "Zigbee Level Color Temperature Bulb"
-Go back, and reopen the device waiting half a minute or so.
-Close the app and clear the App cache in phone settings.
-Reopen the app and the device will appear with the new presentation of functions.
+- Install in the Hub, from the channel, the driver "Zigbee Level ColorTemperature Light"
+- Open the Hub device in the App
+- In the 3-point menu select “driver”
+- Click on “Select another driver”
+- Choose "Zigbee Level ColorTemperature Light"
+- Click on Use this driver
+- Although network error, ignore and go back. Wait half a minute or so
+- Close App and reopen it
+- Open the device and repeat the steps to install the new "Zigbee Level Color Temperature Bulb"
+- Go back, and reopen the device waiting half a minute or so.
+- Close the app and clear the App cache in phone settings.
+- Reopen the app and the device will appear with the new presentation of functions.
+
 If you notice that the color temperature setting is left thinking, it is that the configuration of the presentation has not been installed correctly, it is possible that repeating the installation it will be fixed.
-As a general rule with driver changes, especially when they require changing profiles or presentation, you have to go slowly, let all the processes run in the hub even though the app seems to have already finished, if you look at the logcat You will see that the installation continues.
+
+## As a general rule with driver changes, especially when they require changing profiles or presentation, you have to go slowly, let all the processes run in the hub even though the app seems to have already finished, if you look at the logcat You will see that the installation continues.
 
 
 ## Devices 08-oct-2021:
