@@ -13,7 +13,7 @@ Made with a Custom Capability it can be activated and deactivated with automatio
 
 The Minimum and Maximum times between which the bulb will randomly turn on and off is set in Preferences and can be set between 0.5 minutes and 25 minutes, depending on the needs of each one.
 
-How does it work?:
+## How does it work?:
 
 When the Random On Off functions is activated, a random interval is calculated between the values ​​chosen in preferences.
 
