@@ -1,6 +1,6 @@
 ## New version 3.0 for Driver Zigbee Level ColorTemperature Bulb:
 
-## Thanks to @nayelyz, for his help with the custom submissions.
+## Thanks to @nayelyz, for help with the custom submissions.
 
 ## New functions:
 
