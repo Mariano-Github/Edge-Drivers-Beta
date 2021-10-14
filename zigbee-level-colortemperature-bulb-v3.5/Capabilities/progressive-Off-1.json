@@ -1,0 +1,74 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{progOff.value}}"
+            }
+        ],
+        "actions": [],
+        "basicPlus": []
+    },
+    "detailView": [
+        {
+            "label": "Progressive OFF",
+            "displayType": "toggleSwitch",
+            "toggleSwitch": {
+              "command": {
+                "name": "setProgOff",
+                "on": "Active",
+                "off": "Inactive",
+                "argumentType": "string"
+              },
+              "state": {
+                "value": "progOff.value",
+                "on": "Active",
+                "off": "Inactive",
+                "valueType": "string"
+              }
+            }
+        }
+     ],
+    "automation": {
+        "conditions": [
+            {
+                "label": "Progressive OFF",
+                "displayType": "list",
+                "list": {
+                    "alternatives": [
+                        {
+                            "key": "Active",
+                            "value": "Active"
+                        },
+                        {
+                            "key": "Inactive",
+                            "value": "Inactive"
+                        }
+                    ],
+                    "value": "progOff.value",
+                    "valueType": "string"
+                }
+            }
+        ],
+        "actions": [
+            {
+                "label": "Progressive OFF",
+                "displayType": "list",
+                "list": {
+                    "command": "setProgOff",
+                    "alternatives": [
+                        {
+                            "key": "Active",
+                            "value": "Active"
+                        },
+                        {
+                            "key": "Inactive",
+                            "value": "Inactive"
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    "id": "legendabsolute60149.progressiveOff1",
+    "version": 1
+}
