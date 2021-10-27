@@ -1,0 +1,149 @@
+name: rgbw-level-colortemp-2700-6500
+components:
+- id: main
+  capabilities:
+  - id: switch
+    version: 1
+  - id: switchLevel
+    version: 1
+  - id: legendabsolute60149.levelSteps
+    version: 1
+  - id: colorTemperature
+    version: 1
+  - id: legendabsolute60149.colorTemperatureSteps
+    version: 1
+  - id: colorControl
+    version: 1
+  - id: legendabsolute60149.randomOnOff1
+    version: 1
+  - id: legendabsolute60149.randomNextStep
+    version: 1
+  - id: legendabsolute60149.progressiveOn1
+    version: 1
+  - id: legendabsolute60149.progressiveOff1
+    version: 1
+  - id: legendabsolute60149.circadian
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: Light
+preferences:
+  - name: "version"
+    title: "Version 1.0 (Oct 2021)"
+    description: "Add: RGB and RGBW Capabilities"  
+    required: false
+    preferenceType: string
+    definition:
+      stringType: text
+      minLength: 0
+      maxLength: 0
+      default: ""
+  - name: "localTimeOffset"
+    title: "Local Time Offset to UTC (-12 to 12)"
+    description: "Select Your Local Time Offset to UTC Time Hours (-12 to 12)"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: -12
+      maximum: 12
+      default: 0 
+  - name: "onTimeMax"
+    title: "Turn (ON) Time to End Level(min)"
+    description: "Select Time to reach the ON End Level: 6 sec to 45 min (0.1 min to 45 min)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 0.1
+      maximum: 45
+      default: 10  
+  - name: "onLevelStart"
+    title: "Turn (ON) Start Level %"
+    description: "Select Start Level when Turn ON End (1 to 100)"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 1
+      maximum: 100
+      default: 1   
+  - name: "onLevelEnd"
+    title: "Turn (ON) End Level %"
+    description: "Select End Level when Turn ON (1 to 100)"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 1
+      maximum: 100
+      default: 100   
+  - name: "offTimeMax"
+    title: "Turn (OFF) Time to End Level (min)"
+    description: "Select Time to reach the OFF End Level: 6 sec to 45 min (0.5 min to 45 min)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 0.1
+      maximum: 45
+      default: 10
+  - name: "offLevelEnd"
+    title: "Turn (OFF) End Level %"
+    description: "Select End Level when Turn OFF (1 to 100)"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 100
+      default: 0 
+  - name: "ifPushSwitch"
+    title: "If Switch Pushed when Running GoTo"
+    description: "If Switch Pushed whwen dimming is Running Go To:"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "End" : "End"
+        "Stop": "Stop"
+        "Off" : "Off"
+        "Change": "Change"
+      default: "Off"
+  - name: "randomMin"
+    title: "Random ON-OFF Minimum Time"
+    description: "Select Minimum Time ON-OFF Interval (0.5 min to 25 min)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 0.5
+      maximum: 25
+      default: 1 
+  - name: "randomMax"
+    title: "Random ON-OFF Maximum Time"
+    description: "Select Maximum Time ON-OFF Interval (0.5 min to 25 min)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 0.5
+      maximum: 25
+      default: 10 
+  - name: "progLevelColor"
+    title: "Progressive (Level-TempColor) Active"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Yes" : "Yes"
+        "No"  : "No"
+      default: "No"
+  - name: "colorTempMax"
+    title: "ColorTemp Increment Max value (x10)"
+    description: "Select Maximum Color Temp Increment value (270.0k to 600.0k)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 300.0
+      maximum: 600.0
+      default: 500.0 
+metadata:
+  deviceType: Light
+  ocfDeviceType: oic.d.light
+  deviceTypeId: Light
+  mnmn: SmartThingsCommunity
+  vid: a8fa1b1e-e5e3-3d96-8b3a-433966cbbf87

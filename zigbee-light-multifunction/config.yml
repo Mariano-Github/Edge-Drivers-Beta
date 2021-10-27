@@ -1,0 +1,4 @@
+name: 'Zigbee Light Multifunction Mc'
+packageKey: 'Zigbee_Light_Multifunction'
+permissions:
+  zigbee: {}
