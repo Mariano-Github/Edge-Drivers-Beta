@@ -9,6 +9,9 @@ Thanks to the suggestion and collaboration to do the tests for @milandjurovic71
 ## Works with lights, led strips with profiles:
 
 Switch & Level
+
 Switch, Level & ColorTemperature
+
 Switch, Level, RGB, RGBW, RGBCCT, CCT
+
 Could work with zigbee single dimmers, but not tested
