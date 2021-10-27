@@ -1,0 +1,4 @@
+name: 'Zigbee Level ColorTemp Bulb v3.8'
+packageKey: 'Zigbee_Level_ColorTemp_Bulb_v3.8'
+permissions:
+  zigbee: {}
