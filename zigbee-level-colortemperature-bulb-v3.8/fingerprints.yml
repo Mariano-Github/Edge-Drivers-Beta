@@ -54,6 +54,16 @@ zigbeeManufacturer:
     manufacturer: OSRAM
     model: CLA60 TW OSRAM
     deviceProfileName: level-colortemp-2700-6500
+  - id: "OSRAM/Classic B40 TW"
+    deviceLabel: OSRAM Classic B40 TW
+    manufacturer: OSRAM
+    model: Classic B40 TW - LIGHTIFY
+    deviceProfileName: switch-level
+  - id: "LEDVANCE/A60 TW"
+    deviceLabel: LEDVANCE
+    manufacturer: LEDVANCE A60 TW
+    model: A60 TW Value II
+    deviceProfileName: switch-level
 zigbeeGeneric:
   - id: "dimmer-generic"
     deviceLabel: "Zigbee Dimmer"
