@@ -4,7 +4,7 @@
 - ST Motion Sensor with custom temperature reports settings
 - Iris Multiporpuse Sensor modified with custom temperature reports settings
 
-## Devices 01-Oct-2021
+## Devices 29-Oct-2021
 zigbeeManufacturer:
   - id: "eWeLink/MS01"
     deviceLabel: eWeLink Motion Sensor
@@ -86,3 +86,8 @@ zigbeeManufacturer:
     manufacturer: eWeLink
     model: MS01
     deviceProfileName: motion-battery
+  - id: "HiveHome-Motion-Sensor"
+    deviceLabel: HiveHome Motion-Sensor
+    manufacturer: HiveHome.com
+    model: MOT003
+    deviceProfileName: motion-temp-battery

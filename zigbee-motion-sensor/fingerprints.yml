@@ -79,3 +79,8 @@ zigbeeManufacturer:
     manufacturer: eWeLink
     model: MS01
     deviceProfileName: motion-battery
+  - id: "HiveHome-Motion-Sensor"
+    deviceLabel: HiveHome Motion-Sensor
+    manufacturer: HiveHome.com
+    model: MOT003
+    deviceProfileName: motion-temp-battery

@@ -24,7 +24,10 @@ local device_management = require "st.zigbee.device_management"
 
 -- preferences update
 local function do_preferences(self, device)
- if device:get_manufacturer() == "Samjin" or device:get_manufacturer() == "iMagic by GreatStar" then 
+ if device:get_manufacturer() == "Samjin" or device:get_manufacturer() == "iMagic by GreatStar" or device:get_manufacturer() == "HiveHome.com" then
+  local manufacturer = device:get_manufacturer()
+  local model =device:get_model()
+  print("Manufacturer, Model",manufacturer, model)
   local maxTime = device.preferences.maxTime * 60
   local changeRep = device.preferences.changeRep
   print ("maxTime y changeRep: ", maxTime, changeRep)
