@@ -37,12 +37,19 @@ For example, it has been tested with a SmartThings (Samjin) motion Sensor and Aq
 1.9. Off: Thermostat off. You can use fan On, Circulate, Scheduled modes
 
 ## 2. thermostatOperatingState:
+
 2.1. Idle: Thermostat off, no temperature control
+
 2.2. Heating: The current temperature is below the HeatSetPoint – Differential Temp
+
 2.3. Pending Heat: The current temperature is above the HeatSetPoint – Temp Differential / 2
+
 2.4. Cooling: The current temperature is above the CoolSetPoint + Temp Differential
+
 2.5. Pending Cool: The current temperature is below the CoolSetPoint + Temp Differential / 2
+
 2.6. Fan Only: Active Fan is selected and thermostat mode is Off
+
 2.7. Vent economizer: Fan Circulate has been selected and the Thermostat Mode is Off.
 
 ## 3. thermostatFanMode:
@@ -51,18 +58,23 @@ For example, it has been tested with a SmartThings (Samjin) motion Sensor and Aq
 
 If thermostat state are Pending Heat or Pending Cool then Fan Current status go to OFF.
 If thermostat state are Heating or Cooling then Fan Current status go to ON.
+
 3.2. On: The Fan will always be running in On mode.
 
 Fan Only will be displayed under Thermostat Status If Thermostat Mode is Off.
 if thermostat mode is different from off the status for heat or cool is displayed
+
 3.3. Circulate: The Fan will always be running in Circulate mode.
 
 Vent economizer: will be displayed under Thermostat Status if Thermostat Mode is Off.
 if thermostat mode is different from off the heat or cool status is displayed
+
 3.4. Followschedule: The Fan works with the on and off schedule according to the values, in minutes, chosen in preferences for Time On and Time Off. (Range between 1 and 60 min).
 
 ## 4. The Information Panels (Custom Capabilities):
+
 4.1. Fan Current State: Indicates the Fan current Status On or Off, and can be used in Routines to activate fans, etc …
+
 4.2. Fan Next State Change: Indicates the time at which the next scheduled Fan state change will occur.
 To match your local time: Adjust the time difference with UTC time in preferences
 
@@ -96,10 +108,14 @@ When the device is installed for the first time:
 It may be necessary to restart the Hub as it has custom capabilities.
 The thermostat will not control the temperature until a first event of the current temperature is received. You can force an event by heating the sensor a little with your hand.
 The sensor works with the default settings of temperature reports:
+
 Minimum Interval: 30 sec
+
 Maximum Interval: 300 sec
+
 Reportable temperature change: 0.1ºC
-Important considerations:
+
+## Important considerations:
 
 All sensors emit their reports inºC. As the maximum precision is 0.1ºC, the maximum precision in ºF will be 0.18ºF, which when rounded to 1 decimal place will be approximately 0.2ºF.
 The values of the temperature presets have no units and the defaults are equivalent to ºC.
