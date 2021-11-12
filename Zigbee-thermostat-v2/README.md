@@ -15,14 +15,25 @@ For example, it has been tested with a SmartThings (Samjin) motion Sensor and Aq
 
 ## Thermostat Default Capabilities:
 1. thermostatMode:
+
 1.1. Asleep: Control Heat and Cool with Presets in Preferences for Heat and Cool Temperature
+
 1.2. Away: Control Heat and Cool with Presets in Preferences for Heat and Cool Temperature
+
 1.3. Auto: Control Heat and Cool with Presets in Heat Preferences for and Cool Temperature
+
 1.4. Rush Hour: Control Heat and Cool with Presets in Preferences for Heat and Cool Temperature
+
 1.5. Cool: Controls the temperature for Cooling with the set point entered manually.
+
+
 1.6. Eco: Heat and Cool Control without Presets in Preferences for Heat and Cool Temperature
+
+
 1.7. Heat: Controls the temperature for Heating with the set point entered manually.
+
 1.8. Manual: Heat and Cool Control without Presets in Preferences for Heat and Cool Temperature
+
 1.9. Off: Thermostat off. You can use fan On, Circulate, Scheduled modes
 
 ## 2. thermostatOperatingState:
