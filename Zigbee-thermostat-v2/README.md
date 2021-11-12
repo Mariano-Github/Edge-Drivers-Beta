@@ -14,7 +14,8 @@ One Driver can control all sensors paired independently
 For example, it has been tested with a SmartThings (Samjin) motion Sensor and Aqara Weather sensor.
 
 ## Thermostat Default Capabilities:
-1. thermostatMode:
+
+## 1. thermostatMode:
 
 1.1. Asleep: Control Heat and Cool with Presets in Preferences for Heat and Cool Temperature
 
