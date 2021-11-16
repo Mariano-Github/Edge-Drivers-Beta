@@ -1,0 +1,22 @@
+{
+    "dashboard": {
+        "states": [
+            {
+               "label": "{{randomNext.value}}",
+               "unit": null
+            }
+        ]
+    },
+    "detailView": [
+        {
+        "label": "Random Next Change:",
+        "displayType": "state",
+         "state": {
+            "label": "{{randomNext.value}}",
+            "unit": null
+        }
+      }
+    ],
+    "id": "legendabsolute60149.randomNextStep",
+    "version": 1
+}
