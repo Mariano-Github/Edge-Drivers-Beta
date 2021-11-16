@@ -1,0 +1,41 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{atmosPressure.value}} {{atmosPressure.unit}}"
+            }
+        ],
+        "actions": [],
+        "basicPlus": []
+    },
+    "detailView": [
+        {
+            "label": "Atmospheric Pressure in mBar",
+            "displayType": "state",
+            "state": {
+                "label": "{{atmosPressure.value}}",
+                "unit": "atmosPressure.unit"
+            }
+        }
+    ],
+    "automation": {
+        "conditions": [
+            {
+                "label": "Atmospheric Pressure in mBar",
+                "displayType": "numberField",
+                "numberField": {
+                    "value": "atmosPressure.value",
+                    "valueType": "number",
+                    "unit": "atmosPressure.unit",
+                    "range": [
+                        1,
+                        1500
+                    ]
+                }
+            }
+        ],
+        "actions": []
+    },
+    "id": "legendabsolute60149.atmosPressure",
+    "version": 1
+}
