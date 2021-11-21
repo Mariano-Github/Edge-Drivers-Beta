@@ -144,7 +144,7 @@ function driver_handler.random_on_off_handler(_,device,command)
    print("random_step, random_totalStep=",random_Step[device],random_totalStep[device])
 
     --emit time for next change
-   device:emit_event(random_Next_Step.randomNext(nextChange))
+   --device:emit_event(random_Next_Step.randomNext(nextChange))
 
    if random_Step[device] >= random_totalStep[device] then
     local newState = math.random(0, 1)
@@ -159,7 +159,7 @@ function driver_handler.random_on_off_handler(_,device,command)
     random_timer[device] = math.random(device.preferences.randomMin * 60, device.preferences.randomMax * 60)
     random_Step[device] = 0
     random_totalStep[device] = math.ceil(random_timer[device] / 30)
-    local nextChange= os.date("%H:%M:%S",os.time() + random_timer[device] + device.preferences.localTimeOffset * 3600)
+    nextChange= os.date("%H:%M:%S",os.time() + random_timer[device] + device.preferences.localTimeOffset * 3600)
     --emit time for next change
     device:emit_event(random_Next_Step.randomNext(nextChange))
     print("NEW-random_totalStep=",random_totalStep[device])
