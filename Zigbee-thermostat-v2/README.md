@@ -202,3 +202,15 @@ deviceLabel: TUYATEC RH3052
 manufacturer: TUYATEC-prhs1rsd
 model: RH3052
 deviceProfileName: temp-humid-therm-battery
+
+- id: "eWeLink/66666"
+deviceLabel: Temp Humidity Sensor
+manufacturer: eWeLink
+model: 66666
+deviceProfileName: temp-humid-therm-battery
+    
+- id: "eWeLink/TH01"
+deviceLabel: Temp Humidity Sensor
+manufacturer: eWeLink
+model: TH01
+deviceProfileName: temp-humid-therm-battery
