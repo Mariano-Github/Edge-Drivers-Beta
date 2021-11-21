@@ -185,19 +185,19 @@ With this option the temperatures of the change to the Heating and / or Cooling 
 
 ## List of supported devices (nov 08)
 
--id: “SmartThings-Motion-Sensor”
+- id: “SmartThings-Motion-Sensor”
 deviceLabel: ST Motion Sensor
 manufacturer: Samjin
 model: motion
 deviceProfileName: motion-temp-therm-battery
 
--id: “lumi.weather”
+- id: “lumi.weather”
 deviceLabel: Aqara Weather
 manufacturer: LUMI
 model: lumi.weather
 deviceProfileName: temp-humid-press-therm-battery
 
--id: “TUYATEC/RH3052”
+- id: “TUYATEC/RH3052”
 deviceLabel: TUYATEC RH3052
 manufacturer: TUYATEC-prhs1rsd
 model: RH3052
