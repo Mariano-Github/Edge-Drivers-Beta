@@ -114,6 +114,16 @@ zigbeeManufacturer:
     manufacturer: IKEA of Sweden
     model: TRADFRI bulb E26 opal 1000lm
     deviceProfileName: switch-level
+  - id: "IKEA/Bulb E14 WS"
+    deviceLabel: IKEA Bulb
+    manufacturer: IKEA of Sweden
+    model: TRADFRI bulb E14 WS 470lm
+    deviceProfileName: level-colortemp-2000-6500
+  - id: "IKEA/TRADFRIbulbGU10WS345lm"
+    deviceLabel: IKEA GU10 Bulb
+    manufacturer: IKEA of Sweden
+    model: TRADFRIbulbGU10WS345lm
+    deviceProfileName: level-colortemp-2700-6000
 zigbeeGeneric:
   - id: "dimmer-generic ZLL"
     deviceLabel: "Zigbee Dimmer"
