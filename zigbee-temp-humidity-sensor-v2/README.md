@@ -19,16 +19,4 @@ The sensor models that are incorporated into this driver will also be added to t
 As it has a custom capability, in Hubs that do not have firmware version 40.0006, they will have to do a Reboot from the Hub IDE or turn it off, only once after the first installation of a device.
 
 
-zigbeeManufacturer:
-
-  - id: "lumi.weather"
-    deviceLabel: Aqara Weather
-    manufacturer: LUMI
-    model: lumi.weather
-    deviceProfileName: temp-humid-press-battery
-
-  - id: "TUYATEC/RH3052"
-    deviceLabel: TUYATEC RH3052
-    manufacturer: TUYATEC-prhs1rsd
-    model: RH3052
-    deviceProfileName: temp-humid-battery
+## See fingerprints.yml file for supported devices
