@@ -38,7 +38,9 @@ local zigbee_switch_driver_template = {
     capabilities.refresh
   },
   lifecycle_handlers = {
-    infoChanged = random.do_Preferences
+    infoChanged = random.do_Preferences,
+    init = random.do_init,
+    removed = random.do_removed
   },
   capability_handlers = {
     [random_On_Off.ID] = {

@@ -9,3 +9,8 @@ zigbeeManufacturer:
     manufacturer: Computime
     model: SLP2b
     deviceProfileName: switch-power-plug
+  - id: "SmartThings/outletv4"
+    deviceLabel: SmartThings outletv4
+    manufacturer: SmartThings
+    model: outletv4
+    deviceProfileName: switch-power-plug

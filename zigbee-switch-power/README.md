@@ -14,7 +14,7 @@ The new version adds:
 
 - When the Random On Off functions is activated, a random interval is calculated between the values ​​chosen in preferences.
 
-- When the calculated interval is met, it is chosen randomly if the light turns On or Off. This means that not whenever it is on it will turn off or vice versa.
+- When the calculated interval is met, it will turn off or on.
 
 - When the Random function is deactivated, the light also turns off.
 
@@ -22,15 +22,4 @@ The new version adds:
 
 ## Preferences for Profile Icon Change Light, Plug, Switch
 
-## Devices 29-Oct-2021:
-zigbeeManufacturer:
-  - id: "SAMOTECH/MS-104Z
-    deviceLabel: Samotech Switch
-    manufacturer: _TYZB01_iuepbmpv
-    model: TS0121
-    deviceProfileName: switch-power
-  - id: "Computime/SLP2b"
-    deviceLabel: Computime Plug SLP2b
-    manufacturer: Computime
-    model: SLP2b
-    deviceProfileName: switch-power-plug
+## For devices supported see Fingerprints.yml file:
