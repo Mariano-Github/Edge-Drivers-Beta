@@ -102,44 +102,45 @@ Therefore when making manual changes it may take a maximum of 15 sec to update t
 
 In the logcat you can check what data it is handling for the calculations:
 
-39882+00:00 PRINT Zigbee Temp Sensor with Thermostat v2  <<< Cheking Temp >>>
+2021-11-23T15:53:34.898053596+00:00 PRINT Zigbee Temp Sensor with Thermostat v2.5  <<< Cheking Temp >>>
 
-2021-11-08T14:33:06.666034882+00:00 PRINT Zigbee Temp Sensor with Thermostat v2  device:        <ZigbeeDevice: 9b6380e3-7155-4d74-85f6-0878a92e0a85 [0x68A5] (Sensor Mov-2)>
+2021-11-23T15:53:34.904335262+00:00 PRINT Zigbee Temp Sensor with Thermostat v2.5  device:      <ZigbeeDevice: 16fa2ff4-00ca-4b65-b1db-5af142511d65 [0x9CFB] (Termostato)>
 
-2021-11-08T14:33:06.672302882+00:00 PRINT Zigbee Temp Sensor with Thermostat v2  thermostat_Run =       running
+2021-11-23T15:53:34.910679262+00:00 PRINT Zigbee Temp Sensor with Thermostat v2.5  thermostat_Run =     running
 
-2021-11-08T14:33:06.678173882+00:00 PRINT Zigbee Temp Sensor with Thermostat v2  thermostatOperatingState Before =      heating
+2021-11-23T15:53:34.917512262+00:00 PRINT Zigbee Temp Sensor with Thermostat v2.5  thermostatOperatingState Before =    heating
 
-2021-11-08T14:33:06.684129549+00:00 PRINT Zigbee Temp Sensor with Thermostat v2  thermostat_Mode =      manual
+2021-11-23T15:53:34.924247929+00:00 PRINT Zigbee Temp Sensor with Thermostat v2.5  thermostat_Mode =    rush hour
 
-2021-11-08T14:33:06.690717549+00:00 PRINT Zigbee Temp Sensor with Thermostat v2  thermostatFan_Mode =   auto
+2021-11-23T15:53:34.930232929+00:00 PRINT Zigbee Temp Sensor with Thermostat v2.5  thermostatFan_Mode = auto
 
-2021-11-08T14:33:06.697209882+00:00 PRINT Zigbee Temp Sensor with Thermostat v2  cycleCurrent = stop
+2021-11-23T15:53:34.936408929+00:00 PRINT Zigbee Temp Sensor with Thermostat v2.5  cycleCurrent =       stop
 
-2021-11-08T14:33:06.703396549+00:00 PRINT Zigbee Temp Sensor with Thermostat v2  device.preferences.floorRadaint =      HeatCool
+2021-11-23T15:53:34.943365929+00:00 PRINT Zigbee Temp Sensor with Thermostat v2.5  device.preferences.floorRadaint =    No
 
-2021-11-08T14:33:06.709641215+00:00 PRINT Zigbee Temp Sensor with Thermostat v2  device.preferences.temperature DiffStarStop =  0.8
+2021-11-23T15:53:34.949794596+00:00 PRINT Zigbee Temp Sensor with Thermostat v2.5  device.preferences.temperature DiffStarStop =        0.4
 
-2021-11-08T14:33:06.715798882+00:00 PRINT Zigbee Temp Sensor with Thermostat v2  *** Current_temp ***   16.5    Celsius
+2021-11-23T15:53:34.955810596+00:00 PRINT Zigbee Temp Sensor with Thermostat v2.5  *** Current_temp *** 19.7    Celsius
 
-2021-11-08T14:33:06.721453882+00:00 PRINT Zigbee Temp Sensor with Thermostat v2  ## heating_Setpoint ## 20
+2021-11-23T15:53:34.962206596+00:00 PRINT Zigbee Temp Sensor with Thermostat v2.5  ## heating_Setpoint ##       20.0
 
-2021-11-08T14:33:06.727510549+00:00 PRINT Zigbee Temp Sensor with Thermostat v2  tempChangeToHeating <= 19.542857142857
+2021-11-23T15:53:34.968269596+00:00 PRINT Zigbee Temp Sensor with Thermostat v2.5  tempChangeToHeating <=       19.6
 
-2021-11-08T14:33:06.733371215+00:00 PRINT Zigbee Temp Sensor with Thermostat v2  tempChangeToPendingHeat >      19.6
+2021-11-23T15:53:34.974496929+00:00 PRINT Zigbee Temp Sensor with Thermostat v2.5  tempChangeToPendingHeat >    19.8
 
-2021-11-08T14:33:06.739948882+00:00 PRINT Zigbee Temp Sensor with Thermostat v2  ## cooling_Setpoint ## 27.0
+2021-11-23T15:53:34.981652262+00:00 PRINT Zigbee Temp Sensor with Thermostat v2.5  ## cooling_Setpoint ##       24.0
 
-2021-11-08T14:33:06.745869215+00:00 PRINT Zigbee Temp Sensor with Thermostat v2  tempChangeToCooling >= 27.457142857143
+2021-11-23T15:53:34.987896262+00:00 PRINT Zigbee Temp Sensor with Thermostat v2.5  tempChangeToCooling >=       24.4
 
-2021-11-08T14:33:06.751975215+00:00 PRINT Zigbee Temp Sensor with Thermostat v2  tempChangeToPendingCool <      27.4
+2021-11-23T15:53:34.993942262+00:00 PRINT Zigbee Temp Sensor with Thermostat v2.5  tempChangeToPendingCool <    24.2
 
-2021-11-08T14:33:06.757758215+00:00 PRINT Zigbee Temp Sensor with Thermostat v2  thermostatOperatingState ****  heating ****
+2021-11-23T15:53:35.000366596+00:00 PRINT Zigbee Temp Sensor with Thermostat v2.5  thermostatOperatingState ****        heating ****
 
-2021-11-08T14:33:06.765301215+00:00 INFO Zigbee Temp Sensor with Thermostat v2  <ZigbeeDevice: 9b6380e3-7155-4d74-85f6-0878a92e0a85 [0x68A5] (Sensor Mov-2)> emitting event: {"capability_id":"thermostatOperatingState","state":{"value":"heating"},"attribute_id":"thermostatOperatingState","component_id":"main"}
+2021-11-23T15:53:35.007746262+00:00 INFO Zigbee Temp Sensor with Thermostat v2.5  <ZigbeeDevice: 16fa2ff4-00ca-4b65-b1db-5af142511d65 [0x9CFB] (Termostato)> emitting event: {"state":{"value":"heating"},"component_id":"main","attribute_id":"thermostatOperatingState","capability_id":"thermostatOperatingState"}
 
-2021-11-08T14:33:06.793176216+00:00 INFO Zigbee Temp Sensor with Thermostat v2  <ZigbeeDevice: 9b6380e3-7155-4d74-85f6-0878a92e0a85 [0x68A5] (Sensor Mov-2)> emitting event: {"capability_id":"legendabsolute60149.fanCyclicMode","state":{"value":"On"},"attribute_id":"fanCyclicMode","component_id":"main"}
+2021-11-23T15:53:35.034710596+00:00 INFO Zigbee Temp Sensor with Thermostat v2.5  <ZigbeeDevice: 16fa2ff4-00ca-4b65-b1db-5af142511d65 [0x9CFB] (Termostato)> emitting event: {"state":{"value":"On"},"component_id":"main","attribute_id":"fanCyclicMode","capability_id":"legendabsolute60149.fanCyclicMode"}
 
+2021-11-23T15:53:35.060864262+00:00 DEBUG Zigbee Temp Sensor with Thermostat v2.5  Termostato device thread event handled
 
 
 ## (NEW RELEASE) Version 2.0 of Edge Driver Zigbee Temp Sensor and Thermostat Mc:
