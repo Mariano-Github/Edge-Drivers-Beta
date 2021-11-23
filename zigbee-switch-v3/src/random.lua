@@ -5,7 +5,7 @@ local defaults = require "st.zigbee.defaults"
 local zcl_clusters = require "st.zigbee.zcl.clusters"
 local OnOff = zcl_clusters.OnOff
 
----- Load handlers written in dimmer.lua
+---- Load handlers written in random.lua
 local driver_handler = {}
 
 --- Device running and update preferences variables
@@ -26,6 +26,7 @@ local random_Next_Step = capabilities["legendabsolute60149.randomNextStep"]
 function driver_handler.do_init (self, device)
   local device_exist = "no"
   for id, value in pairs(device_running) do
+   --print("id >>>>, device_runniung >>>>>, device >>>>>",id, device_running[id], device)
    if device_running[id] == device then
     device_exist = "si"
    end
@@ -39,6 +40,16 @@ function driver_handler.do_init (self, device)
   random_totalStep[device] =2
   random_timer[device] = math.random(10, 20)
 
+  -- send zigbee event
+  print("<<<< random_state >>>>>",device:get_field("random_state"))
+  if device:get_field("random_state") == "Inactive"  or device:get_field("random_state") == nil then
+   device:send(OnOff.server.commands.Off(device))
+   device:emit_event(random_On_Off.randomOnOff("Inactive"))
+   --emit time for next change
+   local nextChange = "Inactive"
+   device:emit_event(random_Next_Step.randomNext(nextChange))
+   device:set_field("random_state", "Inactive", {persist = true})
+  end
   ----- print device init values for debug------
   for id, value in pairs(device_running) do
    print("device_running[id]=",device_running[id])
@@ -47,6 +58,11 @@ function driver_handler.do_init (self, device)
    print("device_running, random_timer=",device_running[id],random_timer[id])
   end
  end
+  --restart random on-off if active
+  print("random_state >>>>>",device:get_field("random_state"))
+  if device:get_field("random_state") == "Active" then  
+    driver_handler.random_on_off_handler(self,device,"Active")
+  end
 end
 
 ---- do_removed device procedure: delete all device data
@@ -110,27 +126,34 @@ end
  --------------------------------------------------------
  --------- Handler Random ON-OFF ------------------------
 
-function driver_handler.random_on_off_handler(_,device,command)
+function driver_handler.random_on_off_handler(self,device,command)
 
   ---- Timers Cancel ------
   for timer in pairs(device.thread.timers) do
     print("<<<<< Cancel all timer >>>>>")
     device.thread:cancel_timer(timer)
   end
-
- print("randomOnOff Value", command.args.value)
- if command.args.value == "Inactive" then
-
+  
+  local random_state = "-"
+  if command == "Active" then
+    random_state = "Active"
+  else
+    random_state = command.args.value
+  end
+  --print("randomOnOff Value", command.args.value)
+  print("randomOnOff Value", random_state)
+  if random_state == "Inactive" then
  -- send zigbee event
  device:send(OnOff.server.commands.Off(device))
  device:emit_event(random_On_Off.randomOnOff("Inactive"))
  --emit time for next change
  local nextChange = "Inactive"
  device:emit_event(random_Next_Step.randomNext(nextChange))
+ device:set_field("random_state", "Inactive", {persist = true})
 
- elseif command.args.value == "Active" then
+ elseif random_state == "Active" then
   device:emit_event(random_On_Off.randomOnOff("Active"))
-
+  device:set_field("random_state", "Active", {persist = true})
   --Random timer calculation
   random_timer[device] = math.random(device.preferences.randomMin * 60, device.preferences.randomMax * 60)
   random_Step[device] = 0
@@ -149,19 +172,14 @@ function driver_handler.random_on_off_handler(_,device,command)
    random_Step[device] = random_Step[device] + 1
    print("random_step, random_totalStep=",random_Step[device],random_totalStep[device])
 
-    --emit time for next change
-   --device:emit_event(random_Next_Step.randomNext(nextChange))
-
    if random_Step[device] >= random_totalStep[device] then
-    local newState = math.random(0, 1)
-    print("newState =", newState)
-    if newState == 0 then 
-     -- send zigbee event
-     device:send(OnOff.server.commands.Off(device))
+
+    if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) == "on" then
+      device:send(OnOff.server.commands.Off(device))
     else
-      -- send zigbee event
-      device:send(OnOff.server.commands.On(device))
-    end
+       device:send(OnOff.server.commands.On(device))
+    end    
+    
     random_timer[device] = math.random(device.preferences.randomMin * 60, device.preferences.randomMax * 60)
     random_Step[device] = 0
     random_totalStep[device] = math.ceil(random_timer[device] / 30)
