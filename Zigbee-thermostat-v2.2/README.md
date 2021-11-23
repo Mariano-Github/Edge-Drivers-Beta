@@ -140,47 +140,6 @@ In the logcat you can check what data it is handling for the calculations:
 
 2021-11-08T14:33:06.793176216+00:00 INFO Zigbee Temp Sensor with Thermostat v2  <ZigbeeDevice: 9b6380e3-7155-4d74-85f6-0878a92e0a85 [0x68A5] (Sensor Mov-2)> emitting event: {"capability_id":"legendabsolute60149.fanCyclicMode","state":{"value":"On"},"attribute_id":"fanCyclicMode","component_id":"main"}
 
-2021-11-08T14:33:06.819226882+00:00 DEBUG Zigbee Temp Sensor with Thermostat v2  Sensor Mov-2 device thread event handled
-
-2021-11-08T14:33:07.334253549+00:00 PRINT Zigbee Temp Sensor with Thermostat v2  <<< Cheking Temp >>>
-
-2021-11-08T14:33:07.363178882+00:00 PRINT Zigbee Temp Sensor with Thermostat v2  device:        <ZigbeeDevice: 075f38a5-5928-444b-ac8a-4563446777f4 [0x3F4D] (Sensor Mov-1)>
-
-2021-11-08T14:33:07.381726216+00:00 PRINT Zigbee Temp Sensor with Thermostat v2  thermostat_Run =       running
-
-2021-11-08T14:33:07.387930882+00:00 PRINT Zigbee Temp Sensor with Thermostat v2  thermostatOperatingState Before =      pending heat
-
-2021-11-08T14:33:07.418021216+00:00 PRINT Zigbee Temp Sensor with Thermostat v2  thermostat_Mode =      manual
-
-2021-11-08T14:33:07.444130549+00:00 PRINT Zigbee Temp Sensor with Thermostat v2  thermostatFan_Mode =   auto
-
-2021-11-08T14:33:07.480930882+00:00 PRINT Zigbee Temp Sensor with Thermostat v2  cycleCurrent = stop
-
-2021-11-08T14:33:07.507754883+00:00 PRINT Zigbee Temp Sensor with Thermostat v2  device.preferences.floorRadaint =      No
-
-2021-11-08T14:33:07.531750216+00:00 PRINT Zigbee Temp Sensor with Thermostat v2  device.preferences.temperature DiffStarStop =  0.8
-
-2021-11-08T14:33:07.572001216+00:00 PRINT Zigbee Temp Sensor with Thermostat v2  *** Current_temp ***   19.2    Celsius
-
-2021-11-08T14:33:07.598180549+00:00 PRINT Zigbee Temp Sensor with Thermostat v2  ## heating_Setpoint ## 18
-
-2021-11-08T14:33:07.643877883+00:00 PRINT Zigbee Temp Sensor with Thermostat v2  tempChangeToHeating <= 17.2
-
-2021-11-08T14:33:07.670585883+00:00 PRINT Zigbee Temp Sensor with Thermostat v2  tempChangeToPendingHeat >      17.6
-
-2021-11-08T14:33:07.723981216+00:00 PRINT Zigbee Temp Sensor with Thermostat v2  ## cooling_Setpoint ## 25.0
-
-2021-11-08T14:33:07.745488216+00:00 PRINT Zigbee Temp Sensor with Thermostat v2  tempChangeToCooling >= 25.8
-
-2021-11-08T14:33:07.763193549+00:00 PRINT Zigbee Temp Sensor with Thermostat v2  tempChangeToPendingCool <      25.4
-
-2021-11-08T14:33:07.785832883+00:00 PRINT Zigbee Temp Sensor with Thermostat v2  thermostatOperatingState ****  pending heat    ****
-
-2021-11-08T14:33:07.800201883+00:00 INFO Zigbee Temp Sensor with Thermostat v2  <ZigbeeDevice: 075f38a5-5928-444b-ac8a-4563446777f4 [0x3F4D] (Sensor Mov-1)> emitting event: {"capability_id":"thermostatOperatingState","state":{"value":"pending heat"},"attribute_id":"thermostatOperatingState","component_id":"main"}
-
-2021-11-08T14:33:07.845704216+00:00 INFO Zigbee Temp Sensor with Thermostat v2  <ZigbeeDevice: 075f38a5-5928-444b-ac8a-4563446777f4 [0x3F4D] (Sensor Mov-1)> emitting event: {"capability_id":"legendabsolute60149.fanCyclicMode","state":{"value":"Off"},"attribute_id":"fanCyclicMode","component_id":"main"}
-
-2021-11-08T14:33:07.901099549+00:00 DEBUG Zigbee Temp Sensor with Thermostat v2  Sensor Mov-1 device thread event handled
 
 
 ## (NEW RELEASE) Version 2.0 of Edge Driver Zigbee Temp Sensor and Thermostat Mc:
