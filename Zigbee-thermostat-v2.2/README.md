@@ -55,11 +55,13 @@ For example, it has been tested with a SmartThings (Samjin) motion Sensor and Aq
 3.1. Auto: Indicates that the fan will be activated automatically in the climate control.
 
 If thermostat state are Pending Heat or Pending Cool then Fan Current status go to OFF.
+
 If thermostat state are Heating or Cooling then Fan Current status go to ON.
 
 3.2. On: The Fan will always be running in On mode.
 
 Fan Only will be displayed under Thermostat Status If Thermostat Mode is Off.
+
 if thermostat mode is different from off the status for heat or cool is displayed
 
 3.3. Circulate: The Fan will always be running in Circulate mode.
@@ -77,6 +79,7 @@ if thermostat mode is different from off the heat or cool status is displayed
 To match your local time: Adjust the time difference with UTC time in preferences
 
 In preferences you can program the temperature preset values for 4 thermostat modes.
+
 This allows you to program with simple routines to vary the desired target temperatures for different Hours of the Day or for situations such as, I am away or vacation.
 
 ## How to Use the Preferences Start Stop Differential Temperature Setting:
@@ -95,8 +98,11 @@ For cooling in summer, we will perform the same operation.
 In Next Picture an Example of calculate Thermal Inertia for Heat set Point 19ºC and Differential temp Start-Stop 0.5º:
 
 Temperature for Pending Heat state= 18.8ºC
+
 Max. Temperature after Temperature for Pending Heat state= 19.1ºC
+
 Heat Thermal Inertia with Radiator water Temp 55ºC= 0.3ºC
+
 Temperature differential for Start-Stop 0.6º aprox
 
 Can see complete day temperature graphics in device detaills, and you can see the result of your automations and Temperature Set Points, in order to correct them if necessary to adjust the control to your needs.
