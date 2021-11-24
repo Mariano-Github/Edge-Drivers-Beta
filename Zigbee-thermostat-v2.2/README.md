@@ -15,23 +15,39 @@ For example, it has been tested with a SmartThings (Samjin) motion Sensor and Aq
 
 ## Thermostat Default Capabilities:
 1. thermostatMode:
+
 1.1. Asleep: Control Heat and Cool with Presets in Preferences for Heat and Cool Temperature
+
 1.2. Away: Control Heat and Cool with Presets in Preferences for Heat and Cool Temperature
+
 1.3. Auto: Control Heat and Cool with Presets in Heat Preferences for and Cool Temperature
+
 1.4. Rush Hour: Control Heat and Cool with Presets in Preferences for Heat and Cool Temperature
+
 1.5. Cool: Controls the temperature for Cooling with the set point entered manually.
+
 1.6. Eco: Heat and Cool Control without Presets in Preferences for Heat and Cool Temperature
+
 1.7. Heat: Controls the temperature for Heating with the set point entered manually.
+
 1.8. Manual: Heat and Cool Control without Presets in Preferences for Heat and Cool Temperature
+
 1.9. Off: Thermostat off. You can use fan On, Circulate, Scheduled modes
 
 ## 2. thermostatOperatingState:
+
 2.1. Idle: Thermostat off, no temperature control
+
 2.2. Heating: The current temperature is below the HeatSetPoint – Differential Temp
+
 2.3. Pending Heat: The current temperature is above the HeatSetPoint – Temp Differential / 2
+
 2.4. Cooling: The current temperature is above the CoolSetPoint + Temp Differential
+
 2.5. Pending Cool: The current temperature is below the CoolSetPoint + Temp Differential / 2
+
 2.6. Fan Only: Active Fan is selected and thermostat mode is Off
+
 2.7. Vent economizer: Fan Circulate has been selected and the Thermostat Mode is Off.
 
 ## 3. thermostatFanMode:
@@ -40,18 +56,23 @@ For example, it has been tested with a SmartThings (Samjin) motion Sensor and Aq
 
 If thermostat state are Pending Heat or Pending Cool then Fan Current status go to OFF.
 If thermostat state are Heating or Cooling then Fan Current status go to ON.
+
 3.2. On: The Fan will always be running in On mode.
 
 Fan Only will be displayed under Thermostat Status If Thermostat Mode is Off.
 if thermostat mode is different from off the status for heat or cool is displayed
+
 3.3. Circulate: The Fan will always be running in Circulate mode.
 
 Vent economizer: will be displayed under Thermostat Status if Thermostat Mode is Off.
 if thermostat mode is different from off the heat or cool status is displayed
+
 3.4. Followschedule: The Fan works with the on and off schedule according to the values, in minutes, chosen in preferences for Time On and Time Off. (Range between 1 and 60 min).
 
 ## 4. The Information Panels (Custom Capabilities):
+
 4.1. Fan Current State: Indicates the Fan current Status On or Off, and can be used in Routines to activate fans, etc …
+
 4.2. Fan Next State Change: Indicates the time at which the next scheduled Fan state change will occur.
 To match your local time: Adjust the time difference with UTC time in preferences
 
@@ -85,16 +106,25 @@ When the device is installed for the first time:
 It may be necessary to restart the Hub as it has custom capabilities.
 The thermostat will not control the temperature until a first event of the current temperature is received. You can force an event by heating the sensor a little with your hand.
 The sensor works with the default settings of temperature reports:
+
 Minimum Interval: 30 sec
+
 Maximum Interval: 300 sec
+
 Reportable temperature change: 0.1ºC
+
 Important considerations:
 
 All sensors emit their reports inºC. As the maximum precision is 0.1ºC, the maximum precision in ºF will be 0.18ºF, which when rounded to 1 decimal place will be approximately 0.2ºF.
+
 The values of the temperature presets have no units and the defaults are equivalent to ºC.
+
 If your location use ºF, change the units to ºF in preferences and change the Heat and Cool values to equivalent values ºF.
+
 The range for entering temperature in preferences is -50.0 to 250.0.
+
 Decimal values can be used. this range covers the values required for ºC and ºF adjustments
+
 The range to change the set point temperature in the thermostat and automations is from 0ºC to 40ºC and from 32ºF to 104ºF, with increments of +/-1º. This is due to the default presentation of the capability. If smartThings changes it to be able to enter decimals and expand the range it would be an improvement.
 
 Every 15 seconds it does the temperature calculations for each paired sensor independently.
