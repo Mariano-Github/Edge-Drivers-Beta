@@ -14,3 +14,8 @@ zigbeeManufacturer:
     manufacturer: 3A Smart Home DE
     model: LXN-2S27LX1.0
     deviceProfileName: two-switch
+  - id: "LIDL/TS011F-UK"
+    deviceLabel: Lidl MultiPlug
+    manufacturer: _TZ3000_vmpbygs5
+    model: TS011F
+    deviceProfileName: three-outlet
