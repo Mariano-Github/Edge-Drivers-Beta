@@ -97,7 +97,7 @@ local function on_off_attr_handler(self, device, value, zb_rx)
   local attr_value = value.value
   if src_endpoint == ep_ini then
    --- Detect general button pressed in lidl strip device
-   if device:get_manufacturer() == "_TZ3000_1obwwnmq" then
+   if device:get_manufacturer() == "_TZ3000_1obwwnmq" or device:get_manufacturer() == "_TZ3000_vmpbygs5" then
     device:send(zcl_clusters.OnOff.attributes.OnOff:read(device):to_endpoint (ep_ini + 1))
     device:send(zcl_clusters.OnOff.attributes.OnOff:read(device):to_endpoint (ep_ini + 2))
    end 
