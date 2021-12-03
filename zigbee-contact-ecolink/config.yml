@@ -1,0 +1,4 @@
+name: 'Zigbee Contact Ecolink Mc'
+packageKey: 'zigbee-contact-Ecolink'
+permissions:
+  zigbee: {}
