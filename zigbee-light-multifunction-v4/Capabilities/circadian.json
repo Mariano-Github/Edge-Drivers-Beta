@@ -1,0 +1,81 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{circadian.value}}",
+                "alternatives": null
+            }
+        ],
+        "actions": [],
+        "basicPlus": []
+    },
+    "detailView": [
+        {
+            "label": "Circadian Lighting",
+            "displayType": "toggleSwitch",
+            "toggleSwitch": {
+                "command": {
+                    "name": "setCircadian",
+                    "on": "Active",
+                    "off": "Inactive",
+                    "argumentType": "string"
+                },
+                "state": {
+                    "value": "circadian.value",
+                    "valueType": "string",
+                    "on": "Active",
+                    "off": "Inactive"
+                }
+            },
+            "state": null
+        }
+    ],
+    "automation": {
+        "conditions": [
+            {
+                "label": "Circadian Lighting",
+                "displayType": "list",
+                "list": {
+                    "alternatives": [
+                        {
+                            "key": "Active",
+                            "value": "Active",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Inactive",
+                            "value": "Inactive",
+                            "type": "active"
+                        }
+                    ],
+                    "value": "circadian.value",
+                    "valueType": "string"
+                }
+            }
+        ],
+        "actions": [
+            {
+                "label": "Circadian Lighting",
+                "displayType": "list",
+                "list": {
+                    "alternatives": [
+                        {
+                            "key": "Active",
+                            "value": "Active",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Inactive",
+                            "value": "Inactive",
+                            "type": "active"
+                        }
+                    ],
+                    "command": "setCircadian",
+                    "argumentType": "string"
+                }
+            }
+        ]
+    },
+    "id": "legendabsolute60149.circadian",
+    "version": 1
+}

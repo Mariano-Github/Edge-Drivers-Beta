@@ -1,0 +1,48 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{colorTempSteps.value}} {{colorTemperature.unit}}"
+            }
+        ],
+        "actions": [],
+        "basicPlus": []
+    },
+    "detailView": [
+        {
+            "label": "Last Step for ColorTemp Increment:",
+            "displayType": "state",
+             "state": {
+                "label": "{{colorTempSteps.value}} {{k}}",
+                "unit": null
+            }
+          }
+    ],
+    "automation": {
+        "conditions": [
+            {
+                "label": "Color Temperature By External Steps",
+                "displayType": "numberField",
+                "numberField": {
+                    "value": "colorTempSteps.value",
+                    "unit": "colorTemperature.unit",
+                    "range": [-500, 500]
+                }
+             }
+        ],
+        "actions": [
+            {
+                "label": "Color Temperature By External Steps",
+                "displayType": "numberField",
+                "numberField": {
+                    "command": "setColorTempSteps",
+                    "value": "colorTempSteps.value",
+                    "unit": "colorTemperature.unit",
+                    "range": [-500, 500]
+                }
+             }
+        ]
+    },
+    "id": "legendabsolute60149.colorTemperatureSteps",
+    "version": 1
+}
