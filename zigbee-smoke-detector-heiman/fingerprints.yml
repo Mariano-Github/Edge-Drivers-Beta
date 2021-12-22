@@ -44,3 +44,8 @@ zigbeeManufacturer:
     manufacturer: HEIMAN
     model: SmokeSensor-EF-3.0
     deviceProfileName: smoke-battery
+  - id: "HEIMAN/GASSensor-EM"
+    deviceLabel: HEIMAN Gas Detector
+    manufacturer: HEIMAN
+    model: GASSensor-EM
+    deviceProfileName: smoke
