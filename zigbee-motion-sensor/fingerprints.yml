@@ -74,13 +74,52 @@ zigbeeManufacturer:
     manufacturer: TUYATEC-zn9wyqtr
     model: RH3040
     deviceProfileName: motion-battery
-  - id: "eWeLink/Motion MS01"
-    deviceLabel: eWeLink Motion Sensor
-    manufacturer: eWeLink
-    model: MS01
-    deviceProfileName: motion-battery
   - id: "HiveHome-Motion-Sensor"
     deviceLabel: HiveHome Motion-Sensor
     manufacturer: HiveHome.com
     model: MOT003
     deviceProfileName: motion-temp-battery
+  - id: "SmartThings-Motionv5"
+    deviceLabel: SmartThings Motion Sensor
+    manufacturer: SmartThings
+    model: motionv5
+    deviceProfileName: motion-temp-battery
+  - id: "Third Reality/Motion 3RMS16BZ"
+    deviceLabel: Third Reality Motion Sensor
+    manufacturer: Third Reality, Inc
+    model: 3RMS16BZ
+    deviceProfileName: motion-battery
+  - id: "Samotech/Motion RH3040-1"
+    deviceLabel: RH3040 Motion Sensor
+    manufacturer: TUYATEC-bd5faf9p
+    model: RH3040
+    deviceProfileName: motion-battery
+  - id: "eWeLink/Motion 66666"
+    deviceLabel: eWeLink Motion Sensor
+    manufacturer: eWeLink
+    model: 66666
+    deviceProfileName: motion-battery
+  - id: "Zemismart/Motion RH3040"
+    deviceLabel: RH3040 Motion Sensor
+    manufacturer: TUYATEC-b3ov3nor
+    model: RH3040
+    deviceProfileName: motion-battery
+zigbeeGeneric:
+  - id: "motionv5"
+    deviceLabel: "Zigbee SmartThings motionv5"
+    zigbeeProfiles:
+      - 0x0104
+    deviceIdentifiers:
+      - 0x0402
+    clusters:
+      server:
+        - 0x0000
+        - 0x0001
+        - 0x0003
+        - 0x000F
+        - 0x0020
+        - 0x0402
+        - 0x0500
+      client:
+        - 0x0019
+    deviceProfileName: motion-temp-battery    
