@@ -9,7 +9,7 @@ zigbeeManufacturer:
     deviceLabel: eWeLink Open/Closed Sensor
     manufacturer: eWeLink
     model: DS01
-    deviceProfileName: contact-profile
+    deviceProfileName: contact-battery-profile
   - id: "Aurora/WindowSensor51AU"
     deviceLabel: Aurora Open/Closed Sensor
     manufacturer: Aurora
@@ -68,6 +68,11 @@ zigbeeManufacturer:
   - id: "TUYATEC/r9hgssol Open/Close Sensor"
     deviceLabel: TUYATEC r9hgssol Open/Close Sensor
     manufacturer: TUYATEC-r9hgssol
+    model: RH3001
+    deviceProfileName: contact-battery-profile
+  - id: "TUYATEC/n4qd0btb Open/Close Sensor"
+    deviceLabel: TUYATEC-n4qd0btb Open/Close Sensor
+    manufacturer: TUYATEC-n4qd0btb
     model: RH3001
     deviceProfileName: contact-battery-profile
 zigbeeGeneric:
