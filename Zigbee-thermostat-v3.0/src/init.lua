@@ -113,7 +113,7 @@ local function thermostatMode_handler(self,device,command)
   end
 
   ---- set thermostat lock status
-  if thermostat_Mode == "away" or thermostat_Mode == "manual" then
+  if thermostat_Mode == "away" or thermostat_Mode == "manual" or thermostat_Mode == "off" then
     device:emit_event(thermostat_Locked.thermostatLocked("Locked"))
     --Save thermostat_Locked
     device:set_field("thermostat_Lock", "Locked", {persist = true})
