@@ -149,6 +149,21 @@ zigbeeManufacturer:
     manufacturer: GLEDOPTO
     model: GL-B-007P
     deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "lk/Bulb D0106"
+    deviceLabel: lK Bulb
+    manufacturer: lk
+    model: ZBT-CCTLight-D0106
+    deviceProfileName: level-colortemp-2700-6500
+  - id: "GLEDOPTO/GL-B-008ZS"
+    deviceLabel: GLEDOPTO GL-B-008ZS
+    manufacturer: GLEDOPTO
+    model: GL-B-008ZS
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZ3000/TS0503B"
+    deviceLabel: RGBW TS0503B
+    manufacturer: _TZ3000_i8l0nqdu
+    model: TS0503B
+    deviceProfileName: rgbw-level-colortemp-2700-6500
 zigbeeGeneric:
   - id: "dimmer-generic ZLL"
     deviceLabel: "Zigbee Dimmer"
@@ -195,6 +210,20 @@ zigbeeGeneric:
       - 0xC05E
     deviceIdentifiers: 
       - 0x0210
+    clusters: 
+      server: 
+        - 0x0006
+        - 0x0008
+        - 0x0300
+      client:
+        - 0x0019
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "RGBW-generic"
+    deviceLabel: "Zigbee RGBW"
+    zigbeeProfiles: 
+      - 0x0104
+    deviceIdentifiers: 
+      - 0x0102
     clusters: 
       server: 
         - 0x0006
