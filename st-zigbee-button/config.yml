@@ -1,0 +1,4 @@
+name: 'ST Zigbee Button Mc'
+packageKey: 'st-zigbee-button'
+permissions:
+  zigbee: {}
