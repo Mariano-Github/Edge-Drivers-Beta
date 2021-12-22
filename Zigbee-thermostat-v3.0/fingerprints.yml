@@ -24,3 +24,13 @@ zigbeeManufacturer:
     manufacturer: eWeLink
     model: TH01
     deviceProfileName: temp-humid-therm-battery
+  - id: "Zemismart/RH3052"
+    deviceLabel: Zemismart RH3052
+    manufacturer: TUYATEC-jigsujrv
+    model: RH3052
+    deviceProfileName: temp-humid-therm-battery
+  - id: "Tuya/TS0201"
+    deviceLabel: Tuya TS0201
+    manufacturer: _TZ2000_a476raq2
+    model: TS0201
+    deviceProfileName: temp-humid-therm-battery
