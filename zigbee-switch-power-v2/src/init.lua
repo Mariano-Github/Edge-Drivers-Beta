@@ -21,6 +21,7 @@ local zcl_clusters = require "st.zigbee.zcl.clusters"
 local OnOff = zcl_clusters.OnOff
 local ElectricalMeasurement = zcl_clusters.ElectricalMeasurement
 local SimpleMetering = zcl_clusters.SimpleMetering
+local constants = require "st.zigbee.constants"
 
 
 -- driver local modules load
@@ -45,6 +46,20 @@ local do_configure = function(self, device)
   end
 end
 
+--- Fix for an error in the default handler for InstantaneousDemand attribute on SimpleMetering cluster
+---
+--- @param driver ZigbeeDriver The current driver running containing necessary context for execution
+--- @param device st.zigbee.Device The device this message was received from containing identifying information
+--- @param value st.zigbee.data_types.Int24 the value of the instantaneous demand
+--- @param zb_rx st.zigbee.ZigbeeMessageRx the full message this report came in
+local function instantaneous_demand_handler(driver, device, value, zb_rx)
+  local raw_value = value.value
+  --- demand = demand received * Multipler/Divisor
+  local multiplier = device:get_field(constants.SIMPLE_METERING_MULTIPLIER_KEY) or 1
+  local divisor = device:get_field(constants.SIMPLE_METERING_DIVISOR_KEY) or 1
+  raw_value = raw_value * multiplier/divisor * 1000
+  device:emit_event_for_endpoint(zb_rx.address_header.src_endpoint.value, capabilities.powerMeter.power({value = raw_value, unit = "W" }))
+end
 
 ---- Driver template config
 local zigbee_switch_driver_template = {
@@ -62,6 +77,13 @@ local zigbee_switch_driver_template = {
     removed = random.do_removed,
     doConfigure = do_configure,
     driverSwitched = do_configure
+  },
+  zigbee_handlers = {
+    attr = {
+      [SimpleMetering.ID] = {
+        [SimpleMetering.attributes.InstantaneousDemand.ID] = instantaneous_demand_handler,
+      }
+    }
   },
   capability_handlers = {
     [random_On_Off.ID] = {
