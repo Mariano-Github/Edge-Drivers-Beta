@@ -1,0 +1,48 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{levelSteps.value}} {%}}"
+            }
+        ],
+        "actions": [],
+        "basicPlus": []
+    },
+    "detailView": [
+        {
+            "label": "Last Step for Level Increment:",
+            "displayType": "state",
+             "state": {
+                "label": "{{levelSteps.value}} {{%}}",
+                "unit": null
+            }
+          }
+    ],
+    "automation": {
+        "conditions": [
+            {
+                "label": "Level By External Steps",
+                "displayType": "numberField",
+                "numberField": {
+                    "value": "levelSteps.value",
+                    "unit": "switchLevel.unit",
+                    "range": [-30, 30]
+                }
+             }
+        ],
+        "actions": [
+            {
+                "label": "Level By External Steps",
+                "displayType": "numberField",
+                "numberField": {
+                    "command": "setLevelSteps",
+                    "value": "levelSteps.value",
+                    "unit": "switchLevel.unit",
+                    "range": [-30, 30]
+                }
+             }
+        ]
+    },
+    "id": "legendabsolute60149.levelSteps",
+    "version": 1
+}

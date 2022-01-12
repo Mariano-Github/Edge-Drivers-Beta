@@ -1,0 +1,74 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{randomOnOff.value}}"
+            }
+        ],
+        "actions": [],
+        "basicPlus": []
+    },
+    "detailView": [
+        {
+            "label": "Random On Off",
+            "displayType": "toggleSwitch",
+            "toggleSwitch": {
+              "command": {
+                "name": "setRandomOnOff",
+                "on": "Active",
+                "off": "Inactive",
+                "argumentType": "string"
+              },
+              "state": {
+                "value": "randomOnOff.value",
+                "on": "Active",
+                "off": "Inactive",
+                "valueType": "string"
+              }
+            }
+        }
+     ],
+    "automation": {
+        "conditions": [
+            {
+                "label": "Random On Off",
+                "displayType": "list",
+                "list": {
+                    "alternatives": [
+                        {
+                            "key": "Active",
+                            "value": "Active"
+                        },
+                        {
+                            "key": "Inactive",
+                            "value": "Inactive"
+                        }
+                    ],
+                    "value": "randomOnOff.value",
+                    "valueType": "string"
+                }
+            }
+        ],
+        "actions": [
+            {
+                "label": "Random On Off",
+                "displayType": "list",
+                "list": {
+                    "command": "setRandomOnOff",
+                    "alternatives": [
+                        {
+                            "key": "Active",
+                            "value": "Active"
+                        },
+                        {
+                            "key": "Inactive",
+                            "value": "Inactive"
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    "id": "legendabsolute60149.randomOnOff1",
+    "version": 1
+}
