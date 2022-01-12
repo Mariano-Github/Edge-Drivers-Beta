@@ -124,6 +124,11 @@ zigbeeManufacturer:
     manufacturer: IKEA of Sweden
     model: TRADFRIbulbGU10WS345lm
     deviceProfileName: level-colortemp-2700-6000
+  - id: "IKEA/TRADFRI bulb GU10 WS 400lm"
+    deviceLabel: IKEA GU10 Bulb
+    manufacturer: IKEA of Sweden
+    model: TRADFRI bulb GU10 WS 400lm
+    deviceProfileName: level-colortemp-2200-4000
   - id: "IKEA/E27WSglobeopal1055lm"
     deviceLabel: IKEA E27 Bulb
     manufacturer: IKEA of Sweden
