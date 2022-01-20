@@ -1,4 +1,0 @@
-name: 'Zigbee Light Multifunction Group'
-packageKey: 'Zigbee_Light_Multifunction_Group'
-permissions:
-  zigbee: {}
