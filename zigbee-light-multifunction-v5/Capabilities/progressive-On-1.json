@@ -1,0 +1,74 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{progOn.value}}"
+            }
+        ],
+        "actions": [],
+        "basicPlus": []
+    },
+    "detailView": [
+        {
+            "label": "Progressive ON",
+            "displayType": "toggleSwitch",
+            "toggleSwitch": {
+              "command": {
+                "name": "setProgOn",
+                "on": "Active",
+                "off": "Inactive",
+                "argumentType": "string"
+              },
+              "state": {
+                "value": "progOn.value",
+                "on": "Active",
+                "off": "Inactive",
+                "valueType": "string"
+              }
+            }
+        }
+     ],
+    "automation": {
+        "conditions": [
+            {
+                "label": "Progressive ON",
+                "displayType": "list",
+                "list": {
+                    "alternatives": [
+                        {
+                            "key": "Active",
+                            "value": "Active"
+                        },
+                        {
+                            "key": "Inactive",
+                            "value": "Inactive"
+                        }
+                    ],
+                    "value": "progOn.value",
+                    "valueType": "string"
+                }
+            }
+        ],
+        "actions": [
+            {
+                "label": "Progressive ON",
+                "displayType": "list",
+                "list": {
+                    "command": "setProgOn",
+                    "alternatives": [
+                        {
+                            "key": "Active",
+                            "value": "Active"
+                        },
+                        {
+                            "key": "Inactive",
+                            "value": "Inactive"
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    "id": "legendabsolute60149.progressiveOn1",
+    "version": 1
+}

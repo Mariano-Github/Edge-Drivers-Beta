@@ -1,0 +1,13 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{getGroups.value}}"
+            }
+        ],
+        "actions": [],
+        "basicPlus": []
+    },
+    "id": "legendabsolute60149.getGroups",
+    "version": 1
+}
