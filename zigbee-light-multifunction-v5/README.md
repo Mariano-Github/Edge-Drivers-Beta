@@ -1,6 +1,7 @@
 ## (NEW RELEASE) Version 5.0 of the Edge Driver Zigbee Light Multifunction Mc
 
-link to community thread
+link to community thread:
+
 https://community.smartthings.com/t/new-release-beta-edge-driver-zigbee-light-multifunction-mc/234387/33?u=mariano_colmenarejo
 
  ## Changes and Improvements:
