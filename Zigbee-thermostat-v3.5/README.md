@@ -155,22 +155,17 @@ This could happen unintentionally during a Hub firmware update.
 - Added in preferences an adjustment for Underfloor Heating installation with the No, Heat (Heat only) and Heat & Cool options.
 With this option the temperatures of the change to the Heating and / or Cooling state are corrected, to bring them closer to the set point Heat and Cool. In this way it begins to heat or cool earlier than in other air conditioning systems, to compensate that the underfloor heating system has more thermal inertia and takes longer to heat and cool the floor.
 
-## List of supported devices (nov 08)
+## (NEW RELEASE) Version 3.5 of Edge Driver Zigbee Temp Sensor and Thermostat Mc:
+Improvements and bug fixes:
 
--id: “SmartThings-Motion-Sensor”
-deviceLabel: ST Motion Sensor
-manufacturer: Samjin
-model: motion
-deviceProfileName: motion-temp-therm-battery
+Added new profile for sensors with Illuminance capability (such as Environment Sensor)
 
--id: “lumi.weather”
-deviceLabel: Aqara Weather
-manufacturer: LUMI
-model: lumi.weather
-deviceProfileName: temp-humid-press-therm-battery
+Added new devices supported
 
--id: “TUYATEC/RH3052”
-deviceLabel: TUYATEC RH3052
-manufacturer: TUYATEC-prhs1rsd
-model: RH3052
-deviceProfileName: temp-humid-therm-battery
+Added custom presentations, with multiple tile, to show up to 5 different capacities in the tile depending of device profile. (Thanks to @Nayelyz for their help and engineering inquiries)
+
+I would like to have put the capability of Thermostat Mode in the Tile, but I have not been able to why the presentation of the stock capacity is defined without information for the Dashboard view. Hopefully at some point they will add information from that capability to the mosaic.
+
+## List of supported devices (jan 2022)
+
+See fingerprints.yml file
