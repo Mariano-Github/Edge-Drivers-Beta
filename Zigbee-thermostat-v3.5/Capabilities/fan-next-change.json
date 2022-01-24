@@ -1,0 +1,22 @@
+{
+    "dashboard": {
+        "states": [
+            {
+               "label": "{{fanNextChange.value}}",
+               "unit": null
+            }
+        ]
+    },
+    "detailView": [
+        {
+        "label": "Fan Next State Change:",
+        "displayType": "state",
+         "state": {
+            "label": "{{fanNextChange.value}}",
+            "unit": null
+        }
+      }
+    ],
+    "id": "legendabsolute60149.fanNextChange",
+    "version": 1
+}
