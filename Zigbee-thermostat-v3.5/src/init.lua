@@ -598,6 +598,16 @@ local function temp_attr_handler(self, device, tempvalue, zb_rx)
     device:set_field("ref_event_temp", ref_event_temp, {persist = false})
     --emit event
     tempMeasurement_defaults.temp_attr_handler(self, device, tempvalue, zb_rx)
+   if device:get_field("thermostat_Mode") == "off" then
+     local temp = last_temp + device.preferences.tempOffset
+     local scale = "C"
+    if device.preferences.thermTempUnits == "Fahrenheit" then
+      scale = "C"
+      temp = (temp * 9/5) + 32
+    end
+    local text = "Temperature: "..temp.."º"..scale..", Thermostat Mode: "..device:get_field("thermostat_Mode")
+    device:emit_event(info_Panel.infoPanel(text))
+  end
   end
 end
 
