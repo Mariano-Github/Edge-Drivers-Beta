@@ -24,6 +24,21 @@ zigbeeManufacturer:
     manufacturer: eWeLink
     model: TH01
     deviceProfileName: temp-humid-therm-battery
+  - id: "Zemismart/RH3052"
+    deviceLabel: Zemismart RH3052
+    manufacturer: TUYATEC-jigsujrv
+    model: RH3052
+    deviceProfileName: temp-humid-therm-battery
+  - id: "Tuya/TS0201"
+    deviceLabel: Tuya TS0201
+    manufacturer: _TZ2000_a476raq2
+    model: TS0201
+    deviceProfileName: temp-humid-therm-battery
+  - id: " _TZ3000_i8jfiezr/TS0201"
+    deviceLabel: Tuya TS0201
+    manufacturer: _TZ3000_i8jfiezr
+    model: TS0201
+    deviceProfileName: temp-humid-therm-battery
   - id: "KMPCIL/sensor"
     deviceLabel: Environment Sensor
     manufacturer: KMPCIL
@@ -54,3 +69,13 @@ zigbeeManufacturer:
     manufacturer: iMagic by GreatStar
     model: 1117-S
     deviceProfileName: motion-temp-humid-therm-battery
+  - id: "_TZ3000_fllyghyj/TS0201"
+    deviceLabel: Tuya TS0201
+    manufacturer: _TZ3000_fllyghyj
+    model: TS0201
+    deviceProfileName: temp-humid-therm-battery
+  - id: "_TZ3000_bguser20/TS0201"
+    deviceLabel: Tuya TS0201
+    manufacturer: _TZ3000_bguser20
+    model: TS0201
+    deviceProfileName: temp-humid-therm-battery
