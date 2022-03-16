@@ -199,6 +199,76 @@ zigbeeManufacturer:
     manufacturer: Signify Netherlands B.V.
     model: LWA017
     deviceProfileName: switch-level
+  - id: "Candeo/HK-DIM-A"
+    deviceLabel: Candeo HK-DIM-A
+    manufacturer: Candeo
+    model: HK-DIM-A
+    deviceProfileName: switch-level
+  - id: "_TZ3000_oborybow/TS0502A"
+    deviceLabel: TS0502A LIDL
+    manufacturer: _TZ3000_oborybow
+    model: TS0502A
+    deviceProfileName: level-colortemp-2000-6500
+  - id: "_TZ3000_th6zqqy6/TS0505B"
+    deviceLabel: TS0505B RGBW
+    manufacturer: _TZ3000_th6zqqy6
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "GLEDOPTO/GL-C-008"
+    deviceLabel: GLEDOPTO GL-C-008
+    manufacturer: GLEDOPTO
+    model: GL-C-008
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "GLEDOPTO/GL-C-007"
+    deviceLabel: GLEDOPTO GL-C-007
+    manufacturer: GLEDOPTO
+    model: GL-C-007
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "GLEDOPTO/GL-S-007Z"
+    deviceLabel: GLEDOPTO GL-S-007Z
+    manufacturer: GLEDOPTO
+    model: GL-S-007Z
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "LEDVANCE/A60 RGBW Value II"
+    deviceLabel: LEDVANCE A60 RGBW
+    manufacturer: LEDVANCE
+    model: A60 RGBW Value II
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "LEDVANCE/CLA60 RGBW Z3"
+    deviceLabel: LEDVANCE CLA60 RGBW
+    manufacturer: LEDVANCE
+    model: CLA60 RGBW Z3
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "Ajax online/AJ_ZB30_GU10"
+    deviceLabel: RGBW AJ_ZB30_GU10
+    manufacturer: Ajax online Ltd
+    model: AJ_ZB30_GU10
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZ3000_12sxjap4/TS0505B"
+    deviceLabel: TS0505B RGBW
+    manufacturer: _TZ3000_12sxjap4
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZ3000_qd7hej8u/TS0505B"
+    deviceLabel: TS0505B RGBW
+    manufacturer: _TZ3000_qd7hej8u
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "IKEA/Bulb E12 WS"
+    deviceLabel: IKEA Bulb
+    manufacturer: IKEA of Sweden
+    model: TRADFRI bulb E12 WS 450lm
+    deviceProfileName: level-colortemp-2200-4000
+  - id: "innr/RB 285 C"
+    deviceLabel: innr RGBW
+    manufacturer: innr
+    model: RB 285 C
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "eWeLight/ZB-CT01"
+    deviceLabel: eWeLight CCT
+    manufacturer: eWeLight
+    model: ZB-CT01
+    deviceProfileName: rgbw-level-colortemp-2700-6500
 zigbeeGeneric:
   - id: "dimmer-generic ZLL"
     deviceLabel: "Zigbee Dimmer"

@@ -60,7 +60,10 @@ local function color_Temperature_handler(self,device,command)
   local colorTemp_Mireds= math.floor(1000000 / colorTemp)
   --print("colorTemp Mired", colorTemp_Mireds)
   --device:send(OnOff.server.commands.On(device))
-  device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(device:get_field("last_Level")/100.0 * 254), (device.preferences.onTransTime * 4)))
+  local last_Level = device:get_latest_state("main", capabilities.switchLevel.ID, capabilities.switchLevel.level.NAME)
+  if last_Level < 1 then last_Level = device:get_field("last_Level") end
+  device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(last_Level/100.0 * 254), (device.preferences.onTransTime * 4)))
+  --device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(device:get_field("last_Level")/100.0 * 254), (device.preferences.onTransTime * 4)))
   device:send_to_component("main", zcl_clusters.ColorControl.server.commands.MoveToColorTemperature(device, colorTemp_Mireds,(device.preferences.tempTransTime * 4)))
   --device:emit_event(capabilities.colorTemperature.colorTemperature(math.floor(colorTemp)))
 
@@ -70,7 +73,10 @@ end
 local function color_control_handler(self,device,command)
   local hue = math.floor((command.args.color.hue * 0xFE) / 100.0 + 0.5)
   local sat = math.floor((command.args.color.saturation * 0xFE) / 100.0 + 0.5)
-  device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(device:get_field("last_Level")/100.0 * 254), (device.preferences.onTransTime * 4)))
+  local last_Level = device:get_latest_state("main", capabilities.switchLevel.ID, capabilities.switchLevel.level.NAME)
+  if last_Level < 1 then last_Level = device:get_field("last_Level") end
+  device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(last_Level/100.0 * 254), (device.preferences.onTransTime * 4)))
+  --device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(device:get_field("last_Level")/100.0 * 254), (device.preferences.onTransTime * 4)))
   device:send_to_component("main", zcl_clusters.ColorControl.server.commands.MoveToHueAndSaturation(device, hue, sat, (device.preferences.colorTransTime * 4)))
 end
 
