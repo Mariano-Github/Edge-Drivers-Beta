@@ -104,6 +104,91 @@ zigbeeManufacturer:
     manufacturer: TUYATEC-b3ov3nor
     model: RH3040
     deviceProfileName: motion-battery
+  - id: "CentraLite-3326-L-Motion"
+    deviceLabel: CentraLite Motion Sensor
+    manufacturer: CentraLite
+    model: 3326-L
+    deviceProfileName: motion-temp-battery
+  - id: "CentraLite-3325-S-Motion"
+    deviceLabel: CentraLite Motion Sensor
+    manufacturer: CentraLite
+    model: 3325-S
+    deviceProfileName: motion-temp-battery
+  - id: "Bosch-RFDL-ZB-MS-Motion"
+    deviceLabel: Bosch Motion Sensor
+    manufacturer: Bosch
+    model: RFDL-ZB-MS
+    deviceProfileName: motion-temp-battery
+  - id: "Bosch-RFPR-ZB-MS-Motion"
+    deviceLabel: Bosch Motion Sensor
+    manufacturer: Bosch
+    model: RFPR-ZB-MS
+    deviceProfileName: motion-temp-battery
+  - id: "_TZ3000_mmtwjmaq Motion"
+    deviceLabel: TS0202 Motion Sensor
+    manufacturer: _TZ3000_mmtwjmaq
+    model: TS0202
+    deviceProfileName: motion-battery
+  - id: "_TYZB01_3zv6oleo Motion"
+    deviceLabel: TS0210 Motion Sensor
+    manufacturer: _TYZB01_3zv6oleo
+    model: TS0210
+    deviceProfileName: motion-battery
+  - id: "CentraLite-3305-S-Motion"
+    deviceLabel: CentraLite Motion Sensor
+    manufacturer: CentraLite
+    model: 3305-S
+    deviceProfileName: motion-temp-battery
+  - id: "TUYATEC-2gn2zf9e/Motion"
+    deviceLabel: TUYATEC Motion Sensor
+    manufacturer: TUYATEC-2gn2zf9e
+    model: RH3040
+    deviceProfileName: motion-battery
+  - id: "_TZ3000_msl6wxk9/Motion"
+    deviceLabel: TS0202 Motion Sensor
+    manufacturer: _TZ3000_msl6wxk9
+    model: TS0202
+    deviceProfileName: motion-battery
+  - id: "_TZ3000_mcxw5ehu/Motion"
+    deviceLabel: TS0202 Motion Sensor
+    manufacturer: _TZ3000_mcxw5ehu
+    model: TS0202
+    deviceProfileName: motion-battery
+  - id: " MOSZB-141/Motion"
+    deviceLabel: frient A/S Motion Sensor
+    manufacturer: frient A/S
+    model: MOSZB-141
+    deviceProfileName: motion-battery
+  - id: " MOSZB-140/Motion"
+    deviceLabel: frient A/S Motion Sensor
+    manufacturer: frient A/S
+    model: MOSZB-140
+    deviceProfileName: motion-temp-battery
+  - id: "ZB-MotionSensor-D0003/Motion"
+    deviceLabel: lk Motion Sensor
+    manufacturer: lk
+    model: ZB-MotionSensor-D0003
+    deviceProfileName: motion-battery
+  - id: "eWeLink/Motion ms01"
+    deviceLabel: eWeLink Motion Sensor
+    manufacturer: eWeLink
+    model: ms01
+    deviceProfileName: motion-battery
+  - id: "_TZ3000_otvn3lne/Motion"
+    deviceLabel: TS0202 Motion Sensor
+    manufacturer: _TZ3000_otvn3lne
+    model: TS0202
+    deviceProfileName: motion-battery
+  - id: "CentraLite-3328-G-Motion"
+    deviceLabel: CentraLite Motion Sensor
+    manufacturer: CentraLite
+    model: 3328-G
+    deviceProfileName: motion-temp-battery
+  - id: "_TYZB01_jytabjkb/Motion"
+    deviceLabel: TS0202 Motion Sensor
+    manufacturer: _TYZB01_jytabjkb
+    model: TS0202
+    deviceProfileName: motion-battery
 zigbeeGeneric:
   - id: "motionv5"
     deviceLabel: "Zigbee SmartThings motionv5"

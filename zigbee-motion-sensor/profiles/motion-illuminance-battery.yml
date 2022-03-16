@@ -1,12 +1,10 @@
-name: motion-contact-presence
+name: motion-illuminance-battery
 components:
 - id: main
   capabilities:
   - id: motionSensor
     version: 1
-  - id: contactSensor
-    version: 1
-  - id: presenceSensor
+  - id: illuminanceMeasurement
     version: 1
   - id: battery
     version: 1
@@ -27,3 +25,7 @@ preferences:
       minLength: 0
       maxLength: 0
       default: ""
+metadata:
+  deviceType: MotionSensor
+  ocfDeviceType: x.com.st.d.sensor.motion
+  deviceTypeId: MotionSensor

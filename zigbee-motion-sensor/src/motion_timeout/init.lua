@@ -20,7 +20,9 @@ local ZIGBEE_MOTION_SENSOR_FINGERPRINTS = {
   { mfr = "ORVIBO", model = "895a2d80097f4ae2b2d40500d5e03dcc", timeout = 20 },
   { mfr = "Megaman", model = "PS601/z1", timeout = 20 },
   { mfr = "HEIMAN", model = "PIRSensor-N", timeout = 20 },
-  { mfr = "HiveHome.com", model = "MOT003", timeout = 20 }
+  { mfr = "HiveHome.com", model = "MOT003", timeout = 20 },
+  { mfr = "_TYZB01_3zv6oleo", model = "TS0210", timeout = 30 },
+  { mfr = "_TZ3000_mcxw5ehu", model = "TS0202", timeout = 30 }
 }
 
 local is_zigbee_motion_sensor = function(opts, driver, device)
