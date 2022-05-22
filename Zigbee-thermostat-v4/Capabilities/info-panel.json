@@ -1,0 +1,22 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{infoPanel.value}}"
+            }
+        ],
+        "actions": [],
+        "basicPlus": []
+    },
+    "detailView": [
+        {
+            "label": "Thermostat Next State Change Information",
+            "displayType": "state",
+            "state": {
+                "label": "{{infoPanel.value}}"
+            }
+        }
+    ],
+    "id": "legendabsolute60149.infoPanel",
+    "version": 1
+}
