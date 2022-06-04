@@ -80,7 +80,7 @@ local circadian_Light = capabilities["legendabsolute60149.circadian"]
 local color_Changing = capabilities["legendabsolute60149.colorChanging"]
 local color_Change_Timer = capabilities["legendabsolute60149.colorChangeTimer"]
 local color_Change_Mode = capabilities["legendabsolute60149.colorChangeMode1"]
-local driver_Version = capabilities["legendabsolute60149.driverVersion"]
+local driver_Version = capabilities["legendabsolute60149.driverVersion1"]
 
 ----- do_init device tables create for dimming variables ----
  function driver_handler.do_init (self, device)
@@ -389,7 +389,7 @@ function driver_handler.do_Preferences (self, device)
 
   --local new_version = " New Driver Version 6 Available: " .. os.date("%Y:%m:%d",os.time())
   --print("new_version >>>>>",new_version)
-  -- device:emit_event(driver_Version.driverVersion(new_version))
+  --device:emit_event(driver_Version.driverVersion(new_version))
 
   -- ***************************************************************
 

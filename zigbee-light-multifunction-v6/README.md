@@ -3,7 +3,6 @@
 ## Changes and Improvements:
 
 1.	At the request of Milan I have added more modes of continuous color change, using 2 contiguous colors or with a unique color, blue or green.
-
 NOTE: All color change modes are executed in the driver and are not programmed in the device, therefore continuous use or in more than one device at the same time can condition the operation of the hub and the network, since with the frequency of the chosen timer commands are executed, sent and received continuously.
 
 2.	Added capability for information of the signal metric as in the last jump. In default history you don't see the events. In preferences you can enable visibility if you want to perform a troublesooting of the device signal.
