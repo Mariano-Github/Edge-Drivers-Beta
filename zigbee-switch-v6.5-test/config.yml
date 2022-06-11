@@ -1,0 +1,4 @@
+name: 'Zigbee Switch Mc-test'
+packageKey: 'Zigbee_Switch_v6.5-test'
+permissions:
+  zigbee: {}
