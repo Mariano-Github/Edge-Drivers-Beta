@@ -32,6 +32,33 @@ local random_Next_Step = capabilities["legendabsolute60149.randomNextStep2"]
 local energy_Reset = capabilities["legendabsolute60149.energyReset1"]
 local get_Groups = capabilities["legendabsolute60149.getGroups"]
 local signal_Metrics = capabilities["legendabsolute60149.signalMetrics"]
+local driver_Version = capabilities["legendabsolute60149.driverVersion1"]
+
+------- Write attribute ----
+local function write_attribute_function(device, cluster_id, attr_id, data_value)
+  local write_body = write_attribute.WriteAttribute({
+   write_attribute.WriteAttribute.AttributeRecord(attr_id, data_types.ZigbeeDataType(data_value.ID), data_value.value)})
+
+   local zclh = zcl_messages.ZclHeader({
+     cmd = data_types.ZCLCommandId(write_attribute.WriteAttribute.ID)
+   })
+   local addrh = messages.AddressHeader(
+       zb_const.HUB.ADDR,
+       zb_const.HUB.ENDPOINT,
+       device:get_short_address(),
+       device:get_endpoint(cluster_id.value),
+       zb_const.HA_PROFILE_ID,
+       cluster_id.value
+   )
+   local message_body = zcl_messages.ZclMessageBody({
+     zcl_header = zclh,
+     zcl_body = write_body
+   })
+   device:send(messages.ZigbeeMessageTx({
+     address_header = addrh,
+     body = message_body
+   }))
+end
 
 ----- do_init device tables create for dimming variables ----
 function driver_handler.do_init (self, device)
@@ -94,7 +121,37 @@ function driver_handler.do_init (self, device)
   end
   device:set_field("power_meter_timer", "OFF", {persist = true})
 
-    --restart random on-off if active
+  --- special cofigure for this device, read attribute on-off every 120 sec and not configure reports
+  if device:get_manufacturer() == "_TZ3000_9hpxg80k" then
+
+    --- Configure basic cluster, attributte 0x0099 to 0x1
+    local data_value = {value = 0x01, ID = 0x20}
+    local cluster_id = {value = 0x0000}
+    local attr_id = 0x0099
+    write_attribute_function(device, cluster_id, attr_id, data_value)
+
+
+    print("<<<<<<<<<<< read attribute >>>>>>>>>>>>>")
+    device:send(zcl_clusters.OnOff.attributes.OnOff:read(device))
+
+    ---- Timers Cancel ------
+      for timer in pairs(device.thread.timers) do
+        print("<<<<< Cancelando timer >>>>>")
+        device.thread:cancel_timer(timer)
+     end
+    --- Refresh atributte read schedule
+    device.thread:call_on_schedule(
+    120,
+    function ()
+      if device:get_manufacturer() == "_TZ3000_9hpxg80k" then
+        print("<<< Timer read attribute >>>")
+        device:send(zcl_clusters.OnOff.attributes.OnOff:read(device))
+      end
+    end,
+    'Refresh schedule') 
+  end
+
+  --restart random on-off if active
   print("random_state >>>>>",device:get_field("random_state"))
   if device:get_field("random_state") ~= "Inactive" then  
     driver_handler.random_on_off_handler(self,device,"Active")
@@ -121,32 +178,6 @@ function driver_handler.do_removed(self,device)
     print("device_running, random_totalStep=",device_running[id],random_totalStep[id])
     print("device_running, random_timer=",device_running[id],random_timer[id])
  end
-end
-
-------- Write attribute ----
-local function write_attribute_function(device, cluster_id, attr_id, data_value)
-  local write_body = write_attribute.WriteAttribute({
-   write_attribute.WriteAttribute.AttributeRecord(attr_id, data_types.ZigbeeDataType(data_value.ID), data_value.value)})
-
-   local zclh = zcl_messages.ZclHeader({
-     cmd = data_types.ZCLCommandId(write_attribute.WriteAttribute.ID)
-   })
-   local addrh = messages.AddressHeader(
-       zb_const.HUB.ADDR,
-       zb_const.HUB.ENDPOINT,
-       device:get_short_address(),
-       device:get_endpoint(cluster_id.value),
-       zb_const.HA_PROFILE_ID,
-       cluster_id.value
-   )
-   local message_body = zcl_messages.ZclMessageBody({
-     zcl_header = zclh,
-     zcl_body = write_body
-   })
-   device:send(messages.ZigbeeMessageTx({
-     address_header = addrh,
-     body = message_body
-   }))
 end
 
 --- Update preferences after infoChanged recived---
@@ -234,6 +265,15 @@ function driver_handler.do_Preferences (self, device)
       end
     end
   end
+
+  -- ********* Emit event for new driver version availabale ********
+
+  --local new_version = "New Driver Version 6 Available: " .. os.date("%Y:%m:%d",os.time())
+  --print("new_version >>>>>",new_version)
+  --device:emit_event(driver_Version.driverVersion(new_version))
+
+  -- ***************************************************************
+
   --print manufacturer, model and leng of the strings
   local manufacturer = device:get_manufacturer()
   local model = device:get_model()

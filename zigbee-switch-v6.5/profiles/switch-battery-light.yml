@@ -20,6 +20,8 @@ components:
     version: 1
   - id: battery
     version: 1
+  - id: legendabsolute60149.driverVersion1
+    version: 1
   - id: refresh
     version: 1
   - id: firmwareUpdate

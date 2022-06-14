@@ -83,6 +83,22 @@ local function delete_all_groups_handler(self, device, command)
   device:send(Groups.server.commands.GetGroupMembership(device, {}))
 end
 
+--do_configure
+local function do_configure(self, device)
+  if device:get_manufacturer() ~= "_TZ3000_9hpxg80k" then
+    device:configure()
+  end
+end
+
+------ do_configure device when driver switched
+local function driver_Switched(self,device)
+  device:refresh()
+  if device:get_manufacturer() ~= "_TZ3000_9hpxg80k" then
+    device:configure()
+  end
+end
+
+
 ---- Driver template config
 local zigbee_switch_driver_template = {
   supported_capabilities = {
@@ -95,7 +111,9 @@ local zigbee_switch_driver_template = {
   lifecycle_handlers = {
     infoChanged = random.do_Preferences,
     init = random.do_init,
-    removed = random.do_removed
+    removed = random.do_removed,
+    driverSwitched = driver_Switched,
+    doConfigure = do_configure
   },
   capability_handlers = {
     [energy_Reset.ID] = {

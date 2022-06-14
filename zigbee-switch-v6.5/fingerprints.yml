@@ -249,3 +249,8 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_8voyyjng
     model: TS011F
     deviceProfileName: single-switch-plug
+  - id: "_TZ3000_9hpxg80k/Switch"
+    deviceLabel: TS0011 Switch
+    manufacturer: _TZ3000_9hpxg80k
+    model: TS0011
+    deviceProfileName: single-switch
