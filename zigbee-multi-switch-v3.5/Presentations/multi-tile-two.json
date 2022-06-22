@@ -88,6 +88,13 @@
             "version": 1,
             "values": [],
             "patch": []
+        },
+        {
+            "component": "switch2",
+            "capability": "refresh",
+            "version": 1,
+            "values": [],
+            "patch": []
         }
     ],
     "automation": {

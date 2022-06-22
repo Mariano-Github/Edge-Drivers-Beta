@@ -111,6 +111,20 @@
             "version": 1,
             "values": [],
             "patch": []
+        },
+        {
+            "component": "switch2",
+            "capability": "refresh",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "switch3",
+            "capability": "refresh",
+            "version": 1,
+            "values": [],
+            "patch": []
         }
     ],
     "automation": {
@@ -180,7 +194,7 @@
                 "values": [],
                 "patch": [],
                 "exclusion": []
-            }
+            } 
         ]
     },
     "type": "profile"

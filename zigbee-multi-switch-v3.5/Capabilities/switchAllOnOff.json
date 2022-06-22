@@ -11,7 +11,37 @@
                     },
                     {
                         "key": "All Off",
-                        "value": "All On",
+                        "value": "All Off",
+                        "type": "inactive"
+                    },
+                    {
+                        "key": "S1:On ",
+                        "value": "S1:On ",
+                        "type": "inactive"
+                    },
+                    {
+                        "key": "S1:On S2:On ",      
+                        "value": "S1:On S2:On ",
+                        "type": "inactive"
+                    },
+                    {
+                        "key": "S2:On ",
+                        "value": "S2:On ",
+                        "type": "inactive"
+                    },
+                    {
+                        "key": "S2:On S3:On ",
+                        "value": "S2:On S3:On ",
+                        "type": "inactive"
+                    },
+                    {
+                        "key": "S3:On ",
+                        "value": "S3:On ",
+                        "type": "inactive"
+                    },
+                    {
+                        "key": "S1:On S3:On ",
+                        "value": "S1:On S3:On ",
                         "type": "inactive"
                     }
                 ]
@@ -33,14 +63,13 @@
                     }
                 }
             }
-        ],
-        "basicPlus": []
+        ]
     },
     "detailView": [
         {
             "label": "All Switch On-Off",
-            "displayType": "toggleSwitch",
-            "toggleSwitch": {
+            "displayType": "standbyPowerSwitch",
+            "standbyPowerSwitch": {
                 "command": {
                     "name": "setSwitchAllOnOff",
                     "on": "All On",
@@ -51,7 +80,49 @@
                     "value": "switchAllOnOff.value",
                     "valueType": "string",
                     "on": "All On",
-                    "off": "All Off"
+                    "off": "All Off",
+                    "alternatives": [
+                        {
+                            "key": "All On",
+                            "value": "All On",
+                            "type": "active"
+                        },
+                        {
+                            "key": "All Off",
+                            "value": "All Off",
+                            "type": "inactive"
+                        },
+                        {
+                            "key": "S1:On ",
+                            "value": "S1:On ",
+                            "type": "inactive"
+                        },
+                        {
+                            "key": "S1:On S2:On ",
+                            "value": "S1:On S2:On ",
+                            "type": "inactive"
+                        },
+                        {
+                            "key": "S2:On ",
+                            "value": "S2:On ",
+                            "type": "inactive"
+                        },
+                        {
+                            "key": "S2:On S3:On ",
+                            "value": "S2:On S3:On ",
+                            "type": "inactive"
+                        },
+                        {
+                            "key": "S3:On ",
+                            "value": "S3:On ",
+                            "type": "inactive"
+                        },
+                        {
+                            "key": "S1:On S3:On ",
+                            "value": "S1:On S3:On ",
+                            "type": "inactive"
+                        }
+                    ]
                 }
             },
             "state": null

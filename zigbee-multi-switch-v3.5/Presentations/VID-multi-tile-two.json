@@ -1,6 +1,6 @@
 {
     "mnmn": "SmartThingsCommunity",
-    "vid": "0f94cd23-c7b3-30db-b246-498f6bbb3876",
+    "vid": "abbb4aa7-5588-3d70-ac2b-3ff0dc840888",
     "version": "0.0.1",
     "type": "profile",
     "dashboard": {
@@ -93,6 +93,13 @@
             "version": 1,
             "values": [],
             "patch": []
+        },
+        {
+            "component": "switch2",
+            "capability": "refresh",
+            "version": 1,
+            "values": [],
+            "patch": []
         }
     ],
     "automation": {
@@ -149,6 +156,6 @@
             }
         ]
     },
-    "presentationId": "0f94cd23-c7b3-30db-b246-498f6bbb3876",
+    "presentationId": "abbb4aa7-5588-3d70-ac2b-3ff0dc840888",
     "manufacturerName": "SmartThingsCommunity"
 }
