@@ -5,29 +5,41 @@
                 "label": "{{randomOnOff.value}}"
             }
         ],
-        "actions": [],
-        "basicPlus": []
+        "actions": []
     },
     "detailView": [
         {
             "label": "Random On Off",
-            "displayType": "toggleSwitch",
-            "toggleSwitch": {
-              "command": {
-                "name": "setRandomOnOff",
-                "on": "Active",
-                "off": "Inactive",
-                "argumentType": "string"
-              },
-              "state": {
-                "value": "randomOnOff.value",
-                "on": "Active",
-                "off": "Inactive",
-                "valueType": "string"
-              }
-            }
+            "displayType": "switch",
+            "switch": {
+                "command": {
+                    "name": "setRandomOnOff",
+                    "on": "Active",
+                    "off": "Inactive",
+                    "argumentType": "string"
+                },
+                "state": {
+                    "value": "randomOnOff.value",
+                    "valueType": "string",
+                    "on": "Active",
+                    "off": "Inactive",
+                    "alternatives": [
+                        {
+                            "key": "Active",
+                            "value": "Active",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Inactive",
+                            "value": "Inactive",
+                            "type": "inactive"
+                        }
+                    ]
+                }
+            },
+            "state": null
         }
-     ],
+    ],
     "automation": {
         "conditions": [
             {
@@ -37,11 +49,13 @@
                     "alternatives": [
                         {
                             "key": "Active",
-                            "value": "Active"
+                            "value": "Active",
+                            "type": "active"
                         },
                         {
                             "key": "Inactive",
-                            "value": "Inactive"
+                            "value": "Inactive",
+                            "type": "inactive"
                         }
                     ],
                     "value": "randomOnOff.value",
@@ -54,17 +68,20 @@
                 "label": "Random On Off",
                 "displayType": "list",
                 "list": {
-                    "command": "setRandomOnOff",
                     "alternatives": [
                         {
                             "key": "Active",
-                            "value": "Active"
+                            "value": "Active",
+                            "type": "active"
                         },
                         {
                             "key": "Inactive",
-                            "value": "Inactive"
+                            "value": "Inactive",
+                            "type": "inactive"
                         }
-                    ]
+                    ],
+                    "command": "setRandomOnOff",
+                    "argumentType": "string"
                 }
             }
         ]

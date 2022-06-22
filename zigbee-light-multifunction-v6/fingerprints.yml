@@ -179,6 +179,11 @@ zigbeeManufacturer:
     manufacturer: IKEA of Sweden
     model: FLOALT panel WS 30x30
     deviceProfileName: level-colortemp-2200-4000
+  - id: "IKEA/FLOALT panel WS 60x60"
+    deviceLabel: IKEA FLOALT panel
+    manufacturer: IKEA of Sweden
+    model: FLOALT panel WS 60x60
+    deviceProfileName: level-colortemp-2200-4000
   - id: "IKEA/TRADFRI bulb GU10 WS 400lm"
     deviceLabel: IKEA GU10 Bulb
     manufacturer: IKEA of Sweden
@@ -339,6 +344,11 @@ zigbeeManufacturer:
     deviceLabel: LIDL TS0505A
     manufacturer: _TZ3000_dbou1ap4
     model: TS0505A
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "ZB-CL01/eWeLight"
+    deviceLabel: eWeLight RGBW
+    manufacturer: eWeLight
+    model: ZB-CL01
     deviceProfileName: rgbw-level-colortemp-2700-6500
 zigbeeGeneric:
   - id: "dimmer-generic ZLL"

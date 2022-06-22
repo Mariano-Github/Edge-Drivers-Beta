@@ -5,29 +5,41 @@
                 "label": "{{progOff.value}}"
             }
         ],
-        "actions": [],
-        "basicPlus": []
+        "actions": []
     },
     "detailView": [
         {
             "label": "Progressive OFF",
-            "displayType": "toggleSwitch",
-            "toggleSwitch": {
-              "command": {
-                "name": "setProgOff",
-                "on": "Active",
-                "off": "Inactive",
-                "argumentType": "string"
-              },
-              "state": {
-                "value": "progOff.value",
-                "on": "Active",
-                "off": "Inactive",
-                "valueType": "string"
-              }
-            }
+            "displayType": "switch",
+            "switch": {
+                "command": {
+                    "name": "setProgOff",
+                    "on": "Active",
+                    "off": "Inactive",
+                    "argumentType": "string"
+                },
+                "state": {
+                    "value": "progOff.value",
+                    "valueType": "string",
+                    "on": "Active",
+                    "off": "Inactive",
+                    "alternatives": [
+                        {
+                            "key": "Active",
+                            "value": "Active",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Inactive",
+                            "value": "Inactive",
+                            "type": "inactive"
+                        }
+                    ]
+                }
+            },
+            "state": null
         }
-     ],
+    ],
     "automation": {
         "conditions": [
             {
@@ -37,11 +49,13 @@
                     "alternatives": [
                         {
                             "key": "Active",
-                            "value": "Active"
+                            "value": "Active",
+                            "type": "active"
                         },
                         {
                             "key": "Inactive",
-                            "value": "Inactive"
+                            "value": "Inactive",
+                            "type": "inactive"
                         }
                     ],
                     "value": "progOff.value",
@@ -54,17 +68,20 @@
                 "label": "Progressive OFF",
                 "displayType": "list",
                 "list": {
-                    "command": "setProgOff",
                     "alternatives": [
                         {
                             "key": "Active",
-                            "value": "Active"
+                            "value": "Active",
+                            "type": "active"
                         },
                         {
                             "key": "Inactive",
-                            "value": "Inactive"
+                            "value": "Inactive",
+                            "type": "inactive"
                         }
-                    ]
+                    ],
+                    "command": "setProgOff",
+                    "argumentType": "string"
                 }
             }
         ]

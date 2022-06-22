@@ -2,29 +2,39 @@
     "dashboard": {
         "states": [
             {
-                "label": "{{circadian.value}}",
-                "alternatives": null
+                "label": "{{circadian.value}}" 
             }
         ],
-        "actions": [],
-        "basicPlus": []
+        "actions": []
     },
     "detailView": [
         {
-            "label": "Circadian Lighting",
-            "displayType": "toggleSwitch",
-            "toggleSwitch": {
+            "label": "Circadian Lighting",     
+            "displayType": "switch",
+            "switch": {
                 "command": {
-                    "name": "setCircadian",
+                    "name": "setCircadian",    
                     "on": "Active",
                     "off": "Inactive",
-                    "argumentType": "string"
+                    "argumentType": "string"   
                 },
                 "state": {
                     "value": "circadian.value",
-                    "valueType": "string",
+                    "valueType": "string",     
                     "on": "Active",
-                    "off": "Inactive"
+                    "off": "Inactive",
+                    "alternatives": [
+                        {
+                            "key": "Active",
+                            "value": "Active",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Inactive",
+                            "value": "Inactive",
+                            "type": "inactive"
+                        }
+                    ]
                 }
             },
             "state": null
@@ -45,7 +55,7 @@
                         {
                             "key": "Inactive",
                             "value": "Inactive",
-                            "type": "active"
+                            "type": "inactive"
                         }
                     ],
                     "value": "circadian.value",
@@ -67,7 +77,7 @@
                         {
                             "key": "Inactive",
                             "value": "Inactive",
-                            "type": "active"
+                            "type": "inactive"
                         }
                     ],
                     "command": "setCircadian",

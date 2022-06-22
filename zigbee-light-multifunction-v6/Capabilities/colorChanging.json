@@ -5,29 +5,41 @@
                 "label": "{{colorChanging.value}}"
             }
         ],
-        "actions": [],
-        "basicPlus": []
+        "actions": []
     },
     "detailView": [
         {
             "label": "Continuous Color Change",
-            "displayType": "toggleSwitch",
-            "toggleSwitch": {
-              "command": {
-                "name": "setColorChanging",
-                "on": "Active",
-                "off": "Inactive",
-                "argumentType": "string"
-              },
-              "state": {
-                "value": "colorChanging.value",
-                "on": "Active",
-                "off": "Inactive",
-                "valueType": "string"
-              }
-            }
+            "displayType": "switch",
+            "switch": {
+                "command": {
+                    "name": "setColorChanging",
+                    "on": "Active",
+                    "off": "Inactive",
+                    "argumentType": "string"
+                },
+                "state": {
+                    "value": "colorChanging.value",
+                    "valueType": "string",
+                    "on": "Active",
+                    "off": "Inactive",
+                    "alternatives": [
+                        {
+                            "key": "Active",
+                            "value": "Active",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Inactive",
+                            "value": "Inactive",
+                            "type": "inactive"
+                        }
+                    ]
+                }
+            },
+            "state": null
         }
-     ],
+    ],
     "automation": {
         "conditions": [
             {
@@ -37,11 +49,13 @@
                     "alternatives": [
                         {
                             "key": "Active",
-                            "value": "Active"
+                            "value": "Active",
+                            "type": "active"
                         },
                         {
                             "key": "Inactive",
-                            "value": "Inactive"
+                            "value": "Inactive",
+                            "type": "inactive"
                         }
                     ],
                     "value": "colorChanging.value",
@@ -54,17 +68,20 @@
                 "label": "Continuous Color Change",
                 "displayType": "list",
                 "list": {
-                    "command": "setColorChanging",
                     "alternatives": [
                         {
                             "key": "Active",
-                            "value": "Active"
+                            "value": "Active",
+                            "type": "active"
                         },
                         {
                             "key": "Inactive",
-                            "value": "Inactive"
+                            "value": "Inactive",
+                            "type": "inactive"
                         }
-                    ]
+                    ],
+                    "command": "setColorChanging",
+                    "argumentType": "string"
                 }
             }
         ]

@@ -5,29 +5,41 @@
                 "label": "{{progOn.value}}"
             }
         ],
-        "actions": [],
-        "basicPlus": []
+        "actions": []
     },
     "detailView": [
         {
             "label": "Progressive ON",
-            "displayType": "toggleSwitch",
-            "toggleSwitch": {
-              "command": {
-                "name": "setProgOn",
-                "on": "Active",
-                "off": "Inactive",
-                "argumentType": "string"
-              },
-              "state": {
-                "value": "progOn.value",
-                "on": "Active",
-                "off": "Inactive",
-                "valueType": "string"
-              }
-            }
+            "displayType": "switch",
+            "switch": {
+                "command": {
+                    "name": "setProgOn",
+                    "on": "Active",
+                    "off": "Inactive",
+                    "argumentType": "string"
+                },
+                "state": {
+                    "value": "progOn.value",
+                    "valueType": "string",
+                    "on": "Active",
+                    "off": "Inactive",
+                    "alternatives": [
+                        {
+                            "key": "Active",
+                            "value": "Active",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Inactive",
+                            "value": "Inactive",
+                            "type": "inactive"
+                        }
+                    ]
+                }
+            },
+            "state": null
         }
-     ],
+    ],
     "automation": {
         "conditions": [
             {
@@ -37,11 +49,13 @@
                     "alternatives": [
                         {
                             "key": "Active",
-                            "value": "Active"
+                            "value": "Active",
+                            "type": "active"
                         },
                         {
                             "key": "Inactive",
-                            "value": "Inactive"
+                            "value": "Inactive",
+                            "type": "inactive"
                         }
                     ],
                     "value": "progOn.value",
@@ -54,17 +68,20 @@
                 "label": "Progressive ON",
                 "displayType": "list",
                 "list": {
-                    "command": "setProgOn",
                     "alternatives": [
                         {
                             "key": "Active",
-                            "value": "Active"
+                            "value": "Active",
+                            "type": "active"
                         },
                         {
                             "key": "Inactive",
-                            "value": "Inactive"
+                            "value": "Inactive",
+                            "type": "inactive"
                         }
-                    ]
+                    ],
+                    "command": "setProgOn",
+                    "argumentType": "string"
                 }
             }
         ]
