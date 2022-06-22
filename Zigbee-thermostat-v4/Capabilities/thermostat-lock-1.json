@@ -2,7 +2,19 @@
     "dashboard": {
         "states": [
             {
-                "label": "{{thermostatLocked.value}}"
+                "label": "{{thermostatLocked.value}}",
+                "alternatives": [
+                    {
+                        "key": "Locked",
+                        "value": "Locked",
+                        "type": "active"
+                    },
+                    {
+                        "key": "Unlocked",
+                        "value": "Unlocked",
+                        "type": "inactive"
+                    }
+                ]
             }
         ],
         "actions": [
@@ -23,14 +35,13 @@
                     }
                 }
             }
-        ],
-        "basicPlus": []
+        ]
     },
     "detailView": [
         {
             "label": "Thermostat Lock State",
-            "displayType": "toggleSwitch",
-            "toggleSwitch": {
+            "displayType": "switch",
+            "switch": {
                 "command": {
                     "name": "setThermostatLocked",
                     "on": "Locked",
@@ -41,7 +52,19 @@
                     "value": "thermostatLocked.value",
                     "valueType": "string",
                     "on": "Locked",
-                    "off": "Unlocked"
+                    "off": "Unlocked",
+                    "alternatives": [
+                        {
+                            "key": "Locked",
+                            "value": "Locked",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Unlocked",
+                            "value": "Unlocked",
+                            "type": "inactive"
+                        }
+                    ]
                 }
             },
             "state": null

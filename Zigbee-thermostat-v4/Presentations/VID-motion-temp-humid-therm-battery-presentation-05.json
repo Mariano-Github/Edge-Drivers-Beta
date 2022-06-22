@@ -1,9 +1,8 @@
 {
     "mnmn": "SmartThingsCommunity",
-    "vid": "612a8775-7374-34f6-bb77-71fc51fa45bc",
+    "vid": "0143df22-3762-32a8-b012-d87a23e74149",
     "version": "0.0.1",
     "type": "profile",
-    "iconUrl": null,
     "dashboard": {
         "states": [
             {
@@ -378,7 +377,7 @@
                 "version": 1,
                 "values": [
                     {
-                        "key": "heatingSetpoint.value",
+                        "key": "setHeatingSetpoint",
                         "enabledValues": [],
                         "range": [
                             -50,
@@ -396,11 +395,11 @@
                 "version": 1,
                 "values": [
                     {
-                        "key": "coolingSetpoint.value",
+                        "key": "setCoolingSetpoint",
                         "enabledValues": [],
                         "range": [
-                            -49.9,
-                            249.9
+                            -50,
+                            250
                         ],
                         "step": 0.5
                     }
@@ -410,6 +409,6 @@
             }
         ]
     },
-    "presentationId": "612a8775-7374-34f6-bb77-71fc51fa45bc",
+    "presentationId": "0143df22-3762-32a8-b012-d87a23e74149",
     "manufacturerName": "SmartThingsCommunity"
 }

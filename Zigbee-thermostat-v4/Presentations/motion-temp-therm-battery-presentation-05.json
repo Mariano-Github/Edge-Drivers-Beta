@@ -391,6 +391,14 @@
                 ],
                 "patch": [],
                 "exclusion": []
+            },
+            {
+                "component": "main",
+                "capability": "refresh",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": [] 
             }
         ]
     },

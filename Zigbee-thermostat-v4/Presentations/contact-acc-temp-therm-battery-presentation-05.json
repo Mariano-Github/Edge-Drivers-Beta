@@ -1,8 +1,4 @@
 {
-    "mnmn": "SmartThingsCommunity",
-    "vid": "a6faf9f1-7646-38e6-8a27-485674879f9d",
-    "version": "0.0.1",
-    "type": "profile",
     "dashboard": {
         "states": [
             {
@@ -11,16 +7,14 @@
                 "version": 1,
                 "idx": 0,
                 "group": "main",
-                "values": [],
                 "composite": true
             },
             {
                 "component": "main",
-                "capability": "legendabsolute60149.infoPanel",       
+                "capability": "legendabsolute60149.infoPanel",
                 "version": 1,
                 "idx": 0,
-                "group": "Temperature and Next Status Change",       
-                "values": [],
+                "group": "Temperature and Next Status Change",
                 "composite": true
             },
             {
@@ -29,7 +23,6 @@
                 "version": 1,
                 "idx": 0,
                 "group": "Thermostat Mode",
-                "values": [],
                 "composite": true
             },
             {
@@ -38,7 +31,6 @@
                 "version": 1,
                 "idx": 0,
                 "group": "Thermostat Locked",
-                "values": [],
                 "composite": true
             }
         ],
@@ -48,10 +40,10 @@
                 "capability": "legendabsolute60149.thermostatLocked",
                 "version": 1,
                 "idx": 0,
-                "group": "Thermostat Locked"
+                "group": "Thermostat Locked",
+                "composite": true
             }
-        ],
-        "basicPlus": []
+        ]
     },
     "detailView": [
         {
@@ -126,11 +118,11 @@
                     "key": "heatingSetpoint.value",
                     "enabledValues": [],
                     "range": [
-                        -50,
-                        250
+                        -50.0,
+                        250.0
                     ],
                     "step": 0.5
-                }
+                }                  
             ],
             "patch": []
         },
@@ -138,16 +130,16 @@
             "component": "main",
             "capability": "thermostatCoolingSetpoint",
             "version": 1,
-            "values": [
+            "values": [ 
                 {
                     "key": "coolingSetpoint.value",
                     "enabledValues": [],
                     "range": [
-                        -50,
-                        250
+                        -50.0,
+                        250.0
                     ],
                     "step": 0.5
-                }
+                }                
             ],
             "patch": []
         },
@@ -156,7 +148,8 @@
             "capability": "legendabsolute60149.infoPanel",
             "version": 1,
             "values": [],
-            "patch": []
+            "patch": [],
+            "exclusion": [] 
         },
         {
             "component": "main",
@@ -242,7 +235,7 @@
                 "version": 1,
                 "values": [],
                 "patch": [],
-                "exclusion": []
+                "exclusion": [] 
             },
             {
                 "component": "main",
@@ -293,11 +286,11 @@
                         "key": "heatingSetpoint.value",
                         "enabledValues": [],
                         "range": [
-                            -50,
-                            250
+                            -50.0,
+                            250.0
                         ],
                         "step": 0.5
-                    }
+                    }                                  
                 ],
                 "patch": [],
                 "exclusion": []
@@ -311,11 +304,11 @@
                         "key": "coolingSetpoint.value",
                         "enabledValues": [],
                         "range": [
-                            -50,
-                            250
+                            -50.0,
+                            250.0
                         ],
                         "step": 0.5
-                    }
+                    }                                  
                 ],
                 "patch": [],
                 "exclusion": []
@@ -328,7 +321,7 @@
                 "version": 1,
                 "values": [],
                 "patch": [],
-                "exclusion": []
+                "exclusion": [] 
             },
             {
                 "component": "main",
@@ -363,11 +356,11 @@
                         "key": "setHeatingSetpoint",
                         "enabledValues": [],
                         "range": [
-                            -50,
-                            250
+                            -50.0,
+                            250.0
                         ],
                         "step": 0.5
-                    }
+                    }                    
                 ],
                 "patch": [],
                 "exclusion": []
@@ -381,17 +374,16 @@
                         "key": "setCoolingSetpoint",
                         "enabledValues": [],
                         "range": [
-                            -50,
-                            250
+                            -50.0,
+                            250.0
                         ],
                         "step": 0.5
-                    }
+                    }                    
                 ],
                 "patch": [],
                 "exclusion": []
             }
         ]
     },
-    "presentationId": "a6faf9f1-7646-38e6-8a27-485674879f9d",
-    "manufacturerName": "SmartThingsCommunity"
+    "type": "profile"
 }
