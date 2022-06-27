@@ -350,6 +350,11 @@ zigbeeManufacturer:
     manufacturer: eWeLight
     model: ZB-CL01
     deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "LEDVANCE/PAR16 RGBW Z3"
+    deviceLabel: LEDVANCE PAR16 RGBW Z3
+    manufacturer: LEDVANCE
+    model: PAR16 RGBW Z3
+    deviceProfileName: rgbw-level-colortemp-2000-6500
 zigbeeGeneric:
   - id: "dimmer-generic ZLL"
     deviceLabel: "Zigbee Dimmer"

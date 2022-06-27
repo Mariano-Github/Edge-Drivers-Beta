@@ -202,17 +202,30 @@ local driver_Version = capabilities["legendabsolute60149.driverVersion1"]
    print("circadian=",circadian[id])
  
  --- ReStart Timer color chanaging function
- if device:get_field("colorChanging") == "Active" then 
-   device:set_field("colorChanging", "Continue", {persist = true})
-   driver_handler.color_Changing_handler(self,device,"Continue")
- else
-  device:emit_event(color_Changing.colorChanging("Inactive"))
- end
+  if device:get_field("colorTimer") == nil then
+    device:set_field("colorTimer", 2 , {persist = true})
+    device:emit_event(color_Change_Timer.colorChangeTimer(2))
+  end
+
+  if device:get_field("colorChangeModeList") == nil then
+    device:set_field("colorChangeModeList", "Random", {persist = true})
+    device:emit_event(color_Change_Mode.colorChangeMode("Random"))
+  end
+
+  if device:get_field("colorChanging") == "Active" then 
+    device:set_field("colorChanging", "Continue", {persist = true})
+    driver_handler.color_Changing_handler(self,device,"Continue")
+  else
+    device:emit_event(color_Changing.colorChanging("Inactive"))
+  end
 
   --restart random on-off if active
   print("random_state >>>>>",device:get_field("random_state"))
   if device:get_field("random_state") == "Active" then  
     driver_handler.random_on_off_handler(self,device,"Active")
+  elseif device:get_field("random_state") == nil then 
+    device:emit_event(random_On_Off.randomOnOff("Inactive"))
+    device:set_field("random_state", "Inactive", {persist = true})    
   end
 
   --- restart Circadian timer if activated
