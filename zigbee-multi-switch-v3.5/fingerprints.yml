@@ -160,7 +160,7 @@ zigbeeManufacturer:
     model: E220-KR3N0Z0-HA
     deviceProfileName: three-outlet
   - id: "3A Smart/LXN-3S27LX1.0"
-    deviceLabel: 3A Smart 2 Switch
+    deviceLabel: 3A Smart 3 Switch
     manufacturer: 3A Smart Home DE
     model: LXN-3S27LX1.0
     deviceProfileName: three-switch
