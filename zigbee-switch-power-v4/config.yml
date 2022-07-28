@@ -1,4 +1,0 @@
-name: 'Zigbee Switch Power Mc'
-packageKey: 'Zigbee_Switch_Power-v4'
-permissions:
-  zigbee: {}

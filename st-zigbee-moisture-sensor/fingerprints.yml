@@ -4,3 +4,8 @@ zigbeeManufacturer:
     manufacturer: Samjin
     model: water
     deviceProfileName: moisture-temp-battery
+  - id: "_TZ3000_kyb656no Leak"
+    deviceLabel: _TZ3000_kyb656no Leak Sensor
+    manufacturer: _TZ3000_kyb656no
+    model: TS0207
+    deviceProfileName: moisture-battery

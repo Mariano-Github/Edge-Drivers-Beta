@@ -254,3 +254,8 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_9hpxg80k
     model: TS0011
     deviceProfileName: single-switch
+  - id: "3A Smart/LXN-3S27LX1.0"
+    deviceLabel: 3A Smart 1 Switch
+    manufacturer: 3A Smart Home DE
+    model: LXN-3S27LX1.0
+    deviceProfileName: single-switch
