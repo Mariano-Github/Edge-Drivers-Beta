@@ -1,4 +1,0 @@
-name: 'Zigbee Temp Humidity Sensor Mc'
-packageKey: 'Zigbee_Temp_Humidity_Sensor_v2.5'
-permissions:
-  zigbee: {}
