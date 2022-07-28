@@ -144,3 +144,7 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_rdtixbnu
     model: TS011F
     deviceProfileName: switch-power-energy-plug
+  - id: "Zemismart/Plug"
+    deviceLabel: Zemismart Plug
+    manufacturer: _TZ3000_rdtixbnu
+    model: TS011F
