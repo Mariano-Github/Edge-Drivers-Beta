@@ -110,6 +110,16 @@ zigbeeManufacturer:
     manufacturer: TUYATEC-trhrga6p
     model: RH3001
     deviceProfileName: contact-battery-profile
+  - id: "_TZ3000_cn58yln1/Contact Sensor"
+    deviceLabel: TS0203 Contact Sensor
+    manufacturer: _TZ3000_cn58yln1
+    model: TS0203
+    deviceProfileName: contact-battery-profile
+  - id: "_TZ3000_26fmupbb/Contact Sensor"
+    deviceLabel: TS0203 Contact Sensor
+    manufacturer: _TZ3000_26fmupbb
+    model: TS0203
+    deviceProfileName: contact-battery-profile
 zigbeeGeneric:
   - id: "contact-generic"
     deviceLabel: "Zigbee Contact Sensor"
