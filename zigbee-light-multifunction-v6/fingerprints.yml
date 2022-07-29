@@ -355,6 +355,21 @@ zigbeeManufacturer:
     manufacturer: LEDVANCE
     model: PAR16 RGBW Z3
     deviceProfileName: rgbw-level-colortemp-2000-6500
+  - id: "SYLVANIA Light"
+    deviceLabel: SYLVANIA Light
+    manufacturer: OSRAM
+    model: LIGHTIFY A19 ON/OFF/DIM 10 Year
+    deviceProfileName: switch-level
+ - id: "Light (Smartthings)"
+    deviceLabel: Light (Smartthings)
+    manufacturer: LDS
+    model: ZBT-DIMLight-GLS0006
+    deviceProfileName: switch-level
+ - id: "Light (Gledopto)"
+    deviceLabel: Light (Gledopto)
+    manufacturer: GLEDOPTO
+    model: GL-S-004Z
+    deviceProfileName: level-colortemp-2700-6500
 zigbeeGeneric:
   - id: "dimmer-generic ZLL"
     deviceLabel: "Zigbee Dimmer"
