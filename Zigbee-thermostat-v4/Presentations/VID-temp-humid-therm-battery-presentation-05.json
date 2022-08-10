@@ -1,13 +1,13 @@
 {
     "mnmn": "SmartThingsCommunity",
-    "vid": "eea299c7-580b-376b-9a28-64d7702d19f7",
+    "vid": "06a56faa-defc-3c97-8de1-66cc09cedb88",
     "version": "0.0.1",
     "type": "profile",
     "dashboard": {
         "states": [
             {
                 "component": "main",
-                "capability": "legendabsolute60149.infoPanel",       
+                "capability": "legendabsolute60149.infoPanel",
                 "version": 1,
                 "idx": 0,
                 "group": "main",
@@ -138,7 +138,7 @@
                         -50,
                         250
                     ],
-                    "step": 0.1
+                    "step": 0.5
                 }
             ],
             "patch": []
@@ -155,7 +155,7 @@
                         -50,
                         250
                     ],
-                    "step": 0.1
+                    "step": 0.5
                 }
             ],
             "patch": []
@@ -307,13 +307,13 @@
                 "version": 1,
                 "values": [
                     {
-                        "key": "heatingSetpoint.value",
+                        "key": "setHeatingSetpoint",
                         "enabledValues": [],
                         "range": [
                             -50,
                             250
                         ],
-                        "step": 0.1
+                        "step": 0.5
                     }
                 ],
                 "patch": [],
@@ -325,13 +325,13 @@
                 "version": 1,
                 "values": [
                     {
-                        "key": "coolingSetpoint.value",
+                        "key": "setCoolingSetpoint",
                         "enabledValues": [],
                         "range": [
                             -50,
                             250
                         ],
-                        "step": 0.1
+                        "step": 0.5
                     }
                 ],
                 "patch": [],
@@ -385,13 +385,13 @@
                 "version": 1,
                 "values": [
                     {
-                        "key": "setHeatingSetpoint",
+                        "key": "heatingSetpoint.value",
                         "enabledValues": [],
                         "range": [
                             -50,
-                            250
+                            249.9
                         ],
-                        "step": 0.1
+                        "step": 0.5
                     }
                 ],
                 "patch": [],
@@ -403,13 +403,13 @@
                 "version": 1,
                 "values": [
                     {
-                        "key": "setCoolingSetpoint",
+                        "key": "coolingSetpoint.value",
                         "enabledValues": [],
                         "range": [
                             -50,
                             250
                         ],
-                        "step": 0.1
+                        "step": 0.5
                     }
                 ],
                 "patch": [],
@@ -425,6 +425,6 @@
             }
         ]
     },
-    "presentationId": "eea299c7-580b-376b-9a28-64d7702d19f7",
+    "presentationId": "06a56faa-defc-3c97-8de1-66cc09cedb88",
     "manufacturerName": "SmartThingsCommunity"
 }
