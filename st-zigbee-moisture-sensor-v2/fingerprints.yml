@@ -1,0 +1,46 @@
+zigbeeManufacturer:
+  - id: "SmartThings-Moisture-Sensor"
+    deviceLabel: ST Water Sensor
+    manufacturer: Samjin
+    model: water
+    deviceProfileName: moisture-temp-battery
+  - id: "SmartThings-F-ADT-WTR-1-Sensor"
+    deviceLabel: ST ADT Water Sensor
+    manufacturer: Nortek Security and Control
+    model: F-ADT-WTR-1
+    deviceProfileName: moisture-temp-battery-volts
+  - id: "SmartThings-CentraLite-Sensor"
+    deviceLabel: ST CentraLite Water Sensor
+    manufacturer: CentraLite
+    model: 3315-S
+    deviceProfileName: moisture-temp-battery-volts
+  - id: "SmartThings/moisturev4 Sensor"
+    deviceLabel: SmartThings moisture Sensor
+    manufacturer: SmartThings
+    model: moisturev4
+    deviceProfileName: moisture-temp-battery
+  - id: "3315-CentraLite-Sensor"
+    deviceLabel: ST CentraLite Water Sensor
+    manufacturer: CentraLite
+    model: 3315
+    deviceProfileName: moisture-temp-battery-volts
+  - id: "3315-Seu-CentraLite-Sensor"
+    deviceLabel: ST CentraLite Water Sensor
+    manufacturer: CentraLite
+    model: 3315-Seu
+    deviceProfileName: moisture-temp-battery-volts
+  - id: "_TZ3000_it1hm1cr-Sensor"
+    deviceLabel: TS0207 Water Sensor
+    manufacturer: _TZ3000_it1hm1cr
+    model: TS0207
+    deviceProfileName: moisture-battery
+  - id: "_TZ3000_kyb656no-Sensor"
+    deviceLabel: TS0207 Water Sensor
+    manufacturer: _TZ3000_kyb656no
+    model: TS0207
+    deviceProfileName: moisture-battery
+  - id: "_TZ3000_upgcbody-Sensor"
+    deviceLabel: TS0207 Water Sensor
+    manufacturer: _TZ3000_upgcbody
+    model: TS0207
+    deviceProfileName: moisture-battery
