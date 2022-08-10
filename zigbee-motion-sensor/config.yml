@@ -1,4 +1,0 @@
-name: 'Zigbee Motion Sensor Mc'
-packageKey: 'zigbee-motion-sensor'
-permissions:
-  zigbee: {}
