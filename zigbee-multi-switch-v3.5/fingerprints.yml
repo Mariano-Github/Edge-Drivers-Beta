@@ -189,3 +189,33 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_qewo8dlz
     model: TS0013
     deviceProfileName: three-switch
+  - id: "Zemismart/_TZ3000_zmbedyhc"
+    deviceLabel: Zemismart three Switch
+    manufacturer: _TZ3000_zmbedyhc
+    model: TS0003
+    deviceProfileName: three-switch
+  - id: "Zemismart/_TZ3000_sieosxue"
+    deviceLabel: Three Switch
+    manufacturer: _TZ3000_sieosxue
+    model: TS0003
+    deviceProfileName: three-switch
+  - id: "Zemismart/_TZ3000_pc0qmva4"
+    deviceLabel: Two Switch
+    manufacturer: _TZ3000_pc0qmva4
+    model: TS0002
+    deviceProfileName: two-switch
+  - id: "Lonsonho/_TZ3000_fisb3ajo"
+    deviceLabel: Two Switch
+    manufacturer: _TZ3000_fisb3ajo
+    model: TS0002
+    deviceProfileName: two-switch
+  - id: "LIDL/_TZ3000_vzopcetz"
+    deviceLabel: Lidl MultiPlug
+    manufacturer: _TZ3000_vzopcetz
+    model: TS011F
+    deviceProfileName: three-outlet
+  - id: "Smartenit/ZBMLC30"
+    deviceLabel: Smartenit Two Switch
+    manufacturer: Compacta International, Ltd
+    model: ZBMLC30
+    deviceProfileName: two-switch
