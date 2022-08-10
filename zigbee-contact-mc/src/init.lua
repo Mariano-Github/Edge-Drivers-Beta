@@ -48,6 +48,17 @@ local function info_Changed(self,device)
    end
    ,'Refresh state')
  end
+   --print manufacturer, model and leng of the strings
+   local manufacturer = device:get_manufacturer()
+   local model = device:get_model()
+   local manufacturer_len = string.len(manufacturer)
+   local model_len = string.len(model)
+ 
+   print("Device ID", device)
+   print("Manufacturer >>>", manufacturer, "Manufacturer_Len >>>",manufacturer_len)
+   print("Model >>>", model,"Model_len >>>",model_len) 
+   -- This will print in the log the total memory in use by Lua in Kbytes
+   print("Memory >>>>>>>",collectgarbage("count"), " Kbytes")
 end
 
 ---- driverSwitched
