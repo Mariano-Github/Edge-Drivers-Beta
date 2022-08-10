@@ -139,3 +139,33 @@ zigbeeManufacturer:
     manufacturer: Samjin
     model: outlet
     deviceProfileName: switch-power-energy-plug
+  - id: "innr/outlet"
+    deviceLabel: SP 234 Outlet
+    manufacturer: innr
+    model: SP 234
+    deviceProfileName: switch-power-energy-plug
+  - id: "_TZ3000_ps3dmato/TS011F"
+    deviceLabel: TS011F Plug
+    manufacturer: _TZ3000_ps3dmato
+    model: TS011F
+    deviceProfileName: switch-power-energy-plug
+  - id: "lumi.plug.mmeu01/PLUG"
+    deviceLabel: Lumi Plug
+    manufacturer: LUMI
+    model: lumi.plug.mmeu01
+    deviceProfileName: switch-power-energy-plug
+  - id: "LDS/ZB-ONOFFPlug-D0000"
+    deviceLabel: "LDS Outlet"
+    manufacturer: LDS
+    model: ZB-ONOFFPlug-D0000
+    deviceProfileName: switch-power-energy-plug
+  - id: "LDS/ZB-ONOFFPlug-D0005"
+    deviceLabel: "LDS Outlet"
+    manufacturer: LDS
+    model: ZB-ONOFFPlug-D0005
+    deviceProfileName: switch-power-energy-plug
+  - id: "_TZ3000_rdtixbnu/Plug"
+    deviceLabel: Zemismart Plug
+    manufacturer: _TZ3000_rdtixbnu
+    model: TS011F
+    deviceProfileName: switch-power-energy-plug
