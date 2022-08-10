@@ -73,6 +73,7 @@ end
 local function switch_level_handler(self,device,command)
   print("handler_Level >>>>>>>>>>>>>>",command.args.level)
   local on_Level = command.args.level
+  device:set_field("last_Level", on_Level, {persist = true})
   if device.preferences.levelTransTime == 0 then
     device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(on_Level/100.0 * 254), 0xFFFF))
   else
@@ -92,10 +93,11 @@ local function set_color_Temperature_handler(self,device,command)
   local colorTemp_Mireds= utils.round(1000000 / colorTemp)
   --print("colorTemp Mired", colorTemp_Mireds)
 
-  local last_Level = device:get_latest_state("main", capabilities.switchLevel.ID, capabilities.switchLevel.level.NAME)
+  --local last_Level = device:get_latest_state("main", capabilities.switchLevel.ID, capabilities.switchLevel.level.NAME)
+  local last_Level = device:get_field("last_Level")
   if last_Level == nil then 
     last_Level = 100
-    device:set_field("last_Level", 100)
+    device:set_field("last_Level", 100, {persist = true})
   end
   if last_Level < 1 then last_Level = device:get_field("last_Level") end
   if device.preferences.levelTransTime == 0 then
@@ -112,10 +114,11 @@ local function color_control_handler(self,device,command)
   print("<<<<<<< color_control_handler >>>>>>")
   local hue = math.floor((command.args.color.hue * 0xFE) / 100.0 + 0.5)
   local sat = math.floor((command.args.color.saturation * 0xFE) / 100.0 + 0.5)
-  local last_Level = device:get_latest_state("main", capabilities.switchLevel.ID, capabilities.switchLevel.level.NAME)
+  --local last_Level = device:get_latest_state("main", capabilities.switchLevel.ID, capabilities.switchLevel.level.NAME)
+  local last_Level = device:get_field("last_Level")
   if last_Level == nil then 
     last_Level = 100
-    device:set_field("last_Level", 100)
+    device:set_field("last_Level", 100, {persist = true})
   end
   if last_Level < 1 then last_Level = device:get_field("last_Level") end
   if device.preferences.levelTransTime == 0 then

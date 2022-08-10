@@ -223,9 +223,9 @@ local driver_Version = capabilities["legendabsolute60149.driverVersion1"]
   print("random_state >>>>>",device:get_field("random_state"))
   if device:get_field("random_state") == "Active" then  
     driver_handler.random_on_off_handler(self,device,"Active")
-  elseif device:get_field("random_state") == nil then 
-    device:emit_event(random_On_Off.randomOnOff("Inactive"))
-    device:set_field("random_state", "Inactive", {persist = true})    
+  --elseif device:get_field("random_state") == nil then 
+    --device:emit_event(random_On_Off.randomOnOff("Inactive"))
+    --device:set_field("random_state", "Inactive", {persist = true})    
   end
 
   --- restart Circadian timer if activated
@@ -818,6 +818,7 @@ function driver_handler.prog_Off_handler(_, device, command)
     device:set_field("circadian[device]", circadian[device], {persist = true})
     circadian_Running[device] = "stopped"
     device:set_field("circadian_Running[device]", circadian_Running[device], {persist = true})
+
     device:emit_event(color_Changing.colorChanging("Inactive"))
     device:set_field("colorChanging", "Inactive", {persist = true})
   end
@@ -930,9 +931,11 @@ function driver_handler.circadian_Light_handler(_, device, command)
     progOn[device] = "Inactive"
     device:set_field("progOn[device]", progOn[device], {persist = true})
     device:emit_event(prog_On.progOn("Inactive"))
+    -- cancel progressive Off --------
     progOff[device] = "Inactive"
     device:set_field("progOff[device]", progOff[device], {persist = true})
     device:emit_event(prog_Off.progOff("Inactive"))
+
     device:emit_event(random_On_Off.randomOnOff("Inactive"))
     device:emit_event(random_Next_Step.randomNext("Inactive"))
     device:emit_event(color_Changing.colorChanging("Inactive"))
@@ -1297,6 +1300,7 @@ function driver_handler.off_handler (_, device, command)
         end)
       end
     end
+
     offJump[device] = "no"
     dimJump[device]= "no"
   end

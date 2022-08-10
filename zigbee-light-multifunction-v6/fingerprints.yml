@@ -49,6 +49,11 @@ zigbeeManufacturer:
     manufacturer: The Home Depot
     model: Ecosmart-ZBT-A19-BR30-CCT-Bulb
     deviceProfileName: level-colortemp-2700-6500
+  - id: "Ecosmart-ZBT-BR30-CCT"
+    deviceLabel: Ecosmart-ZBT-BR30
+    manufacturer: The Home Depot
+    model: Ecosmart-ZBT-BR30-CCT-Bulb
+    deviceProfileName: level-colortemp-2700-6500
   - id: "OSRAM/CLA60-TW"
     deviceLabel: OSRAM CLA60-TW
     manufacturer: OSRAM
@@ -194,6 +199,11 @@ zigbeeManufacturer:
     manufacturer: _TZ3210_remypqqm
     model: TS0505B
     deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZB210_tmi0rihb/TS0505B"
+    deviceLabel: RGBW TS0505B
+    manufacturer: _TZB210_tmi0rihb
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2700-6500
   - id: "Signify/LWA017"
     deviceLabel: Bulb LWA017
     manufacturer: Signify Netherlands B.V.
@@ -259,6 +269,21 @@ zigbeeManufacturer:
     manufacturer: IKEA of Sweden
     model: TRADFRI bulb E12 WS 450lm
     deviceProfileName: level-colortemp-2200-4000
+  - id: "IKEA/TRADFRIbulbE14WScandleopal470lm"
+    deviceLabel: IKEA Bulb E14 WS
+    manufacturer: IKEA of Sweden
+    model: TRADFRIbulbE14WScandleopal470lm
+    deviceProfileName: level-colortemp-2200-4000
+  - id: "IKEA/TRADFRIbulbE14WSglobeopal470lm"
+    deviceLabel: IKEA Bulb E14 WS
+    manufacturer: IKEA of Sweden
+    model: TRADFRIbulbE14WSglobeopal470lm
+    deviceProfileName: level-colortemp-2200-4000
+  - id: "IKEA/TRADFRIbulbE26WSglobeopal1100lm"
+    deviceLabel: IKEA Bulb E26 WS
+    manufacturer: IKEA of Sweden
+    model: TRADFRIbulbE26WSglobeopal1100lm
+    deviceProfileName: level-colortemp-2200-4000
   - id: "innr/RB 285 C"
     deviceLabel: innr RGBW
     manufacturer: innr
@@ -314,6 +339,31 @@ zigbeeManufacturer:
     manufacturer: OSRAM
     model: LIGHTIFY BR RGBW
     deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "ZB-CL01/eWeLight"
+    deviceLabel: eWeLight RGBW
+    manufacturer: eWeLight
+    model: ZB-CL01
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "LEDVANCE/PAR16 RGBW Z3"
+    deviceLabel: LEDVANCE PAR16 RGBW Z3
+    manufacturer: LEDVANCE
+    model: PAR16 RGBW Z3
+    deviceProfileName: rgbw-level-colortemp-2000-6500
+  - id: "SYLVANIA Light"
+    deviceLabel: SYLVANIA Light
+    manufacturer: OSRAM
+    model: LIGHTIFY A19 ON/OFF/DIM 10 Year
+    deviceProfileName: switch-level
+  - id: "Light/Smartthings"
+    deviceLabel: Light Smartthings
+    manufacturer: LDS
+    model: ZBT-DIMLight-GLS0006
+    deviceProfileName: switch-level
+  - id: "Light/Gledopto"
+    deviceLabel: Light Gledopto
+    manufacturer: GLEDOPTO
+    model: GL-S-004Z
+    deviceProfileName: level-colortemp-2700-6500
   # XY Color
   - id: "IKEA/E27 CWS 806lm"
     deviceLabel: IKEA E27 Bulb
@@ -345,16 +395,6 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_dbou1ap4
     model: TS0505A
     deviceProfileName: rgbw-level-colortemp-2700-6500
-  - id: "ZB-CL01/eWeLight"
-    deviceLabel: eWeLight RGBW
-    manufacturer: eWeLight
-    model: ZB-CL01
-    deviceProfileName: rgbw-level-colortemp-2700-6500
-  - id: "LEDVANCE/PAR16 RGBW Z3"
-    deviceLabel: LEDVANCE PAR16 RGBW Z3
-    manufacturer: LEDVANCE
-    model: PAR16 RGBW Z3
-    deviceProfileName: rgbw-level-colortemp-2000-6500
 zigbeeGeneric:
   - id: "dimmer-generic ZLL"
     deviceLabel: "Zigbee Dimmer"
