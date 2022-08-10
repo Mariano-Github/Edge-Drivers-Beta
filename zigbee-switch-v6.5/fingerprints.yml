@@ -79,11 +79,11 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_hktqahrq
     model: TS0001
     deviceProfileName: single-switch
-  - id: "LDS/Plug"
-    deviceLabel: LDS Plug
-    manufacturer: LDS
-    model: ZB-ONOFFPlug-D0005
-    deviceProfileName: single-switch-plug
+  #- id: "LDS/Plug"
+  #  deviceLabel: LDS Plug
+  #  manufacturer: LDS
+  #  model: ZB-ONOFFPlug-D0005
+  #  deviceProfileName: single-switch-plug
   - id: "SONOFF/01MINIZB"
     deviceLabel: SONOFF Switch
     manufacturer: SONOFF
@@ -253,4 +253,9 @@ zigbeeManufacturer:
     deviceLabel: TS0011 Switch
     manufacturer: _TZ3000_9hpxg80k
     model: TS0011
+    deviceProfileName: single-switch
+  - id: "Securifi Ltd/Switch"
+    deviceLabel: Securifi Ltd Switch
+    manufacturer: Securifi Ltd.
+    # model: ""
     deviceProfileName: single-switch
