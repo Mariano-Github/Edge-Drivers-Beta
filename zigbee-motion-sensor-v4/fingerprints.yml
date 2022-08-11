@@ -204,8 +204,3 @@ zigbeeManufacturer:
     manufacturer: TUYATEC-b5g40alm
     model: RH3040
     deviceProfileName: motion-battery
-  - id: "_TYST11_i5j6ifxj/Motion"
-    deviceLabel: Motion Sensor
-    manufacturer: _TYST11_i5j6ifxj
-    model: 5j6ifxj
-    deviceProfileName: motion-battery
