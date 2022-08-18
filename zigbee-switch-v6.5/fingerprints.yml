@@ -259,3 +259,8 @@ zigbeeManufacturer:
     manufacturer: Securifi Ltd.
     # model: ""
     deviceProfileName: single-switch
+  - id: "_TZ3000_oysiif07/Switch"
+    deviceLabel: TS0001 Switch
+    manufacturer: _TZ3000_oysiif07
+    model: TS0001
+    deviceProfileName: single-switch
