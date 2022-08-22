@@ -219,3 +219,18 @@ zigbeeManufacturer:
     manufacturer: Compacta International, Ltd
     model: ZBMLC30
     deviceProfileName: two-switch
+  - id: "lonsonho/_TYZB01_zsl6z0pw"
+    deviceLabel: lonsonho TS0003 Switch
+    manufacturer: _TYZB01_zsl6z0pw
+    model: TS0003
+    deviceProfileName: two-switch
+  - id: "TS0012/ _TZ3000_18ejxno0"
+    deviceLabel: TS0012 Switch
+    manufacturer: _TZ3000_18ejxno0
+    model: TS0012
+    deviceProfileName: two-switch
+  - id: "TS0003/_TZ3000_pfc7i3kt"
+    deviceLabel: TS0003 Switch
+    manufacturer: _TZ3000_pfc7i3kt
+    model: TS0003
+    deviceProfileName: three-switch
