@@ -255,7 +255,7 @@ end
 
 --do_configure
 local function do_configure(self, device)
-  if device:get_manufacturer() ~= "_TZ3000_fvh3pjaz" then
+  if device:get_manufacturer() ~= "_TZ3000_fvh3pjaz" and device:get_manufacturer() ~= "_TZ3000_wyhuocal" then
     device:configure()
   else
     --device:send(device_management.build_bind_request(device, zcl_clusters.OnOff.ID, self.environment_info.hub_zigbee_eui):to_endpoint (1))
@@ -271,28 +271,28 @@ local function device_init (self, device)
   device:set_endpoint_to_component_fn(endpoint_to_component)
   device:set_component_to_endpoint_fn(component_to_endpoint)
 
-      ------ Selected profile & Icon
-      for id, value in pairs(device.preferences) do
-        print("<< Preference name: >>", id, "Preference value:", device.preferences[id])
+    ------ Selected profile & Icon
+    for id, value in pairs(device.preferences) do
+    print("<< Preference name: >>", id, "Preference value:", device.preferences[id])
     if id == "changeProfileThreePlug" then
       if device.preferences[id] == "Single" then
        device:try_update_metadata({profile = "three-outlet"})
       else
        device:try_update_metadata({profile = "three-outlet-multi"})
       end
-     elseif id == "changeProfileThreeSw" then
+    elseif id == "changeProfileThreeSw" then
        if device.preferences[id] == "Single" then
         device:try_update_metadata({profile = "three-switch"})
        else
         device:try_update_metadata({profile = "three-switch-multi"})
        end
-     elseif id == "changeProfileTwoPlug" then
+    elseif id == "changeProfileTwoPlug" then
        if device.preferences[id] == "Single" then
          device:try_update_metadata({profile = "two-outlet"})
        else
          device:try_update_metadata({profile = "two-outlet-multi"})
        end
-     elseif id == "changeProfileTwoSw" then
+    elseif id == "changeProfileTwoSw" then
        if device.preferences[id] == "Single" then
         device:try_update_metadata({profile = "two-switch"})
        else
@@ -304,17 +304,17 @@ local function device_init (self, device)
        else
         device:try_update_metadata({profile = "four-switch-multi"})
        end
-     elseif id == "changeProfileFourPlug" then
+    elseif id == "changeProfileFourPlug" then
        if device.preferences[id] == "Single" then
          device:try_update_metadata({profile = "four-outlet"})
        else
          device:try_update_metadata({profile = "four-outlet-multi"})
        end
-     end
+    end
   end
 
   --- special cofigure for this device, read attribute on-off every 120 sec and not configure reports
-  if device:get_manufacturer() == "_TZ3000_fvh3pjaz" then
+  if device:get_manufacturer() == "_TZ3000_fvh3pjaz" or device:get_manufacturer() == "_TZ3000_wyhuocal" then
     --device:refresh()
     --- Configure on-off cluster, attributte 0x4001 to 0xFFFF
     --local data_value = {value = 0x0000, ID = 0x21}
@@ -334,6 +334,9 @@ local function device_init (self, device)
     device:send(zcl_clusters.OnOff.attributes.OnOff:read(device):to_endpoint (0xFF))
     device:send(zcl_clusters.OnOff.attributes.OnOff:read(device):to_endpoint (1))
     device:send(zcl_clusters.OnOff.attributes.OnOff:read(device):to_endpoint (2))
+    if device:get_manufacturer() == "_TZ3000_wyhuocal" then
+      device:send(zcl_clusters.OnOff.attributes.OnOff:read(device):to_endpoint (3))
+    end
 
     ---- Timers Cancel ------
       for timer in pairs(device.thread.timers) do
@@ -345,10 +348,13 @@ local function device_init (self, device)
     device.thread:call_on_schedule(
     120,
     function ()
-      if device:get_manufacturer() == "_TZ3000_fvh3pjaz" then
+      if device:get_manufacturer() == "_TZ3000_fvh3pjaz" or device:get_manufacturer() == "_TZ3000_wyhuocal" then
         print("<<< Timer read attribute >>>")
         device:send(zcl_clusters.OnOff.attributes.OnOff:read(device):to_endpoint (1))
         device:send(zcl_clusters.OnOff.attributes.OnOff:read(device):to_endpoint (2))
+        if device:get_manufacturer() == "_TZ3000_wyhuocal" then
+          device:send(zcl_clusters.OnOff.attributes.OnOff:read(device):to_endpoint (3))
+        end
       end
       --local refresh = device:refresh ()
       --device.thread:call_with_delay(2, function(d)
@@ -362,7 +368,7 @@ end
 ------ do_configure device
 local function driver_Switched(self,device)
   device:refresh()
-  if device:get_manufacturer() ~= "_TZ3000_fvh3pjaz" then
+  if device:get_manufacturer() ~= "_TZ3000_fvh3pjaz" and device:get_manufacturer() ~= "_TZ3000_wyhuocal" then
     device:configure()
   end
 end 
