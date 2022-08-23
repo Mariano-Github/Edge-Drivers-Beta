@@ -65,7 +65,11 @@ local zigbee_moisture_driver = {
   lifecycle_handlers = {
     infoChanged = do_preferences
 },  
-  sub_drivers = {require("samjin"), require("smartthings")},
+  sub_drivers = { 
+    require("samjin"),
+    require("smartthings"),
+    require("tuya"),
+  },
   ias_zone_configuration_method = constants.IAS_ZONE_CONFIGURE_TYPE.AUTO_ENROLL_RESPONSE
 }
 

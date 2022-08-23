@@ -44,3 +44,13 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_upgcbody
     model: TS0207
     deviceProfileName: moisture-battery
+  - id: "_TYZB01_sqmd19i1_TS0207"
+    deviceLabel: Tuya TS0207 Water Leak Sensor
+    manufacturer: _TYZB01_sqmd19i1
+    model: TS0207
+    deviceProfileName: moisture-battery-volts
+  - id: "_TYZB01_o63ssaah_TS0207"
+    deviceLabel: Blitzwolf Leak Sensor
+    manufacturer: _TYZB01_o63ssaah
+    model: TS0207
+    deviceProfileName: moisture-battery-volts
