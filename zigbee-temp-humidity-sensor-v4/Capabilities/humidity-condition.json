@@ -1,0 +1,45 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{humidityCondition.value}} {{humidityCondition.unit}}"
+            }
+        ],
+        "actions": [],
+        "basicPlus": []
+    },
+    "detailView": [
+        {
+            "label": "Humidity Routine Condition",
+            "displayType": "numberField",
+            "numberField": {
+                "value": "humidityCondition.value",
+                "valueType": "integer",
+                "unit": "humidityCondition.unit",
+                "command": "setHumidityCondition",
+                "argumentType": "integer",
+                "range": [
+                    0,
+                    100
+                ]
+            }
+        }
+    ],
+    "automation": {
+        "conditions": [],
+        "actions": [
+            {
+                "label": "Humid Condit Set Value",
+                "displayType": "numberField",
+                "numberField": {
+                    "command": "setHumidityCondition",
+                    "value": "humidityCondition.value",
+                    "unit": "humidityCondition.unit",
+                    "range": [0, 100]
+                }
+             }            
+        ]
+    },
+    "id": "legendabsolute60149.humidityCondition",
+    "version": 1
+}

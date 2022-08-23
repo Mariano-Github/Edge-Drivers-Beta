@@ -1,0 +1,45 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{illuminCondition.value}} {{illuminCondition.unit}}"
+            }
+        ],
+        "actions": [],
+        "basicPlus": []
+    },
+    "detailView": [
+        {
+            "label": "illumin Routine Condition",
+            "displayType": "numberField",
+            "numberField": {
+                "value": "illuminCondition.value",
+                "valueType": "integer",
+                "unit": "illuminCondition.unit",
+                "command": "setIlluminCondition",
+                "argumentType": "integer",
+                "range": [
+                    0,
+                    100000
+                ]
+            }
+        }  
+    ],
+    "automation": {
+        "conditions": [],
+        "actions": [
+            {
+                "label": "illumin Condit Set Value",
+                "displayType": "numberField",
+                "numberField": {
+                    "command": "setIlluminCondition",
+                    "value": "illuminCondition.value",
+                    "unit": "illuminCondition.unit",
+                    "range": [0, 100000]
+                }
+             }            
+        ]
+    },
+    "id": "legendabsolute60149.illuminCondition",
+    "version": 1
+}

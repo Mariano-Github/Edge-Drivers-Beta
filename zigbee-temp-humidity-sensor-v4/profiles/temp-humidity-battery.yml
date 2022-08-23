@@ -1,0 +1,101 @@
+name: temp-humid-battery
+components:
+- id: main
+  capabilities:
+  - id: temperatureMeasurement
+    version: 1
+  - id: relativeHumidityMeasurement
+    version: 1
+  - id: legendabsolute60149.tempCondition2
+    version: 1
+  - id: legendabsolute60149.tempTarget
+    version: 1
+  - id: legendabsolute60149.humidityCondition
+    version: 1
+  - id: legendabsolute60149.humidityTarget
+    version: 1
+  - id: battery
+    version: 1
+  - id: refresh
+    version: 1
+  - id: firmwareUpdate
+    version: 1
+  categories:
+  - name: Thermostat
+preferences:
+  - preferenceId: tempOffset
+    explicit: true  
+  - preferenceId: humidityOffset
+    explicit: true
+  - name: "version"
+    title: "Version 4 (Aug 2022)"
+    description: "Added: temperature, Humidity and Illuminance Conditions"
+    required: false
+    preferenceType: string
+    definition:
+      stringType: text
+      minLength: 0
+      maxLength: 0
+      default: ""
+  - name: "changeProfileTHB"
+    title: "Select Tile Type"
+    description: "Select Multi-Tile or Single-Tile Type:"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Multi" : "Multi-Tile Type"
+        "Single": "Single-Tile Type"
+      default: "Single"
+  - name: "thermTempUnits"
+    title: "Select Temp Condition Units"
+    description: "Select Temperature Condition Units"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Celsius" : "Celsius"
+        "Fahrenheit": "Fahrenheit"
+      default: "Celsius"
+  - name: "tempMaxTime"
+    title: "Temperature Report Interval (min)"
+    description: "Select Temp. Report Max. Interval (5 min to 240 min)"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 5
+      maximum: 240
+      default: 5   
+  - name: "tempChangeRep"
+    title: "Temperature Reportable Change"
+    description: "Select Temp. Reportable Change 0.1º to 6º"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 0.1
+      maximum: 6
+      default: 0.1
+  - name: "humMaxTime"
+    title: "Humidity Report Interval (min)"
+    description: "Select Humidity Report Max. Interval (5 min to 240 min)"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 5
+      maximum: 240
+      default: 10   
+  - name: "humChangeRep"
+    title: "Humidity Reportable Change (%)"
+    description: "Select Humidity Reportable Change 1% to 10%"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 1
+      maximum: 10
+      default: 1
+metadata:
+  deviceType: Thermostat	
+  ocfDeviceType: oic.d.thermostat
+  deviceTypeId: Thermostat
+  mnmn: SmartThingsCommunity
+  vid: 85e95a99-a611-3b36-9bf9-9844ddb36f82
