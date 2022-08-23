@@ -224,6 +224,11 @@ zigbeeManufacturer:
     manufacturer: LEDVANCE
     model: PLUG
     deviceProfileName: single-switch-plug
+  - id: "LEDVANCE Plug Z3"
+    deviceLabel: LEDVANCE Plug
+    manufacturer: LEDVANCE
+    model: Plug Z3
+    deviceProfileName: single-switch-plug
   - id: "_TYZB01_qeqvmvti/Switch"
     deviceLabel: TS0011 Switch
     manufacturer: _TYZB01_qeqvmvti
@@ -258,4 +263,19 @@ zigbeeManufacturer:
     deviceLabel: Securifi Ltd Switch
     manufacturer: Securifi Ltd.
     # model: ""
+    deviceProfileName: single-switch
+  - id: "__TZ3000_bkfe0bab/TS011F"
+    deviceLabel: TZ3000 Plug
+    manufacturer: _TZ3000_bkfe0bab
+    model: TS011F
+    deviceProfileName: single-switch
+  - id: "_TZ3000_tqlv4ug4/Switch"
+    deviceLabel: TS0001 Switch
+    manufacturer: _TZ3000_tqlv4ug4
+    model: TS0001
+    deviceProfileName: single-switch
+  - id: "ZBMINI-L/Switch"
+    deviceLabel: ZBMINI-L Switch
+    manufacturer: SONOFF
+    model: ZBMINI-L
     deviceProfileName: single-switch
