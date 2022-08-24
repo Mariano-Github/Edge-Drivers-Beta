@@ -359,11 +359,47 @@ zigbeeManufacturer:
     manufacturer: LDS
     model: ZBT-DIMLight-GLS0006
     deviceProfileName: switch-level
+  - id: "GL-C-006P/Gledopto"
+    deviceLabel: Light Gledopto
+    manufacturer: GLEDOPTO
+    model: GL-C-006P
+    deviceProfileName: level-colortemp-2700-6500
   - id: "Light/Gledopto"
     deviceLabel: Light Gledopto
     manufacturer: GLEDOPTO
     model: GL-S-004Z
     deviceProfileName: level-colortemp-2700-6500
+  - id: "GL-C-002P/Gledopto"
+    deviceLabel: Light Gledopto
+    manufacturer: GLEDOPTO
+    model: GL-C-002P
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "OSL 130 C/innr"
+    deviceLabel: Light OSL 130 C
+    manufacturer: innr
+    model: OSL 130 C
+    deviceProfileName: rgbw-level-colortemp-2000-6500
+  - id: "_TZ3000_qqjaziws/TS0505B"
+    deviceLabel: RGBW TS0505B
+    manufacturer: _TZ3000_qqjaziws
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2000-6500
+  - id: "innr/POR 265"
+    deviceLabel: POR 265 Bulb
+    manufacturer: innr
+    model: POR 265
+    deviceProfileName: switch-level
+  - id: "eWeLight/ZB-DL01"
+    deviceLabel: ZB-DL01 Bulb
+    manufacturer: eWeLight
+    model: ZB-DL01
+    deviceProfileName: switch-level
+  - id: "Tuya ZigBee 3.0 LED Controller 2"
+    deviceLabel: Smart ZigBee 3.0
+    manufacturer: Light
+    model: A10
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+
   # XY Color
   - id: "IKEA/E27 CWS 806lm"
     deviceLabel: IKEA E27 Bulb
