@@ -154,6 +154,11 @@ zigbeeManufacturer:
     manufacturer: LUMI
     model: lumi.plug.mmeu01
     deviceProfileName: switch-power-energy-plug
+  - id: "lumi.plug.maus01/PLUG"
+    deviceLabel: Lumi Plug
+    manufacturer: LUMI
+    model: lumi.plug.maus01
+    deviceProfileName: switch-power-plug
   - id: "LDS/ZB-ONOFFPlug-D0000"
     deviceLabel: "LDS Outlet"
     manufacturer: LDS
@@ -167,5 +172,10 @@ zigbeeManufacturer:
   - id: "_TZ3000_rdtixbnu/Plug"
     deviceLabel: Zemismart Plug
     manufacturer: _TZ3000_rdtixbnu
+    model: TS011F
+    deviceProfileName: switch-power-energy-plug
+  - id: "TS011F_TZ3000_1h2x4akh"
+    deviceLabel: TS011F Metered Plug
+    manufacturer: _TZ3000_1h2x4akh
     model: TS011F
     deviceProfileName: switch-power-energy-plug
