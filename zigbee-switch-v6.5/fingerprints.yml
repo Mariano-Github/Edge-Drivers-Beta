@@ -279,3 +279,8 @@ zigbeeManufacturer:
     manufacturer: SONOFF
     model: ZBMINI-L
     deviceProfileName: single-switch
+  - id: "OSRAM Plug 01"
+    deviceLabel: OSRAM_Plug 01
+    manufacturer: OSRAM
+    model: Plug 01
+    deviceProfileName: single-switch-plug
