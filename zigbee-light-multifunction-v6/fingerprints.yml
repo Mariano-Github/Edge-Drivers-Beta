@@ -431,6 +431,11 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_dbou1ap4
     model: TS0505A
     deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZ3000_kdpxju99/LIDL"
+    deviceLabel: LIDL TS0505A
+    manufacturer: _TZ3000_kdpxju99
+    model: TS0505A
+    deviceProfileName: rgbw-level-colortemp-2700-6500
 zigbeeGeneric:
   - id: "dimmer-generic ZLL"
     deviceLabel: "Zigbee Dimmer"
