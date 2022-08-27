@@ -79,11 +79,11 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_hktqahrq
     model: TS0001
     deviceProfileName: single-switch
-  - id: "LDS/Plug"
-    deviceLabel: LDS Plug
-    manufacturer: LDS
-    model: ZB-ONOFFPlug-D0005
-    deviceProfileName: single-switch-plug
+  #- id: "LDS/Plug"
+  #  deviceLabel: LDS Plug
+  #  manufacturer: LDS
+  #  model: ZB-ONOFFPlug-D0005
+  #  deviceProfileName: single-switch-plug
   - id: "SONOFF/01MINIZB"
     deviceLabel: SONOFF Switch
     manufacturer: SONOFF
@@ -129,11 +129,11 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_oiymh3qu
     model: TS011F
     deviceProfileName: single-switch
-  - id: "IKEA/TRADFRI on/off switch"
-    deviceLabel: IKEA on/off switch
-    manufacturer: IKEA of Sweden
-    model: TRADFRI on/off switch
-    deviceProfileName: single-switch
+  #- id: "IKEA/TRADFRI on/off switch"
+  #  deviceLabel: IKEA on/off switch
+  #  manufacturer: IKEA of Sweden
+  #  model: TRADFRI on/off switch
+  #  deviceProfileName: single-switch
   - id: "_TYZB01_phjeraqq/Switch"
     deviceLabel: TS0001 Switch
     manufacturer: _TYZB01_phjeraqq
@@ -207,5 +207,95 @@ zigbeeManufacturer:
   - id: "_TZ3000_txpirhfq/Switch"
     deviceLabel: TZ3000 Switch
     manufacturer: _TZ3000_txpirhfq
+    model: TS0011
+    deviceProfileName: single-switch
+  - id: "_TZ3000_npzfdcof/Switch"
+    deviceLabel: TS0001 Switch
+    manufacturer: _TZ3000_npzfdcof
+    model: TS0001
+    deviceProfileName: single-switch
+  - id: "SONOFF/S31 Lite"
+    deviceLabel: S31 Lite Switch
+    manufacturer: SONOFF
+    model: S31 Lite zb
+    deviceProfileName: single-switch
+  - id: "LEDVANCE Plug"
+    deviceLabel: LEDVANCE Plug
+    manufacturer: LEDVANCE
+    model: PLUG
+    deviceProfileName: single-switch-plug
+  - id: "LEDVANCE Plug Z3"
+    deviceLabel: LEDVANCE Plug
+    manufacturer: LEDVANCE
+    model: Plug Z3
+    deviceProfileName: single-switch-plug
+  - id: "_TYZB01_qeqvmvti/Switch"
+    deviceLabel: TS0011 Switch
+    manufacturer: _TYZB01_qeqvmvti
+    model: TS0011
+    deviceProfileName: single-switch
+  - id: "_TZ3000_hhiodade/Switch"
+    deviceLabel: TS0011 Switch
+    manufacturer: _TZ3000_hhiodade
+    model: TS0011
+    deviceProfileName: single-switch
+  - id: "IKEA/ASKVADER on/off switch"
+    deviceLabel: ASKVADER switch
+    manufacturer: IKEA of Sweden
+    model: ASKVADER on/off switch
+    deviceProfileName: single-switch
+  - id: "Third Reality/3RSS009Z"
+    deviceLabel: Third Reality 3RSS009Z
+    manufacturer: Third Reality, Inc
+    model: 3RSS009Z
+    deviceProfileName: switch-battery-light
+  - id: "_TZ3000_8voyyjng/TS011F"
+    deviceLabel: TS011F Plug
+    manufacturer: _TZ3000_8voyyjng
+    model: TS011F
+    deviceProfileName: single-switch-plug
+  - id: "_TZ3000_9hpxg80k/Switch"
+    deviceLabel: TS0011 Switch
+    manufacturer: _TZ3000_9hpxg80k
+    model: TS0011
+    deviceProfileName: single-switch
+  - id: "Securifi Ltd/Switch"
+    deviceLabel: Securifi Ltd Switch
+    manufacturer: Securifi Ltd.
+    # model: ""
+    deviceProfileName: single-switch
+  - id: "__TZ3000_bkfe0bab/TS011F"
+    deviceLabel: TZ3000 Plug
+    manufacturer: _TZ3000_bkfe0bab
+    model: TS011F
+    deviceProfileName: single-switch
+  - id: "_TZ3000_tqlv4ug4/Switch"
+    deviceLabel: TS0001 Switch
+    manufacturer: _TZ3000_tqlv4ug4
+    model: TS0001
+    deviceProfileName: single-switch
+  - id: "ZBMINI-L/Switch"
+    deviceLabel: ZBMINI-L Switch
+    manufacturer: SONOFF
+    model: ZBMINI-L
+    deviceProfileName: single-switch
+  - id: "OSRAM Plug 01"
+    deviceLabel: OSRAM_Plug 01
+    manufacturer: OSRAM
+    model: Plug 01
+    deviceProfileName: single-switch-plug
+  - id: "FeiBit/FNB56-SKT1JXN1.0"
+    deviceLabel: FeiBit_Plug
+    manufacturer: FeiBit
+    model: FNB56-SKT1JXN1.0
+    deviceProfileName: single-switch-plug
+  - id: "_TZ3000_oysiif07/Switch"
+    deviceLabel: TS0001 Switch
+    manufacturer: _TZ3000_oysiif07
+    model: TS0001
+    deviceProfileName: single-switch
+  - id: "_TZ3000_ji4araar/Switch"
+    deviceLabel: TS0001 Switch
+    manufacturer: _TZ3000_ji4araar
     model: TS0011
     deviceProfileName: single-switch
