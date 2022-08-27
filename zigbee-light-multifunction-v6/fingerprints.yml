@@ -399,6 +399,11 @@ zigbeeManufacturer:
     manufacturer: Light
     model: A10
     deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZ3210_rcggc0ys/TS0505B"
+    deviceLabel: RGBW TS0505B
+    manufacturer: _TZ3210_rcggc0ys
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2700-6500
 
   # XY Color
   - id: "IKEA/E27 CWS 806lm"
