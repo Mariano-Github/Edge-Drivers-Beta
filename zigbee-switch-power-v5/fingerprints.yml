@@ -179,3 +179,8 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_1h2x4akh
     model: TS011F
     deviceProfileName: switch-power-energy-plug
+  - id: "Ozom_ClimaxTech/PSM_00.00.00.35TC"
+    deviceLabel: Ozom Outlet
+    manufacturer: ClimaxTechnology
+    model: PSM_00.00.00.35TC
+    deviceProfileName: switch-power-energy-plug
