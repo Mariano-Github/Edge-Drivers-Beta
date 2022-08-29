@@ -1,6 +1,0 @@
-zigbeeManufacturer:
-  - id: "SmartThings-Moisture-Sensor"
-    deviceLabel: ST Water Sensor
-    manufacturer: Samjin
-    model: water
-    deviceProfileName: moisture-temp-battery
