@@ -1,0 +1,61 @@
+name: temp-contact-profile
+components:
+- id: main
+  capabilities:
+  - id: temperatureMeasurement
+    version: 1
+  - id: contactSensor
+    version: 1
+  - id: battery
+    version: 1
+  - id: refresh
+    version: 1
+  - id: firmwareUpdate
+    version: 1
+  categories:
+  - name: ContactSensor
+preferences:
+  - preferenceId: tempOffset
+    explicit: true
+  - name: "version"
+    title: "Version 2.0 (Aug 2022)"
+    description: "Add: preferences for custom temperature reports configuration and profile change to Temp sensor" 
+    required: false
+    preferenceType: string
+    definition:
+      stringType: text
+      minLength: 0
+      maxLength: 0
+      default: ""
+  - name: "changeTempProfile"
+    title: "Select Contact or Temp Tile"
+    description: "Select Contact or Temperature Sensor in Tile:"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Contact": "Contact Tile Info"
+        "Temp": "Temperature Tile Info"
+      default: "Contact"
+  - name: "maxTime"
+    title: "Temperature Report Interval"
+    description: "Select Temp. Report Max. Interval (5 min to 240 min, Default: 5)"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 5
+      maximum: 240
+      default: 5   
+  - name: "changeRep"
+    title: "Temperature Reportable Change"
+    description: "Select Temp. Reportable Change 0.1º to 6º (10 to 600, Default: 10)"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 10
+      maximum: 600
+      default: 10
+metadata:
+  deviceType: Thermostat
+  ocfDeviceType: oic.d.thermostat
+  deviceTypeId: Thermostat
