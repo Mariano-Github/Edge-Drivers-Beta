@@ -1,4 +1,0 @@
-name: 'Zigbee Temp Sensor with Thermostat Mc'
-packageKey: 'Zigbee_Thermostat_v3.5'
-permissions:
-  zigbee: {}
