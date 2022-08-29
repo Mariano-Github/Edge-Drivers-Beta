@@ -32,8 +32,13 @@ local battery_handler = function(driver, device, value, zb_rx)
     local minVolts = 2.3
     local maxVolts = 3.0
     if device:get_manufacturer() == "Bosch" then
-      minVolts = 2.1
-      maxVolts = 3.0
+      if device:get_model() == "ISW-ZPR1-WP13" then
+        minVolts = 1.5
+        maxVolts = 3.0
+      else
+        minVolts = 2.1
+        maxVolts = 3.0
+      end
     end
 
     local battery_pct = math.floor(((((value.value / 10) - minVolts) + 0.001) / (maxVolts - minVolts)) * 100)
