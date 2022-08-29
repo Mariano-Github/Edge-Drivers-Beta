@@ -1,4 +1,5 @@
 name: 'SmartThings Multipurpose Sensor Mc'
 packageKey: 'smartthingsMultipurposeSensor-v2'
+description: 'Devices Supported: https://github.com/Mariano-Github/Edge-Drivers-Beta/blob/main/st-multipurpose-sensor-v2/fingerprints.yml'
 permissions:
   zigbee: {}
