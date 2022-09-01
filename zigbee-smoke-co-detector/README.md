@@ -1,0 +1,53 @@
+## Zigbee Smoke Detector + Heiman detector: Modified from original Beta Driver smartthings and added:
+Modified by Mariano Colmenarejo
+
+- Added Heiman Smoke Sensor EF-3.0 Fingerprint
+
+## Devices 02-Oct-2021:
+
+zigbeeManufacturer:
+  - id: "Heiman/Orvibo/Gas1"
+    deviceLabel: Orvibo Smoke Detector
+    manufacturer: Heiman
+    model: b5db59bfd81e4f1f95dc57fdbba17931
+    deviceProfileName: smoke-battery
+  - id: "Heiman/Orvibo/Gas2"
+    deviceLabel: Orvibo Smoke Detector
+    manufacturer: HEIMAN
+    model: 98293058552c49f38ad0748541ee96ba
+    deviceProfileName: smoke-battery
+  - id: "HEIMAN/SmokeSensor-EM"
+    deviceLabel: HEIMAN Smoke Detector
+    manufacturer: HEIMAN
+    model: SmokeSensor-EM
+    deviceProfileName: smoke-battery
+  - id: "HEIMAN/SmokeSensor-N-3.0"
+    deviceLabel: HEIMAN Smoke Detector
+    manufacturer: HEIMAN
+    model: SmokeSensor-N-3.0
+    deviceProfileName: smoke-battery
+  - id: "frient/SMSZB-120" # this device is not supported by SmartThings
+    deviceLabel: frient Smoke Detector
+    manufacturer: frient A/S
+    model: SMSZB-120
+    deviceProfileName: smoke-battery
+  - id: "Heiman/Orvibo/Gas3"
+    deviceLabel: Orvibo Gas Detector
+    manufacturer: Heiman
+    model: d0e857bfd54f4a12816295db3945a42
+    deviceProfileName: smoke-battery
+  - id: "Heiman/Orvibo/Gas4"
+    deviceLabel: Orvibo Gas Detector
+    manufacturer: HEIMAN
+    model: 358e4e3e03c644709905034dae81433e
+    deviceProfileName: smoke-battery
+  - id: "HEIMAN/GASSensor-N"
+    deviceLabel: HEIMAN Gas Detector
+    manufacturer: HEIMAN
+    model: GASSensor-N
+    deviceProfileName: smoke-battery
+  - id: "HEIMAN/SmokeSensor-EF-3.0"
+    deviceLabel: HEIMAN Smoke Detector
+    manufacturer: HEIMAN
+    model: SmokeSensor-EF-3.0
+    deviceProfileName: smoke-battery
