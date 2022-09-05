@@ -138,7 +138,6 @@ zigbeeManufacturer:
     deviceLabel: TS011F MultiPlug
     manufacturer: _TZ3000_zwaadvus
     model: TS011F
-    deviceProfileName: two-outlet    
   - id: "FeiBit/2-Switch"
     deviceLabel: FeiBit 2 Switch
     manufacturer: FeiBit
