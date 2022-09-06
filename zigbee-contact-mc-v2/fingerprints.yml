@@ -140,6 +140,16 @@ zigbeeManufacturer:
     manufacturer: Visonic
     model: MCT-340 E
     deviceProfileName: contact-profile
+  - id: "Ecolink/4655BC0-R"
+    deviceLabel: Ecolink Open/Closed Sensor
+    manufacturer: Ecolink
+    model: 4655BC0-R
+    deviceProfileName: contact-profile
+  - id: "_TZ3000_hkcpblrs/Contact Sensor"
+    deviceLabel: TS0203 Contact Sensor
+    manufacturer: _TZ3000_hkcpblrs
+    model: TS0203
+    deviceProfileName: contact-battery-profile
 zigbeeGeneric:
   - id: "contact-generic"
     deviceLabel: "Zigbee Contact Sensor"
