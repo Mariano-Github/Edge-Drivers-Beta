@@ -299,3 +299,8 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_ji4araar
     model: TS0011
     deviceProfileName: single-switch
+  - id: "_TZ3000_rmjr4ufz/Switch"
+    deviceLabel: Smart Switch
+    manufacturer: _TZ3000_rmjr4ufz
+    model: TS0001
+    deviceProfileName: single-switch
