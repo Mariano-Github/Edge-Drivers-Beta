@@ -74,3 +74,8 @@ zigbeeManufacturer:
     manufacturer: CentraLite
     model: 3310-G
     deviceProfileName: temp-humid-battery
+  - id: "_TZ3000_nau60otv/TS0201"
+    deviceLabel: Tuya TS0201
+    manufacturer: _TZ3000_nau60otv
+    model: TS0201
+    deviceProfileName: temp-humid-battery
