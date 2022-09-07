@@ -1,0 +1,27 @@
+name: water-valve
+components:
+- id: main
+  capabilities:
+  - id: valve
+    version: 1
+  - id: refresh
+    version: 1
+  - id: firmwareUpdate
+    version: 1
+  categories:
+  - name: WaterValve
+preferences:
+  - name: "version"
+    title: "Version 1.0 (Oct 2021)"
+    description: "Add: Tuya zigbee Gas & Water Valve, Manufacturer_TYZB01_rifa0wlb, model: TS0011" 
+    required: false
+    preferenceType: string
+    definition:
+      stringType: text
+      minLength: 0
+      maxLength: 0
+      default: ""
+metadata:
+  deviceType: WaterValve
+  ocfDeviceType: oic.d.watervalve
+  deviceTypeId: WaterValve

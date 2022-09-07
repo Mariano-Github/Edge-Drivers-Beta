@@ -1,0 +1,4 @@
+name: 'Zigbee Valve Mc'
+packageKey: 'zigbee-valve'
+permissions:
+  zigbee: {}
