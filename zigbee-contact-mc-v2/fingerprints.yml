@@ -155,6 +155,11 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_2mbfxlzr
     model: TS0203
     deviceProfileName: contact-battery-profile
+  - id: "_TZ3000_402jjyr/Contact Sensor"
+    deviceLabel: TS0203 Contact Sensor
+    manufacturer: _TZ3000_402jjyr
+    model: TS0203
+    deviceProfileName: contact-battery-profile
 zigbeeGeneric:
   - id: "contact-generic"
     deviceLabel: "Zigbee Contact Sensor"
