@@ -129,6 +129,11 @@ zigbeeManufacturer:
     manufacturer: Bosch
     model: RFPR-ZB
     deviceProfileName: motion-temp-battery
+  - id: "Bosch-ISW-ZPR1-WP13-Motion"
+    deviceLabel: Bosch Motion Sensor
+    manufacturer: Bosch
+    model: ISW-ZPR1-WP13
+    deviceProfileName: motion-temp-battery
   - id: "_TZ3000_mmtwjmaq Motion"
     deviceLabel: TS0202 Motion Sensor
     manufacturer: _TZ3000_mmtwjmaq

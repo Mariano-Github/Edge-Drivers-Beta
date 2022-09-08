@@ -1,6 +1,211 @@
 zigbeeManufacturer:
+  - id: "eWeLink/MS01"
+    deviceLabel: eWeLink Motion Sensor
+    manufacturer: eWeLink
+    model: MS01
+    deviceProfileName: motion-battery
+  - id: "ORVIBO/895a2d80097f4ae2b2d40500d5e0"
+    deviceLabel: Orvibo Motion Sensor
+    manufacturer: ORVIBO
+    model: 895a2d80097f4ae2b2d40500d5e03dcc
+    deviceProfileName: motion-battery
+  - id: "HEIMAN/PIRSensor-N"
+    deviceLabel: HEIMAN Motion Sensor
+    manufacturer: HEIMAN
+    model: PIRSensor-N
+    deviceProfileName: motion-battery
+  - id: "Megaman/PS601/z1"
+    deviceLabel: INGENIUM Motion Sensor
+    manufacturer: Megaman
+    model: PS601/z1
+    deviceProfileName: motion-battery
+  - id: "NYCE/3041"
+    deviceLabel: NYCE Motion Sensor
+    manufacturer: NYCE
+    model: 3041
+    deviceProfileName: motion-battery
+  - id: "NYCE/3043"
+    deviceLabel: NYCE Motion Sensor
+    manufacturer: NYCE
+    model: 3043
+    deviceProfileName: motion-battery
+  - id: "NYCE/3045"
+    deviceLabel: NYCE Motion Sensor
+    manufacturer: NYCE
+    model: 3045
+    deviceProfileName: motion-battery
+  - id: "iMagic by GreatStar/1117-S"
+    deviceLabel: Iris Multipurpose Sensor
+    manufacturer: iMagic by GreatStar
+    model: 1117-S
+    deviceProfileName: motion-humidity-temp-battery
+  - id: "eZEX/E280-KR0A0Z0-HA"
+    deviceLabel: eZEX Motion Sensor
+    manufacturer: eZEX
+    model: E280-KR0A0Z0-HA
+    deviceProfileName: motion
+  - id: "ikea/motion"
+    deviceLabel: IKEA motion Sensor
+    manufacturer: IKEA of Sweden
+    model: TRADFRI motion sensor
+    deviceProfileName: motion-battery
+  - id: "GatorSystem/GSHW01"
+    deviceLabel: GatorSystem Multipurpose Sensor
+    manufacturer: GatorSystem
+    model: GSHW01
+    deviceProfileName: motion-contact-presence
+  - id: "Aurora/MotionSensor51AU"
+    deviceLabel: Aurora Motion Sensor
+    manufacturer: Aurora
+    model: MotionSensor51AU
+    deviceProfileName: motion
+  - id: "LIDL Motion Sensor"
+    deviceLabel: LIDL Motion Sensor
+    manufacturer: _TZ1800_fcdjzz3s
+    model: TY0202
+    deviceProfileName: motion-battery
   - id: "SmartThings-Motion-Sensor"
     deviceLabel: ST Motion Sensor
     manufacturer: Samjin
     model: motion
     deviceProfileName: motion-temp-battery
+  - id: "Samotech/Motion RH3040"
+    deviceLabel: Samotech Motion Sensor
+    manufacturer: TUYATEC-zn9wyqtr
+    model: RH3040
+    deviceProfileName: motion-battery
+  - id: "HiveHome-Motion-Sensor"
+    deviceLabel: HiveHome Motion-Sensor
+    manufacturer: HiveHome.com
+    model: MOT003
+    deviceProfileName: motion-temp-battery
+  - id: "SmartThings-Motionv5"
+    deviceLabel: SmartThings Motion Sensor
+    manufacturer: SmartThings
+    model: motionv5
+    deviceProfileName: motion-temp-battery
+  - id: "Third Reality/Motion 3RMS16BZ"
+    deviceLabel: Third Reality Motion Sensor
+    manufacturer: Third Reality, Inc
+    model: 3RMS16BZ
+    deviceProfileName: motion-battery
+  - id: "Samotech/Motion RH3040-1"
+    deviceLabel: RH3040 Motion Sensor
+    manufacturer: TUYATEC-bd5faf9p
+    model: RH3040
+    deviceProfileName: motion-battery
+  - id: "eWeLink/Motion 66666"
+    deviceLabel: eWeLink Motion Sensor
+    manufacturer: eWeLink
+    model: 66666
+    deviceProfileName: motion-battery
+  - id: "Zemismart/Motion RH3040"
+    deviceLabel: RH3040 Motion Sensor
+    manufacturer: TUYATEC-b3ov3nor
+    model: RH3040
+    deviceProfileName: motion-battery
+  - id: "CentraLite-3326-L-Motion"
+    deviceLabel: CentraLite Motion Sensor
+    manufacturer: CentraLite
+    model: 3326-L
+    deviceProfileName: motion-temp-battery
+  - id: "CentraLite-3325-S-Motion"
+    deviceLabel: CentraLite Motion Sensor
+    manufacturer: CentraLite
+    model: 3325-S
+    deviceProfileName: motion-temp-battery
+  - id: "Bosch-RFDL-ZB-MS-Motion"
+    deviceLabel: Bosch Motion Sensor
+    manufacturer: Bosch
+    model: RFDL-ZB-MS
+    deviceProfileName: motion-temp-battery
+  - id: "Bosch-RFPR-ZB-MS-Motion"
+    deviceLabel: Bosch Motion Sensor
+    manufacturer: Bosch
+    model: RFPR-ZB-MS
+    deviceProfileName: motion-temp-battery
+  - id: "Bosch-RFPR-ZB-Motion"
+    deviceLabel: Bosch Motion Sensor
+    manufacturer: Bosch
+    model: RFPR-ZB
+    deviceProfileName: motion-temp-battery
+  - id: "Bosch-ISW-ZPR1-WP13-Motion"
+    deviceLabel: Bosch Motion Sensor
+    manufacturer: Bosch
+    model: ISW-ZPR1-WP13
+    deviceProfileName: motion-temp-battery
+  - id: "_TZ3000_mmtwjmaq Motion"
+    deviceLabel: TS0202 Motion Sensor
+    manufacturer: _TZ3000_mmtwjmaq
+    model: TS0202
+    deviceProfileName: motion-battery
+  - id: "_TYZB01_3zv6oleo Motion"
+    deviceLabel: TS0210 Motion Sensor
+    manufacturer: _TYZB01_3zv6oleo
+    model: TS0210
+    deviceProfileName: motion-battery
+  - id: "CentraLite-3305-S-Motion"
+    deviceLabel: CentraLite Motion Sensor
+    manufacturer: CentraLite
+    model: 3305-S
+    deviceProfileName: motion-temp-battery
+  - id: "TUYATEC-2gn2zf9e/Motion"
+    deviceLabel: TUYATEC Motion Sensor
+    manufacturer: TUYATEC-2gn2zf9e
+    model: RH3040
+    deviceProfileName: motion-battery
+  - id: "_TZ3000_msl6wxk9/Motion"
+    deviceLabel: TS0202 Motion Sensor
+    manufacturer: _TZ3000_msl6wxk9
+    model: TS0202
+    deviceProfileName: motion-battery
+  - id: "_TZ3000_mcxw5ehu/Motion"
+    deviceLabel: TS0202 Motion Sensor
+    manufacturer: _TZ3000_mcxw5ehu
+    model: TS0202
+    deviceProfileName: motion-battery
+  - id: " MOSZB-141/Motion"
+    deviceLabel: frient A/S Motion Sensor
+    manufacturer: frient A/S
+    model: MOSZB-141
+    deviceProfileName: motion-battery
+  - id: " MOSZB-140/Motion"
+    deviceLabel: frient A/S Motion Sensor
+    manufacturer: frient A/S
+    model: MOSZB-140
+    deviceProfileName: motion-temp-battery
+  - id: "ZB-MotionSensor-D0003/Motion"
+    deviceLabel: lk Motion Sensor
+    manufacturer: lk
+    model: ZB-MotionSensor-D0003
+    deviceProfileName: motion-battery
+  - id: "eWeLink/Motion ms01"
+    deviceLabel: eWeLink Motion Sensor
+    manufacturer: eWeLink
+    model: ms01
+    deviceProfileName: motion-battery
+  - id: "_TZ3000_otvn3lne/Motion"
+    deviceLabel: TS0202 Motion Sensor
+    manufacturer: _TZ3000_otvn3lne
+    model: TS0202
+    deviceProfileName: motion-battery
+  - id: "CentraLite-3328-G-Motion"
+    deviceLabel: CentraLite Motion Sensor
+    manufacturer: CentraLite
+    model: 3328-G
+    deviceProfileName: motion-temp-battery
+  - id: "_TYZB01_jytabjkb/Motion"
+    deviceLabel: TS0202 Motion Sensor
+    manufacturer: _TYZB01_jytabjkb
+    model: TS0202
+    deviceProfileName: motion-battery
+  - id: CentraLite/Motion Sensor-A
+    deviceLabel: SYLVANIA Motion Sensor
+    manufacturer: CentraLite
+    model: Motion Sensor-A
+    deviceProfileName: motion-temp-battery
+  - id: "TUYATEC-b5g40alm/Motion"
+    deviceLabel: RH3040 Motion Sensor
+    manufacturer: TUYATEC-b5g40alm
+    model: RH3040
+    deviceProfileName: motion-battery

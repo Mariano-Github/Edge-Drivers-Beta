@@ -22,8 +22,8 @@ preferences:
   - preferenceId: tempOffset
     explicit: true
   - name: "version"
-    title: "Version 3.0 (Aug 2022)"
-    description: "Added Preferences to select Acceleration or Multiporpuse Sensor and set Custom Acceleration Threshold" 
+    title: "Version 3.1 (Aug 2022)"
+    description: "Added Preferences to select Acceleration, Multiporpuse or Temperature Sensor Profile" 
     required: false
     preferenceType: string
     definition:
@@ -70,15 +70,16 @@ preferences:
         3: "Z axis"
       default: 3
   - name: "changeProfile"
-    title: "Multiporpuse or Vibration Device"
-    description: "Select Profile for Multiporpuse or Acceleration Device (Default = Multiporpuse Device)"
+    title: "Profile Type"
+    description: "Select Profile for Multiporpuse, Temperature Tile or Acceleration Device (Default = Multiporpuse Device)"
     required: false
     preferenceType: enumeration
     definition:
       options:
-        "Yes" : "Acceleration Device"
-        "No": "Multiporpuse Device"
-      default: "No"
+        "Accel" : "Acceleration Device"
+        "Multi": "Multiporpuse Device"
+        "Temp": "Temperature Tile info Device"
+      default: "Multi"
   - name: "accelThreshold"
     title: "SAMJIN, AEOTEC Accel Threshold"
     description: "Select Acceleration Threshold for SAMJIN or AEOTEC (1 = 0.063mG, Default = 20)"

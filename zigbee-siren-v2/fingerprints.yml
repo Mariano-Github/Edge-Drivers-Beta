@@ -1,0 +1,36 @@
+zigbeeManufacturer :
+  - id : ClimaxTechnology/SRAC_00.00.00.16TC
+    deviceLabel : Ozom Siren
+    manufacturer: ClimaxTechnology
+    model: SRAC_00.00.00.16TC
+    deviceProfileName: switch-alarm
+  - id : Heiman/WarningDevice
+    deviceLabel : HEIMAN Siren
+    manufacturer : Heiman
+    model : WarningDevice
+    deviceProfileName : switch-alarm
+  - id : frient/SIRZB-110
+    deviceLabel : frient Siren
+    manufacturer : frient A/S
+    model : SIRZB-110
+    deviceProfileName : switch-alarm
+  - id : Heiman/WarningDevice-EF-3.0
+    deviceLabel : HEIMAN Siren
+    manufacturer : HEIMAN
+    model : WarningDevice-EF-3.0
+    deviceProfileName : switch-alarm
+  - id : Zigbee/_TYZB01_0wcfvptl
+    deviceLabel : Zigbee Siren
+    manufacturer : _TYZB01_0wcfvptl
+    model : TS0216
+    deviceProfileName : switch-alarm
+  - id : Zigbee/_TYZB01_8scntis1
+    deviceLabel : Zigbee Siren
+    manufacturer : _TYZB01_8scntis1
+    model : TS0216
+    deviceProfileName : switch-alarm
+  - id : Sercomm/SZ-SRN12N
+    deviceLabel : Sercomm Siren
+    manufacturer : Sercomm Corp.
+    model : SZ-SRN12N
+    deviceProfileName : basic-alarm

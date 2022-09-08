@@ -284,6 +284,21 @@ zigbeeManufacturer:
     manufacturer: IKEA of Sweden
     model: TRADFRIbulbE26WSglobeopal1100lm
     deviceProfileName: level-colortemp-2200-4000
+  - id: "TRADFRI bulb E26 WS opal 1000lm"
+    deviceLabel: IKEA Bulb E26 WS
+    manufacturer: IKEA of Sweden
+    model: TRADFRI bulb E26 WS opal 1000lm
+    deviceProfileName: level-colortemp-2200-4000
+  - id: "E26 WS Opal 1000lm"
+    deviceLabel: IKEA Bulb E26 WS
+    manufacturer: IKEA of Sweden
+    model: E26 WS Opal 1000lm
+    deviceProfileName: level-colortemp-2200-4000
+  - id: "TRADFRI bulb E26 WS opal 980lm"
+    deviceLabel: IKEA Bulb E26 WS
+    manufacturer: IKEA of Sweden
+    model: TRADFRI bulb E26 WS opal 980lm
+    deviceProfileName: level-colortemp-2200-4000
   - id: "innr/RB 285 C"
     deviceLabel: innr RGBW
     manufacturer: innr
@@ -404,6 +419,36 @@ zigbeeManufacturer:
     manufacturer: _TZ3210_rcggc0ys
     model: TS0505B
     deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZ3210_p9ao60da/TS0505B"
+    deviceLabel: RGBW TS0505B
+    manufacturer: _TZ3210_p9ao60da
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZ3210_iystcadi/TS0505B"
+    deviceLabel: RGBW TS0505B
+    manufacturer: _TZ3210_iystcadi
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZ3210_c2iwpxf1/TS0502B"
+    deviceLabel: Lidl LED
+    manufacturer: _TZ3210_c2iwpxf1
+    model: TS0502B
+    deviceProfileName: level-colortemp-2000-6500
+  - id: "_TZ3210_trm3l2aw/TS0503B"
+    deviceLabel: RGBW TS0503B
+    manufacturer: _TZ3210_trm3l2aw
+    model: TS0503B/PAR16 50 TW
+    deviceProfileName: level-colortemp-2000-6500
+  - id: "OSRAM/TS0503B"
+    deviceLabel: OSRAM PAR16 50 TW
+    manufacturer: OSRAM
+    model: PAR16 50 TW
+    deviceProfileName: level-colortemp-2700-6500
+  - id: "innr/AE 280 C"
+    deviceLabel: RGBW AE 280 C
+    manufacturer: innr
+    model: AE 280 C
+    deviceProfileName: rgbw-level-colortemp-2700-6500
 
   # XY Color
   - id: "IKEA/E27 CWS 806lm"
@@ -441,6 +486,16 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_kdpxju99
     model: TS0505A
     deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZ3210_sroezl0s/LIDL"
+    deviceLabel: LIDL TS0504B
+    manufacturer: _TZ3210_sroezl0s
+    model: TS0504B
+    deviceProfileName: level-rgb
+  - id: "Connected A-19 60W Equivalent"
+    deviceLabel: CREE A19 Bulb
+    manufacturer: CREE
+    model: Connected A-19 60W Equivalent
+    deviceProfileName: switch-level
 zigbeeGeneric:
   - id: "dimmer-generic ZLL"
     deviceLabel: "Zigbee Dimmer"

@@ -184,3 +184,8 @@ zigbeeManufacturer:
     manufacturer: ClimaxTechnology
     model: PSM_00.00.00.35TC
     deviceProfileName: switch-power-energy-plug
+  - id: "TS011F/_TZ3000_cjrngdr3"
+    deviceLabel: TS011F Plug
+    manufacturer: _TZ3000_cjrngdr3
+    model: TS011F
+    deviceProfileName: switch-power-energy-plug

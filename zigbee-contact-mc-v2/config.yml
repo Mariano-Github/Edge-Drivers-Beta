@@ -1,0 +1,5 @@
+name: 'Zigbee Contact Mc'
+packageKey: 'zigbee-contact-v2'
+description: 'Devices Supported: https://github.com/Mariano-Github/Edge-Drivers-Beta/blob/main/zigbee-contact-mc-v2/fingerprints.yml'
+permissions:
+  zigbee: {}

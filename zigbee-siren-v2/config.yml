@@ -1,0 +1,5 @@
+name: 'Zigbee Siren Mc'
+packageKey: 'zigbee-siren'
+description: 'Devices Supported: https://github.com/Mariano-Github/Edge-Drivers-Beta/blob/main/zigbee-siren-v2/fingerprints.yml'
+permissions:
+  zigbee: {}

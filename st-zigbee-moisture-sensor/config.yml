@@ -1,4 +1,0 @@
-name: 'ST-Zigbee Moisture Sensor Mc'
-packageKey: 'st-zigbee-moisture-sensor'
-permissions:
-  zigbee: {}

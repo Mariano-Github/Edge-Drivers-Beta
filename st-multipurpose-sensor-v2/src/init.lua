@@ -58,10 +58,12 @@ local function added(self, device)
     configure_accel_threshold (self, device)
 
     ------ Set profile to aceleration or multiporpuse device
-    if device.preferences.changeProfile == "Yes" then
+    if device.preferences.changeProfile == "Yes" or device.preferences.changeProfile == "Accel" then
         device:try_update_metadata({profile = "st-acceleration"})
-    elseif device.preferences.changeProfile == "No" then
+    elseif device.preferences.changeProfile == "No" or device.preferences.changeProfile == "Multi" then
         device:try_update_metadata({profile = "st-multipurpose"})
+    elseif device.preferences.changeProfile == "Temp" then
+        device:try_update_metadata({profile = "st-temp-multipurpose"})
     end
 
 end
@@ -106,23 +108,30 @@ local function do_preferences(self, device)
               --device:configure()
           elseif id == "accelThreshold" then
             configure_accel_threshold (self, device)
-                ------ Change profile to aceleration or multiporpuse device
+                ------ Change profile to aceleration, temp or multiporpuse device
           elseif id == "changeProfile" then
-            if newParameterValue == "Yes" then
+            if newParameterValue == "Yes" or newParameterValue == "Accel" then
                 device:try_update_metadata({profile = "st-acceleration"})
-            elseif newParameterValue == "No" then
+            elseif newParameterValue == "No" or newParameterValue == "Multi" then
                 device:try_update_metadata({profile = "st-multipurpose"})
+            elseif newParameterValue == "Temp" then
+                device:try_update_metadata({profile = "st-temp-multipurpose"})
+            end
           end
-         end
         end
       end
-      --local firmware_full_version = device.data.firmwareFullVersion
-      --print("<<<<< Firmware Version >>>>>",firmware_full_version)
+      local firmware_full_version = device.data.firmwareFullVersion
+      print("<<<<< Firmware Version >>>>>",firmware_full_version)
   end
 
+--init refresh
+local function do_refresh(self, device)
+    device:refresh()
+end
   -----device configuration
 local function device_config(self,device)
     device.thread:call_with_delay(3, function() added(self,device) end)
+    device.thread:call_with_delay(6, function() do_refresh(self,device) end)
   end
 
 

@@ -1,0 +1,5 @@
+name: 'Zigbee Valve Mc'
+packageKey: 'zigbee-valve'
+description: 'https://github.com/Mariano-Github/Edge-Drivers-Beta/blob/main/zigbee-valve-st-mc/fingerprints.yml'
+permissions:
+  zigbee: {}

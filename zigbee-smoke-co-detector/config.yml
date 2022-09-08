@@ -1,0 +1,4 @@
+name: 'Zigbee Smoke/CO Detector Mc'
+packageKey: 'zigbee-smoke-detector-heiman'
+permissions:
+  zigbee: {}

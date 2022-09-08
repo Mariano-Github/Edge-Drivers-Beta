@@ -234,3 +234,13 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_pfc7i3kt
     model: TS0003
     deviceProfileName: three-switch
+  - id: "TS011F/_TYZB01_hlla45kx"
+    deviceLabel: TS011F Two Plugs
+    manufacturer: _TYZB01_hlla45kx
+    model: TS011F
+    deviceProfileName: two-outlet
+  - id: "_TZ3000_zwaadvus/TS011F"
+    deviceLabel: TS011F MultiPlug
+    manufacturer: _TZ3000_zwaadvus
+    model: TS011F
+    deviceProfileName: two-outlet
