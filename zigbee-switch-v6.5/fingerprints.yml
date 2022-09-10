@@ -4,6 +4,11 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_kdi2o9m6
     model: TS011F
     deviceProfileName: single-switch-plug
+  - id: "LIDL Plug/HG06337-FR"
+    deviceLabel: Lidl Plug
+    manufacturer: _TZ3000_wamqdr3f
+    model: TS011F
+    deviceProfileName: single-switch-plug
   - id: "MOES/MS-104Z"
     deviceLabel: Moes Switch
     manufacturer: _TZ3000_zmy1waw6
