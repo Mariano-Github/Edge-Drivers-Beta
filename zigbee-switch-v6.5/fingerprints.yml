@@ -304,3 +304,13 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_rmjr4ufz
     model: TS0001
     deviceProfileName: single-switch
+  - id: "SONOFF/S26R2ZB"
+    deviceLabel: SONOFF Switch
+    manufacturer: SONOFF
+    model: S26R2ZB
+    deviceProfileName: single-switch-plug
+  - id: "MLI/Smart Socket"
+    deviceLabel: MLI Switch
+    manufacturer: MLI
+    model: Smart Socket
+    deviceProfileName: single-switch-plug
