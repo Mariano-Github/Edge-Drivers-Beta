@@ -173,7 +173,7 @@ zigbeeManufacturer:
     deviceLabel: frient A/S Motion Sensor
     manufacturer: frient A/S
     model: MOSZB-140
-    deviceProfileName: motion-temp-battery
+    deviceProfileName: motion-illuminance-battery
   - id: "ZB-MotionSensor-D0003/Motion"
     deviceLabel: lk Motion Sensor
     manufacturer: lk
@@ -213,4 +213,14 @@ zigbeeManufacturer:
     deviceLabel: TS0202 Motion Sensor
     manufacturer: _TZ3000_bsvqrxru
     model: TS0202
+    deviceProfileName: motion-battery
+  - id: "HEIMAN/Vibration-EF_3.0"
+    deviceLabel: HEIMAN Vibration Sensor
+    manufacturer: HEIMAN
+    model: Vibration-EF_3.0
+    deviceProfileName: motion-battery
+  - id: "Konke/Vibration-EF_3.0"
+    deviceLabel: Konke Motion Sensor
+    manufacturer: Konke
+    model: 3AFE28010402000D
     deviceProfileName: motion-battery
