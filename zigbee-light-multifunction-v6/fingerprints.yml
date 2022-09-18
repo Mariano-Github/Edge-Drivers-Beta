@@ -299,6 +299,11 @@ zigbeeManufacturer:
     manufacturer: IKEA of Sweden
     model: TRADFRI bulb E26 WS opal 980lm
     deviceProfileName: level-colortemp-2200-4000
+  - id: "TRADFRI bulb E27 WS opal 1000lm"
+    deviceLabel: IKEA Bulb E27 WS
+    manufacturer: IKEA of Sweden
+    model: TRADFRI bulb E27 WS opal 1000lm
+    deviceProfileName: level-colortemp-2200-4000
   - id: "innr/RB 285 C"
     deviceLabel: innr RGBW
     manufacturer: innr
@@ -449,6 +454,11 @@ zigbeeManufacturer:
     manufacturer: innr
     model: AE 280 C
     deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "LEDVANCE/PAR16S RGBW"
+    deviceLabel: LEDVANCE PAR16S RGBW
+    manufacturer: LEDVANCE
+    model: PAR16S RGBW
+    deviceProfileName: rgbw-level-colortemp-2000-6500
 
   # XY Color
   - id: "IKEA/E27 CWS 806lm"
@@ -496,6 +506,11 @@ zigbeeManufacturer:
     manufacturer: CREE
     model: Connected A-19 60W Equivalent
     deviceProfileName: switch-level
+  - id: "LEDVANCE/PAR16 RGBW Z3"
+    deviceLabel: LEDVANCE PAR16 RGBW Z3
+    manufacturer: LEDVANCE
+    model: PAR16 RGBW Z3
+    deviceProfileName: rgbw-level-colortemp-2000-6500
 zigbeeGeneric:
   - id: "dimmer-generic ZLL"
     deviceLabel: "Zigbee Dimmer"
