@@ -95,7 +95,11 @@ local ikea_window_treatment = {
     }
   },
   can_handle = function(opts, driver, device, ...)
-    return device:get_manufacturer() == "IKEA of Sweden"
+    if device:get_manufacturer() == "IKEA of Sweden" then
+      return device:get_manufacturer() == "IKEA of Sweden"
+    elseif device:get_manufacturer() == "Third Reality, Inc" then
+      return device:get_manufacturer() == "Third Reality, Inc"
+    end
   end
 }
 
