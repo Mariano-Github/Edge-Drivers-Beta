@@ -1,5 +1,5 @@
 name: 'Zigbee Window Treatment Mc'
 packageKey: 'zigbee-window-treatment-v1'
-description: ''
+description: 'Devices supported: https://github.com/Mariano-Github/Edge-Drivers-Beta/blob/main/zigbee-window-treatment/fingerprints.yml'
 permissions:
   zigbee: {}
