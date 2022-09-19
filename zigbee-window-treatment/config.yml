@@ -1,0 +1,5 @@
+name: 'Zigbee Window Treatment Mc'
+packageKey: 'zigbee-window-treatment-v1'
+description: ''
+permissions:
+  zigbee: {}
