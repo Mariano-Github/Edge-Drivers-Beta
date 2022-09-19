@@ -1,5 +1,5 @@
 name: 'Zigbee Window Treatment Mc'
 packageKey: 'zigbee-window-treatment-v1'
-description: 'Devices supported: https://github.com/Mariano-Github/Edge-Drivers-Beta/blob/main/zigbee-window-treatment/fingerprints.yml'
+description: 'Is the stock Smartthings Edge drive Zigbee Window Treatment (aug/2022) with fingerprints added by M. Colmenarejo as users request. Devices supported: https://github.com/Mariano-Github/Edge-Drivers-Beta/blob/main/zigbee-window-treatment/fingerprints.yml'
 permissions:
   zigbee: {}
