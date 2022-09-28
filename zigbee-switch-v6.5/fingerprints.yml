@@ -319,3 +319,28 @@ zigbeeManufacturer:
     manufacturer: MLI
     model: Smart Socket
     deviceProfileName: single-switch-plug
+  - id: "Centralite Systems/4200-C"
+    deviceLabel: Centralite Outlet
+    manufacturer: Centralite Systems
+    model: 4200-C
+    deviceProfileName: single-switch-plug
+  - id: "MOES/MS-104ZL"
+    deviceLabel: Moes MS-104ZL Switch
+    manufacturer: _TZ3000_zzoangmc
+    model: TS0011
+    deviceProfileName: single-switch
+  - id: "TS011F/_TZ3000_r6buo8ba"
+    deviceLabel: TS011F Plug
+    manufacturer: _TZ3000_r6buo8ba
+    model: TS011F
+    deviceProfileName: single-switch-plug
+  - id: "PLUG COMPACT EU T/LEDVANCE"
+    deviceLabel: PLUG COMPACT EU T
+    manufacturer: LEDVANCE
+    model: PLUG COMPACT EU T
+    deviceProfileName: single-switch-plug
+  - id: "Plug Value/LEDVANCE"
+    deviceLabel: Plug Value
+    manufacturer: LEDVANCE
+    model: Plug Value
+    deviceProfileName: single-switch-plug
