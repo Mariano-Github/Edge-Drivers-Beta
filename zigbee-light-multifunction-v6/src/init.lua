@@ -74,10 +74,20 @@ local function switch_level_handler(self,device,command)
   print("handler_Level >>>>>>>>>>>>>>",command.args.level)
   local on_Level = command.args.level
   device:set_field("last_Level", on_Level, {persist = true})
-  if device.preferences.levelTransTime == 0 then
-    device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(on_Level/100.0 * 254), 0xFFFF))
+  if device:get_manufacturer() == "IKEA of Sweden" then
+    device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(on_Level/100.0 * 254), 0x0))
   else
-    device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(on_Level/100.0 * 254), (device.preferences.levelTransTime * 4)))
+    if device.preferences.levelTransTime == 0 then
+      device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(on_Level/100.0 * 254), 0xFFFF))
+      if device:get_manufacturer() == "_TZ3210_dxroobu3" then
+        device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(on_Level/100.0 * 254), 0xFFFF))
+      end
+    else
+      device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(on_Level/100.0 * 254), (device.preferences.levelTransTime * 4)))
+      if device:get_manufacturer() == "_TZ3210_dxroobu3" then
+        device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(on_Level/100.0 * 254), (device.preferences.levelTransTime * 4)))
+      end
+    end
   end
   local level_read = function(d)
     device:send_to_component(command.component, zcl_clusters.Level.attributes.CurrentLevel:read(device))
@@ -100,10 +110,15 @@ local function set_color_Temperature_handler(self,device,command)
     device:set_field("last_Level", 100, {persist = true})
   end
   if last_Level < 1 then last_Level = device:get_field("last_Level") end
-  if device.preferences.levelTransTime == 0 then
-   device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(last_Level/100.0 * 254), 0xFFFF))
+  if device:get_manufacturer() == "IKEA of Sweden" then
+    device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(last_Level/100.0 * 254), 0x0))
   else
-   device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(last_Level/100.0 * 254), (device.preferences.levelTransTime * 4)))
+    if device.preferences.levelTransTime == 0 then
+      --:to_endpoint(endpoint)
+    device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(last_Level/100.0 * 254), 0xFFFF))
+    else
+    device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(last_Level/100.0 * 254), (device.preferences.levelTransTime * 4)))
+    end
   end
   device:send_to_component("main", zcl_clusters.ColorControl.server.commands.MoveToColorTemperature(device, colorTemp_Mireds,(device.preferences.tempTransTime * 4)))
   attributes_read(self,device,command)
@@ -121,10 +136,14 @@ local function color_control_handler(self,device,command)
     device:set_field("last_Level", 100, {persist = true})
   end
   if last_Level < 1 then last_Level = device:get_field("last_Level") end
-  if device.preferences.levelTransTime == 0 then
-    device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(last_Level/100.0 * 254), 0xFFFF))
+  if device:get_manufacturer() == "IKEA of Sweden" then
+    device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(last_Level/100.0 * 254), 0x0))
   else
-    device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(last_Level/100.0 * 254), (device.preferences.levelTransTime * 4)))
+    if device.preferences.levelTransTime == 0 then
+      device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(last_Level/100.0 * 254), 0xFFFF))
+    else
+      device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(last_Level/100.0 * 254), (device.preferences.levelTransTime * 4)))
+    end
   end
   device:send_to_component("main", zcl_clusters.ColorControl.server.commands.MoveToHueAndSaturation(device, hue, sat, (device.preferences.colorTransTime * 4)))
   attributes_read(self,device,command)
@@ -138,12 +157,12 @@ local function on_off_attr_handler(self, device, value, zb_rx)
   --print("LQI >>>>>",zb_rx.lqi.value)
   --print("RSSI >>>>>",zb_rx.rssi.value)
   --print (string.format("src_Address: 0x%04X", zb_rx.address_header.src_addr.value))
-  --local metrics = string.format("DNI: 0x%04X", zb_rx.address_header.src_addr.value)..",  LQI: "..zb_rx.lqi.value..",  RSSI: "..zb_rx.rssi.value.." dBm"
+  local metrics = string.format("dni: 0x%04X", zb_rx.address_header.src_addr.value)..", lqi: "..zb_rx.lqi.value..", rssi: "..zb_rx.rssi.value.."dBm"
   local visible_satate = false
   if device.preferences.signalMetricsVisibles == "Yes" then
     visible_satate = true
   end
-  local metrics = "LQI: "..zb_rx.lqi.value.." ... RSSI: "..zb_rx.rssi.value.." dBm"
+  --local metrics = "LQI: "..zb_rx.lqi.value.." ... RSSI: "..zb_rx.rssi.value.." dBm"
   device:emit_event(signal_Metrics.signalMetrics({value = metrics}, {visibility = {displayed = visible_satate }}))
 
   local attr = capabilities.switch.switch
