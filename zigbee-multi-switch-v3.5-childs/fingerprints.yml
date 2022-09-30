@@ -259,3 +259,48 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_vjhcenzo
     model: TS0003
     deviceProfileName: three-switch
+  - id: "TS0115/_TYZB01_vkwryfdr"
+    deviceLabel: TS0115 Switch
+    manufacturer: _TYZB01_vkwryfdr
+    model: TS0115
+    deviceProfileName: five-outlet
+  - id: "TS0003/_TZ3000_wqfdvxen"
+    deviceLabel: TS0003 Switch
+    manufacturer: _TZ3000_wqfdvxen
+    model: TS0003
+    deviceProfileName: three-switch
+  - id: "TS0003/_TZ3000_tbfw3xj0"
+    deviceLabel: TS0003 Switch
+    manufacturer: _TZ3000_tbfw3xj0
+    model: TS0003
+    deviceProfileName: three-switch
+  - id: "TS0002/_TZ3000_svoqrno4"
+    deviceLabel: Two Switch
+    manufacturer: _TZ3000_svoqrno4
+    model: TS0002
+    deviceProfileName: two-switch
+  - id: "TS0012/_TZ3000_tadoh7zu"
+    deviceLabel: Two Switch
+    manufacturer: _TZ3000_tadoh7zu
+    model: TS0012
+    deviceProfileName: two-switch
+  - id: "TS0013/_TZ3000_m7djrkhw"
+    deviceLabel: TS0013 Switch
+    manufacturer: _TZ3000_m7djrkhw
+    model: TS0013
+    deviceProfileName: three-switch
+  - id: "TS0003/_TYZB01_gzhgaaqi"
+    deviceLabel: TS0003 Switch
+    manufacturer: _TYZB01_gzhgaaqi
+    model: TS0003
+    deviceProfileName: three-switch
+  - id: "TS0002/_TYZB01_qcgw8qfa"
+    deviceLabel: TS0002 Switch
+    manufacturer: _TYZB01_qcgw8qfa
+    model: TS0002
+    deviceProfileName: two-switch
+  - id: "TS0002/_TYZB01_01gpyda5"
+    deviceLabel: TS0002 Switch
+    manufacturer: _TYZB01_01gpyda5
+    model: TS0002
+    deviceProfileName: two-switch
