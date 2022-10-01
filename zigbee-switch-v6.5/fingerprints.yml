@@ -344,3 +344,18 @@ zigbeeManufacturer:
     manufacturer: LEDVANCE
     model: Plug Value
     deviceProfileName: single-switch-plug
+  - id: "TS011F/_TZ3000_pnzfdr9y"
+    deviceLabel: TS0101 Plug
+    manufacturer: _TZ3000_pnzfdr9y
+    model: TS0101
+    deviceProfileName: single-switch-plug
+  - id: "TS0001/_TZ3000_m0btfbt7"
+    deviceLabel: TS0001 Plug
+    manufacturer: _TZ3000_m0btfbt7
+    model: TS0001
+    deviceProfileName: single-switch-plug
+  - id: "TS011F/_TZ3000_pmz6mjyu"
+    deviceLabel: TS011F Plug
+    manufacturer: _TZ3000_pmz6mjyu
+    model: TS011F
+    deviceProfileName: single-switch-plug
