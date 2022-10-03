@@ -44,3 +44,23 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_upgcbody
     model: TS0207
     deviceProfileName: moisture-battery
+  - id: "_TZ3000_85czd6fy-Sensor"
+    deviceLabel: TS0207 Water Sensor
+    manufacturer: _TZ3000_85czd6fy
+    model: TS0207
+    deviceProfileName: moisture-battery
+  - id: "HEIMAN-EF-3.0"
+    deviceLabel: HEIMAN Water Sensor
+    manufacturer: HEIMAN
+    model: WaterSensor-EF-3.0
+    deviceProfileName: moisture-battery
+  - id: "_TYZB01_sqmd19i1-Sensor"
+    deviceLabel: TS0207 Water Sensor
+    manufacturer: _TYZB01_sqmd19i1
+    model: TS0207
+    deviceProfileName: moisture-battery
+  - id: "_TZ3000_qdmnmddg-Sensor"
+    deviceLabel: TS0207 Water Sensor
+    manufacturer: _TZ3000_qdmnmddg
+    model: TS0207
+    deviceProfileName: moisture-battery
