@@ -359,3 +359,18 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_pmz6mjyu
     model: TS011F
     deviceProfileName: single-switch-plug
+  - id: "SONOFF/S40LITE"
+    deviceLabel: SONOFF Switch
+    manufacturer: SONOFF
+    model: S40LITE
+    deviceProfileName: single-switch-plug
+  - id: "TS0011/_TZ3000_ilauzyjm"
+    deviceLabel: TS0011 Switch
+    manufacturer: _TZ3000_ilauzyjm
+    model: TS0011
+    deviceProfileName: single-switch
+  - id: "TS0001/_TZ3000_5ng23zjs"
+    deviceLabel: TS0001 Switch
+    manufacturer: _TZ3000_5ng23zjs
+    model: TS0001
+    deviceProfileName: single-switch
