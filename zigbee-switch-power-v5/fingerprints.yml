@@ -189,3 +189,23 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_cjrngdr3
     model: TS011F
     deviceProfileName: switch-power-energy-plug
+  - id: "TS011F/_TZ3000_typdpbpg"
+    deviceLabel: TS011F Plug
+    manufacturer: _TZ3000_typdpbpg
+    model: TS011F
+    deviceProfileName: switch-power-energy-plug
+  - id: "TS011F/_TZ3000_r6buo8ba"
+    deviceLabel: TS011F Plug
+    manufacturer: _TZ3000_r6buo8ba
+    model: TS011F
+    deviceProfileName: switch-power-energy-plug
+  - id: "TS011F/_TZ3000_zloso4jk"
+    deviceLabel: TS011F Plug
+    manufacturer: _TZ3000_zloso4jk
+    model: TS011F
+    deviceProfileName: switch-power-energy-plug
+  - id: "SPLZB-131/frient A/S"
+    deviceLabel: SPLZB-131 Plug
+    manufacturer: frient A/S
+    model: SPLZB-131
+    deviceProfileName: switch-power-energy-plug
