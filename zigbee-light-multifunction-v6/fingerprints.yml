@@ -479,10 +479,30 @@ zigbeeManufacturer:
     manufacturer: innr
     model: AE 280 C
     deviceProfileName: rgbw-level-colortemp-2700-6500
-  - id: "Awox/TLSR82xx"
+  - id: "AwoX/TLSR82xx"
     deviceLabel: TLSR82xx RGBW
-    manufacturer: Awox
+    manufacturer: AwoX
     model: TLSR82xx
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZ3210_leyz4rju/TS0505B"
+    deviceLabel: RGBW TS0505B
+    manufacturer: _TZ3210_leyz4rju
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "IKEA/TRADFRI Driver 30W"
+    deviceLabel: IKEA Light
+    manufacturer: IKEA of Sweden
+    model: TRADFRI Driver 30W
+    deviceProfileName: switch-level
+  - id: "_TZ3210_jd3z4yig/TS0505B"
+    deviceLabel: RGBW TS0505B
+    manufacturer: _TZ3210_jd3z4yig
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "JunYu/ZB-RGBCW"
+    deviceLabel: ZB-RGBCW
+    manufacturer: JunYu
+    model: ZB-RGBCW
     deviceProfileName: rgbw-level-colortemp-2700-6500
 
   # XY Color
