@@ -304,3 +304,38 @@ zigbeeManufacturer:
     manufacturer: _TYZB01_01gpyda5
     model: TS0002
     deviceProfileName: two-switch
+  - id: Aurora/DoubleSocket50AU
+    deviceLabel: AURORA Outlet 1
+    manufacturer: Aurora
+    model: DoubleSocket50AU
+    deviceProfileName: two-plug-power
+  - id: "TS0002/_TZ3000_zmy4lslw"
+    deviceLabel: TS0002 Switch
+    manufacturer: _TZ3000_zmy4lslw
+    model: TS0002
+    deviceProfileName: two-switch-power-energy
+  - id: "3A Smart/LXX60-FN27LX1.0"
+    deviceLabel: 3A Smart 4 Switch
+    manufacturer: 3A Smart Home DE
+    model: LXX60-FN27LX1.0
+    deviceProfileName: four-switch
+  - id: "TS0003/_TZ3000_empogkya"
+    deviceLabel: TS0003 Switch
+    manufacturer: _TZ3000_empogkya
+    model: TS0003
+    deviceProfileName: three-switch
+  - id: "TS0002/_TZ3000_u4kojtqz"
+    deviceLabel: TS0002 Switch
+    manufacturer: _TZ3000_u4kojtqz
+    model: TS0002
+    deviceProfileName: two-switch
+  - id: "TS0012/_TZ3000_rbl8c85w"
+    deviceLabel: TS0012 Switch
+    manufacturer: _TZ3000_rbl8c85w
+    model: TS0012
+    deviceProfileName: two-switch
+  - id: "TS0013/_TZ3000_lrgccsxm"
+    deviceLabel: TS0013 Switch
+    manufacturer: _TZ3000_lrgccsxm
+    model: TS0013
+    deviceProfileName: three-switch
