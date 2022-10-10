@@ -83,7 +83,32 @@ zigbeeManufacturer:
     deviceLabel: Third Reality Window Treatment
     manufacturer: Third Reality, Inc
     model: 3RSB015BZ
+    deviceProfileName: window-treatment-battery
+  - id: "Feibit Co.Ltd/FB56-CUR17SB2.2"
+    deviceLabel: Wistar Window Treatment
+    manufacturer: Feibit Co.Ltd
+    model: FB56+CUR17SB2.2
     deviceProfileName: window-treatment-profile
+  - id: "TS130F/_TZ3000_vd43bbfq"
+    deviceLabel: Lonsonho QS-Zigbee-C01
+    manufacturer: _TZ3000_vd43bbfq
+    model: TS130F
+    deviceProfileName: window-treatment-profile-calib
+  - id: "TS130F/_TZ3000_fccpjz5z"
+    deviceLabel: Lonsonho QS-Zigbee-C01
+    manufacturer: _TZ3000_fccpjz5z
+    model: TS130F
+    deviceProfileName: window-treatment-profile-calib
+  - id: "TS130F/_TZ3000_4uuaja4a"
+    deviceLabel: Lonsonho QS-Zigbee-CP03
+    manufacturer: _TZ3000_4uuaja4a
+    model: TS130F
+    deviceProfileName: window-treatment-profile-calib
+  - id: "TS130F/_TZ3000_zirycpws"
+    deviceLabel: Lonsonho QS-Zigbee-CP03
+    manufacturer: _TZ3000_zirycpws
+    model: TS130F
+    deviceProfileName: window-treatment-profile-calib
 zigbeeGeneric:
   - id: "genericShade"
     deviceLabel: Zigbee Window Treatment
