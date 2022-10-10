@@ -64,3 +64,13 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_qdmnmddg
     model: TS0207
     deviceProfileName: moisture-battery
+  - id: "_TZ3000_qhozxs2b-Sensor"
+    deviceLabel: TS0207 Water Sensor
+    manufacturer: _TZ3000_qhozxs2b
+    model: TS0207
+    deviceProfileName: moisture-battery
+  - id: "3315-G/CentraLite-Sensor"
+    deviceLabel: ST CentraLite Water Sensor
+    manufacturer: CentraLite
+    model: 3315-G
+    deviceProfileName: moisture-temp-battery-volts
