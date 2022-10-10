@@ -28,7 +28,7 @@ zigbeeManufacturer:
     deviceLabel: NYCE Motion Sensor
     manufacturer: NYCE
     model: 3043
-    deviceProfileName: motion-battery
+    deviceProfileName: motion-humidity-temp-battery
   - id: "NYCE/3045"
     deviceLabel: NYCE Motion Sensor
     manufacturer: NYCE
