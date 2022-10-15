@@ -1,12 +1,4 @@
-local capabilities = require "st.capabilities"
-local ZigbeeDriver = require "st.zigbee"
-local defaults = require "st.zigbee.defaults"
-local device_management = require "st.zigbee.device_management"
-local zcl_clusters = require "st.zigbee.zcl.clusters"
-local OnOff = zcl_clusters.OnOff
-local data_types = require "st.zigbee.data_types"
-local utils = require "st.utils"
-
+-- M. Colmenarejo 2022
 
 local child_devices = {}
 
@@ -18,7 +10,7 @@ Parent_devices = {}
 -- Create child device
 function child_devices.create_new(driver, device, component)
 
-    local label = component
+    local label = device.label.."-"..component
 
     if Child_devices_created[device.id .. component] == nil then
         -- save device parent table
@@ -27,7 +19,7 @@ function child_devices.create_new(driver, device, component)
         end
         print("Parent_devices[" .. device.id .."]>>>>>>", Parent_devices[device.id])
         
-        if component == "main" then label = "All Switch On-Off" end
+        if component == "main" then label = device.label.."-All Switch On-Off" end
         local metadata = {
             type = "LAN",
             device_network_id = component .. os.time(), -- DNI for Child device 
@@ -42,12 +34,6 @@ function child_devices.create_new(driver, device, component)
         -- Create new device
         driver:try_create_device(metadata)
 
-        --print("device_network_id >>>",device.device_network_id)
-        --print("label >>>",device.label)
-        --print("parent_device_id >>>",device.parent_device_id)
-        --print("manufacturer >>>",device.manufacturer)
-        --print("model >>>",device.model)
-        --print("vendor_provided_label >>>",device.vendor_provided_label)
       end
 
 end

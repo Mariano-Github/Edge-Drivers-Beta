@@ -313,7 +313,7 @@ zigbeeManufacturer:
     deviceLabel: TS0002 Switch
     manufacturer: _TZ3000_zmy4lslw
     model: TS0002
-    deviceProfileName: two-switch-power-energy
+    deviceProfileName: two-switch
   - id: "3A Smart/LXX60-FN27LX1.0"
     deviceLabel: 3A Smart 4 Switch
     manufacturer: 3A Smart Home DE
@@ -339,3 +339,13 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_lrgccsxm
     model: TS0013
     deviceProfileName: three-switch
+  - id: "TS0002/_TZ3000_01gpyda5"
+    deviceLabel: TS0002 Switch
+    manufacturer: _TZ3000_01gpyda5
+    model: TS0002
+    deviceProfileName: two-switch
+  - id: "TS0012/TUYATEC-zsi5eg2o"
+    deviceLabel: TS0012 Switch
+    manufacturer: TUYATEC-zsi5eg2o
+    model: TS0012
+    deviceProfileName: two-switch
