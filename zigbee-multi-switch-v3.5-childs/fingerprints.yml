@@ -349,3 +349,28 @@ zigbeeManufacturer:
     manufacturer: TUYATEC-zsi5eg2o
     model: TS0012
     deviceProfileName: two-switch
+  - id: "TS0003/_TYZB01_nft8zgds"
+    deviceLabel: TS0003 Switch
+    manufacturer: _TYZB01_nft8zgds
+    model: TS0003
+    deviceProfileName: three-switch
+  - id: "3A Smart/LXN56-TS27LX1.2"
+    deviceLabel: 3A Smart 2 Switch
+    manufacturer: 3A Smart Home DE
+    model: LXN56-TS27LX1.2
+    deviceProfileName: two-switch
+  - id: "FeiBit/FNB56-SKT1DHG1.4"
+    deviceLabel: FeiBit 2 Switch
+    manufacturer: FeiBit
+    model: FNB56-SKT1DHG1.4
+    deviceProfileName: two-switch
+  - id: "FeiBit/FB56-ZSW1JKJ2.7"
+    deviceLabel: FeiBit 2 Switch
+    manufacturer: Feibit Inc co.
+    model: FB56+ZSW1JKJ2.7
+    deviceProfileName: four-switch
+  - id: "TS0006/_TZ3000_jyupj3fw"
+    deviceLabel: TS0115 Switch
+    manufacturer: _TZ3000_jyupj3fw
+    model: TS0006
+    deviceProfileName: five-switch  # need six-switch profile
