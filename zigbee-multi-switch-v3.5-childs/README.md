@@ -1,3 +1,10 @@
+## (NEW RELEASE) New version of Zigbee Multi Switch Mc driver as Zigbee Multi Switch and Childs Mc
+
+- Includes preferences to create child devices for each component, including All Switch On-Off.
+
+- You can leave them No option (default option) or create the ones you need with an individual device
+
+
 ## (NEW RELEASE) Version 3.5 update for the Edge Beta Driver: Zigbee Multi Switch Mc
 
 ## Improvements:
