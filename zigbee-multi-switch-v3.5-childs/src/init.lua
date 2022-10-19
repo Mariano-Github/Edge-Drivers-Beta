@@ -675,9 +675,9 @@ local function on_handler(self, device, command)
     device:send_to_component(command.component, zcl_clusters.OnOff.server.commands.On(device))
   
     --- Set all_switches_status capability status
-    device.thread:call_with_delay(2, function(d)
-      all_switches_status(self, device)
-    end)
+    --device.thread:call_with_delay(2, function(d)
+      --all_switches_status(self, device)
+    --end)
   else
     print("device.parent_device_id >>>",device.parent_device_id)
     device:emit_event(capabilities.switch.switch.on())
@@ -699,9 +699,9 @@ local function off_handler(self, device, command)
     device:send_to_component(command.component, zcl_clusters.OnOff.server.commands.Off(device))
 
     --- Set all_switches_status capability status
-    device.thread:call_with_delay(2, function(d)
-      all_switches_status(self, device)
-    end)
+    --device.thread:call_with_delay(2, function(d)
+      --all_switches_status(self, device)
+    --end)
   else
     print("device.parent_device_id >>>",device.parent_device_id)
     device:emit_event(capabilities.switch.switch.off())
@@ -786,6 +786,39 @@ end
 --- default_response_handler
 local function default_response_handler(driver,device)
   print("<<<<<< default_response_handler >>>>>>")
+  local status = zb_rx.body.zcl_body.status.value
+
+  local attr_value = false
+  if status == Status.SUCCESS then
+    local cmd = zb_rx.body.zcl_body.cmd.value
+    local event = nil
+
+    if cmd == zcl_clusters.OnOff.server.commands.On.ID then
+      event = capabilities.switch.switch.on()
+      attr_value = true
+    elseif cmd == zcl_clusters.OnOff.server.commands.Off.ID then
+      event = capabilities.switch.switch.off()
+    end
+
+    if event ~= nil then
+      device:emit_event_for_endpoint(zb_rx.address_header.src_endpoint.value, event)
+    end
+  end
+
+  -- emit event for child devices
+  local component = device:get_component_id_for_endpoint(zb_rx.address_header.src_endpoint.value)
+  if Child_devices_created[device.id .. component] ~= nil then
+    if attr_value == false then
+      Child_devices_created[device.id .. component]:emit_event(capabilities.switch.switch.off())
+    else
+      Child_devices_created[device.id .. component]:emit_event(capabilities.switch.switch.on())
+    end
+  end
+
+  --- Set all_switches_status capability status
+  device.thread:call_with_delay(2, function(d)
+    all_switches_status(self, device)
+  end)
 
 end
 
