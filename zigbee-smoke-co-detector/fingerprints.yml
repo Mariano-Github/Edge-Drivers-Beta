@@ -64,6 +64,12 @@ zigbeeManufacturer:
     manufacturer: LUMI
     model: lumi.sensor_natgas
     deviceProfileName: smoke-battery
+  # added after 15 oct
+  - id: "LUMI/smoke.acn03"
+    deviceLabel: LUMI Smoke.acn03
+    manufacturer: LUMI
+    model: lumi.sensor_smoke.acn03
+    deviceProfileName: smoke-battery
   # CO Sensors
   - id: "feibit/FNB56-COS06FB1.7"
     deviceLabel: SCA01ZB CO Sensor
