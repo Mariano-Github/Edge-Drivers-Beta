@@ -1,0 +1,115 @@
+name: st-temp-multipurpose
+components:
+  - id: main
+    capabilities:
+      - id: contactSensor
+        version: 1
+      - id: temperatureMeasurement
+        version: 1
+      - id: battery
+        version: 1
+      - id: threeAxis
+        version: 1
+      - id: accelerationSensor
+        version: 1
+      - id: refresh
+        version: 1
+      - id: firmwareUpdate
+        version: 1
+    categories:
+      - name: Thermostat
+preferences:
+  - preferenceId: tempOffset
+    explicit: true
+  - name: "version"
+    title: "Version 3.1 (Aug 2022)"
+    description: "Added Preferences to select Acceleration, Multiporpuse or Temperature Sensor Profile" 
+    required: false
+    preferenceType: string
+    definition:
+      stringType: text
+      minLength: 0
+      maxLength: 0
+      default: ""
+  - name: "maxTime"
+    title: "Temperature Report Interval"
+    description: "Select Temp. Report Max. Interval (5 min to 240 min, Default = 5)"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 5
+      maximum: 240
+      default: 5   
+  - name: "changeRep"
+    title: "Temperature Reportable Change"
+    description: "Select Temp. Reportable Change 0.1º to 6º (10 to 600, Default = 10)"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 10
+      maximum: 600
+      default: 10    
+  - name: "garageSensor"
+    title: "Use on garage door"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Yes" : "Yes"
+        "No"  : "No"
+      default: "No"
+  - name: "garageSensorAxis"
+    title: "Sensor Axis for Garage Door state"
+    description: "Sensor Axis for Garage Door state (X , Y or Z, Default = Z axis)"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        1: "X axis"
+        2: "Y axis"
+        3: "Z axis"
+      default: 3
+  - name: "changeProfile"
+    title: "Profile Type"
+    description: "Select Profile for Multiporpuse, Temperature Tile or Acceleration Device (Default = Multiporpuse Device)"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Accel" : "Acceleration Device"
+        "Multi": "Multiporpuse Device"
+        "Temp": "Temperature Tile info Device"
+      default: "Multi"
+  - name: "accelThreshold"
+    title: "SAMJIN, AEOTEC Accel Threshold"
+    description: "Select Acceleration Threshold for SAMJIN or AEOTEC (1 = 0.063mG, Default = 20)"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 1
+      maximum: 254
+      default:  20
+  - name: "accelThresholdCentralite"
+    title: "CENTRALITE Accel Threshold"
+    description: "Select Acceleration Threshold for CENTRALITE (1 = 0.063mG, Default = 2)"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 1
+      maximum: 254
+      default:  2
+  - name: "accelThresholdST"
+    title: "SMARTTHINGS Accel Threshold"
+    description: "Select Acceleration Threshold for SMARTTHINGS (1 = 0.063mG, Default = 630)"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 1
+      maximum: 20000
+      default:  630
+metadata:
+  deviceType: Thermostat	
+  ocfDeviceType: oic.d.thermostat
+  deviceTypeId: Thermostat
+  mnmn: SmartThingsCommunity
+  vid: bdfab1a5-7858-3849-966f-41bc97077fa6
