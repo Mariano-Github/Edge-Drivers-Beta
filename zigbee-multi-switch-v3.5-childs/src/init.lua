@@ -1,5 +1,5 @@
 -- Copyright 2021 SmartThings
--- M.Colmenarejo 2022
+-- M. Colmenarejo 2022
 -- Licensed under the Apache License, Version 2.0 (the "License");
 -- you may not use this file except in compliance with the License.
 -- You may obtain a copy of the License at
@@ -26,10 +26,12 @@ local SimpleMetering = zcl_clusters.SimpleMetering
 local zcl_global_commands = require "st.zigbee.zcl.global_commands"
 
 local write_attribute = require "st.zigbee.zcl.global_commands.write_attribute"
+local read_attribute = require "st.zigbee.zcl.global_commands.read_attribute"
 local zcl_messages = require "st.zigbee.zcl"
 local messages = require "st.zigbee.messages"
 local zb_const = require "st.zigbee.constants"
 local Groups = zcl_clusters.Groups
+local Status = require "st.zigbee.generated.types.ZclStatus"
 
 local child_devices = require "child-devices"
 
@@ -63,9 +65,36 @@ local function write_attribute_function(device, cluster_id, attr_id, data_value,
    }):to_endpoint (endpoint))
   end
 
+  --tuyaBlackMagic() {return zigbee.readAttribute(0x0000, [0x0004, 0x000, 0x0001, 0x0005, 0x0007, 0xfffe], [:], delay=200)}
+  local function read_attribute_function(device, cluster_id, attr_id)
+    print("<<<< attr_id >>>>",utils.stringify_table(attr_id))
+    --local read_body = read_attribute.ReadAttribute({ attr_id })
+    local read_body = read_attribute.ReadAttribute( attr_id )
+    local zclh = zcl_messages.ZclHeader({
+      cmd = data_types.ZCLCommandId(read_attribute.ReadAttribute.ID)
+    })
+
+    local addrh = messages.AddressHeader(
+        zb_const.HUB.ADDR,
+        zb_const.HUB.ENDPOINT,
+        device:get_short_address(),
+        device:get_endpoint(cluster_id.value),
+        zb_const.HA_PROFILE_ID,
+        cluster_id.value
+    )
+    local message_body = zcl_messages.ZclMessageBody({
+      zcl_header = zclh,
+      zcl_body = read_body
+    })
+    return messages.ZigbeeMessageTx({
+      address_header = addrh,
+      body = message_body
+    --}))
+  })
+  end
 
 ---- do_removed device procedure: delete all device data
-local function do_removed(self,device)
+local function do_removed(driver,device)
   print("<<< Do removed >>>>")
   if device.manufacturer == nil then  return end  ---- is NO Child device
   --Delete child device from Child devices table
@@ -76,7 +105,7 @@ local function do_removed(self,device)
 end
 
 --- Update preferences after infoChanged recived ---
-local function do_preferences (self, device)
+local function do_preferences (driver, device)
   for id, value in pairs(device.preferences) do
     print("device.preferences[infoChanged]=", device.preferences[id])
     local oldPreferenceValue = device:get_field(id)
@@ -173,23 +202,23 @@ local function do_preferences (self, device)
       -- Call to Create child device
       if id == "switch1Child" then
         if oldPreferenceValue ~= nil and newParameterValue == "Yes" then
-         child_devices.create_new(self, device, "main")
+         child_devices.create_new(driver, device, "main")
         end       
       elseif id == "switch2Child" then
         if oldPreferenceValue ~= nil and newParameterValue == "Yes" then
-         child_devices.create_new(self, device, "switch2")
+         child_devices.create_new(driver, device, "switch2")
         end  
       elseif id == "switch3Child" then
         if oldPreferenceValue ~= nil and newParameterValue == "Yes" then
-          child_devices.create_new(self, device, "switch3")
+          child_devices.create_new(driver, device, "switch3")
         end
       elseif id == "switch4Child" then
         if oldPreferenceValue ~= nil and newParameterValue == "Yes" then
-          child_devices.create_new(self, device, "switch4")
+          child_devices.create_new(driver, device, "switch4")
         end
       elseif id == "switch5Child" then
         if oldPreferenceValue ~= nil and newParameterValue == "Yes" then
-          child_devices.create_new(self, device, "switch5")
+          child_devices.create_new(driver, device, "switch5")
         end
       end
     end
@@ -214,7 +243,7 @@ local function do_preferences (self, device)
 end
 
 -- Emit event for all Switch On-Off and child device
-local function emit_event_all_On_Off(self, device, total_on, total,status_Text)
+local function emit_event_all_On_Off(driver, device, total_on, total,status_Text)
   if total_on == total then
     device:emit_event(switch_All_On_Off.switchAllOnOff("All On"))
     if Child_devices_created[device.id .. "main"] ~= nil then
@@ -234,7 +263,7 @@ local function emit_event_all_On_Off(self, device, total_on, total,status_Text)
 end
 
 --- set All switch status
-local function all_switches_status(self,device)
+local function all_switches_status(driver,device)
 
   print("all_switches_status >>>>>")
    for id, value in pairs(device.preferences) do
@@ -265,7 +294,7 @@ local function all_switches_status(self,device)
       end
       --print("Total_on >>>>>>", total_on,"Total >>>",total)
 
-      emit_event_all_On_Off(self, device, total_on, total,status_Text)
+      emit_event_all_On_Off(driver, device, total_on, total,status_Text)
 
     elseif id == "changeProfileFourPlug" or id == "changeProfileFourSw" then
        total = 4
@@ -286,7 +315,7 @@ local function all_switches_status(self,device)
          status_Text = status_Text.."S4:On "
        end
        --print("Total_on >>>>>>", total_on,"Total >>>",total)
-       emit_event_all_On_Off(self, device, total_on, total,status_Text)
+       emit_event_all_On_Off(driver, device, total_on, total,status_Text)
  
     elseif id == "changeProfileThreePlug" or id == "changeProfileThreeSw" then
      total = 3
@@ -303,7 +332,7 @@ local function all_switches_status(self,device)
        status_Text = status_Text.."S3:On "
      end
      --print("Total_on >>>>>>", total_on,"Total >>>",total)
-     emit_event_all_On_Off(self, device, total_on, total,status_Text)
+     emit_event_all_On_Off(driver, device, total_on, total,status_Text)
  
     elseif id == "changeProfileTwoPlug" or id == "changeProfileTwoSw" then
      if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) == "on" then
@@ -315,7 +344,7 @@ local function all_switches_status(self,device)
        status_Text = status_Text.."S2:On "
      end
      --print("Total_on >>>>>>", total_on,"Total >>>",total)
-     emit_event_all_On_Off(self, device, total_on, total,status_Text)
+     emit_event_all_On_Off(driver, device, total_on, total,status_Text)
  
     end
    end
@@ -368,17 +397,19 @@ local function endpoint_to_component(device, ep)
 end
 
 --do_configure
-local function do_configure(self, device)
+local function do_configure(driver, device)
 
   --print("Device table >>>>>>",utils.stringify_table(device))
-  --print("Driver table >>>>>>",utils.stringify_table(self))
+  --print("Driver table >>>>>>",utils.stringify_table(driver))
 
   if device.manufacturer == nil then    ---- device.manufacturer == nil is NO Child device
     if device:get_manufacturer() ~= "_TZ3000_fvh3pjaz" 
     and device:get_manufacturer() ~= "_TZ3000_wyhuocal" then
     --and device:get_manufacturer() ~= "_TZ3000_3zofvcaa" 
     --and device:get_manufacturer() ~= "_TZ3000_zmy4lslw" then
-      device:configure()
+    
+    device:configure()
+
       -- Additional one time configuration
       if device:supports_capability(capabilities.energyMeter) or device:supports_capability(capabilities.powerMeter) then
         -- Divisor and multipler for EnergyMeter
@@ -390,9 +421,9 @@ local function do_configure(self, device)
       end
 
     else
-      --device:send(device_management.build_bind_request(device, zcl_clusters.OnOff.ID, self.environment_info.hub_zigbee_eui):to_endpoint (1))
+      --device:send(device_management.build_bind_request(device, zcl_clusters.OnOff.ID, driver.environment_info.hub_zigbee_eui):to_endpoint (1))
       --device:send(zcl_clusters.OnOff.attributes.OnOff:configure_reporting(device, 0, 120):to_endpoint (1))
-      --device:send(device_management.build_bind_request(device, zcl_clusters.OnOff.ID, self.environment_info.hub_zigbee_eui):to_endpoint (2))
+      --device:send(device_management.build_bind_request(device, zcl_clusters.OnOff.ID, driver.environment_info.hub_zigbee_eui):to_endpoint (2))
       --device:send(zcl_clusters.OnOff.attributes.OnOff:configure_reporting(device, 0, 120):to_endpoint (2))
     end
   else
@@ -401,7 +432,7 @@ local function do_configure(self, device)
 end
 
 ---device init ----
-local function device_init (self, device)
+local function device_init (driver, device)
   print("device_network_id >>>",device.device_network_id)
   print("label >>>",device.label)
   print("parent_device_id >>>",device.parent_device_id)
@@ -534,34 +565,29 @@ local function device_init (self, device)
 
     --tuyaBlackMagic() {return zigbee.readAttribute(0x0000, [0x0004, 0x000, 0x0001, 0x0005, 0x0007, 0xfffe], [:], delay=200)}
     print("<<< Read Basic clusters attributes >>>")
-    device:send(zcl_clusters.Basic.attributes.ManufacturerName:read(device))
-    device:send(zcl_clusters.Basic.attributes.ZCLVersion:read(device))
-    device:send(zcl_clusters.Basic.attributes.ApplicationVersion:read(device))
-    device:send(zcl_clusters.Basic.attributes.ModelIdentifier:read(device))
-    device:send(zcl_clusters.Basic.attributes.PowerSource:read(device))
-    device:send(cluster_base.read_attribute(device, data_types.ClusterId(0x0000), data_types.AttributeId(0xFFFE)))
-    device:send(cluster_base.read_attribute(device, data_types.ClusterId(0xE000), data_types.AttributeId(0xD003)))
+    local attr_ids = {0x0004, 0x0000, 0x0001, 0x0005, 0x0007,0xFFFE} 
+    device:send(read_attribute_function (device, data_types.ClusterId(0x0000), attr_ids))
     
     --- Configure on-off cluster, attributte 0x8002 and 4003 to value restore state in preferences
-    for id, value in pairs(device.profile.components) do
-      print("<<< Write restore state >>>")
-      local comp = device.profile.components[id].id
-      if comp == "main" then
-        local endpoint = device:get_endpoint_for_component_id(comp)
-        print("<<<< Componente, end_point >>>>",comp, endpoint)
-        local value_send = tonumber(device.preferences.restoreState)
-        local data_value = {value = value_send, ID = 0x30}
-        local cluster_id = {value = 0x0006}
-        --write atribute for standard devices
-        local attr_id = 0x4003
-        write_attribute_function(device, cluster_id, attr_id, data_value, endpoint)
+    --for id, value in pairs(device.profile.components) do
+      --print("<<< Write restore state >>>")
+      --local comp = device.profile.components[id].id
+      --if comp == "main" then
+        --local endpoint = device:get_endpoint_for_component_id(comp)
+        --print("<<<< Componente, end_point >>>>",comp, endpoint)
+        --local value_send = tonumber(device.preferences.restoreState)
+        --local data_value = {value = value_send, ID = 0x30}
+        --local cluster_id = {value = 0x0006}
+        ----write atribute for standard devices
+        --local attr_id = 0x4003
+        --write_attribute_function(device, cluster_id, attr_id, data_value, endpoint)
 
-        --write atribute for Tuya devices (Restore previous state = 0x02)
-        if device.preferences.restoreState == "255" then data_value = {value = 0x02, ID = 0x30} end
-        attr_id = 0x8002
-        write_attribute_function(device, cluster_id, attr_id, data_value, endpoint)
-      end
-    end  
+        ----write atribute for Tuya devices (Restore previous state = 0x02)
+        --if device.preferences.restoreState == "255" then data_value = {value = 0x02, ID = 0x30} end
+        --attr_id = 0x8002
+        --write_attribute_function(device, cluster_id, attr_id, data_value, endpoint)
+      --end
+    --end  
   else
     -- INIT Childs devices global variable if exist
     Child_devices_created[device.parent_device_id .. device.model] = device
@@ -571,7 +597,7 @@ local function device_init (self, device)
 end
 
 ------ do_configure device
-local function driver_Switched(self,device)
+local function driver_Switched(driver,device)
   if device.manufacturer == nil then    ---- device.manufacturer == nil (is NO Child device)
     device:refresh()
     if device:get_manufacturer() ~= "_TZ3000_fvh3pjaz" 
@@ -579,8 +605,14 @@ local function driver_Switched(self,device)
      and device:get_manufacturer() ~= nil then
      --and device:get_manufacturer() ~= "_TZ3000_3zofvcaa"
      --and device:get_manufacturer() ~= "_TZ3000_zmy4lslw"
-      device:configure()
+
+    --tuyaBlackMagic() {return zigbee.readAttribute(0x0000, [0x0004, 0x000, 0x0001, 0x0005, 0x0007, 0xfffe], [:], delay=200)}
+    local attr_ids = {0x0004, 0x0000, 0x0001, 0x0005, 0x0007,0xFFFE} 
+    device:send(read_attribute_function (device, data_types.ClusterId(0x0000), attr_ids))
     end
+
+    device:configure()
+
     -- INIT parents devices
     Parent_devices[device.id] = device
     print("Parent_devices[" .. device.id .."]>>>>>>", Parent_devices[device.id])
@@ -594,7 +626,7 @@ local function driver_Switched(self,device)
 end 
 
 ---- switch_All_On_Off_handler
-local function switch_All_On_Off_handler(self, device, command)
+local function switch_All_On_Off_handler(driver, device, command)
   print("command >>>>>", command)
   local ep_init = 1
   local state = ""
@@ -669,14 +701,14 @@ local function switch_All_On_Off_handler(self, device, command)
 end
 
 --- Command on handler ---- 
-local function on_handler(self, device, command)
+local function on_handler(driver, device, command)
   if device.manufacturer == nil then ---- device.manufacturer == nil is NO Child device
 
     device:send_to_component(command.component, zcl_clusters.OnOff.server.commands.On(device))
   
     --- Set all_switches_status capability status
-    --device.thread:call_with_delay(2, function(d)
-      --all_switches_status(self, device)
+   --device.thread:call_with_delay(2, function(d)
+      --all_switches_status(driver, device)
     --end)
   else
     print("device.parent_device_id >>>",device.parent_device_id)
@@ -684,7 +716,7 @@ local function on_handler(self, device, command)
 
     local component = device.model
     if component == "main" then
-      switch_All_On_Off_handler(self, Parent_devices[device.parent_device_id], "All On")
+      switch_All_On_Off_handler(driver, Parent_devices[device.parent_device_id], "All On")
     else
       -- send comamd On to parent device
       Parent_devices[device.parent_device_id]:send_to_component(component, OnOff.server.commands.On(Parent_devices[device.parent_device_id]))
@@ -693,21 +725,21 @@ local function on_handler(self, device, command)
 end
 
 --- Command off handler ----
-local function off_handler(self, device, command)
+local function off_handler(driver, device, command)
   if device.manufacturer == nil then   ---- device.manufacturer == nil is NO Child device
     
     device:send_to_component(command.component, zcl_clusters.OnOff.server.commands.Off(device))
 
     --- Set all_switches_status capability status
     --device.thread:call_with_delay(2, function(d)
-      --all_switches_status(self, device)
+      --all_switches_status(driver, device)
     --end)
   else
     print("device.parent_device_id >>>",device.parent_device_id)
     device:emit_event(capabilities.switch.switch.off())
     local component = device.model
     if component == "main" then
-      switch_All_On_Off_handler(self, Parent_devices[device.parent_device_id], "All Off")
+      switch_All_On_Off_handler(driver, Parent_devices[device.parent_device_id], "All Off")
     else
       -- send comamd Off to parent device
       Parent_devices[device.parent_device_id]:send_to_component(component, OnOff.server.commands.Off(Parent_devices[device.parent_device_id]))
@@ -716,7 +748,7 @@ local function off_handler(self, device, command)
 end
 
 --- read zigbee attribute OnOff messages ----
-local function on_off_attr_handler(self, device, value, zb_rx)
+local function on_off_attr_handler(driver, device, value, zb_rx)
     print ("function: on_off_attr_handler")
   if device.manufacturer == nil then    ---- device.manufacturer == nil is NO Child device
 
@@ -751,7 +783,7 @@ local function on_off_attr_handler(self, device, value, zb_rx)
 
     --- Set all_switches_status capability status
     device.thread:call_with_delay(2, function(d)
-      all_switches_status(self, device)
+      all_switches_status(driver, device)
     end)
   else
 
@@ -759,7 +791,7 @@ local function on_off_attr_handler(self, device, value, zb_rx)
 end
 
 --- do_added
-local function do_added(self, device)
+local function do_added(driver, device)
 
   if device.manufacturer ~= nil then -- Is a child device
     print("Adding LAN device...")
@@ -784,9 +816,10 @@ local function do_added(self, device)
 end
 
 --- default_response_handler
-local function default_response_handler(driver,device)
+local function default_response_handler(driver, device, zb_rx)
   print("<<<<<< default_response_handler >>>>>>")
   local status = zb_rx.body.zcl_body.status.value
+  print("<<<< status >>>>", status)
 
   local attr_value = false
   if status == Status.SUCCESS then
@@ -817,9 +850,8 @@ local function default_response_handler(driver,device)
 
   --- Set all_switches_status capability status
   device.thread:call_with_delay(2, function(d)
-    all_switches_status(self, device)
+    all_switches_status(driver, device)
   end)
-
 end
 
 ---- Driver configure ---------
@@ -840,7 +872,7 @@ local zigbee_outlet_driver_template = {
   },
   zigbee_handlers = {
     global = {
-      [zcl_clusters.OnOff.ID] = {
+     [zcl_clusters.OnOff.ID] = {
         [zcl_global_commands.DEFAULT_RESPONSE_ID] = default_response_handler
       }
     },
