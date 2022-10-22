@@ -368,9 +368,11 @@ local function component_to_endpoint(device, component_id)
     elseif ep_num == "4" then
       return ep_ini + 3
     elseif ep_num == "5" then
-      return ep_ini + 4
-    elseif ep_num == "7" and device:get_manufacturer() == "_TYZB01_vkwryfdr" then
-      return ep_ini + 6
+      if device:get_manufacturer() == "_TYZB01_vkwryfdr" then
+        return ep_ini + 6
+      else
+        return ep_ini + 4
+      end
     end
   end
 end
@@ -819,7 +821,6 @@ end
 local function default_response_handler(driver, device, zb_rx)
   print("<<<<<< default_response_handler >>>>>>")
   local status = zb_rx.body.zcl_body.status.value
-  print("<<<< status >>>>", status)
 
   local attr_value = false
   if status == Status.SUCCESS then
