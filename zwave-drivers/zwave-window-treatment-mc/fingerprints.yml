@@ -45,7 +45,7 @@ zwaveManufacturer:
     deviceLabel: Fibaro Window Treatment
     manufacturerId: 0x010F
     productType: 0x0303
-    productId: 0x1000
+    #productId: 0x1000
     deviceProfileName: fibaro-roller-shutter-3
   - id: QubinoFlushShutter/AC
     deviceLabel: Qubino Window Treatment
@@ -69,3 +69,9 @@ zwaveManufacturer:
     manufacturerId: 0x0371
     productId: 0x008D
     deviceProfileName: stateless-curtain-power-button
+  - id: NICE/IBT4ZWAVE
+    deviceLabel: NICE Door IBT4ZWAVE
+    manufacturerId: 0x0441
+    productType: 0x2400
+    productId: 0x1000
+    deviceProfileName: window-treatment-power
