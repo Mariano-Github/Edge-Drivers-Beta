@@ -209,3 +209,33 @@ zigbeeManufacturer:
     manufacturer: frient A/S
     model: SPLZB-131
     deviceProfileName: switch-power-energy-plug
+  - id: "_TZ3000_mx3vgyea/TS0001"
+    deviceLabel: TS0001 Plug
+    manufacturer: _TZ3000_mx3vgyea
+    model: TS0001
+    deviceProfileName: switch-power-energy-plug
+  - id: "_TZ3000_46t1rvdu/TS0001"
+    deviceLabel: TS0001 Plug
+    manufacturer: _TZ3000_46t1rvdu
+    model: TS0001
+    deviceProfileName: switch-power-energy-plug
+  - id: "Micro Smart Dimmer/Sunricher"
+    deviceLabel: Micro Smart Dimmer
+    manufacturer: Sunricher
+    model: Micro Smart Dimmer
+    deviceProfileName: level-power-energy-light
+  - id: "SPLZB-131/Develco Products"
+    deviceLabel: SPLZB-131 Plug
+    manufacturer: Develco Products A/S
+    model: SPLZB-131
+    deviceProfileName: switch-power-energy-plug
+  - id: "SMRZB-332/Develco Products"
+    deviceLabel: SMRZB-332 Plug
+    manufacturer: Develco Products A/S
+    model: SMRZB-332
+    deviceProfileName: switch-power-energy-plug
+  - id: "Mains_Power_Outlet_v1.0/Vimar"
+    deviceLabel: Vimar Plug
+    manufacturer: Vimar
+    model: Mains_Power_Outlet_v1.0
+    deviceProfileName: switch-power-energy-plug
