@@ -37,7 +37,7 @@ zwaveManufacturer:
     manufacturerId: 0x0258
     productType: 0x0003
     productId: 0x108D
-    deviceProfileName: motion-battery-illuminance
+    deviceProfileName: motion-battery-illuminance-temperature # MOD M.Colmenarejo
   - id: "Wink/0001"
     deviceLabel: Wink Motion Sensor
     manufacturerId: 0x017F
