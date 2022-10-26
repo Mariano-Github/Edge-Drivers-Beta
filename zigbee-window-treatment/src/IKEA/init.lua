@@ -99,6 +99,8 @@ local ikea_window_treatment = {
       return device:get_manufacturer() == "IKEA of Sweden"
     elseif device:get_manufacturer() == "Third Reality, Inc" then
       return device:get_manufacturer() == "Third Reality, Inc"
+    elseif device:get_manufacturer() == "SmartWings" then
+      return device:get_manufacturer() == "SmartWings"
     end
   end
 }

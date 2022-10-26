@@ -1,0 +1,41 @@
+name: window-treatment-profile-calib
+components:
+- id: main
+  capabilities:
+  - id: windowShade
+    version: 1
+  - id: windowShadePreset
+    version: 1
+  - id: windowShadeLevel
+    version: 1
+  - id: legendabsolute60149.deviceInfo
+    version: 1
+  - id: firmwareUpdate
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: Blind
+preferences:
+  - preferenceId: presetPosition
+    explicit: true
+  - name: "performCalibration"
+    title: "Perform  Accurate Calibration"
+    description: "Perform  Accurate Calibration- (default: Run Mode)"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "0": "Perform Calibration"
+        "1": "Run Mode"
+      default: "1"
+  - name: "motorReversal"
+    title: "Tuya Motor Reversal"
+    description: "Tuya Motor Reversal. (default: Normal)"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "0": "Normal"
+        "1": "Reverse"
+      default: "0"

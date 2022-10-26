@@ -22,6 +22,7 @@ local Level = zcl_clusters.Level
 local ZIGBEE_WINDOW_SHADE_FINGERPRINTS = {
     { mfr = "Feibit Co.Ltd", model = "FTB56-ZT218AK1.6" },
     { mfr = "Feibit Co.Ltd", model = "FTB56-ZT218AK1.8" },
+    { mfr = "Feibit Co.Ltd", model = "FB56+CUR17SB2.2" }
 }
 
 local is_zigbee_window_shade = function(opts, driver, device)
