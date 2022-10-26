@@ -70,9 +70,19 @@ zigbeeManufacturer:
     manufacturer: LUMI
     model: lumi.sensor_smoke.acn03
     deviceProfileName: smoke-battery
+  - id: "feibit/FNB56-SMF06FB1.6"
+    deviceLabel: Feibit Smoke Sensor
+    manufacturer: feibit
+    model: FNB56-SMF06FB1.6
+    deviceProfileName: smoke-battery
   # CO Sensors
   - id: "feibit/FNB56-COS06FB1.7"
     deviceLabel: SCA01ZB CO Sensor
     manufacturer: feibit
     model: FNB56-COS06FB1.7
+    deviceProfileName: co-battery
+  - id: "TS0204/_TYZB01_18pkine6"
+    deviceLabel: TS0204 Gas Sensor
+    manufacturer: _TYZB01_18pkine6
+    model: TS0204
     deviceProfileName: co-battery
