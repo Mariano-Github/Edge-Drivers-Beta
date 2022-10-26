@@ -1,0 +1,51 @@
+{
+    "id": "legendabsolute60149.tempCondition2",
+    "version": 1,
+    "status": "proposed",
+    "name": "Temp Condition2",
+    "ephemeral": false,
+    "attributes": {
+        "tempCondition": {
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "number",      
+                        "minimum": -50,        
+                        "maximum": 250
+                    },
+                    "unit": {
+                        "type": "string",      
+                        "enum": [
+                            "C",
+                            "F"
+                        ]
+                    }
+                },
+                "additionalProperties": false,
+                "required": [
+                    "value",
+                    "unit"
+                ]
+            },
+            "setter": "setTempCondition",
+            "enumCommands": []
+        }
+    },
+    "commands": {
+        "setTempCondition": {
+            "name": "setTempCondition",
+            "arguments": [
+                {
+                    "name": "value",
+                    "optional": false,
+                    "schema": {
+                        "type": "number",
+                        "minimum": -50,
+                        "maximum": 250
+                    }
+                }
+            ]
+        }
+    }
+}

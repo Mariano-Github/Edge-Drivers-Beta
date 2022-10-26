@@ -1,0 +1,47 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{tempCondition.value}} {{tempCondition.unit}}"
+            }
+        ],
+        "actions": []
+    },
+    "detailView": [
+        {
+            "label": "Temp Routine Condition",
+            "displayType": "numberField",
+            "numberField": {
+                "value": "tempCondition.value",
+                "valueType": "number",
+                "unit": "tempCondition.unit",
+                "command": "setTempCondition",
+                "argumentType": "number",
+                "range": [
+                    -50,
+                    250
+                ]
+            }
+        }
+    ],
+    "automation": {
+        "conditions": [],
+        "actions": [
+            {
+                "label": "Temp Condit Set Value",
+                "displayType": "numberField",
+                "numberField": {
+                    "command": "setTempCondition",
+                    "argumentType": "number",
+                    "unit": "tempCondition.unit",
+                    "range": [
+                        -50,
+                        250
+                    ]
+                }
+            }
+        ]
+    },
+    "id": "legendabsolute60149.tempCondition2",
+    "version": 1
+}
