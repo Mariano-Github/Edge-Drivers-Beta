@@ -374,3 +374,33 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_5ng23zjs
     model: TS0001
     deviceProfileName: single-switch
+  - id: "_TZ3000_mx3vgyea/TS000F"
+    deviceLabel: TS000F Plug
+    manufacturer: _TZ3000_mx3vgyea
+    model: TS000F
+    deviceProfileName: single-switch-plug
+  - id: "LUMI/lumi.plug"
+    deviceLabel: LUMI plug
+    manufacturer: LUMI
+    model: lumi.plug
+    deviceProfileName: single-switch-plug
+  - id: "TS0001/_TZ3000_q6a3tepg"
+    deviceLabel: TS0001 Switch
+    manufacturer: _TZ3000_q6a3tepg
+    model: TS0001
+    deviceProfileName: single-switch
+  - id: "3A SMart/LXN56-0S27LX1.3"
+    deviceLabel: 3A SMart Switch
+    manufacturer: 3A SMart Home DE
+    model: LXN56-0S27LX1.3
+    deviceProfileName: single-switch-plug
+  - id: "3A SMart/LXN-1S27LX1.0"
+    deviceLabel: 3A SMart Switch
+    manufacturer: 3A SMart Home DE
+    model: LXN-1S27LX1.0
+    deviceProfileName: single-switch
+  - id: "TS0001/_TZ3000_ajv2vfow"
+    deviceLabel: TS0001 Switch
+    manufacturer: _TZ3000_ajv2vfow
+    model: TS0001
+    deviceProfileName: single-switch
