@@ -1,4 +1,0 @@
-name: 'Zigbee Smoke Detector Heiman'
-packageKey: 'zigbee-smoke-detector-heiman'
-permissions:
-  zigbee: {}
