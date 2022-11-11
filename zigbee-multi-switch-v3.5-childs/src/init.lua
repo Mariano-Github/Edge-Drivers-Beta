@@ -30,10 +30,11 @@ local read_attribute = require "st.zigbee.zcl.global_commands.read_attribute"
 local zcl_messages = require "st.zigbee.zcl"
 local messages = require "st.zigbee.messages"
 local zb_const = require "st.zigbee.constants"
-local Groups = zcl_clusters.Groups
+--local Groups = zcl_clusters.Groups
 local Status = require "st.zigbee.generated.types.ZclStatus"
 
 local child_devices = require "child-devices"
+local signal = require "signal-metrics"
 
 -- Custom Capabilities Declaration
 local switch_All_On_Off = capabilities["legendabsolute60149.switchAllOnOff1"]
@@ -175,6 +176,12 @@ local function do_preferences (driver, device)
         else
           device:try_update_metadata({profile = "five-outlet-multi"})
         end
+      elseif id == "changeProfileSix" then
+        if newParameterValue == "Switch" then
+          device:try_update_metadata({profile = "six-switch"})
+        else
+          device:try_update_metadata({profile = "five-outlet"})
+        end
       end
 
       --- Configure on-off cluster, attributte 0x8002 and 4003 to value restore state in preferences
@@ -219,6 +226,10 @@ local function do_preferences (driver, device)
       elseif id == "switch5Child" then
         if oldPreferenceValue ~= nil and newParameterValue == "Yes" then
           child_devices.create_new(driver, device, "switch5")
+        end
+      elseif id == "switch6Child" then
+        if oldPreferenceValue ~= nil and newParameterValue == "Yes" then
+          child_devices.create_new(driver, device, "switch6")
         end
       end
     end
@@ -270,7 +281,37 @@ local function all_switches_status(driver,device)
      local total_on = 0
      local  total = 2
      local status_Text = ""
-     if id == "changeProfileFivePlug" or id == "changeProfileFiveSw" then
+     if id == "changeProfileSix" then
+      total = 6
+      if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) == "on" then
+        total_on = total_on + 1
+        status_Text = status_Text.."S1:On "
+      end
+      if device:get_latest_state("switch2", capabilities.switch.ID, capabilities.switch.switch.NAME) == "on" then
+        total_on = total_on + 1
+        status_Text = status_Text.."S2:On "
+      end
+      if device:get_latest_state("switch3", capabilities.switch.ID, capabilities.switch.switch.NAME) == "on" then
+        total_on = total_on + 1
+        status_Text = status_Text.."S3:On "
+      end
+      if device:get_latest_state("switch4", capabilities.switch.ID, capabilities.switch.switch.NAME) == "on" then
+        total_on = total_on + 1
+        status_Text = status_Text.."S4:On "
+      end
+      if device:get_latest_state("switch5", capabilities.switch.ID, capabilities.switch.switch.NAME) == "on" then
+        total_on = total_on + 1
+        status_Text = status_Text.."S5:On "
+      end
+      if device:get_latest_state("switch6", capabilities.switch.ID, capabilities.switch.switch.NAME) == "on" then
+        total_on = total_on + 1
+        status_Text = status_Text.."S6:On "
+      end
+      --print("Total_on >>>>>>", total_on,"Total >>>",total)
+
+      emit_event_all_On_Off(driver, device, total_on, total,status_Text)
+
+     elseif id == "changeProfileFivePlug" or id == "changeProfileFiveSw" then
       total = 5
       if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) == "on" then
         total_on = total_on + 1
@@ -355,9 +396,18 @@ local function all_switches_status(driver,device)
 local ep_ini = 1
 
 local function component_to_endpoint(device, component_id)
-  if component_id == "main" then
+  print("<<<<< device.fingerprinted_endpoint_id >>>>>>",device.fingerprinted_endpoint_id)
+  --in this models device.fingerprinted_endpoint_id is the last endpoint
+  if device:get_model() == "FB56+ZSW1JKJ2.7" or device:get_model()=="FB56+ZSW1JKJ2.5" then
+    ep_ini = 16
+  else
     ep_ini = device.fingerprinted_endpoint_id
-    return device.fingerprinted_endpoint_id
+  end
+
+  if component_id == "main" then
+    --ep_ini = device.fingerprinted_endpoint_id
+    --return device.fingerprinted_endpoint_id
+    return ep_ini
   else
     local ep_num = component_id:match("switch(%d)")
     if ep_num == "2" then
@@ -373,14 +423,26 @@ local function component_to_endpoint(device, component_id)
       else
         return ep_ini + 4
       end
+    elseif ep_num == "6" then
+      return ep_ini + 5
     end
   end
 end
 
 --- return Component_id from endpoint
 local function endpoint_to_component(device, ep)
-  if ep == device.fingerprinted_endpoint_id then
-    ep_ini = ep
+
+  print("<<<<< device.fingerprinted_endpoint_id >>>>>>",device.fingerprinted_endpoint_id)
+  --in this models device.fingerprinted_endpoint_id is the last endpoint
+  if device:get_model() == "FB56+ZSW1JKJ2.7" or device:get_model()=="FB56+ZSW1JKJ2.5" then
+    ep_ini = 16
+  else
+    ep_ini = device.fingerprinted_endpoint_id
+  end
+
+  --if ep == device.fingerprinted_endpoint_id then
+  if ep == ep_ini then
+    --ep_ini = ep
     return "main"
   else
     if ep == ep_ini + 1 then
@@ -394,6 +456,8 @@ local function endpoint_to_component(device, ep)
       return "switch5"
     elseif ep == ep_ini + 6 and device:get_manufacturer() == "_TYZB01_vkwryfdr" then
       return "switch5"
+    elseif ep == ep_ini + 5 then
+      return "switch6"
     end 
   end
 end
@@ -444,8 +508,9 @@ local function device_init (driver, device)
 
   if device.manufacturer == nil then    ---- device.manufacturer == nil (is NO Child device)
 
-    device:set_endpoint_to_component_fn(endpoint_to_component)
     device:set_component_to_endpoint_fn(component_to_endpoint)
+    device:set_endpoint_to_component_fn(endpoint_to_component)
+    --device:set_component_to_endpoint_fn(component_to_endpoint)
 
 
       ------ Selected profile & Icon
@@ -511,6 +576,12 @@ local function device_init (driver, device)
             else
               device:try_update_metadata({profile = "five-outlet-multi"})
             end
+        elseif id == "changeProfileSix" then
+          if device.preferences[id] == "Switch" then
+            device:try_update_metadata({profile = "six-switch"})
+          else
+            device:try_update_metadata({profile = "six-outlet"})
+          end
         end
     end
 
@@ -566,9 +637,11 @@ local function device_init (driver, device)
       print("Parent_devices[" .. device.id .."]>>>>>>", Parent_devices[device.id])
 
     --tuyaBlackMagic() {return zigbee.readAttribute(0x0000, [0x0004, 0x000, 0x0001, 0x0005, 0x0007, 0xfffe], [:], delay=200)}
-    print("<<< Read Basic clusters attributes >>>")
-    local attr_ids = {0x0004, 0x0000, 0x0001, 0x0005, 0x0007,0xFFFE} 
-    device:send(read_attribute_function (device, data_types.ClusterId(0x0000), attr_ids))
+    if device:get_model() ~= "FB56+ZSW1JKJ2.7" and device:get_model()~="FB56+ZSW1JKJ2.5" then
+      print("<<< Read Basic clusters attributes >>>")
+      local attr_ids = {0x0004, 0x0000, 0x0001, 0x0005, 0x0007,0xFFFE} 
+      device:send(read_attribute_function (device, data_types.ClusterId(0x0000), attr_ids))
+    end
     
     --- Configure on-off cluster, attributte 0x8002 and 4003 to value restore state in preferences
     --for id, value in pairs(device.profile.components) do
@@ -589,12 +662,14 @@ local function device_init (driver, device)
         --attr_id = 0x8002
         --write_attribute_function(device, cluster_id, attr_id, data_value, endpoint)
       --end
-    --end  
+    --end 
+    if device:get_latest_state("main", signal_Metrics.ID, signal_Metrics.signalMetrics.NAME) == nil then
+      device:emit_event(signal_Metrics.signalMetrics({value = "Waiting Zigbee Message"}, {visibility = {displayed = false }}))
+    end
   else
     -- INIT Childs devices global variable if exist
     Child_devices_created[device.parent_device_id .. device.model] = device
-    print("Child_devices_created[" .. device.parent_device_id .. device.model .."]>>>>>", Child_devices_created[device.parent_device_id .. device.model])
-
+    print("Child_devices_created[" .. device.parent_device_id .. device.model .."]>>>>>", Child_devices_created[device.parent_device_id .. device.model]) 
   end
 end
 
@@ -608,12 +683,15 @@ local function driver_Switched(driver,device)
      --and device:get_manufacturer() ~= "_TZ3000_3zofvcaa"
      --and device:get_manufacturer() ~= "_TZ3000_zmy4lslw"
 
-    --tuyaBlackMagic() {return zigbee.readAttribute(0x0000, [0x0004, 0x000, 0x0001, 0x0005, 0x0007, 0xfffe], [:], delay=200)}
-    local attr_ids = {0x0004, 0x0000, 0x0001, 0x0005, 0x0007,0xFFFE} 
-    device:send(read_attribute_function (device, data_types.ClusterId(0x0000), attr_ids))
+      --tuyaBlackMagic() {return zigbee.readAttribute(0x0000, [0x0004, 0x000, 0x0001, 0x0005, 0x0007, 0xfffe], [:], delay=200)}
+      if device:get_model() ~= "FB56+ZSW1JKJ2.7" and device:get_model() ~= "FB56+ZSW1JKJ2.5" then
+        print("<<< Read Basic clusters attributes >>>")
+        local attr_ids = {0x0004, 0x0000, 0x0001, 0x0005, 0x0007,0xFFFE} 
+        device:send(read_attribute_function (device, data_types.ClusterId(0x0000), attr_ids))
+      end
+    --end
+      device:configure()
     end
-
-    device:configure()
 
     -- INIT parents devices
     Parent_devices[device.id] = device
@@ -646,7 +724,7 @@ local function switch_All_On_Off_handler(driver, device, command)
   end
 
   for id, value in pairs(device.preferences) do
-   if id == "changeProfileFivePlug" or id == "changeProfileFiveSw" then
+   if id == "changeProfileSix" then
     if state == "All Off" then
       device:send(OnOff.server.commands.Off(device):to_endpoint(ep_init))
       device:send(OnOff.server.commands.Off(device):to_endpoint(ep_init + 1))
@@ -657,6 +735,7 @@ local function switch_All_On_Off_handler(driver, device, command)
       else
         device:send(OnOff.server.commands.Off(device):to_endpoint(ep_init + 4))
       end
+      device:send(OnOff.server.commands.Off(device):to_endpoint(ep_init + 5))
     else
       device:send(OnOff.server.commands.On(device):to_endpoint(ep_init))
       device:send(OnOff.server.commands.On(device):to_endpoint(ep_init + 1))
@@ -667,8 +746,31 @@ local function switch_All_On_Off_handler(driver, device, command)
       else
         device:send(OnOff.server.commands.On(device):to_endpoint(ep_init + 4))
       end
+      device:send(OnOff.server.commands.On(device):to_endpoint(ep_init + 5))
     end
-  elseif id == "changeProfileFourPlug" or id == "changeProfileFourSw" then
+  elseif id == "changeProfileFivePlug" or id == "changeProfileFiveSw" then
+      if state == "All Off" then
+        device:send(OnOff.server.commands.Off(device):to_endpoint(ep_init))
+        device:send(OnOff.server.commands.Off(device):to_endpoint(ep_init + 1))
+        device:send(OnOff.server.commands.Off(device):to_endpoint(ep_init + 2))
+        device:send(OnOff.server.commands.Off(device):to_endpoint(ep_init + 3))
+        if device:get_manufacturer() == "_TYZB01_vkwryfdr" then
+          device:send(OnOff.server.commands.Off(device):to_endpoint(ep_init + 6))
+        else
+          device:send(OnOff.server.commands.Off(device):to_endpoint(ep_init + 4))
+        end
+      else
+        device:send(OnOff.server.commands.On(device):to_endpoint(ep_init))
+        device:send(OnOff.server.commands.On(device):to_endpoint(ep_init + 1))
+        device:send(OnOff.server.commands.On(device):to_endpoint(ep_init + 2))
+        device:send(OnOff.server.commands.On(device):to_endpoint(ep_init + 3))
+        if device:get_manufacturer() == "_TYZB01_vkwryfdr" then
+          device:send(OnOff.server.commands.On(device):to_endpoint(ep_init + 6))
+        else
+          device:send(OnOff.server.commands.On(device):to_endpoint(ep_init + 4))
+        end
+      end
+   elseif id == "changeProfileFourPlug" or id == "changeProfileFourSw" then
     if state == "All Off" then
       device:send(OnOff.server.commands.Off(device):to_endpoint(ep_init))
       device:send(OnOff.server.commands.Off(device):to_endpoint(ep_init + 1))
@@ -754,31 +856,27 @@ local function on_off_attr_handler(driver, device, value, zb_rx)
     print ("function: on_off_attr_handler")
   if device.manufacturer == nil then    ---- device.manufacturer == nil is NO Child device
 
-    local visible_satate = false
-    if device.preferences.signalMetricsVisibles == "Yes" then
-      visible_satate = true
-    end
-    --local metrics = "LQI: "..zb_rx.lqi.value.." ... RSSI: "..zb_rx.rssi.value.." dBm"
-    local metrics = string.format("dni: 0x%04X", zb_rx.address_header.src_addr.value)..", lqi: "..zb_rx.lqi.value..", rssi: "..zb_rx.rssi.value.."dBm"
-    device:emit_event(signal_Metrics.signalMetrics({value = metrics}, {visibility = {displayed = visible_satate }}))
+    -- emit signal metrics
+    signal.metrics(device, zb_rx)
 
     local src_endpoint = zb_rx.address_header.src_endpoint.value
     local attr_value = value.value
+    print ("src_endpoint =", zb_rx.address_header.src_endpoint.value , "value =", value.value)
 
     --- Emit event from zigbee message recived
-    if attr_value == false then
+    if attr_value == false or attr_value == 0 then
       device:emit_event_for_endpoint(src_endpoint, capabilities.switch.switch.off())
-    else
+    elseif attr_value == true or attr_value == 1 then
       device:emit_event_for_endpoint(src_endpoint, capabilities.switch.switch.on())
     end
-    print ("src_endpoint =", zb_rx.address_header.src_endpoint.value , "value =", value.value)
+    --print ("src_endpoint =", zb_rx.address_header.src_endpoint.value , "value =", value.value)
 
     -- emit event for child devices
     local component = device:get_component_id_for_endpoint(src_endpoint)
     if Child_devices_created[device.id .. component] ~= nil then
-      if attr_value == false then
+      if attr_value == false or attr_value == 0 then
         Child_devices_created[device.id .. component]:emit_event(capabilities.switch.switch.off())
-      else
+      elseif attr_value == true or attr_value == 1 then
         Child_devices_created[device.id .. component]:emit_event(capabilities.switch.switch.on())
       end
     end
@@ -820,6 +918,10 @@ end
 --- default_response_handler
 local function default_response_handler(driver, device, zb_rx)
   print("<<<<<< default_response_handler >>>>>>")
+
+  -- emit signal metrics
+  signal.metrics(device, zb_rx)
+
   local status = zb_rx.body.zcl_body.status.value
 
   local attr_value = false

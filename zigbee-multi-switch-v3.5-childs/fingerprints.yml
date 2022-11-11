@@ -373,7 +373,7 @@ zigbeeManufacturer:
     deviceLabel: TS0115 Switch
     manufacturer: _TZ3000_jyupj3fw
     model: TS0006
-    deviceProfileName: five-switch  # need six-switch profile
+    deviceProfileName: six-switch  # need six-switch profile
   - id: "TS0012/_TYZB01_vzrytttn"
     deviceLabel: TS0012 Switch
     manufacturer: _TYZB01_vzrytttn
@@ -384,3 +384,23 @@ zigbeeManufacturer:
     manufacturer: _TYZB01_b1ngbmlm
     model: TS0112
     deviceProfileName: two-outlet
+  - id: "TS0003/_TZ3000_c0wbnbbf"
+    deviceLabel: TS0003 Switch
+    manufacturer: _TZ3000_c0wbnbbf
+    model: TS0003
+    deviceProfileName: three-switch
+  - id: "TS0003/_TZ3000_pv4puuxi"
+    deviceLabel: TS0003 Switch
+    manufacturer: _TZ3000_pv4puuxi
+    model: TS0003
+    deviceProfileName: three-switch
+  - id: "TS0002/_TZ3000_qn8qvk9y"
+    deviceLabel: TS0002 Switch
+    manufacturer: _TZ3000_qn8qvk9y
+    model: TS0002
+    deviceProfileName: two-switch
+  - id: "Interfree/XSSW4O"
+    deviceLabel: Interfree 4 Switch
+    manufacturer: Interfree
+    model: XSSW4O
+    deviceProfileName: four-switch
