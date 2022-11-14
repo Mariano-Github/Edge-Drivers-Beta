@@ -1,0 +1,61 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{forcedOnLevel.value} {%}}"   
+            }
+        ],
+        "actions": []
+    },
+    "detailView": [
+        {
+            "label": "Forced switch on brightness level",
+            "displayType": "numberField",
+            "numberField": {
+                "value": "forcedOnLevel.value",
+                "valueType": "integer",
+                "unit": "forcedOnLevel.unit",
+                "command": "setForcedOnLevel",
+                "argumentType": "integer",
+                "range": [
+                    0,
+                    100
+                ]
+            }
+        }
+    ],
+    "automation": {
+        "conditions": [
+            {
+                "label": "Forced switch on brightness level",
+                "displayType": "numberField",
+                "numberField": {
+                    "value": "forcedOnLevel.value",
+                    "valueType": "integer",
+                    "unit": "forcedOnLevel.unit",
+                    "range": [
+                        0,
+                        100
+                    ]
+                }
+            }
+        ],
+        "actions": [
+            {
+                "label": "Forced switch on brightness level",
+                "displayType": "numberField",
+                "numberField": {
+                    "command": "setForcedOnLevel",
+                    "argumentType": "integer",
+                    "unit": "forcedOnLevel.unit",
+                    "range": [
+                        0,
+                        100
+                    ]
+                }
+            }
+        ]
+    },
+    "id": "legendabsolute60149.forcedOnLevel",
+    "version": 1
+}

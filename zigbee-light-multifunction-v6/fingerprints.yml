@@ -504,6 +504,56 @@ zigbeeManufacturer:
     manufacturer: JunYu
     model: ZB-RGBCW
     deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "IKEA/TRADFRIbulbG125E27WSopal470lm"
+    deviceLabel: IKEA Light
+    manufacturer: IKEA of Sweden
+    model: TRADFRIbulbG125E27WSopal470lm
+    deviceProfileName: level-colortemp-2200-4000
+  - id: "GLEDOPTO/GL-B-007Z"
+    deviceLabel: GLEDOPTO GL-B-007Z
+    manufacturer: GLEDOPTO
+    model: GL-B-007Z
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZ3210_vaiyrvd1/TS0505B"
+    deviceLabel: RGBW TS0505B
+    manufacturer: _TZ3210_vaiyrvd1
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: sengled/E12-N1E
+    deviceLabel: Sengled Element Color Plus
+    manufacturer: sengled
+    model: E12-N1E
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "IKEA/FLOALT panel WS 60x90"
+    deviceLabel: IKEA FLOALT panel
+    manufacturer: IKEA of Sweden
+    model: FLOALT panel WS 60x90
+    deviceProfileName: level-colortemp-2200-4000
+  - id: "GLEDOPTO/GL-FL-004P"
+    deviceLabel: GLEDOPTO GL-FL-004P
+    manufacturer: GLEDOPTO
+    model: GL-FL-004P
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "HUE/LCD006"
+    deviceLabel: HUE LCD006
+    manufacturer: Signify Netherlands B.V.
+    model: LCD006
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZ3210_k1pe6ibm/TS0505B"
+    deviceLabel: RGBW TS0505B
+    manufacturer: _TZ3210_k1pe6ibm
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "IKEA/bulbB22WSglobeopal1055lm"
+    deviceLabel: IKEA Bulb
+    manufacturer: IKEA of Sweden
+    model: TRADFRIbulbB22WSglobeopal1055lm
+    deviceProfileName: level-colortemp-2200-4000
+  - id: "3A Smart/LXN56-DS27LX1.3"
+    deviceLabel: 3A Smart Dimmer
+    manufacturer: 3A Smart Home DE
+    model: LXN56-DS27LX1.3
+    deviceProfileName: switch-level
 
   # XY Color
   - id: "IKEA/E27 CWS 806lm"
@@ -565,6 +615,16 @@ zigbeeManufacturer:
     deviceLabel: LIDL TS0505A
     manufacturer: _TZ3000_odygigth
     model: TS0505A
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "TRADFRI bulb E14 CWS 470lm"
+    deviceLabel: IKEA E14 Bulb
+    manufacturer: IKEA of Sweden
+    model: TRADFRI bulb E14 CWS 470lm
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: " TRADFRI bulb GU10 CWS 345lm"
+    deviceLabel: IKEA GU10 Bulb
+    manufacturer: IKEA of Sweden
+    model:  TRADFRI bulb GU10 CWS 345lm
     deviceProfileName: rgbw-level-colortemp-2700-6500
 zigbeeGeneric:
   - id: "dimmer-generic ZLL"

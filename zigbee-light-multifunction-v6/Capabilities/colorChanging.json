@@ -23,6 +23,7 @@
                     "valueType": "string",
                     "on": "Active",
                     "off": "Inactive",
+                    "label":"{{colorChanging.value}}",
                     "alternatives": [
                         {
                             "key": "Active",

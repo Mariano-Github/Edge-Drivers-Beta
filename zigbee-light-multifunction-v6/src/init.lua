@@ -45,6 +45,7 @@ local color_Change_Timer = capabilities["legendabsolute60149.colorChangeTimer"]
 local color_Change_Mode = capabilities["legendabsolute60149.colorChangeMode1"]
 local get_Groups = capabilities["legendabsolute60149.getGroups"]
 local signal_Metrics = capabilities["legendabsolute60149.signalMetrics"]
+local forced_On_Level = capabilities["legendabsolute60149.forcedOnLevel"]
 
 -- read atributtes for level colot Temp and color
 local function attributes_read(self,device,command)
@@ -74,6 +75,7 @@ local function switch_level_handler(self,device,command)
   print("handler_Level >>>>>>>>>>>>>>",command.args.level)
   local on_Level = command.args.level
   device:set_field("last_Level", on_Level, {persist = true})
+
   if device:get_manufacturer() == "IKEA of Sweden" then
     device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(on_Level/100.0 * 254), 0x0))
   else
@@ -98,18 +100,20 @@ end
 ---color_Temperature_handler
 local function set_color_Temperature_handler(self,device,command)
   print("handler_Color Temp >>>>>>>>>>>>>>",command.args.temperature)
-  device:set_field(LAST_KELVIN_SET .. command.component, command.args.temperature)
   local colorTemp = command.args.temperature
+  if device.preferences.limitColorTemp == true then 
+    if colorTemp > device.preferences.colorTempMaxim then colorTemp = tonumber(math.floor(device.preferences.colorTempMaxim)) end
+  end
+  device:set_field(LAST_KELVIN_SET .. command.component, colorTemp)
   local colorTemp_Mireds= utils.round(1000000 / colorTemp)
   --print("colorTemp Mired", colorTemp_Mireds)
 
-  --local last_Level = device:get_latest_state("main", capabilities.switchLevel.ID, capabilities.switchLevel.level.NAME)
   local last_Level = device:get_field("last_Level")
   if last_Level == nil then 
     last_Level = 100
     device:set_field("last_Level", 100, {persist = true})
   end
-  if last_Level < 1 then last_Level = device:get_field("last_Level") end
+
   if device:get_manufacturer() == "IKEA of Sweden" then
     device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(last_Level/100.0 * 254), 0x0))
   else
@@ -135,7 +139,7 @@ local function color_control_handler(self,device,command)
     last_Level = 100
     device:set_field("last_Level", 100, {persist = true})
   end
-  if last_Level < 1 then last_Level = device:get_field("last_Level") end
+
   if device:get_manufacturer() == "IKEA of Sweden" then
     device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(last_Level/100.0 * 254), 0x0))
   else
@@ -157,12 +161,18 @@ local function on_off_attr_handler(self, device, value, zb_rx)
   --print("LQI >>>>>",zb_rx.lqi.value)
   --print("RSSI >>>>>",zb_rx.rssi.value)
   --print (string.format("src_Address: 0x%04X", zb_rx.address_header.src_addr.value))
-  local metrics = string.format("dni: 0x%04X", zb_rx.address_header.src_addr.value)..", lqi: "..zb_rx.lqi.value..", rssi: "..zb_rx.rssi.value.."dBm"
+
   local visible_satate = false
   if device.preferences.signalMetricsVisibles == "Yes" then
     visible_satate = true
   end
-  --local metrics = "LQI: "..zb_rx.lqi.value.." ... RSSI: "..zb_rx.rssi.value.." dBm"
+  
+  local gmt = os.date("%Y/%m/%d Time: %H:%M",os.time())
+  local dni = string.format("0x%04X", zb_rx.address_header.src_addr.value)
+  --local metrics = "<em table style='font-size:70%';'font-weight: bold'</em>".. <b>DNI: </b>".. dni .. "  ".."<b> LQI: </b>" .. zb_rx.lqi.value .."  ".."<b>RSSI: </b>".. zb_rx.rssi.value .. "dbm".."</em>".."<BR>"
+  local metrics = "<em table style='font-size:75%';'font-weight: bold'</em>".. "<b>GMT: </b>".. gmt .."<BR>"
+  metrics = metrics .. "<b>DNI: </b>".. dni .. "  ".."<b> LQI: </b>" .. zb_rx.lqi.value .."  ".."<b>RSSI: </b>".. zb_rx.rssi.value .. "dbm".."</em>".."<BR>"
+
   device:emit_event(signal_Metrics.signalMetrics({value = metrics}, {visibility = {displayed = visible_satate }}))
 
   local attr = capabilities.switch.switch
@@ -234,6 +244,15 @@ local function  color_Saturation_handler(driver, device, value, zb_rx)
   device:emit_event_for_endpoint(zb_rx.address_header.src_endpoint.value, capabilities.colorControl.saturation(math.floor(value.value / 0xFE * 100)))
 end
 
+--forced_On_Level_handler
+local function forced_On_Level_handler(driver, device, command)
+  print("<<< forced_On_Level_handler:", command.args.value)
+  local forced_Level = command.args.value
+  device:set_field("forced_Level", forced_Level, {persist = true})
+
+  device:emit_event(forced_On_Level.forcedOnLevel(forced_Level))
+
+end
 
 ----- driver template configuration-----
 local zigbee_bulb_driver_template = {
@@ -302,6 +321,9 @@ local zigbee_bulb_driver_template = {
     },
     [get_Groups.ID] = {
       [get_Groups.commands.setGetGroups.NAME] = delete_all_groups_handler,
+    },
+    [forced_On_Level.ID] = {
+      [forced_On_Level.commands.setForcedOnLevel.NAME] = forced_On_Level_handler,
     },
   },
   zigbee_handlers = {

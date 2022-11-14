@@ -1,6 +1,6 @@
 {
     "mnmn": "SmartThingsCommunity",
-    "vid": "3f7503f2-d380-3140-b7da-0919314cec73",
+    "vid": "70ff93ae-f81a-338f-9f5d-329cca466960",
     "version": "0.0.1",
     "type": "profile",
     "dashboard": {
@@ -21,7 +21,8 @@
                 "capability": "switch",
                 "version": 1,
                 "idx": 0,
-                "group": "main"
+                "group": "main",
+                "inline": null
             }
         ],
         "basicPlus": []
@@ -103,6 +104,13 @@
         {
             "component": "main",
             "capability": "legendabsolute60149.progressiveOff1",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "main",
+            "capability": "legendabsolute60149.forcedOnLevel",
             "version": 1,
             "values": [],
             "patch": []
@@ -251,6 +259,14 @@
             },
             {
                 "component": "main",
+                "capability": "legendabsolute60149.forcedOnLevel",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "main",
                 "capability": "legendabsolute60149.circadian",
                 "version": 1,
                 "values": [],
@@ -385,6 +401,14 @@
             },
             {
                 "component": "main",
+                "capability": "legendabsolute60149.forcedOnLevel",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "main",
                 "capability": "legendabsolute60149.circadian",
                 "version": 1,
                 "values": [],
@@ -435,6 +459,6 @@
             }
         ]
     },
-    "presentationId": "3f7503f2-d380-3140-b7da-0919314cec73",
+    "presentationId": "70ff93ae-f81a-338f-9f5d-329cca466960",
     "manufacturerName": "SmartThingsCommunity"
 }

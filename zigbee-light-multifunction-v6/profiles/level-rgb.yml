@@ -18,6 +18,8 @@ components:
     version: 1
   - id: legendabsolute60149.progressiveOff1
     version: 1
+  - id: legendabsolute60149.forcedOnLevel
+    version: 1
   - id: legendabsolute60149.colorChanging
     version: 1
   - id: legendabsolute60149.colorChangeTimer
@@ -197,6 +199,12 @@ preferences:
         "Yes": "Signal Metrics Visible"
         "No": "Signal Metrics No Visible"
       default: "No"
+  - name: "logDebugPrint"
+    title: "Show Logs Debug Prints in CLI"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
 metadata:
   deviceType: Light
   ocfDeviceType: oic.d.light

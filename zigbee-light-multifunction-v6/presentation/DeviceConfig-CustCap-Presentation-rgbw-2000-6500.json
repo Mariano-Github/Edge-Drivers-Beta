@@ -104,6 +104,13 @@
         },
         {
             "component": "main",
+            "capability": "legendabsolute60149.forcedOnLevel",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "main",
             "capability": "legendabsolute60149.circadian",
             "version": 1,
             "values": [],
@@ -245,6 +252,14 @@
             },
             {
                 "component": "main",
+                "capability": "legendabsolute60149.forcedOnLevel",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "main",
                 "capability": "legendabsolute60149.circadian",
                 "version": 1,
                 "values": [],
@@ -370,6 +385,14 @@
             {
                 "component": "main",
                 "capability": "legendabsolute60149.progressiveOff1",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "main",
+                "capability": "legendabsolute60149.forcedOnLevel",
                 "version": 1,
                 "values": [],
                 "patch": [],

@@ -14,16 +14,16 @@
 
 local capabilities = require "st.capabilities"
 local clusters = require "st.zigbee.zcl.clusters"
-local switch_defaults = require "st.zigbee.defaults.switch_defaults"
+--local switch_defaults = require "st.zigbee.defaults.switch_defaults"
 local configurationMap = require "configurations"
 local utils = require "st.utils"
 local utils_xy = require "utils-xy-lidl"
 
 local zcl_clusters = require "st.zigbee.zcl.clusters"
-local LevelControlCluster = zcl_clusters.Level
+--local LevelControlCluster = zcl_clusters.Level
 
-local LAST_KELVIN_SET = "last_kelvin_set"
-local CONVERSION_CONSTANT = 1000000
+--local LAST_KELVIN_SET = "last_kelvin_set"
+--local CONVERSION_CONSTANT = 1000000
 
 local ColorControl = clusters.ColorControl
 
@@ -44,6 +44,21 @@ local XY_COLOR_BULB_FINGERPRINTS = {
   ["_TZ3000_dbou1ap4"] = {
     ["TS0505A"] = true
   },
+  ["_TZ3000_kdpxju99"] = {
+    ["TS0505A"] = true
+  },
+  ["_TZ3000_v7fkcekx"] = {
+    ["TS0505A"] = true
+  },
+  ["_TZ3210_iystcadi"] = {
+    ["TS0505B"] = true
+  },
+  ["_TZ3210_sroezl0s"] = {
+    ["TS0504B"] = true
+  },
+  ["_TZ3000_odygigth"] = {
+    ["TS0505A"] = true
+  },
   --["_TZ3000_49qchf10"] = { -- LIDL mia solo ColorTemp
     --["TS0502A"] = true
   --}
@@ -56,7 +71,9 @@ local function can_handle_xy_color_bulb(opts, driver, device)
   else
     device:set_field("zll_xy", "no")
   end
-  --print("zll_xy >>>>>>", device:get_field("zll_xy"))
+  if device.preferences.logDebugPrint == true then
+    print("zll_xy >>>>>>", device:get_field("zll_xy"))
+  end
   return (XY_COLOR_BULB_FINGERPRINTS[device:get_manufacturer()] or {})[device:get_model()] or false
 end
 
@@ -115,9 +132,12 @@ local function set_color_handler(driver, device, cmd)
     x, y, Y = utils_xy.safe_hsv_to_xy(hue, sat)
   end
   store_xyY_values(device, x, y, Y)
-  --print(">>>>> CURRENT_X=",x)
-  --print(">>>>> CURRENT_Y=",y)
-  --print(">>>>> Y_TRISTIMULUS_VALUE=",Y)
+
+  if device.preferences.logDebugPrint == true then
+    print(">>>>> CURRENT_X=",x)
+    print(">>>>> CURRENT_Y=",y)
+    print(">>>>> Y_TRISTIMULUS_VALUE=",Y)
+  end
 
   --switch_defaults.on(driver,device,cmd)
   move_to_last_level(device)

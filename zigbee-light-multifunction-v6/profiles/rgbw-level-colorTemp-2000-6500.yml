@@ -22,6 +22,8 @@ components:
     version: 1
   - id: legendabsolute60149.progressiveOff1
     version: 1
+  - id: legendabsolute60149.forcedOnLevel
+    version: 1
   - id: legendabsolute60149.circadian
     version: 1
   - id: legendabsolute60149.colorChanging
@@ -213,6 +215,13 @@ preferences:
       minimum: 3000
       maximum: 6500
       default: 5000 
+  - name: "limitColorTemp"
+    title: "Use ColorTemp Incr. Max as limit"
+    description: "Use ColorTemp Increment Max as limit"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
   - name: "circadLevelMin"
     title: "Circadian Lighting MIN Level %"
     description: "Select Minimum Level for Circadian Lighting (1 to 100, Default: 50)"
@@ -259,9 +268,15 @@ preferences:
         "Yes": "Signal Metrics Visible"
         "No": "Signal Metrics No Visible"
       default: "No"
+  - name: "logDebugPrint"
+    title: "Show Logs Debug Prints in CLI"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
 metadata:
   deviceType: Light
   ocfDeviceType: oic.d.light
   deviceTypeId: Light
   mnmn: SmartThingsCommunity
-  vid: b1513651-5085-38d6-90b3-3222bcc36de7
+  vid: dc0f9f67-eba0-3573-aad5-40a568f2e791

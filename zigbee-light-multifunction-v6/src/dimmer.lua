@@ -1,10 +1,10 @@
 --- Smartthings library load ---
 local capabilities = require "st.capabilities"
-local ZigbeeDriver = require "st.zigbee"
-local defaults = require "st.zigbee.defaults"
+--local ZigbeeDriver = require "st.zigbee"
+--local defaults = require "st.zigbee.defaults"
 local zcl_clusters = require "st.zigbee.zcl.clusters"
 local OnOff = zcl_clusters.OnOff
-local colorcontrol_defaults = require "st.zigbee.defaults.colorTemperature_defaults"
+--local colorcontrol_defaults = require "st.zigbee.defaults.colorTemperature_defaults"
 local Groups = zcl_clusters.Groups
 local utils = require "st.utils"
 local utils_xy = require "utils-xy-lidl"
@@ -81,12 +81,14 @@ local color_Changing = capabilities["legendabsolute60149.colorChanging"]
 local color_Change_Timer = capabilities["legendabsolute60149.colorChangeTimer"]
 local color_Change_Mode = capabilities["legendabsolute60149.colorChangeMode1"]
 local driver_Version = capabilities["legendabsolute60149.driverVersion1"]
+local forced_On_Level = capabilities["legendabsolute60149.forcedOnLevel"]
 
 ----- do_init device tables create for dimming variables ----
  function driver_handler.do_init (self, device)
 
   print("<<<<< Device Init >>>>>>")
   device_running[device]= device
+
   if device:get_field("progOn[device]") == nil then
    progOn[device] = "Inactive"
    device:set_field("progOn[device]", progOn[device], {persist = true})
@@ -95,6 +97,7 @@ local driver_Version = capabilities["legendabsolute60149.driverVersion1"]
    progOn[device] = device:get_field("progOn[device]")
    device:emit_event(prog_On.progOn(progOn[device]))   
   end
+
   onStatus[device] = "stopped"
   onTotalSteps[device] = 2
   onStep[device] = 0
@@ -102,6 +105,7 @@ local driver_Version = capabilities["legendabsolute60149.driverVersion1"]
   onStepLevel[device] = 1
   onTimer[device]= 2
   dimJump[device] = "yes"
+
   if device:get_field("progOff[device]") == nil then
    progOff[device] = "Inactive"
    device:set_field("progOff[device]", progOff[device], {persist = true})
@@ -110,6 +114,7 @@ local driver_Version = capabilities["legendabsolute60149.driverVersion1"]
    progOff[device] = device:get_field("progOff[device]")
    device:emit_event(prog_Off.progOff(progOff[device]))
   end
+
   offStatus[device] = "stopped"
   offTotalSteps[device] = 2
   offStep[device] = 0
@@ -118,11 +123,10 @@ local driver_Version = capabilities["legendabsolute60149.driverVersion1"]
   offTimer[device]= 2
   offLevelStart[device] = 10
   offJump[device] = "no"
-  oldPreferenceValue[device] = "-"
-  newParameterValue[device] = "-"
   random_Step[device] = 1
   random_totalStep[device] =2
   random_timer[device] = math.random(10, 20)
+
   if device:get_field("circadian_Running[device]") == nil then
    circadian_Running[device] = "stopped"
    device:set_field("circadian_Running[device]", circadian_Running[device], {persist = true})
@@ -130,6 +134,7 @@ local driver_Version = capabilities["legendabsolute60149.driverVersion1"]
   else
    circadian_Running[device] = device:get_field("circadian_Running[device]")
   end
+
   if device:get_field("circadian[device]") == nil then
    circadian[device] = "Inactive"
    device:set_field("circadian[device]", circadian[device], {persist = true})
@@ -147,6 +152,29 @@ local driver_Version = capabilities["legendabsolute60149.driverVersion1"]
    device:emit_event(random_Next_Step.randomNext("Inactive"))
    device:set_field("random_state", "Inactive", {persist = true})
   end
+
+  -- restore forced level
+  if device:get_field("forced_Level") == nil  then
+    local forced_level= device:get_latest_state("main", forced_On_Level.ID, forced_On_Level.forcedOnLevel.NAME)
+    if forced_level == nil then forced_level= 0 end
+     device:set_field("forced_Level", forced_level, {persist = true})
+  end
+  --if device:get_field("forced_Level") == nil then
+    --device:set_field("forced_Level", 0, {persist = true})
+  --end
+  device:emit_event(forced_On_Level.forcedOnLevel(device:get_field("forced_Level")))
+
+  -- restore last level
+  if device:get_field("last_Level") == nil  then
+    device:set_field("last_Level", device:get_latest_state("main", capabilities.switchLevel.ID, capabilities.switchLevel.level.NAME), {persist = true})
+  end
+  if device:get_field("last_Level") == nil then
+    if device:get_field("forced_Level") > 0 then
+      --device:set_field("last_Level", device:get_field("forced_Level"), {persist = true})
+    else
+      device:set_field("last_Level", 100, {persist = true})
+    end
+  end
  
   --- ON dimming values calculation
     if device.preferences.onTimeMax >= 5 then 
@@ -156,9 +184,11 @@ local driver_Version = capabilities["legendabsolute60149.driverVersion1"]
     elseif device.preferences.onTimeMax < 2 then
       onTimer[device] = 0.3
     end
-     onTotalSteps[device] = math.floor(device.preferences.onTimeMax * 60 / onTimer[device])
-     onStepLevel[device] = ((device.preferences.onLevelEnd - device.preferences.onLevelStart)+ 0.1) / onTotalSteps[device]
-     print ("turnOn.onTotalSteps,turnOn.onStepLevel =", onTotalSteps[device], onStepLevel[device])
+    onTotalSteps[device] = math.floor(device.preferences.onTimeMax * 60 / onTimer[device])
+    onStepLevel[device] = ((device.preferences.onLevelEnd - device.preferences.onLevelStart)+ 0.1) / onTotalSteps[device]
+    if device.preferences.logDebugPrint == true then
+      print ("turnOn.onTotalSteps,turnOn.onStepLevel =", onTotalSteps[device], onStepLevel[device])
+    end
 
      -- OFF dimming values calculation
      if device.preferences.offTimeMax >= 5 then 
@@ -175,32 +205,35 @@ local driver_Version = capabilities["legendabsolute60149.driverVersion1"]
       offLevelStart[device] = math.floor(device:get_latest_state("main", capabilities.switchLevel.ID, capabilities.switchLevel.level.NAME))
      end
      offStepLevel[device] = ((offLevelStart[device]+0.1)- device.preferences.offLevelEnd) / offTotalSteps[device]
-     print ("turnOff.onTotalSteps,turnOff.onStepLevel =", offTotalSteps[device], offStepLevel[device])
+     if device.preferences.logDebugPrint == true then
+      print ("turnOff.onTotalSteps,turnOff.onStepLevel =", offTotalSteps[device], offStepLevel[device])
+     end
 
    ----- print device init values for debug------
   local id = device
-   print("<<<<<<<<< device_running[id] >>>>>>>>>>",device_running[id])
-   print("progOn=",progOn[id])
-   print("onStatus=",onStatus[id])
-   print("onTotalSteps=", onTotalSteps[id])
-   print("onStep=", onStep[id])
-   print("deviceonNewLevel=",onNewLevel[id])
-   print("offStepLevel=",onStepLevel[id])
-   print("dimJump=", dimJump[id])
-   print("progOff=",progOff[id])
-   print("offStatus=", offStatus[id])
-   print("offTotalSteps=", offTotalSteps[id])
-   print("offStep=", offStep[id])
-   print("offNewLevel=", offNewLevel[id])
-   print("offStepLevel=", offStepLevel[id])
-   print("offLevelStart=", offLevelStart[id])
-   print("offJump=", offJump[id])
-   print("random_Step=",random_Step[id])
-   print("random_totalStep=",random_totalStep[id])
-   print("random_timer=",random_timer[id])
-   print("circadian_Running=",circadian_Running[id])
-   print("circadian=",circadian[id])
- 
+  if device.preferences.logDebugPrint == true then
+    print("<<<<<<<<< device_running[id] >>>>>>>>>>",device_running[id])
+    print("progOn=",progOn[id])
+    print("onStatus=",onStatus[id])
+    print("onTotalSteps=", onTotalSteps[id])
+    print("onStep=", onStep[id])
+    print("deviceonNewLevel=",onNewLevel[id])
+    print("offStepLevel=",onStepLevel[id])
+    print("dimJump=", dimJump[id])
+    print("progOff=",progOff[id])
+    print("offStatus=", offStatus[id])
+    print("offTotalSteps=", offTotalSteps[id])
+    print("offStep=", offStep[id])
+    print("offNewLevel=", offNewLevel[id])
+    print("offStepLevel=", offStepLevel[id])
+    print("offLevelStart=", offLevelStart[id])
+    print("offJump=", offJump[id])
+    print("random_Step=",random_Step[id])
+    print("random_totalStep=",random_totalStep[id])
+    print("random_timer=",random_timer[id])
+    print("circadian_Running=",circadian_Running[id])
+    print("circadian=",circadian[id])
+  end
  --- ReStart Timer color chanaging function
   if device:get_field("colorTimer") == nil then
     device:set_field("colorTimer", 2 , {persist = true})
@@ -220,12 +253,11 @@ local driver_Version = capabilities["legendabsolute60149.driverVersion1"]
   end
 
   --restart random on-off if active
-  print("random_state >>>>>",device:get_field("random_state"))
+  if device.preferences.logDebugPrint == true then
+    print("random_state >>>>>",device:get_field("random_state"))
+  end
   if device:get_field("random_state") == "Active" then  
-    driver_handler.random_on_off_handler(self,device,"Active")
-  --elseif device:get_field("random_state") == nil then 
-    --device:emit_event(random_On_Off.randomOnOff("Inactive"))
-    --device:set_field("random_state", "Inactive", {persist = true})    
+    driver_handler.random_on_off_handler(self,device,"Active")  
   end
 
   --- restart Circadian timer if activated
@@ -257,8 +289,8 @@ function driver_handler.do_removed(self,device)
     offLevelStart[device] = nil
     offTimer[device]= nil
     offJump[device] = nil
-    oldPreferenceValue[device] = nil
-    newParameterValue[device] = nil
+    --oldPreferenceValue[device] = nil
+    --newParameterValue[device] = nil
 
     random_Step[device] = nil
     random_totalStep[device] = nil
@@ -269,29 +301,31 @@ function driver_handler.do_removed(self,device)
   end
   
   -----print tables of devices no removed from driver ------
-  for id, value in pairs(device_running) do
-    print("<<<<<<<<< device_running[id] >>>>>>>>>>",device_running[id])
-    print("progOn=",progOn[id])
-    print("onStatus=",onStatus[id])
-    print("onTotalSteps=", onTotalSteps[id])
-    print("onStep=", onStep[id])
-    print("deviceonNewLevel=",onNewLevel[id])
-    print("offStepLevel=",onStepLevel[id])
-    print("dimJump=", dimJump[id])
-    print("progOff=",progOff[id])
-    print("offStatus=", offStatus[id])
-    print("offTotalSteps=", offTotalSteps[id])
-    print("offStep=", offStep[id])
-    print("offNewLevel=", offNewLevel[id])
-    print("offStepLevel=", offStepLevel[id])
-    print("offLevelStart=", offLevelStart[id])
-    print("offJump=", offJump[id])
-    print("random_Step=",random_Step[id])
-    print("random_totalStep=",random_totalStep[id])
-    print("random_timer=",random_timer[id])
-    print("circadian_Running=",circadian_Running[id])
-    print("circadian=",circadian[id])
- end
+  if device.preferences.logDebugPrint == true then
+    for id, value in pairs(device_running) do
+      print("<<<<<<<<< device_running[id] >>>>>>>>>>",device_running[id])
+      print("progOn=",progOn[id])
+      print("onStatus=",onStatus[id])
+      print("onTotalSteps=", onTotalSteps[id])
+      print("onStep=", onStep[id])
+      print("deviceonNewLevel=",onNewLevel[id])
+      print("offStepLevel=",onStepLevel[id])
+      print("dimJump=", dimJump[id])
+      print("progOff=",progOff[id])
+      print("offStatus=", offStatus[id])
+      print("offTotalSteps=", offTotalSteps[id])
+      print("offStep=", offStep[id])
+      print("offNewLevel=", offNewLevel[id])
+      print("offStepLevel=", offStepLevel[id])
+      print("offLevelStart=", offLevelStart[id])
+      print("offJump=", offJump[id])
+      print("random_Step=",random_Step[id])
+      print("random_totalStep=",random_totalStep[id])
+      print("random_timer=",random_timer[id])
+      print("circadian_Running=",circadian_Running[id])
+      print("circadian=",circadian[id])
+    end
+  end
 end
 
 -----------------------------------------------
@@ -310,12 +344,14 @@ end
 --- Update preferences after infoChanged recived---
 function driver_handler.do_Preferences (self, device)
   for id, value in pairs(device.preferences) do
-    print("device.preferences[infoChanged]=",id, device.preferences[id])
-    oldPreferenceValue[device] = device:get_field(id)
-    newParameterValue[device] = device.preferences[id]
-    if oldPreferenceValue[device] ~= newParameterValue[device] then
-      device:set_field(id, newParameterValue[device], {persist = true})
-      print("<<< Preference changed:",id,"Old Value:",oldPreferenceValue[device],"New Value:", newParameterValue[device])
+    if device.preferences.logDebugPrint == true then
+      print("device.preferences[infoChanged]=",id, device.preferences[id])
+    end
+    oldPreferenceValue = device:get_field(id)
+    newParameterValue = device.preferences[id]
+    if oldPreferenceValue ~= newParameterValue then
+      device:set_field(id, newParameterValue, {persist = true})
+      print("<<< Preference changed:",id,"Old Value:",oldPreferenceValue,"New Value:", newParameterValue)
 
     --- Groups code preference value changed
       if id == "groupAdd" then
@@ -353,7 +389,9 @@ function driver_handler.do_Preferences (self, device)
     end
      onTotalSteps[device] = math.floor(device.preferences.onTimeMax * 60 / onTimer[device])
      onStepLevel[device] = ((device.preferences.onLevelEnd - device.preferences.onLevelStart)+ 0.1) / onTotalSteps[device]
-     print ("turnOn.onTotalSteps,turnOn.onStepLevel =", onTotalSteps[device], onStepLevel[device])
+     if device.preferences.logDebugPrint == true then
+      print ("turnOn.onTotalSteps,turnOn.onStepLevel =", onTotalSteps[device], onStepLevel[device])
+     end
 
      --- off dimming calculation values
      if device.preferences.offTimeMax >= 5 then 
@@ -370,28 +408,30 @@ function driver_handler.do_Preferences (self, device)
       offLevelStart[device] = math.floor(device:get_latest_state("main", capabilities.switchLevel.ID, capabilities.switchLevel.level.NAME))
      end
      offStepLevel[device] = ((offLevelStart[device]+ 0.1) - device.preferences.offLevelEnd) / offTotalSteps[device]
-     print ("turnOff.onTotalSteps,turnOff.onStepLevel =", offTotalSteps[device], offStepLevel[device])
+     if device.preferences.logDebugPrint == true then
+      print ("turnOff.onTotalSteps,turnOff.onStepLevel =", offTotalSteps[device], offStepLevel[device])
+     end
 
      ------ Change profile RGBW color temperature
       if id == "changeProfile" then
-        if newParameterValue[device] == "20006500" then
+        if newParameterValue == "20006500" then
          device:try_update_metadata({profile = "rgbw-level-colortemp-2000-6500"})
-        elseif newParameterValue[device] == "27006500" then
+        elseif newParameterValue == "27006500" then
          device:try_update_metadata({profile = "rgbw-level-colortemp-2700-6500"})
         end 
       end
       --- Configure on-off cluster, attributte 0x8002 and 4003 to value restore state in preferences
       if id == "restoreState" then
         print("<<< Write restore state >>>")
-        local value_send = tonumber(newParameterValue[device])
+        local value_send = tonumber(newParameterValue)
         local data_value = {value = value_send, ID = 0x30}
         local cluster_id = {value = 0x0006}
-        --write atribute for Tuya devices
+        --write atribute for standard devices
         local attr_id = 0x4003
         write.write_attribute_function(device, cluster_id, attr_id, data_value)
 
         --write atribute for Tuya devices (Restore previous state = 0x02)
-        if newParameterValue[device] == "255" then data_value = {value = 0x02, ID = 0x30} end
+        if newParameterValue == "255" then data_value = {value = 0x02, ID = 0x30} end
         attr_id = 0x8002
         write.write_attribute_function(device, cluster_id, attr_id, data_value)
       end   
@@ -414,7 +454,9 @@ function driver_handler.do_Preferences (self, device)
 
   print("Device ID", device)
   print("Manufacturer >>>", manufacturer, "Manufacturer_Len >>>",manufacturer_len)
-  print("Model >>>", model,"Model_len >>>",model_len) 
+  print("Model >>>", model,"Model_len >>>",model_len)
+  local firmware_full_version = device.data.firmwareFullVersion
+  print("<<<<< Firmware Version >>>>>",firmware_full_version)
   -- This will print in the log the total memory in use by Lua in Kbytes
   print("Memory >>>>>>>",collectgarbage("count"), " Kbytes")
 end
@@ -444,7 +486,9 @@ function driver_handler.color_Changing_handler(_,device,command)
    if colorChanging == "Continue" then
     colorChanging = "Active"
    else
-    print("colorChanging Value", command.args.value)
+    if device.preferences.logDebugPrint == true then
+      print("colorChanging Value", command.args.value)
+    end
     colorChanging = command.args.value
    end
 
@@ -550,13 +594,20 @@ function driver_handler.color_Changing_handler(_,device,command)
         stepsNumber = 0
        end
        device:set_field("stepsNumber",  stepsNumber, {persist = false})
-       --print("<< stepsNumber, stepsNumberMax >>", stepsNumber, stepsNumberMax)
+
+       if device.preferences.logDebugPrint == true then
+        print("<< stepsNumber, stepsNumberMax >>", stepsNumber, stepsNumberMax)
+       end
 
        colorChangeMode = device:get_field("colorChangeMode")
        if colorChangeMode == nil then colorChangeMode = 2 end
       end
-      --print("<<<<<<<< Color Changing Mode >>>>>>>", colorChangeMode)
-      print("*** color Timer ***", colorTimer)
+
+      if device.preferences.logDebugPrint == true then
+        print("<<<<<<<< Color Changing Mode >>>>>>>", colorChangeMode)
+        print("*** color Timer ***", colorTimer)
+      end
+
       if colorChangeMode == 1 then
         newSaturation = newSaturation + saturationStep
         if newSaturation > satMax then 
@@ -585,10 +636,11 @@ function driver_handler.color_Changing_handler(_,device,command)
    
       elseif colorChangeMode == 2 then
         newSaturation = math.random(satMin, satMax)
-        --print("<<<<< newSaturation >>>>>",newSaturation )
         newHue = math.random(hueMin, hueMax)
-        --if newHue == 1 then newHue = 180 else newHue = 1 end
-        --print("<<<<< newHue >>>>>",newHue)
+        if device.preferences.logDebugPrint == true then
+          print("<<<<< newSaturation >>>>>",newSaturation )
+          print("<<<<< newHue >>>>>",newHue)
+        end
       end
     
     -- Emit command and color event
@@ -615,9 +667,11 @@ function driver_handler.color_Changing_handler(_,device,command)
         device:set_field(Y_TRISTIMULUS_VALUE, Y)
         device:set_field(CURRENT_X, x)
         device:set_field(CURRENT_Y, y)
-        --print(">>>>> CURRENT_X=",x)
-        --print(">>>>> CURRENT_Y=",y)
-        --print(">>>>> Y_TRISTIMULUS_VALUE=",Y)
+        if device.preferences.logDebugPrint == true then
+          print(">>>>> CURRENT_X=",x)
+          print(">>>>> CURRENT_Y=",y)
+          print(">>>>> Y_TRISTIMULUS_VALUE=",Y)
+        end
 
         device:send(ColorControl.commands.MoveToColor(device, x, y, 0x0000))
 
@@ -630,7 +684,7 @@ function driver_handler.color_Changing_handler(_,device,command)
      ,'ColorChanging')   
   end
  
-  --last state for capability
+  --last state for custom capability
   --print("color_Changing.colorChanging >>>>>>>>", device:get_latest_state("main", color_Changing.ID, color_Changing.colorChanging.NAME))
 
 end
@@ -727,8 +781,10 @@ function driver_handler.random_on_off_handler(_,device,command)
 
    --emit time for next change
    device:emit_event(random_Next_Step.randomNext(nextChange))
-   print("random_totalStep=",random_totalStep[device])
-   print("NextChange=",nextChange)
+   if device.preferences.logDebugPrint == true then
+    print("random_totalStep=",random_totalStep[device])
+    print("NextChange=",nextChange)
+   end
 
    ------ Timer activation
    device.thread:call_on_schedule(
@@ -752,8 +808,10 @@ function driver_handler.random_on_off_handler(_,device,command)
 
         --emit time for next change
         device:emit_event(random_Next_Step.randomNext(nextChange))
-        --print("NEW-random_totalStep=",random_totalStep[device])
-        --print("NextChange=",nextChange)
+        if device.preferences.logDebugPrint == true then
+          print("NEW-random_totalStep=",random_totalStep[device])
+          print("NextChange=",nextChange)
+        end
       end
      end
      ,'Random-ON-OFF')   
@@ -847,17 +905,30 @@ function driver_handler.level_Steps_handler(_, device, command)
   print("Level Steps Value =", command.args.value)
   local level = command.args.value
   device:emit_event(level_Steps.levelSteps(level))
-  level = level + device:get_latest_state("main", capabilities.switchLevel.ID, capabilities.switchLevel.level.NAME)
-  if level > 100 then 
-    level = 100
-  elseif level < 0 then
-    level =0
-  end
+  
+  local direction = 0x00
+  if level < 0 then direction = 0x01 end
+
   if device.preferences.levelTransTime == 0 then
-    device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor((level)/100.0 * 254), 0xFFFF))
+    device:send(zcl_clusters.Level.commands.StepWithOnOff(device, direction, math.floor((math.abs(level)/100.0 * 254)), 0xFFFF))
   else
-    device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor((level)/100.0 * 254), (device.preferences.levelTransTime * 4)))
+    device:send(zcl_clusters.Level.commands.StepWithOnOff(device, direction, math.floor((math.abs(level)/100.0 * 254)), (device.preferences.levelTransTime * 4)))
   end
+
+  level = level + device:get_latest_state("main", capabilities.switchLevel.ID, capabilities.switchLevel.level.NAME)
+
+  if level < 0 then 
+    level = 0 
+  elseif level > 100 then
+    level = 100
+  end
+  device:set_field("last_Level", level, {persist = true})
+
+  --if device.preferences.levelTransTime == 0 then
+    --device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor((level)/100.0 * 254), 0xFFFF))
+  --else
+    --device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor((level)/100.0 * 254), (device.preferences.levelTransTime * 4)))
+  --end
   
   local level_read = function(d)
     device:send_to_component(command.component, zcl_clusters.Level.attributes.CurrentLevel:read(device))
@@ -886,11 +957,13 @@ function driver_handler.color_Temperature_Steps_handler(self, device, command)
     device:emit_event(color_Temperature_Steps.colorTempSteps(colorTemp))
     --print("Last Color Temperature =", device:get_latest_state("main", capabilities.colorTemperature.ID, capabilities.colorTemperature.colorTemperature.NAME))
     colorTemp = math.floor(utils.round(colorTemp + device:get_latest_state("main", capabilities.colorTemperature.ID, capabilities.colorTemperature.colorTemperature.NAME)))
-    if colorTemp > 6000 then
-      colorTemp = 6000
-    elseif colorTemp < 2700 then
-      colorTemp = 2700
+    
+    -- check if colortem is limited
+    if device.preferences.limitColorTemp == true then 
+      if colorTemp > device.preferences.colorTempMaxim then colorTemp = device.preferences.colorTempMaxim end
     end
+    if colorTemp < 2700 then colorTemp = 2700 end
+
     --print("colorTemp", colorTemp)
     device:set_field(LAST_KELVIN_SET .. "main", colorTemp)
     local colorTemp_Mireds = utils.round(1000000 / colorTemp)
@@ -954,7 +1027,9 @@ function driver_handler.circadian_handler(self, device)
   local localHour= os.date("%H",os.time() + (device.preferences.localTimeOffset * 3600))
   local localNextHour= os.date("%H",os.time() + (device.preferences.localTimeOffset * 3600) + 3600)
   local localMinutes= os.date("%M",os.time() + device.preferences.localTimeOffset)
-  print("localHour, localMinutes =", localHour, localMinutes)
+  if device.preferences.logDebugPrint == true then
+    print("localHour, localMinutes =", localHour, localMinutes)
+  end
   if tonumber(localHour) > 5 and tonumber(localHour) < 18 then
     circadian_Running[device] = "running"
     device:set_field("circadian_Running[device]", circadian_Running[device], {persist = true})
@@ -968,7 +1043,15 @@ function driver_handler.circadian_handler(self, device)
     --- new level calculation
     newLevel = math.ceil(device.preferences.circadLevelMin + (((colorTemp - 2700) / (device.preferences.colorTempMaxim - 2700)) * (device.preferences.circadLevelMax - device.preferences.circadLevelMin)))
     --print("New Level=", newLevel)
+
+    -- detect if forced Level actived
+    if device:get_field("forced_Level") > 0 then
+      if newLevel >= device:get_field("forced_Level") then
+        newLevel = device:get_field("forced_Level")
+      end
+    end
     device:set_field("last_Level", newLevel, {persist = true})
+
     --send initial values
     if device:get_manufacturer() == "IKEA of Sweden" then
     device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(newLevel/100.0 * 254), 0x0))
@@ -992,18 +1075,29 @@ function driver_handler.circadian_handler(self, device)
     localHour= os.date("%H",os.time() + (device.preferences.localTimeOffset * 3600))
     localNextHour= os.date("%H",os.time() + (device.preferences.localTimeOffset * 3600) + 3600)
     localMinutes= os.date("%M",os.time() + device.preferences.localTimeOffset)
-    print("localHour, localMinutes =", localHour, localMinutes)
-    
+    if device.preferences.logDebugPrint == true then
+      print("localHour, localMinutes =", localHour, localMinutes)
+    end
     if tonumber(localHour) > 5 and tonumber(localHour) < 18 then
 
       --- New colorTemperature Calculation
       colorTempHour = 2700 + ((device.preferences.colorTempMaxim - 2700) * math.sin(math.rad(circadian_Time_Angle[localHour])))
       colorTempNextHour = 2700 + ((device.preferences.colorTempMaxim - 2700) * math.sin(math.rad(circadian_Time_Angle[localNextHour])))
-      print("TempHour, TempNextHour",colorTempHour,colorTempNextHour)
       colorTemp =  math.floor(utils.round(colorTempHour + ((colorTempNextHour - colorTempHour) * tonumber(localMinutes) /60)))
       --- new level calculation
       newLevel = math.ceil(device.preferences.circadLevelMin + (((colorTemp - 2700) / (device.preferences.colorTempMaxim - 2700)) * (device.preferences.circadLevelMax - device.preferences.circadLevelMin)))
-      --print("New Level=", newLevel)
+      
+      if device.preferences.logDebugPrint == true then
+        print("TempHour, TempNextHour",colorTempHour,colorTempNextHour)
+        print("New Level=", newLevel)
+      end
+
+      -- detect if forced Level actived
+      if device:get_field("forced_Level") > 0 then
+        if newLevel >= device:get_field("forced_Level") then
+          newLevel = device:get_field("forced_Level")
+        end
+      end
       device:set_field("last_Level", newLevel, {persist = true})
 
       --send values
@@ -1019,7 +1113,7 @@ function driver_handler.circadian_handler(self, device)
       --print("colorTemp Mired", colorTemp_Mireds)
       device:send_to_component("main", zcl_clusters.ColorControl.server.commands.MoveToColorTemperature(device, colorTemp_Mireds, 0x0000))
       --device:emit_event_for_endpoint("main", capabilities.colorTemperature.colorTemperature(math.floor(colorTemp)))
-      local color_temp_read = function(d)
+      color_temp_read = function(d)
         device:send_to_component("main", zcl_clusters.ColorControl.attributes.ColorTemperatureMireds:read(device))
       end
       device.thread:call_with_delay(2, color_temp_read, "setColorTemp delayed read")
@@ -1027,12 +1121,19 @@ function driver_handler.circadian_handler(self, device)
   end,
   "Circadian_timer")
 else
+  local on_Level = device:get_field("last_Level")
+  -- detect if forced Level actived
+  if device:get_field("forced_Level") > 0 then
+    if on_Level >= device:get_field("forced_Level") then
+      on_Level = device:get_field("forced_Level")
+      device:set_field("last_Level", on_Level, {persist = true})
+    end
+  end
   if device.preferences.onTransTime == 0 then
-    device:send(OnOff.server.commands.On(device))
+    --device:send(OnOff.server.commands.On(device))
+    device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(on_Level/100.0 * 254), 0xFFFF))
    else
     --print("Turn On >>>>>>>>>>>>>>>>")
-    local on_Level = device:get_field("last_Level")
-    --print("last_Level >>>>>>",on_Level)
     if on_Level == nil then on_Level = device.preferences.onLevelEnd end
     device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(on_Level/100.0 * 254), (device.preferences.onTransTime * 4)))
   end
@@ -1050,7 +1151,14 @@ function driver_handler.on_handler (_, device, command)
   if device.preferences.onTransTime == 0 then
     --print(" <<<<< Turn On transition Time = = 0 >>>>>")
     if device:get_field("last_Level") == nil or device:get_field("last_Level") < 1 then device:set_field("last_Level", device.preferences.onLevelEnd, {persist = true}) end
-    -- set level of preferences if current leve < 1 ----
+
+    -- detect if forced Level actived
+    if device:get_field("forced_Level") > 0 then
+      --if device:get_field("last_Level") > device:get_field("forced_Level") then
+        device:set_field("last_Level", device:get_field("forced_Level"), {persist = true})
+      --end
+    end
+    -- set level of preferences if current level < 1 ----
     if device:get_latest_state("main", capabilities.switchLevel.ID, capabilities.switchLevel.level.NAME) == nil then
       device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(device:get_field("last_Level")/100.0 * 254), 0xFFFF))
       device:emit_event(capabilities.switchLevel.level(math.floor((device:get_field("last_Level")/ 254.0 * 100) + 0.5)))
@@ -1070,12 +1178,20 @@ function driver_handler.on_handler (_, device, command)
         onStartDim[device] = device:get_latest_state("main", capabilities.switchLevel.ID, capabilities.switchLevel.level.NAME)
       else
        onStartDim[device] = device.preferences.onLevelStart
+        -- detect if forced Level actived
+        if device:get_field("forced_Level") > 0 then
+          if onStartDim[device] > device:get_field("forced_Level") then
+            onStartDim[device] = device:get_field("forced_Level")
+          end
+        end
       end
       onStep[device] = -1
       onStatus[device] ="running"
-      --print ("turnOn.onTotalSteps =", onTotalSteps[device])
-      --print ("turnOn.onStepLevel =", onStepLevel[device])
-      
+      if device.preferences.logDebugPrint == true then
+        print ("turnOn.onTotalSteps =", onTotalSteps[device])
+        print ("turnOn.onStepLevel =", onStepLevel[device])
+      end
+
       -------- turn on: timer dimming ON --------
       device.thread:call_on_schedule(onTimer[device], 
        function ()
@@ -1096,7 +1212,9 @@ function driver_handler.on_handler (_, device, command)
           else
             onStep[device] = onStep[device] + 1 
             onNewLevel[device] = onNewLevel[device] + onStepLevel[device]
-            --print("onStep=",onStep[device])
+            if device.preferences.logDebugPrint == true then
+              print("onStep=",onStep[device])
+            end
             if device.preferences.onLevelEnd >= device.preferences.onLevelStart then
              if onNewLevel[device] >= device.preferences.onLevelEnd or onStep[device] >= onTotalSteps[device] then 
               onNewLevel[device] = device.preferences.onLevelEnd
@@ -1114,8 +1232,23 @@ function driver_handler.on_handler (_, device, command)
               end            
              end
             end
-              --print ("turnOn.onNewLevel=",onNewLevel[device])
-              --print("Last Level=", device:get_latest_state("main", capabilities.switchLevel.ID, capabilities.switchLevel.level.NAME))
+
+            if device.preferences.logDebugPrint == true then
+              print ("turnOn.onNewLevel=",onNewLevel[device])
+              print("Last Level=", device:get_latest_state("main", capabilities.switchLevel.ID, capabilities.switchLevel.level.NAME))
+            end
+
+              -- detect if forced Level actived
+              if device:get_field("forced_Level") > 0 then
+                if onNewLevel[device] > device:get_field("forced_Level") then
+                  onNewLevel[device] = device:get_field("forced_Level")
+                  --stop dimming and cancel timer
+                  onStatus[device] ="stopped"
+                  for timer in pairs(device.thread.timers) do
+                    device.thread:cancel_timer(timer)
+                  end 
+                end
+              end
               device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(onNewLevel[device]/100.0 * 254), 0xFFFF))
 
               ---- Change Temp Color if option activated -----
@@ -1135,14 +1268,19 @@ function driver_handler.on_handler (_, device, command)
 
     --- send status ON without dimming---
     if progOn[device]  ==  "Inactive" and circadian[device] == "Inactive" then
+      local on_Level = device:get_field("last_Level")
+      if on_Level == nil then on_Level = device.preferences.onLevelEnd end
+
+      -- detect if forced Level actived
+      if device:get_field("forced_Level") > 0 then
+          on_Level = device:get_field("forced_Level")
+          device:set_field("last_Level", on_Level, {persist = true})
+      end
       print("Turn On >>>>>>>>>>>>>>>>")
       if device.preferences.onTransTime == 0 then
-        device:send(OnOff.server.commands.On(device))
+        --device:send(OnOff.server.commands.On(device))
+        device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(on_Level/100.0 * 254), 0x0))
       else
-        --print("Turn On >>>>>>>>>>>>>>>>")
-        local on_Level = device:get_field("last_Level")
-        --print("last_Level >>>>>>",on_Level)
-        if on_Level == nil then on_Level = device.preferences.onLevelEnd end
         device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(on_Level/100.0 * 254), (device.preferences.onTransTime * 4)))
       end
       if device:get_field("zll_xy") == "yes" then
@@ -1164,6 +1302,10 @@ function driver_handler.off_handler (_, device, command)
   print("Turn Off handler >>>>>>>>>>>")
   -- save last level
   local last_Level = device:get_latest_state("main", capabilities.switchLevel.ID, capabilities.switchLevel.level.NAME)
+  -- detect if forced Level actived
+  if device:get_field("forced_Level") > 0 then
+      last_Level = device:get_field("forced_Level")
+  end
   device:set_field("last_Level", last_Level, {persist = true})
   
    ---deactivate color Continous Change
@@ -1235,9 +1377,10 @@ function driver_handler.off_handler (_, device, command)
        offStepLevel[device] = ((offLevelStart[device]+ 0.1)- device.preferences.offLevelEnd) / offTotalSteps[device]
        offStep[device] = -1
        offStatus[device] ="running"
-       --print ("turnOff.offTotalSteps =", offTotalSteps[device])
-       --print ("turnOff.offStepLevel =", offStepLevel[device])
-      
+       if device.preferences.logDebugPrint == true then
+          print ("turnOff.offTotalSteps =", offTotalSteps[device])
+          print ("turnOff.offStepLevel =", offStepLevel[device])
+       end
        --- turn on timer for dimming off ------
 
        device.thread:call_on_schedule(offTimer[device], 
@@ -1251,7 +1394,9 @@ function driver_handler.off_handler (_, device, command)
           else
             offStep[device] = offStep[device] + 1 
             offNewLevel[device] = (offNewLevel[device] - offStepLevel[device])
-            --print("offStep=", offStep[device])
+            if device.preferences.logDebugPrint == true then
+              print("offStep=", offStep[device])
+            end
             if offNewLevel[device] <= device.preferences.offLevelEnd or offStep[device] >= offTotalSteps[device] then 
              offNewLevel[device] = device.preferences.offLevelEnd
              offStatus[device] ="stopped"
@@ -1259,7 +1404,10 @@ function driver_handler.off_handler (_, device, command)
               device.thread:cancel_timer(timer)
              end
             end
-              --print ("turnOff.offNewLevel=",offNewLevel[device])
+            
+            if device.preferences.logDebugPrint == true then
+              print ("turnOff.offNewLevel=",offNewLevel[device])
+            end
               device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(offNewLevel[device]/100.0 * 254), 0xFFFF))
 
               ---- Change Temp Color if option activated -----
@@ -1285,6 +1433,7 @@ function driver_handler.off_handler (_, device, command)
         -- send zigbee event
        if device.preferences.onTransTime == 0 then
         device:send(OnOff.server.commands.Off(device))
+        --device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(0.1/100.0 * 254), 0x0))
        else
         device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(0.1/100.0 * 254), (device.preferences.onTransTime * 4)))
        end
