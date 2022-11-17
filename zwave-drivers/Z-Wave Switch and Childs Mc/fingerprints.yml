@@ -997,7 +997,6 @@ zwaveManufacturer:
     productType: 0xFF07
     productId: 0xFF03
     deviceProfileName: switch-level
-
   # added after migration
   - id: 0099/0002/0002
     deviceLabel: GreenWave Outlet
@@ -1047,6 +1046,61 @@ zwaveManufacturer:
     productType: 0x2017
     productId: 0x1717
     deviceProfileName: dual-switch-multi
+  - id: 0258/0200/1027
+    deviceLabel: NEO Coolcam Outlet
+    manufacturerId: 0x0258
+    productType: 0x0200
+    productId: 0x1027
+    deviceProfileName: metering-plug
+  - id: 010F/0100
+    deviceLabel: Fibaro Dimmer 1
+    manufacturerId: 0x010F
+    productType: 0x0100
+    #productId: 0x100A
+    deviceProfileName: switch-level
+  - id: 010F/0000/100A
+    deviceLabel: Fibaro Dimmer 1
+    manufacturerId: 0x010F
+    productType: 0x0000
+    productId: 0x100A
+    deviceProfileName: switch-level
+  - id: 0060/0003/0001
+    deviceLabel: Everspring Dimmer
+    manufacturerId: 0x0060
+    productType: 0x0003
+    productId: 0x0001
+    deviceProfileName: switch-level
+  - id: 0060/0004/0001
+    deviceLabel: Everspring plug
+    manufacturerId: 0x0060
+    productType: 0x0004
+    productId: 0x0001
+    deviceProfileName: switch-binary
+  - id: 0086/0003/004E
+    deviceLabel: Aotec Plug
+    manufacturerId: 0x0086
+    productType: 0x0003
+    productId: 0x004E
+    deviceProfileName: metering-plug
+  - id: 0312/AC01/4002
+    deviceLabel: New One Dimmer
+    manufacturerId: 0x0312
+    productType: 0xAC01
+    productId: 0x4002
+    deviceProfileName: switch-level
+  - id: 0312/AC01/4003
+    deviceLabel: New One Dimmer
+    manufacturerId: 0x0312
+    productType: 0xAC01
+    productId: 0x4003
+    deviceProfileName: metering-plug
+  - id: 0099/0003/0004
+    deviceLabel: Greenwave NP310-F
+    manufacturerId: 0x0099
+    productType: 0x0003
+    productId: 0x0004
+    deviceProfileName: switch-multicomponent-generic-5
+
 zwaveGeneric:
   - id: "GenericSwitch/1"
     deviceLabel: Switch
