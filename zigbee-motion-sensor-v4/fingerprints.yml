@@ -28,7 +28,7 @@ zigbeeManufacturer:
     deviceLabel: NYCE Motion Sensor
     manufacturer: NYCE
     model: 3043
-    deviceProfileName: motion-humidity-temp-battery
+    deviceProfileName: motion-battery
   - id: "NYCE/3045"
     deviceLabel: NYCE Motion Sensor
     manufacturer: NYCE
@@ -158,7 +158,7 @@ zigbeeManufacturer:
     deviceLabel: TS0202 Motion Sensor
     manufacturer: _TZ3000_msl6wxk9
     model: TS0202
-    deviceProfileName: motion-battery
+    deviceProfileName: motion-battery-sens
   - id: "_TZ3000_mcxw5ehu/Motion"
     deviceLabel: TS0202 Motion Sensor
     manufacturer: _TZ3000_mcxw5ehu
@@ -223,4 +223,29 @@ zigbeeManufacturer:
     deviceLabel: Konke Motion Sensor
     manufacturer: Konke
     model: 3AFE28010402000D
+    deviceProfileName: motion-battery
+  - id: "TUYATEC-kpz6r4qx/RH3040"
+    deviceLabel: Motion Sensor RH3040
+    manufacturer: TUYATEC-kpz6r4qx
+    model: RH3040
+    deviceProfileName: motion-battery
+  - id: "_TZ3000_kmh5qpmb/Motion"
+    deviceLabel: TS0202 Motion Sensor
+    manufacturer: _TZ3000_kmh5qpmb
+    model: TS0202
+    deviceProfileName: motion-battery-source
+  - id: "_TZ3040_6ygjfyll/Motion"
+    deviceLabel: TS0202 Motion Sensor
+    manufacturer: _TZ3040_6ygjfyll
+    model: TS0202
+    deviceProfileName: motion-battery-sens
+  - id: "_TZ3000_bmfw9ykl/Vibration"
+    deviceLabel: TS0210 Vibration Sensor
+    manufacturer: _TZ3000_bmfw9ykl
+    model: TS0210
+    deviceProfileName: motion-battery-sens
+  - id: "_TZ3000_nss8amz9/Motion"
+    deviceLabel: TS0202 Motion Sensor
+    manufacturer: _TZ3000_nss8amz9
+    model: TS0202
     deviceProfileName: motion-battery
