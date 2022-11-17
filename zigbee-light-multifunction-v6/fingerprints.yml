@@ -554,28 +554,38 @@ zigbeeManufacturer:
     manufacturer: 3A Smart Home DE
     model: LXN56-DS27LX1.3
     deviceProfileName: switch-level
+  - id: "GL-C-006/Gledopto"
+    deviceLabel: Light Gledopto
+    manufacturer: GLEDOPTO
+    model: GL-C-006
+    deviceProfileName: level-colortemp-2700-6500
+  - id: "tint-ColorTemperature/MLI"
+    deviceLabel: Light MLI
+    manufacturer: MLI
+    model: tint-ColorTemperature
+    deviceProfileName: level-colortemp-2000-6500
 
   # XY Color
   - id: "IKEA/E27 CWS 806lm"
     deviceLabel: IKEA E27 Bulb
     manufacturer: IKEA of Sweden
     model: TRADFRI bulb E27 CWS 806lm
-    deviceProfileName: level-rgb
+    deviceProfileName: rgbw-level-colortemp-2200-4000 #level-rgb
   - id: "TRADFRI bulb GU10 CWS 380lm"
     deviceLabel: IKEA GU10 Bulb
     manufacturer: IKEA of Sweden
     model: TRADFRI bulb GU10 CWS 380lm
-    deviceProfileName: rgbw-level-colortemp-2700-6500
+    deviceProfileName: rgbw-level-colortemp-2200-4000
   - id: "TRADFRI bulb E27 CWS opal 600lm"
     deviceLabel: IKEA E27 Bulb
     manufacturer: IKEA of Sweden
     model: TRADFRI bulb E27 CWS opal 600lm
-    deviceProfileName: level-rgb
+    deviceProfileName: rgbw-level-colortemp-2200-4000 #level-rgb
   - id: "TRADFRI bulb E26 CWS opal 600lm"
     deviceLabel: IKEA E26 Bulb
     manufacturer: IKEA of Sweden
     model: TRADFRI bulb E26 CWS opal 600lm
-    deviceProfileName: level-rgb
+    deviceProfileName: rgbw-level-colortemp-2200-4000 #level-rgb
   - id: "_TZ3000_riwp3k79/LIDL"
     deviceLabel: LIDL TS0505A
     manufacturer: _TZ3000_riwp3k79
@@ -620,12 +630,12 @@ zigbeeManufacturer:
     deviceLabel: IKEA E14 Bulb
     manufacturer: IKEA of Sweden
     model: TRADFRI bulb E14 CWS 470lm
-    deviceProfileName: rgbw-level-colortemp-2700-6500
+    deviceProfileName: rgbw-level-colortemp-2200-4000
   - id: " TRADFRI bulb GU10 CWS 345lm"
     deviceLabel: IKEA GU10 Bulb
     manufacturer: IKEA of Sweden
     model:  TRADFRI bulb GU10 CWS 345lm
-    deviceProfileName: rgbw-level-colortemp-2700-6500
+    deviceProfileName: rgbw-level-colortemp-2200-4000
 zigbeeGeneric:
   - id: "dimmer-generic ZLL"
     deviceLabel: "Zigbee Dimmer"
