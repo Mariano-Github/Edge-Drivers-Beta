@@ -404,3 +404,23 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_ajv2vfow
     model: TS0001
     deviceProfileName: single-switch
+  - id: "Orvibo/Switch"
+    deviceLabel: Orvibo Switch
+    manufacturer: 欧瑞博
+    model: 545df2981b704114945f6df1c780515a
+    deviceProfileName: single-switch
+  - id: "LUMI/lumi.switch.b1laus01"
+    deviceLabel: Aqara Smart Wall Switch (No Neutral, Single Rocker)
+    manufacturer: LUMI
+    model: lumi.switch.b1laus01
+    deviceProfileName: single-switch
+  - id: "TS0101 /_TZ3000_br3laukf"
+    deviceLabel: TS0101 Switch
+    manufacturer: _TZ3000_br3laukf
+    model: TS0101
+    deviceProfileName: single-switch-plug
+  - id: "Philips Hue/LOM005"
+    deviceLabel: Philips Hue Plug
+    manufacturer: Signify Netherlands B.V.
+    model: LOM005
+    deviceProfileName: single-switch-plug
