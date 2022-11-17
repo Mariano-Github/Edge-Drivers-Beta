@@ -404,3 +404,33 @@ zigbeeManufacturer:
     manufacturer: Interfree
     model: XSSW4O
     deviceProfileName: four-switch
+  - id: "_TZ3000_u3oupdgy/TS0004"
+    deviceLabel: TS0004 Switch
+    manufacturer: _TZ3000_u3oupdgy
+    model: TS0004
+    deviceProfileName: four-switch
+  - id: "TS0012/_TZ3000_lupfdzu"
+    deviceLabel: TS0012 Switch
+    manufacturer: _TZ3000_lupfd8zu
+    model: TS0012
+    deviceProfileName: two-switch
+  - id: "TS0012/_TZ3000_axmpdjjk"
+    deviceLabel: TS0012 Switch
+    manufacturer: _TZ3000_axmpdjjk
+    model: TS0012
+    deviceProfileName: two-switch
+  - id: "_TZ3000_u3oupgdy/TS0004"
+    deviceLabel: TS0004 Switch
+    manufacturer: _TZ3000_u3oupgdy
+    model: TS0004
+    deviceProfileName: four-switch
+  - id: "TS0002/_TYZB01_6sadkhcy"
+    deviceLabel: TS0002 Switch
+    manufacturer: _TYZB01_6sadkhcy
+    model: TS0002
+    deviceProfileName: two-switch
+  - id: "_TZ3000_wc2uoeah/TS011F"
+    deviceLabel: Jinvoo MultiPlug
+    manufacturer: _TZ3000_wc2uoeah
+    model: TS011F
+    deviceProfileName: three-outlet
