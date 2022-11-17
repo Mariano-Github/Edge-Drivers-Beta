@@ -39,3 +39,16 @@ zwaveManufacturer:
     manufacturerId: 0x0371
     productId: 0x00A4
     deviceProfileName: aeotec-doorbell-siren
+  # added
+  - id: "Abus Siren"
+    deviceLabel: Abus Siren
+    manufacturerId: 0x0403
+    productType: 0x0003
+    productId: 0x0000
+    deviceProfileName: base-siren
+  - id: "Heiman HEIEHS2WD Siren"
+    deviceLabel: Heiman HEIEHS2WD Siren
+    manufacturerId: 0x0260
+    productType: 0x8009
+    productId: 0x1000
+    deviceProfileName: base-siren
