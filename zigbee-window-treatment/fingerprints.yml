@@ -119,6 +119,16 @@ zigbeeManufacturer:
     manufacturer: SmartWings
     model: WM25/L-Z
     deviceProfileName: window-treatment-battery
+  - id: "TS130F_TZ3000_qqdbccb3"
+    deviceLabel: Lonsonho QS-Zigbee-CP03
+    manufacturer: _TZ3000_qqdbccb3
+    model: TS130F
+    deviceProfileName: window-treatment-profile-calib
+  - id: "TS130F/_TZ3000_dph3rpss"
+    deviceLabel: Lonsonho QS-Zigbee-CP03
+    manufacturer: _TZ3000_dph3rpss
+    model: TS130F
+    deviceProfileName: window-treatment-profile-calib
 zigbeeGeneric:
   - id: "genericShade"
     deviceLabel: Zigbee Window Treatment
