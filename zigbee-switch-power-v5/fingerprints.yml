@@ -239,3 +239,23 @@ zigbeeManufacturer:
     manufacturer: Vimar
     model: Mains_Power_Outlet_v1.0
     deviceProfileName: switch-power-energy-plug
+  - id: "TS011F/_TZ3000_okaz9tjs"
+    deviceLabel: TS011F Plug
+    manufacturer: _TZ3000_okaz9tjs
+    model: TS011F
+    deviceProfileName: switch-power-energy-plug
+  - id: "TS011F/_TZ3000_ko6v90pg"
+    deviceLabel: TS011F Plug
+    manufacturer: _TZ3000_ko6v90pg
+    model: TS011F
+    deviceProfileName: switch-power-energy-plug
+  - id: "TS011F/_TZ3000_qeuvnohg"
+    deviceLabel: TS011F Switch
+    manufacturer: _TZ3000_qeuvnohg
+    model: TS011F
+    deviceProfileName: switch-power-energy
+  - id: "HK-SL-DIM-A/Sunricher"
+    deviceLabel: Sunricher Dimmer
+    manufacturer: Sunricher
+    model: HK-SL-DIM-A
+    deviceProfileName: level-power-energy-light
