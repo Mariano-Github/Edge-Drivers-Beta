@@ -75,6 +75,11 @@ zigbeeManufacturer:
     manufacturer: feibit
     model: FNB56-SMF06FB1.6
     deviceProfileName: smoke-battery
+  - id: "HEIMAN/GASSensor-EF-3.0"
+    deviceLabel: HEIMAN Gas Detector
+    manufacturer: HEIMAN
+    model: GASSensor-EF-3.0
+    deviceProfileName: smoke
   # CO Sensors
   - id: "feibit/FNB56-COS06FB1.7"
     deviceLabel: SCA01ZB CO Sensor
