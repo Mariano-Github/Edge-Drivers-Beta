@@ -185,6 +185,26 @@ zigbeeManufacturer:
     manufacturer: _TYZB01_xph99wvr
     model: TS0203
     deviceProfileName: contact-battery-profile
+  - id: "CentraLite/Contact Sensor-A"
+    deviceLabel: Contact Sensor-A
+    manufacturer: CentraLite
+    model: Contact Sensor-A
+    deviceProfileName: contact-profile
+  - id: "CentraLite/3320-L"
+    deviceLabel: Contact Sensor 3320-L
+    manufacturer: CentraLite
+    model: 3320-L
+    deviceProfileName: contact-profile
+  - id: "_TZ3000_bzxlofth/Contact Sensor"
+    deviceLabel: TS0203 Contact Sensor
+    manufacturer: _TZ3000_bzxlofth
+    model: TS0203
+    deviceProfileName: contact-battery-profile
+  - id: "_TZ3000_osu834un/Contact Sensor"
+    deviceLabel: TS0203 Contact Sensor
+    manufacturer: _TZ3000_osu834un
+    model: TS0203
+    deviceProfileName: contact-battery-profile
 
   # ST multipurpose sensors
   - id: "Samjin/multi"
