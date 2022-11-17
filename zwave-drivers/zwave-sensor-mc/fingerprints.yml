@@ -181,7 +181,8 @@ zwaveManufacturer:
     manufacturerId: 0x010F
     productType: 0x0701
     productId: 0x1001
-    deviceProfileName: contact-battery-tamperalert-temperature
+    # deviceProfileName: contact-battery-tamperalert-temperature
+    deviceProfileName: fibaro-door-window-sensor
   - id: 0086/0002/0004
     deviceLabel: Door/Window Sensor
     manufacturerId: 0x0086
@@ -543,6 +544,18 @@ zwaveManufacturer:
     productType: 0x0000
     productId: 0x0001
     deviceProfileName: base-water
+  #added to stock
+  - id: "0371/XXXX/0012"
+    deviceLabel: Aeotec Water Sensor 7
+    manufacturerId: 0x0371
+    productId: 0x0012
+    deviceProfileName: water-battery-tamper
+  - id: "016A/0102/0064"
+    deviceLabel: Oomi Multipurpose Sensor
+    manufacturerId: 0x016A
+    productType: 0x0102
+    productId: 0x0064
+    deviceProfileName: aeotec-multisensor-6
 zwaveGeneric:
   - id: "GenericSensorAlarm"
     deviceLabel: Z-Wave Sensor
