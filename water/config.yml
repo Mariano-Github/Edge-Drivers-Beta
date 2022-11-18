@@ -1,0 +1,4 @@
+name: 'Zigbee Aqara Water Leak Sensor Mc'
+packageKey: 'zigbee-water-leak-sensor'
+permissions:
+  zigbee: {}
