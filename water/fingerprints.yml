@@ -1,6 +1,0 @@
-zigbeeManufacturer:
-  - id: "Lumi/SJCG11LM"
-    deviceLabel: Aqara Water Leak Sensor
-    manufacturer: LUMI
-    model: lumi.sensor_wleak.aq1
-    deviceProfileName: water-battery
