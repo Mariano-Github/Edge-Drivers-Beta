@@ -120,6 +120,7 @@ local zigbee_motion_driver = {
                   require("gatorsystem"),
                   require("motion_timeout"),
                   require("nyce"),
+                  require("tuya"),
                   require("zigbee-plugin-motion-sensor"),
                   require("battery"),
                   require("temperature"),
