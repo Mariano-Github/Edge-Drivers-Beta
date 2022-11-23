@@ -16,6 +16,9 @@ local capabilities = require "st.capabilities"
 local zcl_clusters = require "st.zigbee.zcl.clusters"
 local OccupancySensing = zcl_clusters.OccupancySensing
 
+--module emit signal metrics
+local signal = require "signal-metrics"
+
 local ZIGBEE_PLUGIN_MOTION_SENSOR_FINGERPRINTS = {
   { mfr = "eZEX", model = "E280-KR0A0Z0-HA" }
 }
@@ -30,6 +33,9 @@ local is_zigbee_plugin_motion_sensor = function(opts, driver, device)
 end
 
 local function occupancy_attr_handler(driver, device, occupancy, zb_rx)
+  -- emit signal metrics
+  signal.metrics(device, zb_rx)
+  
   device:emit_event(occupancy.value == 0x01 and capabilities.motionSensor.motion.active() or capabilities.motionSensor.motion.inactive())
 end
 

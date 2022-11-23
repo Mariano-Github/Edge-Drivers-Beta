@@ -16,6 +16,9 @@ local capabilities = require "st.capabilities"
 local zcl_clusters = require "st.zigbee.zcl.clusters"
 local IASZone = zcl_clusters.IASZone
 
+--module emit signal metrics
+local signal = require "signal-metrics"
+
 local ZIGBEE_MOTION_SENSOR_FINGERPRINTS = {
   { mfr = "ORVIBO", model = "895a2d80097f4ae2b2d40500d5e03dcc", timeout = 20 },
   { mfr = "Megaman", model = "PS601/z1", timeout = 20 },
@@ -23,7 +26,8 @@ local ZIGBEE_MOTION_SENSOR_FINGERPRINTS = {
   { mfr = "HiveHome.com", model = "MOT003", timeout = 20 },
   { mfr = "_TYZB01_3zv6oleo", model = "TS0210", timeout = 30 },
   { mfr = "_TZ3000_mcxw5ehu", model = "TS0202", timeout = 30 },
-  { mfr = "lk", model = "ZB-MotionSensor-D0003", timeout = 20 }
+  { mfr = "lk", model = "ZB-MotionSensor-D0003", timeout = 20 },
+  { mfr = "Konke", model = "3AFE28010402000D", timeout = 30 }
 }
 
 local is_zigbee_motion_sensor = function(opts, driver, device)
@@ -49,10 +53,16 @@ local generate_event_from_zone_status = function(driver, device, zone_status, zi
 end
 
 local function ias_zone_status_attr_handler(driver, device, zone_status, zb_rx)
+  -- emit signal metrics
+  signal.metrics(device, zb_rx)
+  
   generate_event_from_zone_status(driver, device, zone_status, zb_rx)
 end
 
 local function ias_zone_status_change_handler(driver, device, zb_rx)
+  -- emit signal metrics
+  signal.metrics(device, zb_rx)
+
   generate_event_from_zone_status(driver, device, zb_rx.body.zcl_body.zone_status, zb_rx)
 end
 

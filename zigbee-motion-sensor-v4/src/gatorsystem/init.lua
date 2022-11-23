@@ -16,6 +16,9 @@ local capabilities = require "st.capabilities"
 local zcl_clusters = require "st.zigbee.zcl.clusters"
 local IASZone = zcl_clusters.IASZone
 
+--module emit signal metrics
+local signal = require "signal-metrics"
+
 local generate_event_from_zone_status = function(driver, device, zone_status, zigbee_message)
   local result_occupied = 0x8000
   local result_open = 0x4000
@@ -48,10 +51,15 @@ local generate_event_from_zone_status = function(driver, device, zone_status, zi
 end
 
 local function ias_zone_status_attr_handler(driver, device, zone_status, zb_rx)
+  -- emit signal metrics
+  signal.metrics(device, zb_rx)
   generate_event_from_zone_status(driver, device, zone_status, zb_rx)
 end
 
 local function ias_zone_status_change_handler(driver, device, zb_rx)
+  -- emit signal metrics
+  signal.metrics(device, zb_rx)
+
   generate_event_from_zone_status(driver, device, zb_rx.body.zcl_body.zone_status, zb_rx)
 end
 
