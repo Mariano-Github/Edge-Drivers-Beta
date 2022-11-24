@@ -10,6 +10,8 @@ components:
     version: 1
   - id: battery
     version: 1
+  - id: legendabsolute60149.signalMetrics
+    version: 1
   - id: refresh
     version: 1
   - id: firmwareUpdate
@@ -18,8 +20,8 @@ components:
   - name: MotionSensor
 preferences:
   - name: "version"
-    title: "Version 2.0 (Oct 2021)"
-    description: "Add: ST Motion (Samjin) & Iris Multiporpuse Sensors with Temp. Report Settings" 
+    title: "Version 5.0 (Sep 2022)"
+    description: "Add: Motion Sensitivity Level and Signal Metrics" 
     required: false
     preferenceType: string
     definition:
@@ -27,3 +29,13 @@ preferences:
       minLength: 0
       maxLength: 0
       default: ""
+  - name: "signalMetricsVisibles"
+    title: "Signal Metrics Visible in History"
+    description: "Signal Metrics Visible in App History (default: No Visible):"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Yes" : "Signal Metrics Visible"
+        "No": "Signal Metrics No Visible"
+      default: "No"

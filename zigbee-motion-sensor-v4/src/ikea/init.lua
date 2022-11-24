@@ -20,9 +20,14 @@ local messages = require "st.zigbee.messages"
 local mgmt_bind_resp = require "st.zigbee.zdo.mgmt_bind_response"
 local mgmt_bind_req = require "st.zigbee.zdo.mgmt_bind_request"
 local zdo_messages = require "st.zigbee.zdo"
+--local battery_defaults = require "st.zigbee.defaults.battery_defaults"
 
 local OnOff = clusters.OnOff
 local PowerConfiguration = clusters.PowerConfiguration
+local Groups = clusters.Groups
+
+--module emit signal metrics
+local signal = require "signal-metrics"
 
 local IKEA_MOTION_SENSOR_FINGERPRINTS = {
     { mfr = "IKEA of Sweden", model = "TRADFRI motion sensor" }
@@ -30,7 +35,10 @@ local IKEA_MOTION_SENSOR_FINGERPRINTS = {
 
 local MOTION_RESET_TIMER = "motionResetTimer"
 
-function on_with_timed_off_command_handler(driver, device, zb_rx)
+local function on_with_timed_off_command_handler(driver, device, zb_rx)
+  -- emit signal metrics
+  signal.metrics(device, zb_rx)
+
   local motion_reset_timer = device:get_field(MOTION_RESET_TIMER)
   local on_time_secs = zb_rx.body.zcl_body.on_time.value and zb_rx.body.zcl_body.on_time.value / 10 or 180
   device:emit_event(capabilities.motionSensor.motion.active())
@@ -55,22 +63,31 @@ local is_ikea_motion = function(opts, driver, device)
 end
 
 local function zdo_binding_table_handler(driver, device, zb_rx)
+  print("<<<<zdo_binding_table_handler >>>>>")
   for _, binding_table in pairs(zb_rx.body.zdo_body.binding_table_entries) do
     if binding_table.dest_addr_mode.value == binding_table.DEST_ADDR_MODE_SHORT then
       -- send add hub to zigbee group command
       driver:add_hub_to_zigbee_group(binding_table.dest_addr.value)
     end
   end
+  -- hub firmware 45
+  driver:add_hub_to_zigbee_group(0x0000) -- fallback if no binding table entries found
+  --device:send(Groups.commands.AddGroup(device, 0x0000))
+  device:send(Groups.server.commands.AddGroup(device, 0, "Group-"..tostring(0)))
 end
 
 local function device_added(self, device)
   device:refresh()
+   -- Ikea Motion Sensor doesn't report current status during pairing process
+  -- so fake event is needed for default status
+  device:emit_event(capabilities.motionSensor.motion.inactive())
 end
 
 local do_configure = function(self, device)
   device:send(device_management.build_bind_request(device, PowerConfiguration.ID, self.environment_info.hub_zigbee_eui))
-  device:send(device_management.build_bind_request(device, OnOff.ID, self.environment_info.hub_zigbee_eui))
   device:send(PowerConfiguration.attributes.BatteryPercentageRemaining:configure_reporting(device, 30, 21600, 1))
+  --device:send(device_management.build_bind_request(device, OnOff.ID, self.environment_info.hub_zigbee_eui))
+  --device:send(OnOff.attributes.OnOff:configure_reporting(device, 0, 300))
   -- Read binding table
   local addr_header = messages.AddressHeader(
     constants.HUB.ADDR,
@@ -89,6 +106,9 @@ local do_configure = function(self, device)
                                                      body = message_body
                                                    })
   device:send(binding_table_cmd)
+
+  device:send(device_management.build_bind_request(device, OnOff.ID, self.environment_info.hub_zigbee_eui))
+  device:send(OnOff.attributes.OnOff:configure_reporting(device, 0, 300))
 end
 
 local ikea_motion_sensor = {

@@ -17,6 +17,9 @@ local zcl_clusters = require "st.zigbee.zcl.clusters"
 local battery_defaults = require "st.zigbee.defaults.battery_defaults"
 local OccupancySensing = zcl_clusters.OccupancySensing
 
+--module emit signal metrics
+local signal = require "signal-metrics"
+
 local ZIGBEE_IRIS_MOTION_SENSOR_FINGERPRINTS = {
     { mfr = "iMagic by GreatStar", model = "1117-S" }
 }
@@ -31,9 +34,9 @@ local is_zigbee_iris_motion_sensor = function(opts, driver, device)
 end
 
  ----- temperatre attribute configure ------
-local tempMeasurement = zcl_clusters.TemperatureMeasurement
-local device_management = require "st.zigbee.device_management"
-local tempMeasurement_defaults = require "st.zigbee.defaults.temperatureMeasurement_defaults"
+--local tempMeasurement = zcl_clusters.TemperatureMeasurement
+--local device_management = require "st.zigbee.device_management"
+--local tempMeasurement_defaults = require "st.zigbee.defaults.temperatureMeasurement_defaults"
 
 local function do_configure(self,device)
     print ("subdriver do_configure")
@@ -47,20 +50,23 @@ local function do_configure(self,device)
  
 
   local function temp_attr_handler(self, device, tempvalue, zb_rx)
-      tempMeasurement_defaults.temp_attr_handler(self, device, tempvalue, zb_rx)
+    -- emit signal metrics
+    signal.metrics(device, zb_rx)
+
+    tempMeasurement_defaults.temp_attr_handler(self, device, tempvalue, zb_rx)
   end
 
 local iris_motion_handler = {
     NAME = "Iris Motion Handler",
     lifecycle_handlers = {
-        init = battery_defaults.build_linear_voltage_init(2.4, 2.7),
-        doConfigure = do_configure
+        --init = battery_defaults.build_linear_voltage_init(2.4, 2.7),
+        --doConfigure = do_configure
     },
     zigbee_handlers = {
         attr = {
-          [tempMeasurement.ID] = {
-              [tempMeasurement.attributes.MeasuredValue.ID] = temp_attr_handler
-          }
+          --[tempMeasurement.ID] = {
+              --[tempMeasurement.attributes.MeasuredValue.ID] = temp_attr_handler
+          --}
         }
       },
     can_handle = is_zigbee_iris_motion_sensor

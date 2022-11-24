@@ -17,6 +17,9 @@ local zcl_clusters = require "st.zigbee.zcl.clusters"
 local battery_defaults = require "st.zigbee.defaults.battery_defaults"
 local OccupancySensing = zcl_clusters.OccupancySensing
 
+--module emit signal metrics
+local signal = require "signal-metrics"
+
 local ZIGBEE_NYCE_MOTION_SENSOR_FINGERPRINTS = {
   { mfr = "NYCE", model = "3041" },
   { mfr = "NYCE", model = "3043" },
@@ -33,6 +36,9 @@ local is_zigbee_nyce_motion_sensor = function(opts, driver, device)
 end
 
 local function occupancy_attr_handler(driver, device, occupancy, zb_rx)
+  -- emit signal metrics
+  signal.metrics(device, zb_rx)
+
   device:emit_event(
       occupancy.value == 1 and capabilities.motionSensor.motion.active() or capabilities.motionSensor.motion.inactive())
 end
@@ -40,7 +46,7 @@ end
 local nyce_motion_handler = {
   NAME = "NYCE Motion Handler",
   lifecycle_handlers = {
-    init = battery_defaults.build_linear_voltage_init(2.1, 3.0)
+    --init = battery_defaults.build_linear_voltage_init(2.1, 3.0)
   },
   zigbee_handlers = {
     attr = {
