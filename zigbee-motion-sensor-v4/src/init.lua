@@ -257,6 +257,7 @@ zigbee_handlers = {
                   require("gatorsystem"),
                   require("motion_timeout"),
                   require("nyce"),
+                  require("tuya"),
                   require("zigbee-plugin-motion-sensor"),
                   require("battery"),
                   require("temperature"),

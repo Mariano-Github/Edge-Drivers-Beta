@@ -249,3 +249,8 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_nss8amz9
     model: TS0202
     deviceProfileName: motion-battery
+  - id: "_TZE200_3towulqd/ZG-204ZL"
+    deviceLabel: Luminance Motion Sensor
+    manufacturer: _TZE200_3towulqd
+    model: TS0601
+    deviceProfileName: motion-illuminance-battery
