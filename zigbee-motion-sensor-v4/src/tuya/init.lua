@@ -21,7 +21,9 @@ local mgmt_bind_resp = require "st.zigbee.zdo.mgmt_bind_response"
 local mgmt_bind_req = require "st.zigbee.zdo.mgmt_bind_request"
 local zdo_messages = require "st.zigbee.zdo"
 
-local PowerConfiguration = clusters.PowerConfiguration
+local signal = require "signal-metrics"
+
+--local PowerConfiguration = clusters.PowerConfiguration
 local TUYA_CLUSTER = 0xEF00
 
 local TUYA_MOTION_SENSOR_FINGERPRINTS = {
@@ -51,9 +53,9 @@ local function device_added(self, device)
 end
 
 local do_configure = function(self, device)
-  device:send(device_management.build_bind_request(device, PowerConfiguration.ID, self.environment_info.hub_zigbee_eui))
-  device:send(PowerConfiguration.attributes.BatteryPercentageRemaining:configure_reporting(device, 30, 21600, 1))
-  device:send(clusters.PowerConfiguration.attributes.BatteryPercentageRemaining:read(device))
+  --device:send(device_management.build_bind_request(device, PowerConfiguration.ID, self.environment_info.hub_zigbee_eui))
+  --device:send(PowerConfiguration.attributes.BatteryPercentageRemaining:configure_reporting(device, 30, 21600, 1))
+  --device:send(clusters.PowerConfiguration.attributes.BatteryPercentageRemaining:read(device))
 
   -- Read binding table
   local addr_header = messages.AddressHeader(
@@ -101,6 +103,10 @@ local function tuya_handler_illuminance(self, device, zb_rx)
 end
 
 local function tuya_handler(self, device, zb_rx)
+  -- emit signal metrics
+  signal.metrics(device, zb_rx)
+  
+  -- dispatch table
   local dp_table = {
     [0x01] = tuya_handler_motion,
     [0x04] = tuya_handler_battery,
@@ -108,6 +114,7 @@ local function tuya_handler(self, device, zb_rx)
     -- Zigbee EUI + Network ID
     --[0xe2] = GenericBody:  00 01 E2 55 44 33 22 11 00 11 00
   }
+  
   local version = zb_rx.body.zcl_body.body_bytes:byte(1)
   local sequence = zb_rx.body.zcl_body.body_bytes:byte(2)
   local dp = zb_rx.body.zcl_body.body_bytes:byte(3)
