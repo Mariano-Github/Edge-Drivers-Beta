@@ -91,3 +91,8 @@ zigbeeManufacturer:
     manufacturer: _TYZB01_18pkine6
     model: TS0204
     deviceProfileName: co-battery
+  - id: "HEIMAN/COSensor-EF-3.0"
+    deviceLabel: HEIMAN CO Detector
+    manufacturer: HEIMAN
+    model: COSensor-EF-3.0
+    deviceProfileName: co-battery
