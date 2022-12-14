@@ -404,6 +404,21 @@ zigbeeManufacturer:
     manufacturer: Interfree
     model: XSSW4O
     deviceProfileName: four-switch
+  - id: "Interfree/XSSW3O"
+    deviceLabel: Interfree 3 Switch
+    manufacturer: Interfree
+    model: XSSW3O
+    deviceProfileName: three-switch
+  - id: "Interfree/XSSW2O"
+    deviceLabel: Interfree 2 Switch
+    manufacturer: Interfree
+    model: XSSW2O
+    deviceProfileName: two-switch
+  - id: "Interfree/UPSK2O"
+    deviceLabel: Interfree 2 Plug
+    manufacturer: Interfree
+    model: UPSK2O
+    deviceProfileName: two-outlet
   - id: "_TZ3000_u3oupdgy/TS0004"
     deviceLabel: TS0004 Switch
     manufacturer: _TZ3000_u3oupdgy
@@ -439,6 +454,36 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_iwhuhzdo
     model: TS0003
     deviceProfileName: three-switch
+  - id: "FeiBit/FB56-ZSW1IKJ2.5"
+    deviceLabel: FeiBit 3 Switch
+    manufacturer: Feibit Inc co.
+    model: FB56+ZSW1IKJ2.5
+    deviceProfileName: three-switch
+  - id: "TS0002/_TZ3000_7hp93xpr"
+    deviceLabel: TS0002 Switch
+    manufacturer: _TZ3000_7hp93xpr
+    model: TS0002
+    deviceProfileName: two-switch
+  - id: "Yagusmart/_TZ3000_hlwm8e96"
+    deviceLabel: Yagusmart 3 Switch
+    manufacturer: _TZ3000_hlwm8e96
+    model: TS0013
+    deviceProfileName: three-switch
+  - id: "TS0013/_TZ3000_snq47izk"
+    deviceLabel: TS0013 Switch
+    manufacturer: _TZ3000_snq47izk
+    model: TS0013
+    deviceProfileName: three-switch
+  - id: "TS0012/_TZ3000_jl7qyupf"
+    deviceLabel: Two Switch
+    manufacturer: _TZ3000_jl7qyupf
+    model: TS0012
+    deviceProfileName: two-switch  
+  - id: "TS0012/_TZ3000_lIfaquvp"
+    deviceLabel: Two Switch
+    manufacturer: _TZ3000_lIfaquvp
+    model: TS0012
+    deviceProfileName: two-switch
 
     # level devices
   - id: "TS110E/_TZ3210_pagajpog"
