@@ -124,3 +124,8 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_ywagc4rj
     model: TS0201
     deviceProfileName: temp-humid-battery
+  - id: "TUYATEC-yg5dcbfu/RH3052"
+    deviceLabel: Tuya RH3052
+    manufacturer: TUYATEC-yg5dcbfu
+    model: RH3052
+    deviceProfileName: temp-humid-battery
