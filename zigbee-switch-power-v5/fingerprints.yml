@@ -259,3 +259,23 @@ zigbeeManufacturer:
     manufacturer: Sunricher
     model: HK-SL-DIM-A
     deviceProfileName: level-power-energy-light
+  - id: "TS011F/_TZ3000_hdopuwv6"
+    deviceLabel: Aubess TS011F Plug
+    manufacturer: _TZ3000_hdopuwv6
+    model: TS011F
+    deviceProfileName: switch-power-energy-plug
+  - id: "SmartPlugHeiman"
+    deviceLabel: Heiman SmartPlug
+    manufacturer: Heiman
+    model: SmartPlug
+    deviceProfileName: switch-power-energy-plug
+  - id: "_TZ3000_cphmq0q7/TS011F"
+    deviceLabel: TS011F Plug
+    manufacturer: _TZ3000_cphmq0q7
+    model: TS011F
+    deviceProfileName: switch-power-energy-plug
+  - id: "DAWON_DNS/KB-B540R-ZB"
+    deviceLabel: KB-B540R-ZB Plug
+    manufacturer: DAWON_DNS
+    model: KB-B540R-ZB
+    deviceProfileName: switch-power-energy-plug
