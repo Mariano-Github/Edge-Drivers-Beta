@@ -205,6 +205,16 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_osu834un
     model: TS0203
     deviceProfileName: contact-battery-profile
+  - id: "TUYATEC-rkqiqvcs/Close Sensor"
+    deviceLabel: RH3001 Open/Close Sensor
+    manufacturer: TUYATEC-rkqiqvcs
+    model: RH3001
+    deviceProfileName: contact-battery-profile
+  #- id: "_TZE200_pay2byax/TS0601"
+  #  deviceLabel: TS0601 Contact Sensor
+  #  manufacturer: _TZE200_pay2byax
+  #  model: TS0601
+  #  deviceProfileName: contact-battery-profile
 
   # ST multipurpose sensors
   - id: "Samjin/multi"
