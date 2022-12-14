@@ -424,3 +424,18 @@ zigbeeManufacturer:
     manufacturer: Signify Netherlands B.V.
     model: LOM005
     deviceProfileName: single-switch-plug
+  - id: "Quirky/Smart Switch"
+    deviceLabel: Smart Switch
+    manufacturer: Quirky
+    model: Smart Switch
+    deviceProfileName: single-light-endpoint2
+  - id: "Interfree/XSSW1O"
+    deviceLabel: Interfree 1 Switch
+    manufacturer: Interfree
+    model: XSSW1O
+    deviceProfileName: single-switch
+  - id: "Interfree/UPSK1O"
+    deviceLabel: Interfree 1 Plug
+    manufacturer: Interfree
+    model: UPSK1O
+    deviceProfileName: single-switch-plug
