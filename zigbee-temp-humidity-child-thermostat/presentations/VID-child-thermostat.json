@@ -1,6 +1,6 @@
 {
     "mnmn": "SmartThingsCommunity",
-    "vid": "f1406cea-984a-3c6f-9988-42138710971d",
+    "vid": "446450a9-1d7e-3d81-843d-98a9d39b330c",
     "version": "0.0.1",
     "type": "profile",
     "dashboard": {
@@ -25,10 +25,10 @@
             },
             {
                 "component": "main",
-                "capability": "relativeHumidityMeasurement",
+                "capability": "thermostatOperatingState",     
                 "version": 1,
                 "idx": 0,
-                "group": "Humidity",
+                "group": "Operating State",
                 "values": [],
                 "composite": true
             },
@@ -335,6 +335,6 @@
             }
         ]
     },
-    "presentationId": "f1406cea-984a-3c6f-9988-42138710971d",
+    "presentationId": "446450a9-1d7e-3d81-843d-98a9d39b330c",
     "manufacturerName": "SmartThingsCommunity"
 }

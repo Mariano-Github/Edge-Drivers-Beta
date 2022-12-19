@@ -17,7 +17,6 @@
 local capabilities = require "st.capabilities"
 local ZigbeeDriver = require "st.zigbee"
 local defaults = require "st.zigbee.defaults"
-local constants = require "st.zigbee.constants"
 local xiaomi_utils = require "xiaomi_utils"
 local data_types = require "st.zigbee.data_types"
 
@@ -33,6 +32,8 @@ local HumidityCluster = require ("st.zigbee.zcl.clusters").RelativeHumidity
 local utils = require "st.utils"
 
 local child_devices = require "child-devices"
+local signal = require "signal-metrics"
+local refresh_thermostat = require "refresh-thermostat"
 
 
 -- Custom Capability AtmPressure declaration
@@ -43,6 +44,7 @@ local humidity_Condition = capabilities ["legendabsolute60149.humidityCondition"
 local humidity_Target = capabilities ["legendabsolute60149.humidityTarget"]
 local illumin_Condition = capabilities ["legendabsolute60149.illuminCondition"]
 local illumin_Target = capabilities ["legendabsolute60149.illuminTarget"]
+local signal_Metrics = capabilities["legendabsolute60149.signalMetrics"]
 
 -- initialice variables
 local temp_Condition_set ={}
@@ -126,7 +128,7 @@ local function do_preferences(self, device)
         local changeRep = device.preferences.tempChangeRep * 100
         print ("Temp maxTime & changeRep: ", maxTime, changeRep)
         device:send(device_management.build_bind_request(device, tempMeasurement.ID, self.environment_info.hub_zigbee_eui))
-        device:send(tempMeasurement.attributes.MeasuredValue:configure_reporting(device, 60, maxTime, changeRep))
+        device:send(tempMeasurement.attributes.MeasuredValue:configure_reporting(device, 30, maxTime, changeRep))
       elseif id == "humMaxTime" or id == "humChangeRep" then
         local maxTime = device.preferences.humMaxTime * 60
         local changeRep = device.preferences.humChangeRep * 100
@@ -223,12 +225,14 @@ end
 local function temp_attr_handler(self, device, tempvalue, zb_rx)
   local last_temp_value = tempvalue.value / 100
 
-  --print("<<<< Last_temp_value",last_temp_value)
-
   -- save new temperature for Thermostat Child device
-  if Child_devices_created[device.id .. "-Thermostat"] ~= nil then
+  if Child_devices_created[device.id .. "-Thermostat"] ~= nil then 
     Child_devices_created[device.id .. "-Thermostat"]:set_field("last_temp", last_temp_value, {persist = false})
     Child_devices_created[device.id .. "-Thermostat"]:emit_event(capabilities.temperatureMeasurement.temperature({value = last_temp_value, unit = "C" }))
+
+    -- thermostat calculations
+    refresh_thermostat.thermostat_data_check (self, Child_devices_created[device.id .. "-Thermostat"])
+
   end
 
   local temp_scale = "C"
@@ -239,9 +243,6 @@ local function temp_attr_handler(self, device, tempvalue, zb_rx)
   end
   last_temp_value =  utils.round(last_temp_value) + device.preferences.tempOffset
 
-  --if last_temp_value == temp_Condition_set.value then
-    --temp_Target_set = "Equal"
-  --else
   if last_temp_value < temp_Condition_set.value then
     temp_Target_set = "Down"
   elseif last_temp_value >= temp_Condition_set.value then
@@ -251,6 +252,9 @@ local function temp_attr_handler(self, device, tempvalue, zb_rx)
   -- emit temp target
   device:emit_event(temp_Target.tempTarget(temp_Target_set))
 
+  -- emit signal metrics
+  signal.metrics(device, zb_rx)
+
   -- emmit device temperature
   tempMeasurement_defaults.temp_attr_handler(self, device, tempvalue, zb_rx)
 
@@ -258,6 +262,7 @@ end
 
 -- attributte handler Atmospheric pressure
 local pressure_value_attr_handler = function (driver, device, value, zb_rx)
+
   print("Pressure.value >>>>>>", value.value)
   -- save previous pressure  and time values
   if device:get_field("last_value") == nil then device:set_field("last_value", 0, {persist = false}) end
@@ -284,12 +289,12 @@ end
 ---humidity_attr_handler
 local function humidity_attr_handler(driver, device, value, zb_rx)
 
+  -- emit signal metrics
+  signal.metrics(device, zb_rx)
+
   local last_humid_value = utils.round(value.value / 100.0) + device.preferences.humidityOffset
   --device:set_field("last_humid_value", utils.round(value.value / 100.0), {persist = true})
 
-  --if last_humid_value == humidity_Condition_set then
-    --humidity_Target_set = "Equal"
-  --else
   if last_humid_value < humidity_Condition_set then
     humidity_Target_set = "Down"
   elseif last_humid_value >= humidity_Condition_set then
@@ -313,16 +318,13 @@ local function illuminance_measurement_defaults(driver, device, value, zb_rx)
   local lux_value = math.floor(10 ^ ((value.value - 1) / 10000)) + device.preferences.luxOffset
   if lux_value < 0 then lux_value = 0 end
 
-  --if lux_value == illumin_Condition_set then
-    --illumin_Target_set = "Equal"
-  --else
   if lux_value < illumin_Condition_set then
     illumin_Target_set = "Down"
   elseif lux_value >= illumin_Condition_set then
     illumin_Target_set = "Equal-Up"
   end
 
-  -- emit temp target
+  -- emit illumin target
   device:emit_event(illumin_Target.illuminTarget(illumin_Target_set))
   -- emit device illuminance
   device:emit_event_for_endpoint(zb_rx.address_header.src_endpoint.value, capabilities.illuminanceMeasurement.illuminance(lux_value))
@@ -347,9 +349,6 @@ local function set_TempCondition_handler(self,device,command)
   end
   print("last_temp_value C or F =",last_temp_value)
 
-  --if last_temp_value == temp_Condition_set.value then
-    --temp_Target_set = "Equal"
-  --else
   if last_temp_value < temp_Condition_set.value then
     temp_Target_set = "Down"
   elseif last_temp_value >= temp_Condition_set.value then
@@ -359,7 +358,6 @@ local function set_TempCondition_handler(self,device,command)
   -- emit temp target
   device:emit_event(temp_Target.tempTarget(temp_Target_set))
   device:emit_event(temp_Condition.tempCondition({value = temp_Condition_set.value, unit = temp_scale}))
-  --device:emit_event(temp_Condition.tempCondition(temp_Condition_set.value))
 
 end
 
@@ -370,9 +368,6 @@ local function set_HumidityCondition_handler(self,device,command)
   local last_humid_value = device:get_latest_state("main", capabilities.relativeHumidityMeasurement.ID, capabilities.relativeHumidityMeasurement.humidity.NAME) + device.preferences.humidityOffset
   print ("last_humid_value = ",last_humid_value)
 
-  --if last_humid_value == humidity_Condition_set then
-    --humidity_Target_set = "Equal"
-  --else
   if last_humid_value < humidity_Condition_set then
     humidity_Target_set = "Down"
   elseif last_humid_value >= humidity_Condition_set then
@@ -390,10 +385,8 @@ local function set_IlluminCondition_handler(self,device,command)
   print("set_IlluminCondition", command.args.value)
   illumin_Condition_set = command.args.value
   local lux_value = device:get_latest_state("main", capabilities.illuminanceMeasurement.ID, capabilities.illuminanceMeasurement.illuminance.NAME) + device.preferences.luxOffset
-  print("lux_value =",lux_value)
-  --if lux_value == illumin_Condition_set then
-    --illumin_Target_set = "Equal"
-  --else
+  --print("lux_value =",lux_value)
+
   if lux_value < illumin_Condition_set then
     illumin_Target_set = "Down"
   elseif lux_value >= illumin_Condition_set then
@@ -437,6 +430,10 @@ local function do_init(self,device)
     if temp_Target_set == nil then temp_Target_set = " " end
     device:emit_event(temp_Target.tempTarget(temp_Target_set))
 
+    if device:get_latest_state("main", signal_Metrics.ID, signal_Metrics.signalMetrics.NAME) == nil then
+      device:emit_event(signal_Metrics.signalMetrics({value = "Waiting Zigbee Message"}, {visibility = {displayed = false }}))
+    end
+
       -- INIT parents devices
       Parent_devices[device.id] = device
       print("Parent_devices[" .. device.id .."]>>>>>>", Parent_devices[device.id])
@@ -451,6 +448,7 @@ local zigbee_temp_driver = {
     atmos_Pressure,
     capabilities.illuminanceMeasurement,
     capabilities.battery,
+    capabilities.refresh
   },
   lifecycle_handlers = {
     init = do_init,

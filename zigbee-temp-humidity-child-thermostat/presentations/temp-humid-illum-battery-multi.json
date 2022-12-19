@@ -102,6 +102,13 @@
         },
         {
             "component": "main",
+            "capability": "legendabsolute60149.signalMetrics",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "main",
             "capability": "refresh",
             "version": 1,
             "values": [],

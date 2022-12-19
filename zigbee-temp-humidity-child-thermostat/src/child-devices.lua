@@ -36,12 +36,6 @@ function child_devices.create_new(driver, device, component)
         -- Create new device
         driver:try_create_device(metadata)
 
-        --print("device_network_id >>>",device.device_network_id)
-        --print("label >>>",device.label)
-        --print("parent_device_id >>>",device.parent_device_id)
-        --print("manufacturer >>>",device.manufacturer)
-        --print("model >>>",device.model)
-        --print("vendor_provided_label >>>",device.vendor_provided_label)
       end
 
 end

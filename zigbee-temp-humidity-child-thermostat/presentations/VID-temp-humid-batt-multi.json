@@ -1,13 +1,13 @@
 {
     "mnmn": "SmartThingsCommunity",
-    "vid": "aaeab810-7cfd-3a30-8d6c-56da5a7413e7",
+    "vid": "9301ab23-ee05-3f23-bbbd-346a1d3939da",
     "version": "0.0.1",
     "type": "profile",
     "dashboard": {
         "states": [
             {
                 "component": "main",
-                "capability": "temperatureMeasurement",
+                "capability": "temperatureMeasurement",     
                 "version": 1,
                 "idx": 0,
                 "group": "main",
@@ -75,6 +75,13 @@
         {
             "component": "main",
             "capability": "battery",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "main",
+            "capability": "legendabsolute60149.signalMetrics",
             "version": 1,
             "values": [],
             "patch": []
@@ -165,6 +172,6 @@
             }
         ]
     },
-    "presentationId": "aaeab810-7cfd-3a30-8d6c-56da5a7413e7",
+    "presentationId": "9301ab23-ee05-3f23-bbbd-346a1d3939da",
     "manufacturerName": "SmartThingsCommunity"
 }

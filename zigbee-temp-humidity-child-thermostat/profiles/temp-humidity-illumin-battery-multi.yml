@@ -20,6 +20,10 @@ components:
     version: 1
   - id: legendabsolute60149.illuminTarget
     version: 1
+  - id: battery
+    version: 1
+  - id: legendabsolute60149.signalMetrics
+    version: 1
   - id: refresh
     version: 1
   - id: firmwareUpdate
@@ -136,4 +140,4 @@ metadata:
   ocfDeviceType: oic.d.thermostat
   deviceTypeId: Thermostat
   mnmn: SmartThingsCommunity
-  vid: b88a7c48-b0db-34a1-bae0-12e419c9b61e
+  vid: 87b02b21-ce37-3e77-bf76-e8784aae60f5

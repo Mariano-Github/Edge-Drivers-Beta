@@ -24,6 +24,8 @@ components:
     version: 1
   - id: legendabsolute60149.infoPanel
     version: 1
+  - id: refresh
+    version: 1
   categories:
   - name: Thermostat
 preferences:
@@ -206,9 +208,16 @@ preferences:
       minimum: 1
       maximum: 60
       default: 10
+  - name: "logDebugPrint"
+    title: "Show Logs Debug Prints in CLI"
+    #description: "Show Logs Debug Prints in CLI:"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
 metadata:
   deviceType: Thermostat	
   ocfDeviceType: oic.d.thermostat
   deviceTypeId: Thermostat
   mnmn: SmartThingsCommunity
-  vid: fe641773-3404-3cb6-aa77-b8ff10b329e6
+  vid: 7d4b606c-0c14-388f-98fe-875425807680

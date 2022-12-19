@@ -1,16 +1,25 @@
 {
     "mnmn": "SmartThingsCommunity",
-    "vid": "b770e58c-9f63-35f7-acc9-3d4c3c8a837f",
+    "vid": "fe641773-3404-3cb6-aa77-b8ff10b329e6",
     "version": "0.0.1",
     "type": "profile",
     "dashboard": {
         "states": [
             {
                 "component": "main",
-                "capability": "temperatureMeasurement",
+                "capability": "legendabsolute60149.infoPanel",
                 "version": 1,
                 "idx": 0,
                 "group": "main",
+                "values": [],
+                "composite": true
+            },
+            {
+                "component": "main",
+                "capability": "temperatureMeasurement",
+                "version": 1,
+                "idx": 0,
+                "group": "Temperature",
                 "values": [],
                 "composite": true
             },
@@ -25,33 +34,33 @@
             },
             {
                 "component": "main",
-                "capability": "illuminanceMeasurement",
+                "capability": "thermostatMode",
                 "version": 1,
                 "idx": 0,
-                "group": "illuminance",
+                "group": "Thermostat Mode",
                 "values": [],
                 "composite": true
             },
             {
                 "component": "main",
-                "capability": "legendabsolute60149.atmosPressure",
+                "capability": "legendabsolute60149.thermostatLocked",
                 "version": 1,
                 "idx": 0,
-                "group": "Atmospheric Pressure (mBar)",
-                "values": [],
-                "composite": true
-            },
-            {
-                "component": "main",
-                "capability": "atmosphericPressureMeasurement",
-                "version": 1,
-                "idx": 0,
-                "group": "Atmospheric Pressure (kPa)",
+                "group": "Thermostat Locked",
                 "values": [],
                 "composite": true
             }
         ],
-        "actions": [],
+        "actions": [
+            {
+                "component": "main",
+                "capability": "legendabsolute60149.thermostatLocked",
+                "version": 1,
+                "idx": 0,
+                "group": "Thermostat Locked",
+                "inline": null
+            }
+        ],
         "basicPlus": []
     },
     "detailView": [
@@ -71,56 +80,83 @@
         },
         {
             "component": "main",
-            "capability": "atmosphericPressureMeasurement",
+            "capability": "legendabsolute60149.thermostatLocked",
             "version": 1,
             "values": [],
             "patch": []
         },
         {
             "component": "main",
-            "capability": "legendabsolute60149.atmosPressure",
+            "capability": "thermostatMode",
             "version": 1,
             "values": [],
             "patch": []
         },
         {
             "component": "main",
-            "capability": "illuminanceMeasurement",
+            "capability": "thermostatOperatingState",
             "version": 1,
             "values": [],
             "patch": []
         },
         {
             "component": "main",
-            "capability": "legendabsolute60149.tempCondition2",
+            "capability": "thermostatFanMode",
             "version": 1,
             "values": [],
             "patch": []
         },
         {
             "component": "main",
-            "capability": "legendabsolute60149.humidityCondition",
+            "capability": "legendabsolute60149.fanCyclicMode",
             "version": 1,
             "values": [],
             "patch": []
         },
         {
             "component": "main",
-            "capability": "legendabsolute60149.illuminCondition",
+            "capability": "legendabsolute60149.fanNextChange",
             "version": 1,
             "values": [],
             "patch": []
         },
         {
             "component": "main",
-            "capability": "battery",
+            "capability": "thermostatHeatingSetpoint",
             "version": 1,
-            "values": [],
+            "values": [
+                {
+                    "key": "heatingSetpoint.value",
+                    "enabledValues": [],
+                    "range": [
+                        -50,
+                        250
+                    ],
+                    "step": 0.5
+                }
+            ],
             "patch": []
         },
         {
             "component": "main",
-            "capability": "legendabsolute60149.signalMetrics",
+            "capability": "thermostatCoolingSetpoint",
+            "version": 1,
+            "values": [
+                {
+                    "key": "coolingSetpoint.value",
+                    "enabledValues": [],
+                    "range": [
+                        -50,
+                        250
+                    ],
+                    "step": 0.5
+                }
+            ],
+            "patch": []
+        },
+        {
+            "component": "main",
+            "capability": "legendabsolute60149.infoPanel",
             "version": 1,
             "values": [],
             "patch": []
@@ -153,7 +189,7 @@
             },
             {
                 "component": "main",
-                "capability": "atmosphericPressureMeasurement",
+                "capability": "legendabsolute60149.thermostatLocked",
                 "version": 1,
                 "values": [],
                 "patch": [],
@@ -161,7 +197,7 @@
             },
             {
                 "component": "main",
-                "capability": "legendabsolute60149.atmosPressure",
+                "capability": "thermostatMode",
                 "version": 1,
                 "values": [],
                 "patch": [],
@@ -169,7 +205,7 @@
             },
             {
                 "component": "main",
-                "capability": "illuminanceMeasurement",
+                "capability": "thermostatOperatingState",
                 "version": 1,
                 "values": [],
                 "patch": [],
@@ -177,7 +213,7 @@
             },
             {
                 "component": "main",
-                "capability": "legendabsolute60149.tempTarget",
+                "capability": "thermostatFanMode",
                 "version": 1,
                 "values": [],
                 "patch": [],
@@ -185,7 +221,7 @@
             },
             {
                 "component": "main",
-                "capability": "legendabsolute60149.humidityTarget",
+                "capability": "legendabsolute60149.fanCyclicMode",
                 "version": 1,
                 "values": [],
                 "patch": [],
@@ -193,17 +229,37 @@
             },
             {
                 "component": "main",
-                "capability": "legendabsolute60149.illuminTarget",
+                "capability": "thermostatHeatingSetpoint",
                 "version": 1,
-                "values": [],
+                "values": [
+                    {
+                        "key": "heatingSetpoint.value",
+                        "enabledValues": [],
+                        "range": [
+                            -50,
+                            250
+                        ],
+                        "step": 0.5
+                    }
+                ],
                 "patch": [],
                 "exclusion": []
             },
             {
                 "component": "main",
-                "capability": "battery",
+                "capability": "thermostatCoolingSetpoint",
                 "version": 1,
-                "values": [],
+                "values": [
+                    {
+                        "key": "coolingSetpoint.value",
+                        "enabledValues": [],
+                        "range": [
+                            -50,
+                            250
+                        ],
+                        "step": 0.5
+                    }
+                ],
                 "patch": [],
                 "exclusion": []
             }
@@ -211,7 +267,7 @@
         "actions": [
             {
                 "component": "main",
-                "capability": "legendabsolute60149.tempCondition2",
+                "capability": "legendabsolute60149.thermostatLocked",
                 "version": 1,
                 "values": [],
                 "patch": [],
@@ -219,7 +275,7 @@
             },
             {
                 "component": "main",
-                "capability": "legendabsolute60149.humidityCondition",
+                "capability": "thermostatMode",
                 "version": 1,
                 "values": [],
                 "patch": [],
@@ -227,14 +283,58 @@
             },
             {
                 "component": "main",
-                "capability": "legendabsolute60149.illuminCondition",
+                "capability": "thermostatFanMode",
                 "version": 1,
                 "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "main",
+                "capability": "legendabsolute60149.fanCyclicMode",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "main",
+                "capability": "thermostatHeatingSetpoint",
+                "version": 1,
+                "values": [
+                    {
+                        "key": "setHeatingSetpoint",
+                        "enabledValues": [],
+                        "range": [
+                            -50,
+                            250
+                        ],
+                        "step": 0.5
+                    }
+                ],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "main",
+                "capability": "thermostatCoolingSetpoint",
+                "version": 1,
+                "values": [
+                    {
+                        "key": "setCoolingSetpoint",
+                        "enabledValues": [],
+                        "range": [
+                            -50,
+                            250
+                        ],
+                        "step": 0.5
+                    }
+                ],
                 "patch": [],
                 "exclusion": []
             }
         ]
     },
-    "presentationId": "b770e58c-9f63-35f7-acc9-3d4c3c8a837f",
+    "presentationId": "fe641773-3404-3cb6-aa77-b8ff10b329e6",
     "manufacturerName": "SmartThingsCommunity"
 }

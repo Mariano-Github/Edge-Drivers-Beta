@@ -4,8 +4,8 @@ components:
   capabilities:
   - id: temperatureMeasurement
     version: 1
-  - id: relativeHumidityMeasurement
-    version: 1
+  #- id: relativeHumidityMeasurement
+  #  version: 1
   - id: legendabsolute60149.thermostatLocked
     version: 1
   - id: thermostatMode
@@ -23,6 +23,8 @@ components:
   - id: thermostatCoolingSetpoint
     version: 1
   - id: legendabsolute60149.infoPanel
+    version: 1
+  - id: refresh
     version: 1
   categories:
   - name: Thermostat
@@ -206,9 +208,16 @@ preferences:
       minimum: 1
       maximum: 60
       default: 10
+  - name: "logDebugPrint"
+    title: "Show Logs Debug Prints in CLI"
+    #description: "Show Logs Debug Prints in CLI:"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
 metadata:
   deviceType: Thermostat	
   ocfDeviceType: oic.d.thermostat
   deviceTypeId: Thermostat
   mnmn: SmartThingsCommunity
-  vid: f1406cea-984a-3c6f-9988-42138710971d
+  vid: 446450a9-1d7e-3d81-843d-98a9d39b330c
