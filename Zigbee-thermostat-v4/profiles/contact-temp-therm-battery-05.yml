@@ -26,37 +26,15 @@ components:
     version: 1
   - id: legendabsolute60149.infoPanel
     version: 1
-  - id: threeAxis
-    version: 1
-  - id: accelerationSensor
+  - id: legendabsolute60149.signalMetrics
     version: 1
   - id: refresh
     version: 1
   categories:
-  - name: MultiFunctionalSensor
+  - name: ContactSensor
 preferences:
   - preferenceId: tempOffset
     explicit: true  
-  - name: "garageSensor"
-    title: "Use on garage door"
-    required: false
-    preferenceType: enumeration
-    definition:
-      options:
-        "Yes" : "Yes"
-        "No"  : "No"
-      default: "No"
-  - name: "garageSensorAxis"
-    title: "Sensor Axis for Garage Door state"
-    description: "Sensor Axis for Garage Door state (X , Y or Z)"
-    required: false
-    preferenceType: enumeration
-    definition:
-      options:
-        1: "X axis"
-        2: "Y axis"
-        3: "Z axis"
-      default: 3
   - name: "version"
     title: "Version 4 (May 2022)"
     description: "Added: SmartThings Multiporpuse Sensors" 
@@ -86,7 +64,7 @@ preferences:
         "Celsius" : "Celsius"
         "Fahrenheit": "Fahrenheit"
       default: "Celsius"
-  - name: "changeProfileCT"
+  - name: "changeProfileCTB"
     title: "Temp Set Points Steps(tenth degree)"
     description: "Select Temperature Set Points Steps in Tenths of a degree:"
     required: false
@@ -234,9 +212,26 @@ preferences:
       minimum: 1
       maximum: 60
       default: 10
+  - name: "signalMetricsVisibles"
+    title: "Signal Metrics Visible in History"
+    description: "Signal Metrics Visible in App History:"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Yes": "Signal Metrics Visible"
+        "No": "Signal Metrics No Visible"
+      default: "No"
+  - name: "logDebugPrint"
+    title: "Show Logs Debug Prints in CLI"
+    #description: "Show Logs Debug Prints in CLI:"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
 metadata:
-  deviceType: MultiFunctionalSensor
-  ocfDeviceType: x.com.st.d.sensor.multifunction
-  deviceTypeId: MultiFunctionalSensor
+  deviceType: ContactSensor
+  ocfDeviceType: x.com.st.d.sensor.contact
+  deviceTypeId: ContactSensor
   mnmn: SmartThingsCommunity
-  vid: a6faf9f1-7646-38e6-8a27-485674879f9d
+  vid: 6403ef0a-179d-35c8-a92c-7a95591f8814

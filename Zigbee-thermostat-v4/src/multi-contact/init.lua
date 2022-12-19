@@ -7,6 +7,7 @@ local contact_sensor_defaults = require "st.zigbee.defaults.contactSensor_defaul
 local data_types = require "st.zigbee.data_types"
 local common = require("common")
 local device_management = require "st.zigbee.device_management"
+local battery_defaults = require "st.zigbee.defaults.battery_defaults"
 
 local can_handle = function(opts, driver, device)
     if device:get_manufacturer() == "SmartThings" then
@@ -41,6 +42,10 @@ local function do_added(self, device)
                 device:add_monitored_attribute(config)
             end
         end
+    end
+    -- init battery voltage
+    if device:get_manufacturer() ~= "Samjin" then
+        battery_defaults.build_linear_voltage_init(2.3, 3.0)
     end
 end
 

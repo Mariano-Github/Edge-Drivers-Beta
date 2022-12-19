@@ -1,6 +1,6 @@
 {
     "mnmn": "SmartThingsCommunity",
-    "vid": "5e261dad-53eb-37aa-957a-2525827d7839",
+    "vid": "55fbb0ea-8d7e-3f09-9087-24bd00b4f5e8",
     "version": "0.0.1",
     "type": "profile",
     "dashboard": {
@@ -57,7 +57,8 @@
                 "capability": "legendabsolute60149.thermostatLocked",
                 "version": 1,
                 "idx": 0,
-                "group": "Thermostat Locked"
+                "group": "Thermostat Locked",
+                "inline": null
             }
         ],
         "basicPlus": []
@@ -191,6 +192,13 @@
         {
             "component": "main",
             "capability": "battery",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "main",
+            "capability": "legendabsolute60149.signalMetrics",
             "version": 1,
             "values": [],
             "patch": []
@@ -409,6 +417,6 @@
             }
         ]
     },
-    "presentationId": "5e261dad-53eb-37aa-957a-2525827d7839",
+    "presentationId": "55fbb0ea-8d7e-3f09-9087-24bd00b4f5e8",
     "manufacturerName": "SmartThingsCommunity"
 }

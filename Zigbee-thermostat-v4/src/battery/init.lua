@@ -11,6 +11,10 @@ local can_handle = function(opts, driver, device)
       return device:get_manufacturer() == "CentraLite"
     elseif device:get_manufacturer() == "iMagic by GreatStar" then
       return device:get_manufacturer() == "iMagic by GreatStar"
+    elseif device:get_manufacturer() == "SmartThings" then
+      return device:get_manufacturer() == "SmartThings"
+    elseif device:get_manufacturer() == "Bosch" then
+      return device:get_manufacturer() == "Bosch"
     end
 
 end
@@ -19,7 +23,7 @@ local battery_handler = function(driver, device, value, zb_rx)
 -- Emit Battery voltage event
    --device:emit_event(capabilities.voltageMeasurement.voltage(value.value / 10))
   
-   if device:get_manufacturer() == "SmartThings" then
+   if device:get_manufacturer() == "SmartThings" or device:get_manufacturer() == "CentraLite" then
 
     local batteryMap = {[28] = 100, [27] = 100, [26] = 100, [25] = 90, [24] = 90, [23] = 70,
                       [22] = 70, [21] = 50, [20] = 50, [19] = 30, [18] = 30, [17] = 15, [16] = 1, [15] = 0}
@@ -36,6 +40,14 @@ local battery_handler = function(driver, device, value, zb_rx)
     if device:get_manufacturer() == "iMagic by GreatStar" and device:get_model() == "1117-S" then
       minVolts = 2.4
       maxVolts = 2.8
+    elseif device:get_manufacturer() == "Bosch" then
+      if device:get_model() == "ISW-ZPR1-WP13" then
+        minVolts = 1.5
+        maxVolts = 3.0
+      else
+        minVolts = 2.1
+        maxVolts = 3.0
+      end
     end
     local battery_pct = math.floor((((value.value / 10) - minVolts) + 0.001 / (maxVolts - minVolts)) * 100)
     if battery_pct > 100 then 
@@ -57,7 +69,7 @@ local battery_voltage = {
         }
     },
     lifecycle_handlers = {
-        init = battery_defaults.build_linear_voltage_init(2.3, 3.0)
+        --init = battery_defaults.build_linear_voltage_init(2.3, 3.0)
     },
 	can_handle = can_handle
 }

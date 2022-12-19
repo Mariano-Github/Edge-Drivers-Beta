@@ -35,13 +35,13 @@ local smartthings_multi_sensor = {
                 [common.Y_AXIS_ATTR_ID] = common.axis_handler(2, false),
                 [common.Z_AXIS_ATTR_ID] = common.axis_handler(1, false)
             },
-            [zcl_clusters.PowerConfiguration.ID] = {
-              [zcl_clusters.PowerConfiguration.attributes.BatteryVoltage.ID] = battery_handler
-            }
+            --[zcl_clusters.PowerConfiguration.ID] = {
+              --[zcl_clusters.PowerConfiguration.attributes.BatteryVoltage.ID] = battery_handler
+            --}
         }
     },
     lifecycle_handlers = {
-        init = battery_defaults.build_linear_voltage_init(2.3, 3.0)
+        --init = battery_defaults.build_linear_voltage_init(2.3, 3.0)
     },
 	can_handle = can_handle
 }

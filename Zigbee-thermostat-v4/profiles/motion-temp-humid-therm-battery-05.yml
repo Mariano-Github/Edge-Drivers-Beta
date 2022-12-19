@@ -28,6 +28,8 @@ components:
     version: 1
   - id: legendabsolute60149.infoPanel
     version: 1
+  - id: legendabsolute60149.signalMetrics
+    version: 1
   - id: refresh
     version: 1
   categories:
@@ -212,9 +214,26 @@ preferences:
       minimum: 1
       maximum: 60
       default: 10
+  - name: "signalMetricsVisibles"
+    title: "Signal Metrics Visible in History"
+    description: "Signal Metrics Visible in App History:"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Yes": "Signal Metrics Visible"
+        "No": "Signal Metrics No Visible"
+      default: "No"
+  - name: "logDebugPrint"
+    title: "Show Logs Debug Prints in CLI"
+    #description: "Show Logs Debug Prints in CLI:"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
 metadata:
   deviceType: MotionSensor
   ocfDeviceType: x.com.st.d.sensor.motion
   deviceTypeId: MotionSensor
   mnmn: SmartThingsCommunity
-  vid: 0143df22-3762-32a8-b012-d87a23e74149
+  vid: becb0760-b20e-34f0-a53a-5f90f5f0749f

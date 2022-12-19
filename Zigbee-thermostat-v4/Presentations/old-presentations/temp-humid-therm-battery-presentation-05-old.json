@@ -3,18 +3,10 @@
         "states": [
             {
                 "component": "main",
-                "capability": "contactSensor",
-                "version": 1,
-                "idx": 0,
-                "group": "main",
-                "composite": true
-            },
-            {
-                "component": "main",
                 "capability": "legendabsolute60149.infoPanel",
                 "version": 1,
                 "idx": 0,
-                "group": "Temperature and Next Status Change",
+                "group": "main",
                 "composite": true
             },
             {
@@ -32,6 +24,22 @@
                 "idx": 0,
                 "group": "Thermostat Locked",
                 "composite": true
+            },
+            {
+                "component": "main",
+                "capability": "relativeHumidityMeasurement",
+                "version": 1,
+                "idx": 0,
+                "group": "Humidity",
+                "composite": true
+            },
+            {
+                "component": "main",
+                "capability": "battery",
+                "version": 1,
+                "idx": 0,
+                "group": "Battery",
+                "composite": true
             }
         ],
         "actions": [
@@ -48,7 +56,7 @@
     "detailView": [
         {
             "component": "main",
-            "capability": "contactSensor",
+            "capability": "motionSensor",
             "version": 1,
             "values": [],
             "patch": []
@@ -121,7 +129,7 @@
                         -50.0,
                         250.0
                     ],
-                    "step": 0.1
+                    "step": 0.5
                 }                  
             ],
             "patch": []
@@ -138,7 +146,7 @@
                         -50.0,
                         250.0
                     ],
-                    "step": 0.1
+                    "step": 0.5
                 }                
             ],
             "patch": []
@@ -153,14 +161,14 @@
         },
         {
             "component": "main",
-            "capability": "threeAxis",
+            "capability": "atmosphericPressureMeasurement",
             "version": 1,
             "values": [],
             "patch": []
         },
         {
             "component": "main",
-            "capability": "accelerationSensor",
+            "capability": "legendabsolute60149.atmosPressure",
             "version": 1,
             "values": [],
             "patch": []
@@ -175,13 +183,6 @@
         {
             "component": "main",
             "capability": "battery",
-            "version": 1,
-            "values": [],
-            "patch": []
-        },
-        {
-            "component": "main",
-            "capability": "legendabsolute60149.signalMetrics",
             "version": 1,
             "values": [],
             "patch": []
@@ -214,7 +215,7 @@
             },
             {
                 "component": "main",
-                "capability": "contactSensor",
+                "capability": "relativeHumidityMeasurement",
                 "version": 1,
                 "values": [],
                 "patch": [],
@@ -222,7 +223,15 @@
             },
             {
                 "component": "main",
-                "capability": "accelerationSensor",
+                "capability": "atmosphericPressureMeasurement",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "main",
+                "capability": "legendabsolute60149.atmosPressure",
                 "version": 1,
                 "values": [],
                 "patch": [],
@@ -290,13 +299,13 @@
                 "version": 1,
                 "values": [
                     {
-                        "key": "heatingSetpoint.value",
+                        "key": "setHeatingSetpoint",
                         "enabledValues": [],
                         "range": [
                             -50.0,
                             250.0
                         ],
-                        "step": 0.1
+                        "step": 0.5
                     }                                  
                 ],
                 "patch": [],
@@ -308,17 +317,25 @@
                 "version": 1,
                 "values": [
                     {
-                        "key": "coolingSetpoint.value",
+                        "key": "setCoolingSetpoint",
                         "enabledValues": [],
                         "range": [
                             -50.0,
                             250.0
                         ],
-                        "step": 0.1
+                        "step": 0.5
                     }                                  
                 ],
                 "patch": [],
                 "exclusion": []
+            },
+            {
+                "component": "main",
+                "capability": "refresh",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": [] 
             }
         ],
         "actions": [
@@ -360,13 +377,13 @@
                 "version": 1,
                 "values": [
                     {
-                        "key": "setHeatingSetpoint",
+                        "key": "heatingSetpoint.value",
                         "enabledValues": [],
                         "range": [
                             -50.0,
-                            250.0
+                            249.9
                         ],
-                        "step": 0.1
+                        "step": 0.5
                     }                    
                 ],
                 "patch": [],
@@ -378,17 +395,25 @@
                 "version": 1,
                 "values": [
                     {
-                        "key": "setCoolingSetpoint",
+                        "key": "coolingSetpoint.value",
                         "enabledValues": [],
                         "range": [
                             -50.0,
                             250.0
                         ],
-                        "step": 0.1
+                        "step": 0.5
                     }                    
                 ],
                 "patch": [],
                 "exclusion": []
+            },
+            {
+                "component": "main",
+                "capability": "refresh",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": [] 
             }
         ]
     },

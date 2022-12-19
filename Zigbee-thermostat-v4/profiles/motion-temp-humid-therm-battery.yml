@@ -28,6 +28,8 @@ components:
     version: 1
   - id: legendabsolute60149.infoPanel
     version: 1
+  - id: legendabsolute60149.signalMetrics
+    version: 1
   - id: refresh
     version: 1
   categories:
@@ -73,7 +75,7 @@ preferences:
       options:
         "1" : "0.1"
         "5": "0.5"
-      default: "5"
+      default: "1"
   - name: "floorRadaint"
     title: "Select Radiant Floor and Type"
     description: "Select if you have Radiant Floor and Type"
@@ -212,9 +214,26 @@ preferences:
       minimum: 1
       maximum: 60
       default: 10
+  - name: "signalMetricsVisibles"
+    title: "Signal Metrics Visible in History"
+    description: "Signal Metrics Visible in App History:"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Yes": "Signal Metrics Visible"
+        "No": "Signal Metrics No Visible"
+      default: "No"
+  - name: "logDebugPrint"
+    title: "Show Logs Debug Prints in CLI"
+    #description: "Show Logs Debug Prints in CLI:"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
 metadata:
   deviceType: MotionSensor
   ocfDeviceType: x.com.st.d.sensor.motion
   deviceTypeId: MotionSensor
   mnmn: SmartThingsCommunity
-  vid: 5e261dad-53eb-37aa-957a-2525827d7839
+  vid: 55fbb0ea-8d7e-3f09-9087-24bd00b4f5e8

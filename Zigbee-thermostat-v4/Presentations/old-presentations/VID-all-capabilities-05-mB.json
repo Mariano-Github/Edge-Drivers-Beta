@@ -1,8 +1,9 @@
 {
     "mnmn": "SmartThingsCommunity",
-    "vid": "ab2ad535-9871-334a-92bc-3d04df7d33e2",
+    "vid": "75e1f1ad-740c-3763-9cea-fd839bbab203",
     "version": "0.0.1",
     "type": "profile",
+    "iconUrl": null,
     "dashboard": {
         "states": [
             {
@@ -11,15 +12,6 @@
                 "version": 1,
                 "idx": 0,
                 "group": "main",
-                "values": [],
-                "composite": true
-            },
-            {
-                "component": "main",
-                "capability": "thermostatOperatingState",
-                "version": 1,
-                "idx": 0,
-                "group": "Operating State",
                 "values": [],
                 "composite": true
             },
@@ -34,10 +26,19 @@
             },
             {
                 "component": "main",
-                "capability": "thermostatMode",
+                "capability": "legendabsolute60149.atmosPressure",
                 "version": 1,
                 "idx": 0,
-                "group": "Thermostat Mode",
+                "group": "Atmospheric Pressure",
+                "values": [],
+                "composite": true
+            },
+            {
+                "component": "main",
+                "capability": "illuminanceMeasurement",
+                "version": 1,
+                "idx": 0,
+                "group": "illuminance",
                 "values": [],
                 "composite": true
             },
@@ -57,11 +58,9 @@
                 "capability": "legendabsolute60149.thermostatLocked",
                 "version": 1,
                 "idx": 0,
-                "group": "Thermostat Locked",
-                "inline": null
+                "group": "Thermostat Locked"
             }
-        ],
-        "basicPlus": []
+        ]
     },
     "detailView": [
         {
@@ -198,13 +197,6 @@
         },
         {
             "component": "main",
-            "capability": "legendabsolute60149.signalMetrics",
-            "version": 1,
-            "values": [],
-            "patch": []
-        },
-        {
-            "component": "main",
             "capability": "refresh",
             "version": 1,
             "values": [],
@@ -315,7 +307,7 @@
                 "version": 1,
                 "values": [
                     {
-                        "key": "setHeatingSetpoint",
+                        "key": "heatingSetpoint.value",
                         "enabledValues": [],
                         "range": [
                             -50,
@@ -333,7 +325,7 @@
                 "version": 1,
                 "values": [
                     {
-                        "key": "setCoolingSetpoint",
+                        "key": "coolingSetpoint.value",
                         "enabledValues": [],
                         "range": [
                             -50,
@@ -414,17 +406,9 @@
                 ],
                 "patch": [],
                 "exclusion": []
-            },
-            {
-                "component": "main",
-                "capability": "refresh",
-                "version": 1,
-                "values": [],
-                "patch": [],
-                "exclusion": []
             }
         ]
     },
-    "presentationId": "ab2ad535-9871-334a-92bc-3d04df7d33e2",
+    "presentationId": "75e1f1ad-740c-3763-9cea-fd839bbab203",
     "manufacturerName": "SmartThingsCommunity"
 }

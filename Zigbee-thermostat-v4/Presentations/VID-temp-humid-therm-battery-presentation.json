@@ -1,16 +1,34 @@
 {
     "mnmn": "SmartThingsCommunity",
-    "vid": "eea299c7-580b-376b-9a28-64d7702d19f7",
+    "vid": "a811707c-43fe-3524-9914-4f91a26f6602",
     "version": "0.0.1",
     "type": "profile",
     "dashboard": {
         "states": [
             {
                 "component": "main",
-                "capability": "legendabsolute60149.infoPanel",       
+                "capability": "legendabsolute60149.infoPanel",
                 "version": 1,
                 "idx": 0,
                 "group": "main",
+                "values": [],
+                "composite": true
+            },
+            {
+                "component": "main",
+                "capability": "thermostatOperatingState",
+                "version": 1,
+                "idx": 0,
+                "group": "Operating State",
+                "values": [],
+                "composite": true
+            },
+            {
+                "component": "main",
+                "capability": "relativeHumidityMeasurement",
+                "version": 1,
+                "idx": 0,
+                "group": "Humidity",
                 "values": [],
                 "composite": true
             },
@@ -31,24 +49,6 @@
                 "group": "Thermostat Locked",
                 "values": [],
                 "composite": true
-            },
-            {
-                "component": "main",
-                "capability": "relativeHumidityMeasurement",
-                "version": 1,
-                "idx": 0,
-                "group": "Humidity",
-                "values": [],
-                "composite": true
-            },
-            {
-                "component": "main",
-                "capability": "battery",
-                "version": 1,
-                "idx": 0,
-                "group": "Battery",
-                "values": [],
-                "composite": true
             }
         ],
         "actions": [
@@ -57,7 +57,8 @@
                 "capability": "legendabsolute60149.thermostatLocked",
                 "version": 1,
                 "idx": 0,
-                "group": "Thermostat Locked"
+                "group": "Thermostat Locked",
+                "inline": null
             }
         ],
         "basicPlus": []
@@ -191,6 +192,13 @@
         {
             "component": "main",
             "capability": "battery",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "main",
+            "capability": "legendabsolute60149.signalMetrics",
             "version": 1,
             "values": [],
             "patch": []
@@ -425,6 +433,6 @@
             }
         ]
     },
-    "presentationId": "eea299c7-580b-376b-9a28-64d7702d19f7",
+    "presentationId": "a811707c-43fe-3524-9914-4f91a26f6602",
     "manufacturerName": "SmartThingsCommunity"
 }

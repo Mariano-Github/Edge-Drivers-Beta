@@ -1,34 +1,16 @@
 {
     "mnmn": "SmartThingsCommunity",
-    "vid": "ab2ad535-9871-334a-92bc-3d04df7d33e2",
+    "vid": "eea299c7-580b-376b-9a28-64d7702d19f7",
     "version": "0.0.1",
     "type": "profile",
     "dashboard": {
         "states": [
             {
                 "component": "main",
-                "capability": "legendabsolute60149.infoPanel",
+                "capability": "legendabsolute60149.infoPanel",       
                 "version": 1,
                 "idx": 0,
                 "group": "main",
-                "values": [],
-                "composite": true
-            },
-            {
-                "component": "main",
-                "capability": "thermostatOperatingState",
-                "version": 1,
-                "idx": 0,
-                "group": "Operating State",
-                "values": [],
-                "composite": true
-            },
-            {
-                "component": "main",
-                "capability": "relativeHumidityMeasurement",
-                "version": 1,
-                "idx": 0,
-                "group": "Humidity",
                 "values": [],
                 "composite": true
             },
@@ -49,6 +31,24 @@
                 "group": "Thermostat Locked",
                 "values": [],
                 "composite": true
+            },
+            {
+                "component": "main",
+                "capability": "relativeHumidityMeasurement",
+                "version": 1,
+                "idx": 0,
+                "group": "Humidity",
+                "values": [],
+                "composite": true
+            },
+            {
+                "component": "main",
+                "capability": "battery",
+                "version": 1,
+                "idx": 0,
+                "group": "Battery",
+                "values": [],
+                "composite": true
             }
         ],
         "actions": [
@@ -57,8 +57,7 @@
                 "capability": "legendabsolute60149.thermostatLocked",
                 "version": 1,
                 "idx": 0,
-                "group": "Thermostat Locked",
-                "inline": null
+                "group": "Thermostat Locked"
             }
         ],
         "basicPlus": []
@@ -139,7 +138,7 @@
                         -50,
                         250
                     ],
-                    "step": 0.5
+                    "step": 0.1
                 }
             ],
             "patch": []
@@ -156,7 +155,7 @@
                         -50,
                         250
                     ],
-                    "step": 0.5
+                    "step": 0.1
                 }
             ],
             "patch": []
@@ -192,13 +191,6 @@
         {
             "component": "main",
             "capability": "battery",
-            "version": 1,
-            "values": [],
-            "patch": []
-        },
-        {
-            "component": "main",
-            "capability": "legendabsolute60149.signalMetrics",
             "version": 1,
             "values": [],
             "patch": []
@@ -315,13 +307,13 @@
                 "version": 1,
                 "values": [
                     {
-                        "key": "setHeatingSetpoint",
+                        "key": "heatingSetpoint.value",
                         "enabledValues": [],
                         "range": [
                             -50,
                             250
                         ],
-                        "step": 0.5
+                        "step": 0.1
                     }
                 ],
                 "patch": [],
@@ -333,15 +325,23 @@
                 "version": 1,
                 "values": [
                     {
-                        "key": "setCoolingSetpoint",
+                        "key": "coolingSetpoint.value",
                         "enabledValues": [],
                         "range": [
                             -50,
                             250
                         ],
-                        "step": 0.5
+                        "step": 0.1
                     }
                 ],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "main",
+                "capability": "refresh",
+                "version": 1,
+                "values": [],
                 "patch": [],
                 "exclusion": []
             }
@@ -385,13 +385,13 @@
                 "version": 1,
                 "values": [
                     {
-                        "key": "heatingSetpoint.value",
+                        "key": "setHeatingSetpoint",
                         "enabledValues": [],
                         "range": [
                             -50,
                             250
                         ],
-                        "step": 0.5
+                        "step": 0.1
                     }
                 ],
                 "patch": [],
@@ -403,13 +403,13 @@
                 "version": 1,
                 "values": [
                     {
-                        "key": "coolingSetpoint.value",
+                        "key": "setCoolingSetpoint",
                         "enabledValues": [],
                         "range": [
                             -50,
                             250
                         ],
-                        "step": 0.5
+                        "step": 0.1
                     }
                 ],
                 "patch": [],
@@ -425,6 +425,6 @@
             }
         ]
     },
-    "presentationId": "ab2ad535-9871-334a-92bc-3d04df7d33e2",
+    "presentationId": "eea299c7-580b-376b-9a28-64d7702d19f7",
     "manufacturerName": "SmartThingsCommunity"
 }

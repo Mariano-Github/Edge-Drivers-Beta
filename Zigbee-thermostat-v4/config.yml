@@ -1,4 +1,5 @@
 name: 'Zigbee Temp Sensor with Thermostat Mc'
 packageKey: 'Zigbee_Thermostat_v4'
+description: 'Devices Supported: https://github.com/Mariano-Github/Edge-Drivers-Beta/blob/main/Zigbee-thermostat-v4/fingerprints.yml'
 permissions:
   zigbee: {}

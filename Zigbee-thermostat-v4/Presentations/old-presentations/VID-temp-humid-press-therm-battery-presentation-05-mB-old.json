@@ -1,6 +1,6 @@
 {
     "mnmn": "SmartThingsCommunity",
-    "vid": "ab2ad535-9871-334a-92bc-3d04df7d33e2",
+    "vid": "372b2da9-4959-3141-9cf6-ec692453a246",
     "version": "0.0.1",
     "type": "profile",
     "dashboard": {
@@ -16,19 +16,19 @@
             },
             {
                 "component": "main",
-                "capability": "thermostatOperatingState",
+                "capability": "relativeHumidityMeasurement",
                 "version": 1,
                 "idx": 0,
-                "group": "Operating State",
+                "group": "Humidity",
                 "values": [],
                 "composite": true
             },
             {
                 "component": "main",
-                "capability": "relativeHumidityMeasurement",
+                "capability": "legendabsolute60149.atmosPressure",
                 "version": 1,
                 "idx": 0,
-                "group": "Humidity",
+                "group": "Atmospheric Pressure",
                 "values": [],
                 "composite": true
             },
@@ -57,8 +57,7 @@
                 "capability": "legendabsolute60149.thermostatLocked",
                 "version": 1,
                 "idx": 0,
-                "group": "Thermostat Locked",
-                "inline": null
+                "group": "Thermostat Locked"
             }
         ],
         "basicPlus": []
@@ -192,13 +191,6 @@
         {
             "component": "main",
             "capability": "battery",
-            "version": 1,
-            "values": [],
-            "patch": []
-        },
-        {
-            "component": "main",
-            "capability": "legendabsolute60149.signalMetrics",
             "version": 1,
             "values": [],
             "patch": []
@@ -425,6 +417,6 @@
             }
         ]
     },
-    "presentationId": "ab2ad535-9871-334a-92bc-3d04df7d33e2",
+    "presentationId": "372b2da9-4959-3141-9cf6-ec692453a246",
     "manufacturerName": "SmartThingsCommunity"
 }

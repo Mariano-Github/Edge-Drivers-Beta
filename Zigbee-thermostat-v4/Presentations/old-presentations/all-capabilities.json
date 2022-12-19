@@ -3,7 +3,7 @@
         "states": [
             {
                 "component": "main",
-                "capability": "contactSensor",
+                "capability": "legendabsolute60149.infoPanel",
                 "version": 1,
                 "idx": 0,
                 "group": "main",
@@ -11,18 +11,26 @@
             },
             {
                 "component": "main",
-                "capability": "legendabsolute60149.infoPanel",
+                "capability": "relativeHumidityMeasurement",
                 "version": 1,
                 "idx": 0,
-                "group": "Temperature and Next Status Change",
+                "group": "Humidity",
                 "composite": true
             },
             {
                 "component": "main",
-                "capability": "thermostatMode",
+                "capability": "legendabsolute60149.atmosPressure",
                 "version": 1,
                 "idx": 0,
-                "group": "Thermostat Mode",
+                "group": "Atmospheric Pressure",
+                "composite": true
+            },
+            {
+                "component": "main",
+                "capability": "illuminanceMeasurement",
+                "version": 1,
+                "idx": 0,
+                "group": "illuminance",
                 "composite": true
             },
             {
@@ -48,7 +56,7 @@
     "detailView": [
         {
             "component": "main",
-            "capability": "contactSensor",
+            "capability": "motionSensor",
             "version": 1,
             "values": [],
             "patch": []
@@ -153,14 +161,14 @@
         },
         {
             "component": "main",
-            "capability": "threeAxis",
+            "capability": "atmosphericPressureMeasurement",
             "version": 1,
             "values": [],
             "patch": []
         },
         {
             "component": "main",
-            "capability": "accelerationSensor",
+            "capability": "legendabsolute60149.atmosPressure",
             "version": 1,
             "values": [],
             "patch": []
@@ -175,13 +183,6 @@
         {
             "component": "main",
             "capability": "battery",
-            "version": 1,
-            "values": [],
-            "patch": []
-        },
-        {
-            "component": "main",
-            "capability": "legendabsolute60149.signalMetrics",
             "version": 1,
             "values": [],
             "patch": []
@@ -214,7 +215,7 @@
             },
             {
                 "component": "main",
-                "capability": "contactSensor",
+                "capability": "relativeHumidityMeasurement",
                 "version": 1,
                 "values": [],
                 "patch": [],
@@ -222,7 +223,15 @@
             },
             {
                 "component": "main",
-                "capability": "accelerationSensor",
+                "capability": "atmosphericPressureMeasurement",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "main",
+                "capability": "legendabsolute60149.atmosPressure",
                 "version": 1,
                 "values": [],
                 "patch": [],

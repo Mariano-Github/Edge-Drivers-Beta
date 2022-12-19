@@ -3,18 +3,10 @@
         "states": [
             {
                 "component": "main",
-                "capability": "contactSensor",
-                "version": 1,
-                "idx": 0,
-                "group": "main",
-                "composite": true
-            },
-            {
-                "component": "main",
                 "capability": "legendabsolute60149.infoPanel",
                 "version": 1,
                 "idx": 0,
-                "group": "Temperature and Next Status Change",
+                "group": "main",
                 "composite": true
             },
             {
@@ -24,13 +16,29 @@
                 "idx": 0,
                 "group": "Thermostat Mode",
                 "composite": true
-            },
+            }, 
             {
                 "component": "main",
                 "capability": "legendabsolute60149.thermostatLocked",
                 "version": 1,
                 "idx": 0,
                 "group": "Thermostat Locked",
+                "composite": true
+            },
+            {
+                "component": "main",
+                "capability": "relativeHumidityMeasurement",
+                "version": 1,
+                "idx": 0,
+                "group": "Humidity",
+                "composite": true
+            },
+            {
+                "component": "main",
+                "capability": "battery",
+                "version": 1,
+                "idx": 0,
+                "group": "Battery",
                 "composite": true
             }
         ],
@@ -48,7 +56,7 @@
     "detailView": [
         {
             "component": "main",
-            "capability": "contactSensor",
+            "capability": "motionSensor",
             "version": 1,
             "values": [],
             "patch": []
@@ -153,14 +161,14 @@
         },
         {
             "component": "main",
-            "capability": "threeAxis",
+            "capability": "atmosphericPressureMeasurement",
             "version": 1,
             "values": [],
             "patch": []
         },
         {
             "component": "main",
-            "capability": "accelerationSensor",
+            "capability": "legendabsolute60149.atmosPressure",
             "version": 1,
             "values": [],
             "patch": []
@@ -175,13 +183,6 @@
         {
             "component": "main",
             "capability": "battery",
-            "version": 1,
-            "values": [],
-            "patch": []
-        },
-        {
-            "component": "main",
-            "capability": "legendabsolute60149.signalMetrics",
             "version": 1,
             "values": [],
             "patch": []
@@ -214,7 +215,7 @@
             },
             {
                 "component": "main",
-                "capability": "contactSensor",
+                "capability": "relativeHumidityMeasurement",
                 "version": 1,
                 "values": [],
                 "patch": [],
@@ -222,7 +223,15 @@
             },
             {
                 "component": "main",
-                "capability": "accelerationSensor",
+                "capability": "atmosphericPressureMeasurement",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "main",
+                "capability": "legendabsolute60149.atmosPressure",
                 "version": 1,
                 "values": [],
                 "patch": [],
@@ -319,6 +328,14 @@
                 ],
                 "patch": [],
                 "exclusion": []
+            },
+            {
+                "component": "main",
+                "capability": "refresh",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": [] 
             }
         ],
         "actions": [
@@ -389,6 +406,14 @@
                 ],
                 "patch": [],
                 "exclusion": []
+            },
+            {
+                "component": "main",
+                "capability": "refresh",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": [] 
             }
         ]
     },

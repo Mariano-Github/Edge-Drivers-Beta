@@ -11,18 +11,10 @@
             },
             {
                 "component": "main",
-                "capability": "thermostatMode",
+                "capability": "thermostatOperatingState",
                 "version": 1,
                 "idx": 0,
-                "group": "Thermostat Mode",
-                "composite": true
-            }, 
-            {
-                "component": "main",
-                "capability": "legendabsolute60149.thermostatLocked",
-                "version": 1,
-                "idx": 0,
-                "group": "Thermostat Locked",
+                "group": "Operating State",
                 "composite": true
             },
             {
@@ -35,10 +27,18 @@
             },
             {
                 "component": "main",
-                "capability": "battery",
+                "capability": "thermostatMode",
                 "version": 1,
                 "idx": 0,
-                "group": "Battery",
+                "group": "Thermostat Mode",
+                "composite": true
+            },
+            {
+                "component": "main",
+                "capability": "legendabsolute60149.thermostatLocked",
+                "version": 1,
+                "idx": 0,
+                "group": "Thermostat Locked",
                 "composite": true
             }
         ],
@@ -183,6 +183,13 @@
         {
             "component": "main",
             "capability": "battery",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "main",
+            "capability": "legendabsolute60149.signalMetrics",
             "version": 1,
             "values": [],
             "patch": []

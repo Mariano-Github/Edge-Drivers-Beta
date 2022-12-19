@@ -30,6 +30,8 @@ components:
     version: 1
   - id: legendabsolute60149.infoPanel
     version: 1
+  - id: legendabsolute60149.signalMetrics
+    version: 1
   - id: refresh
     version: 1
   categories:
@@ -216,9 +218,26 @@ preferences:
       minimum: 1
       maximum: 60
       default: 10
+  - name: "signalMetricsVisibles"
+    title: "Signal Metrics Visible in History"
+    description: "Signal Metrics Visible in App History:"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Yes": "Signal Metrics Visible"
+        "No": "Signal Metrics No Visible"
+      default: "No"
+  - name: "logDebugPrint"
+    title: "Show Logs Debug Prints in CLI"
+    #description: "Show Logs Debug Prints in CLI:"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
 metadata:
   deviceType: Thermostat	
   ocfDeviceType: oic.d.thermostat
   deviceTypeId: Thermostat
   mnmn: SmartThingsCommunity
-  vid: 372b2da9-4959-3141-9cf6-ec692453a246
+  vid: ab2ad535-9871-334a-92bc-3d04df7d33e2
