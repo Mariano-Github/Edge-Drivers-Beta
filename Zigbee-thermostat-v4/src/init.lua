@@ -238,13 +238,11 @@ local function thermostatMode_handler(self,device,command)
     local text = "No Expected Change in Thermostat State"
     device:emit_event(info_Panel.infoPanel(text))
 
-   ---- Timers Cancel ------
-    for timer in pairs(device.thread.timers) do
-     print("<<<<< Cancelando timer >>>>>")
-     device.thread:cancel_timer(timer)
-     device:set_field("thermostat_Run", "stopped", {persist = false})
-     thermostat_Run = device:get_field("thermostat_Run")
-     print("thermostat_Run", thermostat_Run)
+    ---- Set Thermostat stopped ------
+    device:set_field("thermostat_Run", "stopped", {persist = false})
+    thermostat_Run = device:get_field("thermostat_Run")
+    if device.preferences.logDebugPrint == true then
+     print("<<< thermostat_Run >>>", thermostat_Run)
     end
 
   else
@@ -312,7 +310,13 @@ local function thermostatMode_handler(self,device,command)
   end
 
   -- activate timer for fan_cycle
-  if cycleCurrent ~= "stop" then 
+  if cycleCurrent ~= "stop" and device:get_field ("timer_cycleCurrent")~= "running" then 
+    device:set_field ("timer_cycleCurrent", "running", {persist = false})
+    ---- Temperature Timer Cancel ------
+    for timer in pairs(device.thread.timers) do
+      print("<<<<< Cancelando Temp timer >>>>>")
+      device.thread:cancel_timer(timer)
+    end
     print("<<< Init Fan Cycle Timer >>>")
     device.thread:call_on_schedule(
     60,
@@ -434,6 +438,7 @@ local function thermostatFanMode_handler(self,device,command)
     thermostatOperatingState = device:get_field("thermostatOperatingState")
     if thermostatFan_Mode == "on" then
      device:set_field ("cycleCurrent", "stop", {persist = false})
+     device:set_field ("timer_cycleCurrent", "stopped", {persist = false})
      device:emit_event(fan_Cyclic_Mode.fanCyclicMode("On"))       
      if thermostat_Mode == "off" then
       device:emit_event(fan_Next_Change.fanNextChange("Inactive"))
@@ -443,6 +448,7 @@ local function thermostatFanMode_handler(self,device,command)
     
     elseif thermostatFan_Mode == "circulate" then
      device:set_field ("cycleCurrent", "stop", {persist = false})
+     device:set_field ("timer_cycleCurrent", "stopped", {persist = false})
      device:emit_event(fan_Cyclic_Mode.fanCyclicMode("On"))
      if thermostat_Mode == "off" then
       device:emit_event(fan_Next_Change.fanNextChange("Inactive"))
@@ -454,13 +460,14 @@ local function thermostatFanMode_handler(self,device,command)
       device:emit_event(fan_Next_Change.fanNextChange("Inactive"))
       if thermostat_Mode == "off" then
         device:emit_event(fan_Cyclic_Mode.fanCyclicMode("Off"))
-        device:set_field("cycleCurrent", "off", {persist = false})
+        --device:set_field("cycleCurrent", "off", {persist = false})
         device:set_field ("thermostatOperatingState", "idle", {persist = false})
       end
       thermostatOperatingState = device:get_field("thermostatOperatingState")
       device:emit_event(capabilities.thermostatOperatingState.thermostatOperatingState(thermostatOperatingState))
       device:set_field ("thermostatOperatingState",thermostatOperatingState, {persist = false})
       device:set_field ("cycleCurrent", "stop", {persist = false})
+      device:set_field ("timer_cycleCurrent", "stopped", {persist = false})
     
     elseif thermostatFan_Mode == "followschedule" then 
      ---- Set steps for cyclic fan operation
@@ -475,6 +482,7 @@ local function thermostatFanMode_handler(self,device,command)
       device:set_field ("offCyclicStep", offCyclicStep, {persist = false})
       device:set_field ("onCyclicStep", onCyclicStep, {persist = false})
       device:set_field ("cycleCurrent", cycleCurrent, {persist = false})
+      device:set_field ("timer_cycleCurrent", "stopped", {persist = false})
       if device.preferences.logDebugPrint == true then
         print("onCyclicStep, offCyclicStep, cycleCurrent", device:get_field ("onCyclicStep"),device:get_field ("offCyclicStep"),device:get_field ("cycleCurrent"))
       end
@@ -612,6 +620,7 @@ local function do_init (self, device)
  -- Save thermostatFan_Mode
   device:set_field("onCyclicStep", 0, {persist = false})
   device:set_field("offCyclicStep", 0, {persist = false})
+  device:set_field ("timer_cycleCurrent", "stopped", {persist = false})
   thermostatFan_Mode = device:get_field("thermostatFan_Mode")
   if thermostatFan_Mode == nil then 
     thermostatFan_Mode = "auto"
