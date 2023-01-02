@@ -409,10 +409,10 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_qqjaziws
     model: TS0505B
     deviceProfileName: rgbw-level-colortemp-2000-6500
-  - id: "innr/POR 265"
-    deviceLabel: POR 265 Bulb
+  - id: "innr/BY 265"
+    deviceLabel: BY 265 Bulb
     manufacturer: innr
-    model: POR 265
+    model: BY 265
     deviceProfileName: switch-level
   - id: "eWeLight/ZB-DL01"
     deviceLabel: ZB-DL01 Bulb
@@ -659,7 +659,56 @@ zigbeeManufacturer:
     manufacturer: YSRSAI
     model: ZB-CL01
     deviceProfileName: rgbw-level-colortemp-2700-6500
-
+  - id: "LDS/ZBT-DimmableLight"
+    deviceLabel: LDS ZBT-Dimmable Light
+    manufacturer: LDS
+    model: ZBT-DimmableLight
+    deviceProfileName: switch-level
+  - id: "GLEDOPTO/GL-G-003P"
+    deviceLabel: GLEDOPTO GL-G-003P
+    manufacturer: GLEDOPTO
+    model: GL-G-003P
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "LEDVANCE/Flex XL RGBW"
+    deviceLabel: LEDVANCE Flex XL RGBW
+    manufacturer: LEDVANCE
+    model: Flex XL RGBW
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "Sengled/E21-N1EA"
+    deviceLabel: Sengled E21-N1EA
+    manufacturer: sengled
+    model: E21-N1EA
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "innr/BY 185 C"
+    deviceLabel: innr RGBW
+    manufacturer: innr
+    model: BY 185 C
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "Signify/LWG004"
+    deviceLabel: Bulb LWG004
+    manufacturer: Signify Netherlands B.V.
+    model: LWG004
+    deviceProfileName: switch-level
+  - id: "Signify/LWB010"
+    deviceLabel: Bulb LWB010
+    manufacturer: Signify Netherlands B.V.
+    model: LWB010
+    deviceProfileName: switch-level
+  - id: "LEDVANCE/FLEX RGBW"
+    deviceLabel: LEDVANCE FLEX RGBW
+    manufacturer: LEDVANCE
+    model: FLEX RGBW
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "innr/BY 266"
+    deviceLabel: BY 266 Bulb
+    manufacturer: innr
+    model: BY 266
+    deviceProfileName: switch-level
+  - id: "innr/BY 286 C"
+    deviceLabel: innr RGBW
+    manufacturer: innr
+    model: BY 286 C
+    deviceProfileName: rgbw-level-colortemp-2700-6500
 
   # XY Color
   - id: "IKEA/E27 CWS 806lm"
@@ -722,6 +771,16 @@ zigbeeManufacturer:
     manufacturer: IKEA of Sweden
     model:  TRADFRI bulb GU10 CWS 345lm
     deviceProfileName: rgbw-level-colortemp-2200-4000
+  - id: "_TZ3000_gek6snaj/LIDL"
+    deviceLabel: LIDL TS0505A
+    manufacturer: _TZ3000_gek6snaj
+    model: TS0505A
+    deviceProfileName: rgbw-level-colortemp-2000-6500
+  - id: "_TZ3000_9cpuaca6/LIDL"
+    deviceLabel: LIDL TS0505A
+    manufacturer: _TZ3000_9cpuaca6
+    model: TS0505A
+    deviceProfileName: rgbw-level-colortemp-2000-6500
 
 zigbeeGeneric:
   - id: "dimmer-generic ZLL"
