@@ -479,9 +479,34 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_jl7qyupf
     model: TS0012
     deviceProfileName: two-switch  
-  - id: "TS0012/_TZ3000_lIfaquvp"
+  - id: "TS0012/_TZ3000_llfaquvp"
     deviceLabel: Two Switch
-    manufacturer: _TZ3000_lIfaquvp
+    manufacturer: _TZ3000_llfaquvp
+    model: TS0012
+    deviceProfileName: two-switch
+  - id: "TS0002/_TZ3000_ptjcjise"
+    deviceLabel: Two Switch
+    manufacturer: _TZ3000_ptjcjise
+    model: TS0002
+    deviceProfileName: two-switch
+  - id: "TS0003/_TZ3000_jfh4mdia"
+    deviceLabel: TS0003 3 Switch
+    manufacturer: _TZ3000_jfh4mdia
+    model: TS0003
+    deviceProfileName: three-switch
+  - id: "TS0003/_TYZB01_uqkphoed"
+    deviceLabel: TS0003 2 Switch
+    manufacturer: _TYZB01_uqkphoed
+    model: TS0003
+    deviceProfileName: two-switch
+  - id: "TS0013/_TZ3000_ypgri8yz"
+    deviceLabel: TS0013 Switch
+    manufacturer: _TZ3000_ypgri8yz
+    model: TS0013
+    deviceProfileName: three-switch
+  - id: "TS0012/_TZ3000_s8r1qoyq"
+    deviceLabel: TS0012 Switch
+    manufacturer: _TZ3000_s8r1qoyq
     model: TS0012
     deviceProfileName: two-switch
 
