@@ -134,11 +134,6 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_oiymh3qu
     model: TS011F
     deviceProfileName: single-switch
-  #- id: "IKEA/TRADFRI on/off switch"
-  #  deviceLabel: IKEA on/off switch
-  #  manufacturer: IKEA of Sweden
-  #  model: TRADFRI on/off switch
-  #  deviceProfileName: single-switch
   - id: "_TYZB01_phjeraqq/Switch"
     deviceLabel: TS0001 Switch
     manufacturer: _TYZB01_phjeraqq
@@ -439,3 +434,13 @@ zigbeeManufacturer:
     manufacturer: Interfree
     model: UPSK1O
     deviceProfileName: single-switch-plug
+  - id: "Philips Hue Plug/LOM010"
+    deviceLabel: Philips Hue Plug
+    manufacturer: Signify Netherlands B.V.
+    model: LOM010
+    deviceProfileName: single-switch-plug
+  - id: "_TZ3000_0t4zjtia/TS0001"
+    deviceLabel: TS0001 Switch
+    manufacturer: _TZ3000_0t4zjtia
+    model: TS0001
+    deviceProfileName: single-switch
