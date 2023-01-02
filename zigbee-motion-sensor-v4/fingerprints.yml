@@ -254,3 +254,8 @@ zigbeeManufacturer:
     manufacturer: _TZE200_3towulqd
     model: TS0601
     deviceProfileName: motion-illuminance-battery
+  - id: "TUYATEC-dxnohkpd/RH3040"
+    deviceLabel: Qnect SH-ZS03-QNE Motion Sensor
+    manufacturer: TUYATEC-dxnohkpd
+    model: RH3040
+    deviceProfileName: motion-battery
