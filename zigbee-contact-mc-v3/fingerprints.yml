@@ -215,6 +215,16 @@ zigbeeManufacturer:
   #  manufacturer: _TZE200_pay2byax
   #  model: TS0601
   #  deviceProfileName: contact-battery-profile
+  - id: "Leedarson/LDHD2AZW"
+    deviceLabel: LDHD2AZW Open/Closed Sensor
+    manufacturer: Leedarson
+    model: LDHD2AZW
+    deviceProfileName: contact-profile
+  - id: "_TZ3000_n2egfsli/Close Sensor"
+    deviceLabel: TS0203 Close Sensor
+    manufacturer: _TZ3000_n2egfsli
+    model: TS0203
+    deviceProfileName: contact-battery-profile
 
   # ST multipurpose sensors
   - id: "Samjin/multi"
