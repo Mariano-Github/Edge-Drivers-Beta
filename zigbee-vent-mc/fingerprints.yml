@@ -1,0 +1,32 @@
+zigbeeManufacturer:
+  - id: "keen/sv01-610-mp-1.1"
+    deviceLabel: Keen SV01-610-MP-1.1 Vent
+    manufacturer: Keen Home Inc
+    model: SV01-610-MP-1.1
+    deviceProfileName: vent-profile-1
+  - id: "keen/sv01-412-mp-1.4"
+    deviceLabel: Keen SV01-412-MP-1.4 Vent
+    manufacturer: Keen Home Inc
+    model: SV01-412-MP-1.4
+    deviceProfileName: vent-profile-1
+  # Added M colmenarejo
+  - id: "keen/SV01-412-MP-1.0"
+    deviceLabel: Keen SV01-412-MP-1.0 Vent
+    manufacturer: Keen Home Inc
+    model: SV01-412-MP-1.0
+    deviceProfileName: vent-profile-1
+  - id: "keen/SV01-410-MP-1.1"
+    deviceLabel: Keen SV01-410-MP-1.1 Vent
+    manufacturer: Keen Home Inc
+    model: SV01-410-MP-1.1
+    deviceProfileName: vent-profile-1
+  - id: "keen/SV01-410-MP-1.5"
+    deviceLabel: Keen SV01-410-MP-1.5 Vent
+    manufacturer: Keen Home Inc
+    model: SV01-410-MP-1.5
+    deviceProfileName: vent-profile-1
+  - id: "keen/SV01-410-MP-1.0"
+    deviceLabel: Keen SV01-410-MP-1.0 Vent
+    manufacturer: Keen Home Inc
+    model: SV01-410-MP-1.0
+    deviceProfileName: vent-profile-1

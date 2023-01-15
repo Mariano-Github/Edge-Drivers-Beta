@@ -1,0 +1,4 @@
+name: 'Zigbee Vent Mc'
+packageKey: 'zigbee-vent'
+permissions:
+  zigbee: {}
