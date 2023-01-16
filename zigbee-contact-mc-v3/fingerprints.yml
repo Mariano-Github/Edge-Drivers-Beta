@@ -201,7 +201,12 @@ zigbeeManufacturer:
     deviceLabel: Multipurpose Sensor
     manufacturer: CentraLite
     model: 3321-S
-    deviceProfileName: st-multipurpose  
+    deviceProfileName: st-multipurpose
+  - id: “Sercomm Corp./Tripper”
+    deviceLabel: Quirky Tripper
+    manufacturer: Sercomm Corp.
+    model: Tripper
+    deviceProfileName: contact-battery-profile  
 zigbeeGeneric:
   - id: "contact-generic"
     deviceLabel: "Zigbee Contact Sensor"
