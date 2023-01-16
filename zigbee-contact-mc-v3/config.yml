@@ -1,5 +1,5 @@
-name: 'Zigbee Contact Mc'
+name: 'Zigbee Contact McAdm'
 packageKey: 'zigbee-contact-v2'
-description: 'Devices Supported: https://github.com/Mariano-Github/Edge-Drivers-Beta/blob/main/zigbee-contact-mc-v2/fingerprints.yml'
+description: 'MC Updated by ADM'
 permissions:
   zigbee: {}
