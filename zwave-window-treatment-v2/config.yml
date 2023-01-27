@@ -1,5 +1,0 @@
-name: 'Z-Wave Window Treatment Mc'
-packageKey: 'zwave-window-treatment-v2'
-description: 'Devices Supported: https://github.com/Mariano-Github/Edge-Drivers-Beta/blob/main/zwave-drivers/zwave-window-treatment-mc/fingerprints.yml'
-permissions:
-  zwave: {}
