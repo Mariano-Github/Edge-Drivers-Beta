@@ -31,7 +31,7 @@ zwaveManufacturer:
     manufacturerId: 0x0258
     productType: 0x0003
     productId: 0x008D
-    deviceProfileName: motion-battery-illuminance
+    deviceProfileName: motion-battery-illuminance-temperature # MOD M.Colmenarejo
   - id: "NEOCoolcam/108D"
     deviceLabel: NEO Coolcam Motion/Light Sensor
     manufacturerId: 0x0258
