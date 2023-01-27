@@ -1,5 +1,0 @@
-name: 'Zigbee Temp Humidity Sensor Mc'
-packageKey: 'Zigbee_Temp_Humidity_Sensor_v4'
-description: 'Supported Devices: https://github.com/Mariano-Github/Edge-Drivers-Beta/blob/main/zigbee-temp-humidity-sensor-v4/fingerprints.yml'
-permissions:
-  zigbee: {}
