@@ -1,0 +1,225 @@
+{
+    "mnmn": "SmartThingsCommunity",
+    "vid": "3f03b005-0e01-3a82-b8b6-fb95b3890261",
+    "version": "0.0.1",
+    "type": "profile",
+    "dashboard": {
+        "states": [
+            {
+                "component": "main",
+                "capability": "temperatureMeasurement",
+                "version": 1,
+                "idx": 0,
+                "group": "main",
+                "values": [],
+                "composite": true
+            },
+            {
+                "component": "main",
+                "capability": "relativeHumidityMeasurement",
+                "version": 1,
+                "idx": 0,
+                "group": "Humidity",
+                "values": [],
+                "composite": true
+            },
+            {
+                "component": "main",
+                "capability": "battery",
+                "version": 1,
+                "idx": 0,
+                "group": "Battery",
+                "values": [],
+                "composite": true
+            },
+            {
+                "component": "main",
+                "capability": "legendabsolute60149.atmosPressure",
+                "version": 1,
+                "idx": 0,
+                "group": "Atmospheric Pressure (mBar)",
+                "values": [],
+                "composite": true
+            },
+            {
+                "component": "main",
+                "capability": "atmosphericPressureMeasurement",
+                "version": 1,
+                "idx": 0,
+                "group": "Atmospheric Pressure (kPa)",
+                "values": [],
+                "composite": true
+            }
+        ],
+        "actions": [],
+        "basicPlus": []
+    },
+    "detailView": [
+        {
+            "component": "main",
+            "capability": "temperatureMeasurement",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "main",
+            "capability": "relativeHumidityMeasurement",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "main",
+            "capability": "atmosphericPressureMeasurement",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "main",
+            "capability": "legendabsolute60149.atmosPressure",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "main",
+            "capability": "legendabsolute60149.tempCondition2",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "main",
+            "capability": "legendabsolute60149.humidityCondition",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "main",
+            "capability": "legendabsolute60149.illuminCondition",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "main",
+            "capability": "battery",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "main",
+            "capability": "legendabsolute60149.signalMetrics",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "main",
+            "capability": "refresh",
+            "version": 1,
+            "values": [],
+            "patch": []
+        }
+    ],
+    "automation": {
+        "conditions": [
+            {
+                "component": "main",
+                "capability": "temperatureMeasurement",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "main",
+                "capability": "relativeHumidityMeasurement",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "main",
+                "capability": "atmosphericPressureMeasurement",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "main",
+                "capability": "legendabsolute60149.atmosPressure",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "main",
+                "capability": "battery",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "main",
+                "capability": "legendabsolute60149.tempTarget",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "main",
+                "capability": "legendabsolute60149.humidityTarget",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "main",
+                "capability": "legendabsolute60149.illuminTarget",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            }
+        ],
+        "actions": [
+            {
+                "component": "main",
+                "capability": "legendabsolute60149.tempCondition2",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "main",
+                "capability": "legendabsolute60149.humidityCondition",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "main",
+                "capability": "legendabsolute60149.illuminCondition",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            }
+        ]
+    },
+    "presentationId": "3f03b005-0e01-3a82-b8b6-fb95b3890261",
+    "manufacturerName": "SmartThingsCommunity"
+}

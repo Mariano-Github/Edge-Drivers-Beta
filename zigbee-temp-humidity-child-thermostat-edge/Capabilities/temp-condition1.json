@@ -1,0 +1,45 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{tempCondition.value}} {{tempCondition.unit}}"
+            }
+        ],
+        "actions": [],
+        "basicPlus": []
+    },
+    "detailView": [
+        {
+            "label": "Temp Rules Condition(ºC or ºF)",
+            "displayType": "numberField",
+            "numberField": {
+                "value": "tempCondition.value",
+                "valueType": "number",
+                "unit": "tempCondition.unit",
+                "command": "setTempCondition",
+                "argumentType": "number",
+                "range": [
+                    -50.0,
+                    250.0
+                ]
+            }
+        }  
+    ],
+    "automation": {
+        "conditions": [],
+        "actions": [
+            {
+                "label": "Temp Condit Set Value",
+                "displayType": "numberField",
+                "numberField": {
+                    "command": "setTempCondition",
+                    "value": "tempCondition.value",
+                    "unit": "tempCondition.unit",
+                    "range": [-50.0, 250.0]
+                }
+             }            
+        ]
+    },
+    "id": "legendabsolute60149.tempCondition1",
+    "version": 1
+}

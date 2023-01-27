@@ -1,0 +1,120 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{thermostatLocked.value}}",
+                "alternatives": [
+                    {
+                        "key": "Locked",
+                        "value": "Locked",
+                        "type": "active"
+                    },
+                    {
+                        "key": "Unlocked",
+                        "value": "Unlocked",
+                        "type": "inactive"
+                    }
+                ]
+            }
+        ],
+        "actions": [
+            {
+                "displayType": "toggleSwitch",        
+                "toggleSwitch": {
+                    "command": {
+                        "name": "setThermostatLocked",
+                        "on": "Locked",
+                        "off": "Unlocked",
+                        "argumentType": "string"
+                    },
+                    "state": {
+                        "value": "thermostatLocked.value",
+                        "on": "Locked",
+                        "off": "Unlocked",
+                        "valueType": "string"
+                    }
+                }
+            }
+        ]
+    },
+    "detailView": [
+        {
+            "label": "Thermostat Lock State",
+            "displayType": "switch",
+            "switch": {
+                "command": {
+                    "name": "setThermostatLocked",
+                    "on": "Locked",
+                    "off": "Unlocked",
+                    "argumentType": "string"
+                },
+                "state": {
+                    "value": "thermostatLocked.value",
+                    "valueType": "string",
+                    "on": "Locked",
+                    "off": "Unlocked",
+                    "alternatives": [
+                        {
+                            "key": "Locked",
+                            "value": "Locked",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Unlocked",
+                            "value": "Unlocked",
+                            "type": "inactive"
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "automation": {
+        "conditions": [
+            {
+                "label": "Thermostat Lock State",
+                "displayType": "list",
+                "list": {
+                    "alternatives": [
+                        {
+                            "key": "Locked",
+                            "value": "Locked",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Unlocked",
+                            "value": "Unlocked",
+                            "type": "active"
+                        }
+                    ],
+                    "value": "thermostatLocked.value",
+                    "valueType": "string"
+                }
+            }
+        ],
+        "actions": [
+            {
+                "label": "Thermostat Lock State",
+                "displayType": "list",
+                "list": {
+                    "alternatives": [
+                        {
+                            "key": "Locked",
+                            "value": "Locked",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Unlocked",
+                            "value": "Unlocked",
+                            "type": "active"
+                        }
+                    ],
+                    "command": "setThermostatLocked",
+                    "argumentType": "string"
+                }
+            }
+        ]
+    },
+    "id": "legendabsolute60149.thermostatLocked",
+    "version": 1
+}

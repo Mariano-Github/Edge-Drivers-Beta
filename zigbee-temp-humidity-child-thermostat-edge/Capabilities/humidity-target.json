@@ -1,0 +1,78 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{humidityTarget.value}} {{humidityTarget.unit}}"
+            }
+        ],
+        "actions": []
+    },
+    "detailView": [
+        {
+            "label": "Humidity Comparation",
+            "displayType": "list",
+            "list": {
+                "command": {
+                    "name": "setHumidityTarget",   
+                    "alternatives": [
+                        {
+                            "key": "Equal-Up",  
+                            "value": "Equal-Up",
+                            "type": "active"    
+                        },
+                        {
+                            "key": "Down",    
+                            "value": "Down",
+                            "type": "active"
+                        }
+                    ],
+                    "argumentType": "string"
+                },
+                "state": {
+                    "value": "humidityTarget.value",
+                    "valueType": "string",
+                    "alternatives": [
+                        {
+                            "key": "Equal-Up",  
+                            "value": "Equal-Up",
+                            "type": "active"    
+                        },
+                        {
+                            "key": "Down",    
+                            "value": "Down",
+                            "type": "active"
+                        }
+                    ]
+                }
+            },
+            "state": null
+        }
+    ],
+    "automation": {
+        "conditions": [
+            {
+                "label": "Humidity Comparation",
+                "displayType": "list",
+                "list": {
+                    "alternatives": [
+                        {
+                            "key": "Equal-Up",  
+                            "value": "Equal-Up",
+                            "type": "active"    
+                        },
+                        {
+                            "key": "Down",    
+                            "value": "Down",
+                            "type": "active"
+                        }
+                    ],
+                    "value": "humidityTarget.value",
+                    "valueType": "string"
+                }
+            }
+        ],
+        "actions": []
+    },
+    "id": "legendabsolute60149.humidityTarget",
+    "version": 1
+}

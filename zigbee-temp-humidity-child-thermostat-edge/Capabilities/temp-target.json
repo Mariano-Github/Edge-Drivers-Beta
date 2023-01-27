@@ -1,0 +1,78 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{tempTarget.value}} {{tempTarget.unit}}"
+            }
+        ],
+        "actions": []
+    },
+    "detailView": [
+        {
+            "label": "Temperature Comparation",
+            "displayType": "list",
+            "list": {
+                "command": {
+                    "name": "setTempTarget",   
+                    "alternatives": [
+                        {
+                            "key": "Equal-Up",  
+                            "value": "Equal-Up",
+                            "type": "active"    
+                        },
+                        {
+                            "key": "Down",    
+                            "value": "Down",
+                            "type": "active"
+                        }
+                    ],
+                    "argumentType": "string"
+                },
+                "state": {
+                    "value": "tempTarget.value",
+                    "valueType": "string",
+                    "alternatives": [
+                        {
+                            "key": "Equal-Up",  
+                            "value": "Equal-Up",
+                            "type": "active"    
+                        },
+                        {
+                            "key": "Down",    
+                            "value": "Down",
+                            "type": "active"
+                        }
+                    ]
+                }
+            },
+            "state": null
+        }
+    ],
+    "automation": {
+        "conditions": [
+            {
+                "label": "Temperature Comparation",
+                "displayType": "list",
+                "list": {
+                    "alternatives": [
+                        {
+                            "key": "Equal-Up",  
+                            "value": "Equal-Up",
+                            "type": "active"    
+                        },
+                        {
+                            "key": "Down",    
+                            "value": "Down",
+                            "type": "active"
+                        }
+                    ],
+                    "value": "tempTarget.value",
+                    "valueType": "string"
+                }
+            }
+        ],
+        "actions": []
+    },
+    "id": "legendabsolute60149.tempTarget",
+    "version": 1
+}
