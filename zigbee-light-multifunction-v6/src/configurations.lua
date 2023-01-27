@@ -25,6 +25,15 @@ local devices = {
       { mfr = "IKEA of Sweden", model = "TRADFRI bulb E27 CWS 806lm" },
       { mfr = "_TZ3000_riwp3k79", model = "TS0505A" },
       { mfr = "_TZ3000_dbou1ap4", model = "TS0505A" },
+      { mfr = "_TZ3000_kdpxju99", model = "TS0505A" },
+      { mfr = "_TZ3000_v7fkcekx", model = "TS0505A" },
+      { mfr = "_TZ3210_iystcadi", model = "TS0505B" },
+      { mfr = "_TZ3210_sroezl0s", model = "TS0504B" },
+      { mfr = "_TZ3000_odygigth", model = "TS0505A" },
+      { mfr = "_TZ3000_gek6snaj", model = "TS0505A" },
+      { mfr = "_TZ3000_9cpuaca6", model = "TS0505A" },
+      { mfr = "_TZ3000_keabpigv", model = "TS0505A" },
+      { mfr = "_TZ3000_obacbukl", model = "TS0503A" },
       --{ mfr = "_TZ3000_49qchf10", model = "TS0502A" } -- LIDL colorTemp
     },
     CONFIGURATION = {

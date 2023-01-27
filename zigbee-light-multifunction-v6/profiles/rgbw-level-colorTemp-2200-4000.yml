@@ -1,4 +1,4 @@
-name: rgbw-level-colortemp-2700-6500
+name: rgbw-level-colortemp-2200-4000
 components:
 - id: main
   capabilities:
@@ -13,7 +13,7 @@ components:
     config:
       values:
         - key: "colorTemperature.value"
-          range: [ 2700, 6500 ]
+          range: [ 2200, 4000 ]
   - id: legendabsolute60149.colorTemperatureSteps
     version: 1
   - id: colorControl
@@ -70,7 +70,7 @@ preferences:
       default: 0
   - name: "changeProfile"
     title: "Select Profile for Color Temperature"
-    description: "WARNING CHECK YOUR PREFERENCES: Color Temp Max and Min must be into the Profile Color Temperature Range. Select Profile for Color Temperature, (Default: 2700k-6500k)"
+    description: "WARNING CHECK YOUR PREFERENCES: Color Temp Max and Min must be into the Profile Color Temperature Range. Select Profile for Color Temperature, (Default: 2200k-4000k)"
     required: false
     preferenceType: enumeration
     definition:
@@ -78,7 +78,7 @@ preferences:
         "20006500": "2000k-6500k"
         "22004000": "2200k-4000k"
         "27006500": "2700k-6500k"
-      default: "27006500"
+      default: "22004000"
   - name: "restoreState"
     title: "ATTEMPT Restore State if Power Lost"
     description: "WARNNING: COULD NOT WORK\n After the power supply is back on, the State can be restored to previous state or remain switched off (Default: Device restores previous state)"
@@ -213,22 +213,22 @@ preferences:
       default: "No"
   - name: "colorTempMinim"
     title: "Color Temperature  Min value (k)"
-    description: "Select Maximum Color Temp Increment value (2700k to 6000k, Default: 2700)"
+    description: "Select Maximum Color Temp Increment value (2200k to 3800k, Default: 2200)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 2200
+      maximum: 3800
+      default: 2200
+  - name: "colorTempMaxim"
+    title: "ColorTemp Increment Max value (k)"
+    description: "Select Maximum Color Temp Increment value (2700k to 4000k, Default: 4000)"
     required: false
     preferenceType: number
     definition:
       minimum: 2700
-      maximum: 6000
-      default: 2700
-  - name: "colorTempMaxim"
-    title: "ColorTemp Increment Max value (k)"
-    description: "Select Maximum Color Temp Increment value (3000k to 6500k, Default: 6500)"
-    required: false
-    preferenceType: number
-    definition:
-      minimum: 3000
-      maximum: 6500
-      default: 6500 
+      maximum: 4000
+      default: 4000 
   - name: "limitColorTemp"
     title: "Use ColorTemp Min and Max as limits"
     description: "Use ColorTemp Min and Max values as limits"
@@ -274,7 +274,7 @@ preferences:
       default: 0 
   - name: "groupRemove"
     title: "Remove Group Number"
-    description: "Insert Group number to Remove. Value = 0, all Groups Removed"
+    description: "Insert Group number to Remove. Value = 0, all Groups Removed, (Default: 1)"
     required: false
     preferenceType: number
     definition:
@@ -302,4 +302,4 @@ metadata:
   ocfDeviceType: oic.d.light
   deviceTypeId: Light
   #mnmn: SmartThingsCommunity
-  #vid: 70ff93ae-f81a-338f-9f5d-329cca466960
+  #vid: 7c93e61e-93d9-32d1-bdef-9dc120217c84

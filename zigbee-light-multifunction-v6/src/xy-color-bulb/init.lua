@@ -59,6 +59,19 @@ local XY_COLOR_BULB_FINGERPRINTS = {
   ["_TZ3000_odygigth"] = {
     ["TS0505A"] = true
   },
+  ["_TZ3000_gek6snaj"] = {
+    ["TS0505A"] = true
+  },
+  ["_TZ3000_9cpuaca6"] = {
+    ["TS0505A"] = true
+  },
+  ["_TZ3000_keabpigv"] = {
+    ["TS0505A"] = true
+  },
+  ["_TZ3000_obacbukl"] = {
+    ["TS0503A"] = true
+  },
+  ----- WARNNING: ADD FINGERPRINTS TO configurations.lua file ------
   --["_TZ3000_49qchf10"] = { -- LIDL mia solo ColorTemp
     --["TS0502A"] = true
   --}
@@ -112,7 +125,7 @@ local function move_to_last_level(device)
   local last_Level = device:get_latest_state("main", capabilities.switchLevel.ID, capabilities.switchLevel.level.NAME)
   if last_Level == nil then 
     last_Level = 100
-    device:set_field("last_Level", 100)
+    device:set_field("last_Level", 100, {persist = true})
   end
   if last_Level < 1 then last_Level = device:get_field("last_Level") end
   if device.preferences.levelTransTime == 0 then

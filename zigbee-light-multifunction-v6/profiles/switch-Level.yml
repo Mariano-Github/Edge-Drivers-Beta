@@ -32,8 +32,8 @@ components:
   - name: Switch
 preferences:
   - name: "version"
-    title: "Version 6 (Jun 2022)"
-    description: "Add: Signal Metrics, new Color Change modes, Advice of new driver version available, Attempt restore state after power lost"
+    title: "Version 6.2 (Nov 2022)"
+    description: "Add: new RGBW profile and Color temperature limits"
     required: false
     preferenceType: string
     definition:
@@ -136,6 +136,15 @@ preferences:
         "Off" : "Light Turn Off "
         "Change": "Invert Dimming Direction"
       default: "Off"
+  - name: "setLevelMin"
+    title: "Minimum Set Command Level %"
+    description: "Select Minimum Level for Set Command (0 to 99, Default: 0)"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 99
+      default: 0
   - name: "randomMin"
     title: "Random ON-OFF Minimum Time"
     description: "Select Minimum Time ON-OFF Interval (0.5 min to 25 min, Default: 1)"

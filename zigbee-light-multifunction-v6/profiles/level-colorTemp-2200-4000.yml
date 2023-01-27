@@ -10,6 +10,10 @@ components:
     version: 1
   - id: colorTemperature
     version: 1
+    config:
+      values:
+        - key: "colorTemperature.value"
+          range: [ 2200, 4000 ]
   - id: legendabsolute60149.colorTemperatureSteps
     version: 1
   - id: legendabsolute60149.randomOnOff1
@@ -38,8 +42,8 @@ components:
   - name: Light
 preferences:
   - name: "version"
-    title: "Version 6 (Jun 2022)"
-    description: "Add: Signal Metrics, new Color Change modes, Advice of new driver version available, Attempt restore state after power lost"
+    title: "Version 6.2 (Nov 2022)"
+    description: "Add: new RGBW profile and Color temperature limits"
     required: false
     preferenceType: string
     definition:
@@ -179,18 +183,27 @@ preferences:
         "Yes" : "Yes"
         "No"  : "No"
       default: "No"
-  - name: "colorTempMaxim"
-    title: "ColorTemp Increment Max value (k)"
-    description: "Select Maximum Color Temp Increment value (3000k to 4000k, Default: 4000)"
+  - name: "colorTempMinim"
+    title: "Color Temperature  Min value (k)"
+    description: "Select Maximum Color Temp Increment value (2200k to 3800k, Default: 2200)"
     required: false
     preferenceType: number
     definition:
-      minimum: 3000
+      minimum: 2200
+      maximum: 3800
+      default: 2200
+  - name: "colorTempMaxim"
+    title: "ColorTemp Increment Max value (k)"
+    description: "Select Maximum Color Temp Increment value (2700k to 4000k, Default: 4000)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 2700
       maximum: 4000
       default: 4000 
   - name: "limitColorTemp"
-    title: "Use ColorTemp Incr. Max as limit"
-    description: "Use ColorTemp Increment Max as limit"
+    title: "Use ColorTemp Min and Max as limits"
+    description: "Use ColorTemp Min and Max values as limits"
     required: false
     preferenceType: boolean
     definition:
@@ -213,6 +226,15 @@ preferences:
       minimum: 1
       maximum: 100
       default: 100
+  - name: "setLevelMin"
+    title: "Minimum Set Command Level %"
+    description: "Select Minimum Level for Set Command (0 to 99, Default: 0)"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 99
+      default: 0
   - name: "groupAdd"
     title: "Add Group Number"
     description: "Insert Group number to Add. Value = 0, Get All Groups in History Events, (Default: 0)"
@@ -251,5 +273,5 @@ metadata:
   deviceType: Light
   ocfDeviceType: oic.d.light
   deviceTypeId: Light
-  mnmn: SmartThingsCommunity
-  vid: e9478e07-21e5-3796-85f9-222d1584ebf3 
+  #mnmn: SmartThingsCommunity
+  #vid: e9478e07-21e5-3796-85f9-222d1584ebf3 

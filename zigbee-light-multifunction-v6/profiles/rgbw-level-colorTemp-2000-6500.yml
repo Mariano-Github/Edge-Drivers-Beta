@@ -10,6 +10,10 @@ components:
     version: 1
   - id: colorTemperature
     version: 1
+    config:
+      values:
+        - key: "colorTemperature.value"
+          range: [ 2000, 6500 ]
   - id: legendabsolute60149.colorTemperatureSteps
     version: 1
   - id: colorControl
@@ -46,8 +50,8 @@ components:
   - name: Light
 preferences:
   - name: "version"
-    title: "Version 6 (Jun 2022)"
-    description: "Add: Signal Metrics, new Color Change modes, Advice of new driver version available, Attempt restore state after power lost"
+    title: "Version 6.2 (Nov 2022)"
+    description: "Add: new RGBW profile and Color temperature limits"
     required: false
     preferenceType: string
     definition:
@@ -66,12 +70,13 @@ preferences:
       default: 0
   - name: "changeProfile"
     title: "Select Profile for Color Temperature"
-    description: "Select Profile for Color Temperature, (Default: 2000k-6500k)"
+    description: "WARNING CHECK YOUR PREFERENCES: Color Temp Max and Min must be into the Profile Color Temperature Range. Select Profile for Color Temperature, (Default: 2000k-6500k)"
     required: false
     preferenceType: enumeration
     definition:
       options:
         "20006500": "2000k-6500k"
+        "22004000": "2200k-4000k"
         "27006500": "2700k-6500k"
       default: "20006500"
   - name: "restoreState"
@@ -206,18 +211,27 @@ preferences:
         "Yes" : "Yes"
         "No"  : "No"
       default: "No"
+  - name: "colorTempMinim"
+    title: "Color Temperature  Min value (k)"
+    description: "Select Maximum Color Temp Increment value (2000k to 6000k, Default: 2000)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 2000
+      maximum: 6000
+      default: 2000
   - name: "colorTempMaxim"
     title: "ColorTemp Increment Max value (k)"
-    description: "Select Maximum Color Temp Increment value (3000k to 6500k, Default: 5000)"
+    description: "Select Maximum Color Temp Increment value (3000k to 6500k, Default: 6500)"
     required: false
     preferenceType: number
     definition:
       minimum: 3000
       maximum: 6500
-      default: 5000 
+      default: 6500 
   - name: "limitColorTemp"
-    title: "Use ColorTemp Incr. Max as limit"
-    description: "Use ColorTemp Increment Max as limit"
+    title: "Use ColorTemp Min and Max as limits"
+    description: "Use ColorTemp Min and Max values as limits"
     required: false
     preferenceType: boolean
     definition:
@@ -240,6 +254,15 @@ preferences:
       minimum: 1
       maximum: 100
       default: 100
+  - name: "setLevelMin"
+    title: "Minimum Set Command Level %"
+    description: "Select Minimum Level for Set Command (0 to 99, Default: 0)"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 99
+      default: 0
   - name: "groupAdd"
     title: "Add Group Number"
     description: "Insert Group number to Add. Value = 0, Get All Groups in History Events, (Default: 0)"
@@ -278,5 +301,5 @@ metadata:
   deviceType: Light
   ocfDeviceType: oic.d.light
   deviceTypeId: Light
-  mnmn: SmartThingsCommunity
-  vid: dc0f9f67-eba0-3573-aad5-40a568f2e791
+  #mnmn: SmartThingsCommunity
+  #vid: dc0f9f67-eba0-3573-aad5-40a568f2e791

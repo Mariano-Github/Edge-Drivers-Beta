@@ -709,6 +709,66 @@ zigbeeManufacturer:
     manufacturer: innr
     model: BY 286 C
     deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "innr/RB 286 C"
+    deviceLabel: innr RGBW
+    manufacturer: innr
+    model: RB 286 C
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZ3210_e020aaa/TS0505B"
+    deviceLabel: RGBW TS0505B
+    manufacturer: _TZ3210_e020aaa
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "RGBCXStrip50AU/Aurora"
+    deviceLabel: Aurora RGBW
+    manufacturer: Aurora
+    model: RGBCXStrip50AU
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "ZBT-CCTLight-C4700107/lk"
+    deviceLabel: lk ZBT-CCTLight
+    manufacturer: lk
+    model: ZBT-CCTLight-C4700107
+    deviceProfileName: level-colortemp-2700-6500
+  - id: "eWeLink/Z102LG03-1"
+    deviceLabel: eWeLink Z102LG03-1
+    manufacturer: eWeLink
+    model: Z102LG03-1
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZ3210_dajkjxwt/TS0505B"
+    deviceLabel: RGBW TS0505B
+    manufacturer: _TZ3210_dajkjxwt
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "GLEDOPTO/GL-D-004ZS"
+    deviceLabel: GLEDOPTO RGBW GL-D-004ZS
+    manufacturer: GLEDOPTO
+    model: GL-D-004ZS
+    deviceProfileName: rgbw-level-colortemp-2000-6500
+  - id: "innr/RS 226"
+    deviceLabel: innr gu10
+    manufacturer: innr
+    model: RS 226
+    deviceProfileName: switch-level
+  - id: "Signify/LWA029"
+    deviceLabel: Bulb LWA017
+    manufacturer: Signify Netherlands B.V.
+    model: LWA029
+    deviceProfileName: switch-level
+  - id: "_TZ3210_09hzmirw/TS0502B"
+    deviceLabel: EcoDim LED
+    manufacturer: _TZ3210_09hzmirw
+    model: TS0502B
+    deviceProfileName: level-colortemp-2000-6500
+  - id: "OSRAM/Classic A60 TW"
+    deviceLabel: OSRAM Classic A60 TW
+    manufacturer: OSRAM
+    model: Classic A60 TW
+    deviceProfileName: level-colortemp-2700-6500
+  - id: "IKEA/TRADFRI bulb E14 WS globe 470lm"
+    deviceLabel: IKEA Bulb
+    manufacturer: IKEA of Sweden
+    model: TRADFRI bulb E14 WS globe 470lm
+    deviceProfileName: level-colortemp-2200-4000
 
   # XY Color
   - id: "IKEA/E27 CWS 806lm"
@@ -781,6 +841,16 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_9cpuaca6
     model: TS0505A
     deviceProfileName: rgbw-level-colortemp-2000-6500
+  - id: "_TZ3000_keabpigv/Woox"
+    deviceLabel: Woox TS0505A
+    manufacturer: _TZ3000_keabpigv
+    model: TS0505A
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZ3000_obacbukl/TS0503A"
+    deviceLabel: Woox TS0503A
+    manufacturer: _TZ3000_obacbukl
+    model: TS0503A
+    deviceProfileName: level-rgb
 
 zigbeeGeneric:
   - id: "dimmer-generic ZLL"
