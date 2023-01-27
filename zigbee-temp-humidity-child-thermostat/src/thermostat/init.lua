@@ -154,9 +154,10 @@ local function thermostatMode_handler(self,device,command)
     local thermostat_timer = 60
     device.thread:call_on_schedule(
       thermostat_timer,
-    function ()  
+    function ()
+      
     ------------ Fanc Circulate Cycling handler -------------
-      --thermostatFan_Mode = device:get_field ("thermostatFan_Mode")
+
       if device.preferences.fanCyclic == "Yes" then
         local onCyclicTotalSteps = device.preferences.onTime -- * 60  / thermostat_timer
         local offCyclicTotalSteps = device.preferences.offTime -- * 60  / thermostat_timer
@@ -366,6 +367,25 @@ local function do_init (self, device)
   --- added thermostat_Modes_Supported
   thermostat_Modes_Supported(self,device)
 
+  --Initialize selected profile
+  print("<<< Set Selected profile >>>")
+  print("<<< device.preferences.changeProfileTherm >>>",device.preferences.changeProfileTherm)
+  print("<<< device.preferences.multiTile >>>",device.preferences.multiTile)
+
+  if device.preferences.changeProfileTherm == "1" and device.preferences.multiTile == false then
+    print("<<< child-thermostat >>>")
+    device:try_update_metadata({profile = "child-thermostat"})
+  elseif device.preferences.changeProfileTherm == "1" and device.preferences.multiTile == true then
+    print("<<< child-thermostat-multi >>>")
+    device:try_update_metadata({profile = "child-thermostat-multi"})
+  elseif device.preferences.changeProfileTherm == "5" and device.preferences.multiTile == false then
+    print("<<< child-thermostat-05 >>>")
+    device:try_update_metadata({profile = "child-thermostat-05"})
+  elseif device.preferences.changeProfileTherm == "5" and device.preferences.multiTile == true then
+    print("<<< child-thermostat-multi-05 >>>")
+    device:try_update_metadata({profile = "child-thermostat-multi-05"})
+  end
+
   thermostat_Run = "stopped"
   device:set_field("thermostat_Run", thermostat_Run, {persist = false})
  
@@ -490,15 +510,28 @@ local function do_Preferences (self, device)
         device:emit_event(capabilities.thermostatCoolingSetpoint.coolingSetpoint({value = device:get_field("cooling_Setpoint"), unit = temp_scale }))
       end
         ------ Change profile Temp Set points steps
-      if id == "changeProfileTherm" then
-          if newParameterValue == "1" then
+      if id == "changeProfileTherm" or id == "multiTile" then
+        if device.preferences.logDebugPrint == true then
+          print("<<< device.preferences.changeProfileTherm >>>",device.preferences.changeProfileTherm)
+          print("<<< device.preferences.multiTile >>>",device.preferences.multiTile)
+        end
+        if device.preferences.changeProfileTherm == "1" and device.preferences.multiTile == false then
+          print("<<< child-thermostat >>>")
           device:try_update_metadata({profile = "child-thermostat"})
-          elseif newParameterValue == "5" then
+        elseif device.preferences.changeProfileTherm == "1" and device.preferences.multiTile == true then
+          print("<<< child-thermostat-multi >>>")
+          device:try_update_metadata({profile = "child-thermostat-multi"})
+        elseif device.preferences.changeProfileTherm == "5" and device.preferences.multiTile == false then
+          print("<<< child-thermostat-05 >>>")
           device:try_update_metadata({profile = "child-thermostat-05"})
-          end 
+        elseif device.preferences.changeProfileTherm == "5" and device.preferences.multiTile == true then
+          print("<<< child-thermostat-multi-05 >>>")
+          device:try_update_metadata({profile = "child-thermostat-multi-05"})
+        end
       end
       -- thermostat calculations
-      refresh_thermostat.thermostat_data_check (self, device)
+      thermostatMode_handler(self,device,"init")
+      --refresh_thermostat.thermostat_data_check (self, device)
     end
   end
 
@@ -541,7 +574,7 @@ end
 
 ----- driver template ----------
 local thermostat_sub_driver = {
-  NAME = "Thermostat sudriver",
+  NAME = "Thermostat subriver",
   supported_capabilities = {
     thermostat_Locked,
     capabilities.thermostatMode,

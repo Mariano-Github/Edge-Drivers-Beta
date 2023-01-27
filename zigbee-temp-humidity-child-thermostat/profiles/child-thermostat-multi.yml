@@ -1,4 +1,4 @@
-name: child-thermostat-05
+name: child-thermostat-multi
 components:
 - id: main
   capabilities:
@@ -226,4 +226,4 @@ metadata:
   ocfDeviceType: oic.d.thermostat
   deviceTypeId: Thermostat
   mnmn: SmartThingsCommunity
-  vid: da5b9b99-bdd3-3d0a-b5c1-44869419188f
+  vid: 446450a9-1d7e-3d81-843d-98a9d39b330c

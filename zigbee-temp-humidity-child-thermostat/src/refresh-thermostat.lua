@@ -48,7 +48,11 @@ function refresh_thermostat.thermostat_data_check(driver, device)
       print("cycleCurrent =", cycleCurrent)
     end
       -- if thermostat = off and fan in programming mode
-      if thermostat_Mode == "off" then return end
+      if thermostat_Mode == "off" then
+        local text = "No Expected Change in Thermostat State"
+        device:emit_event(info_Panel.infoPanel(text))
+        return 
+      end
   
   --------------------------- Thermostat status handler ------------------- 
   
@@ -155,11 +159,11 @@ function refresh_thermostat.thermostat_data_check(driver, device)
         --Emit event Fan status
         if device:get_field("thermostatFan_Mode") == "auto" then
           if thermostatOperatingState == "heating" or thermostatOperatingState == "cooling" then
-            if device:get_latest_state("main", fan_Cyclic_Mode.ID, fan_Cyclic_Mode.fanCyclicMode.NAME) == "Off" then
+            if device:get_latest_state("main", fan_Cyclic_Mode.ID, fan_Cyclic_Mode.fanCyclicMode.NAME) ~= "On" then
               device:emit_event(fan_Cyclic_Mode.fanCyclicMode("On"))
             end
           else
-            if device:get_latest_state("main", fan_Cyclic_Mode.ID, fan_Cyclic_Mode.fanCyclicMode.NAME) == "On" then
+            if device:get_latest_state("main", fan_Cyclic_Mode.ID, fan_Cyclic_Mode.fanCyclicMode.NAME) ~= "Off" then
               device:emit_event(fan_Cyclic_Mode.fanCyclicMode("Off"))
             end
           end

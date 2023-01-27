@@ -4,8 +4,8 @@ components:
   capabilities:
   - id: temperatureMeasurement
     version: 1
-  #- id: relativeHumidityMeasurement
-  #  version: 1
+  - id: relativeHumidityMeasurement
+    version: 1
   - id: legendabsolute60149.thermostatLocked
     version: 1
   - id: thermostatMode
@@ -60,6 +60,12 @@ preferences:
         "Celsius" : "Celsius"
         "Fahrenheit": "Fahrenheit"
       default: "Celsius"
+  - name: "multiTile"
+    title: "Use Multiple Tile Thermostat"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
   - name: "changeProfileTherm"
     title: "Temp Set Points Steps(tenth degree)"
     description: "Select Temperature Set Points Steps in Tenths of a degree:"
@@ -220,4 +226,4 @@ metadata:
   ocfDeviceType: oic.d.thermostat
   deviceTypeId: Thermostat
   mnmn: SmartThingsCommunity
-  vid: 446450a9-1d7e-3d81-843d-98a9d39b330c
+  vid: a5f5052c-9ee8-3150-b97e-89e68887f404

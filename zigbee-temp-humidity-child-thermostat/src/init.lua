@@ -112,6 +112,12 @@ local function do_configure(self,device)
   device:send(device_management.build_bind_request(device, zcl_clusters.IlluminanceMeasurement.ID, self.environment_info.hub_zigbee_eui))
   device:send(zcl_clusters.IlluminanceMeasurement.attributes.MeasuredValue:configure_reporting(device, 60, maxTime, changeRep))
  end
+ ---battery configure
+ if device:get_manufacturer() ~= "_TZ2000_a476raq2" then
+  print("Battery Config >>>>>>>>>")
+  device:send(device_management.build_bind_request(device, zcl_clusters.PowerConfiguration.ID, self.environment_info.hub_zigbee_eui))
+  device:send(zcl_clusters.PowerConfiguration.attributes.BatteryPercentageRemaining:configure_reporting(device, 30, 21600, 1))
+ end
 end
 
 -- preferences update
@@ -127,13 +133,13 @@ local function do_preferences(self, device)
         local maxTime = device.preferences.tempMaxTime * 60
         local changeRep = device.preferences.tempChangeRep * 100
         print ("Temp maxTime & changeRep: ", maxTime, changeRep)
-        device:send(device_management.build_bind_request(device, tempMeasurement.ID, self.environment_info.hub_zigbee_eui))
+        --device:send(device_management.build_bind_request(device, tempMeasurement.ID, self.environment_info.hub_zigbee_eui))
         device:send(tempMeasurement.attributes.MeasuredValue:configure_reporting(device, 30, maxTime, changeRep))
       elseif id == "humMaxTime" or id == "humChangeRep" then
         local maxTime = device.preferences.humMaxTime * 60
         local changeRep = device.preferences.humChangeRep * 100
         print ("Humidity maxTime & changeRep: ", maxTime, changeRep)
-        device:send(device_management.build_bind_request(device, HumidityCluster.ID, self.environment_info.hub_zigbee_eui))
+        --device:send(device_management.build_bind_request(device, HumidityCluster.ID, self.environment_info.hub_zigbee_eui))
         device:send(HumidityCluster.attributes.MeasuredValue:configure_reporting(device, 60, maxTime, changeRep))
       elseif id == "pressMaxTime" or id == "pressChangeRep" then
         if device:get_manufacturer() == "KMPCIL" then
@@ -157,14 +163,14 @@ local function do_preferences(self, device)
           local changeRep = device.preferences.pressChangeRep * 10
           print ("Press maxTime & changeRep: ", maxTime, changeRep)
 
-          device:send(device_management.build_bind_request(device, zcl_clusters.PressureMeasurement.ID, self.environment_info.hub_zigbee_eui))
+          --device:send(device_management.build_bind_request(device, zcl_clusters.PressureMeasurement.ID, self.environment_info.hub_zigbee_eui))
           device:send(zcl_clusters.PressureMeasurement.attributes.MeasuredValue:configure_reporting(device, 60, maxTime, changeRep))
         end
       elseif id == "illuMaxTime" or id == "illuChangeRep" then
         local maxTime = device.preferences.illuMaxTime * 60
         local changeRep = math.floor(10000 * (math.log((device.preferences.illuChangeRep + 1), 10)))
         print ("Illumin maxTime & changeRep: ", maxTime, changeRep)
-        device:send(device_management.build_bind_request(device, zcl_clusters.IlluminanceMeasurement.ID, self.environment_info.hub_zigbee_eui))
+        --device:send(device_management.build_bind_request(device, zcl_clusters.IlluminanceMeasurement.ID, self.environment_info.hub_zigbee_eui))
         device:send(zcl_clusters.IlluminanceMeasurement.attributes.MeasuredValue:configure_reporting(device, 60, maxTime, changeRep))
       elseif id == "changeProfileTHB" then
         if newParameterValue == "Single" then
@@ -291,6 +297,11 @@ local function humidity_attr_handler(driver, device, value, zb_rx)
 
   -- emit signal metrics
   signal.metrics(device, zb_rx)
+
+  if device:get_manufacturer() == "_TZ3000_ywagc4rj" then
+    value.value = value.value * 10
+    print("_TZ3000_ywagc4rj-value.value=", value.value)
+  end
 
   local last_humid_value = utils.round(value.value / 100.0) + device.preferences.humidityOffset
   --device:set_field("last_humid_value", utils.round(value.value / 100.0), {persist = true})
