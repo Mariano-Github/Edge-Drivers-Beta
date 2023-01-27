@@ -10,6 +10,8 @@ components:
         version: 1
       - id: threeAxis
         version: 1
+      - id: legendabsolute60149.signalMetrics
+        version: 1
       - id: refresh
         version: 1
       - id: firmwareUpdate
@@ -20,8 +22,8 @@ preferences:
   - preferenceId: tempOffset
     explicit: true
   - name: "version"
-    title: "Version 3.1 (Aug 2022)"
-    description: "Added Preferences to select Acceleration, Multiporpuse or Temperature Sensor Profile" 
+    title: "Version 3.2 (Oct 2022)"
+    description: "Added Signal Metrics capability" 
     required: false
     preferenceType: string
     definition:
@@ -85,9 +87,19 @@ preferences:
       minimum: 1
       maximum: 20000
       default:  630
+  - name: "signalMetricsVisibles"
+    title: "Signal Metrics Visible in History"
+    description: "Signal Metrics Visible in App History (default: No Visible):"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Yes" : "Signal Metrics Visible"
+        "No": "Signal Metrics No Visible"
+      default: "No"
 metadata:
   deviceType: MultiFunctionalSensor
   ocfDeviceType: x.com.st.d.sensor.multifunction
   deviceTypeId: MultiFunctionalSensor
   mnmn: SmartThingsCommunity
-  vid: 5227b5b7-c1bb-32f2-8e7b-f3a7fddaa87c
+  vid: 8fe892f0-040c-3a1f-a42d-ac7933484517

@@ -12,6 +12,8 @@ components:
         version: 1
       - id: accelerationSensor
         version: 1
+      - id: legendabsolute60149.signalMetrics
+        version: 1
       - id: refresh
         version: 1
       - id: firmwareUpdate
@@ -22,8 +24,8 @@ preferences:
   - preferenceId: tempOffset
     explicit: true
   - name: "version"
-    title: "Version 3.1 (Aug 2022)"
-    description: "Added Preferences to select Acceleration, Multiporpuse or Temperature Sensor Profile" 
+    title: "Version 3.2 (Oct 2022)"
+    description: "Added Signal Metrics capability" 
     required: false
     preferenceType: string
     definition:
@@ -107,9 +109,19 @@ preferences:
       minimum: 1
       maximum: 20000
       default:  630
+  - name: "signalMetricsVisibles"
+    title: "Signal Metrics Visible in History"
+    description: "Signal Metrics Visible in App History (default: No Visible):"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Yes" : "Signal Metrics Visible"
+        "No": "Signal Metrics No Visible"
+      default: "No"
 metadata:
   deviceType: Thermostat	
   ocfDeviceType: oic.d.thermostat
   deviceTypeId: Thermostat
   mnmn: SmartThingsCommunity
-  vid: bdfab1a5-7858-3849-966f-41bc97077fa6
+  vid: 203e442c-fb1f-385b-8aa8-8a71ab8440a0

@@ -1,6 +1,6 @@
 {
     "mnmn": "SmartThingsCommunity",
-    "vid": "5227b5b7-c1bb-32f2-8e7b-f3a7fddaa87c", 
+    "vid": "8fe892f0-040c-3a1f-a42d-ac7933484517", 
     "version": "0.0.1",
     "type": "profile",
     "dashboard": {
@@ -21,7 +21,7 @@
     "detailView": [
         {
             "component": "main",
-            "capability": "accelerationSensor",
+            "capability": "accelerationSensor",    
             "version": 1,
             "values": [],
             "patch": []
@@ -43,6 +43,13 @@
         {
             "component": "main",
             "capability": "battery",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "main",
+            "capability": "legendabsolute60149.signalMetrics",
             "version": 1,
             "values": [],
             "patch": []
@@ -84,6 +91,6 @@
         ],
         "actions": []
     },
-    "presentationId": "5227b5b7-c1bb-32f2-8e7b-f3a7fddaa87c",
+    "presentationId": "8fe892f0-040c-3a1f-a42d-ac7933484517",
     "manufacturerName": "SmartThingsCommunity"
 }

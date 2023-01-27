@@ -16,6 +16,8 @@ local capabilities = require "st.capabilities"
 local ZigbeeDriver = require "st.zigbee"
 local constants = require "st.zigbee.constants"
 local defaults = require "st.zigbee.defaults"
+local utils = require "st.utils"
+local configurationMap = require "configurations"
 
 local clusters = require "st.zigbee.zcl.clusters"
 --local PowerConfiguration = clusters.PowerConfiguration
@@ -28,6 +30,10 @@ local data_types = require "st.zigbee.data_types"
 local SAMJIN_MFG = 0x1241
 local SMARTTHINGS_MFG = 0x110A
 local CENTRALITE_MFG = 0x104E
+--module emit signal metrics
+local signal = require "signal-metrics"
+
+local signal_Metrics = capabilities["legendabsolute60149.signalMetrics"]
 
 -- configure accel threshold
 local function configure_accel_threshold (self,device)
@@ -72,47 +78,19 @@ local function info_Changed(self,device)
    ,'Refresh state')
   end
 
-  local have_temperature = "no"
-  if device:get_manufacturer() == "ORVIBO" then
-    have_temperature = "yes"
-  elseif device:get_manufacturer() == "Aurora" then
-    have_temperature = "yes"
-  elseif device:get_manufacturer() == "HEIMAN" then
-    have_temperature = "yes"
-  elseif device:get_manufacturer() == "Visonic" then
-    have_temperature = "yes"  
-  elseif device:get_manufacturer() == "TUYATEC-xnoof3ts" then
-    have_temperature = "yes"
-  elseif device:get_manufacturer() == "Universal Electronics Inc" then
-    have_temperature = "yes"
-  elseif device:get_manufacturer() == "Sercomm Corp." then
-    have_temperature = "yes"
-  elseif device:get_manufacturer() == "Ecolink" then
-    have_temperature = "yes"
-  elseif device:get_manufacturer() == "Samjin" then
-    have_temperature = "yes"
-  elseif device:get_manufacturer() == "SmartThings" then
-    have_temperature = "yes"
-  elseif device:get_manufacturer() == "CentraLite" and device:get_model() == "3321-S" then
-    have_temperature = "yes"
- end
- -- update prefeences
- if have_temperature == "yes" then
-  local manufacturer = device:get_manufacturer()
-  local model =device:get_model()
-  print("Manufacturer, Model",manufacturer, model)
-  for id, value in pairs(device.preferences) do
-   print("device.preferences[infoChanged]=", device.preferences[id], "preferences: ", id)
-   local oldPreferenceValue = device:get_field(id)
-   local newParameterValue = device.preferences[id]
+ -- update preferences
+    for id, value in pairs(device.preferences) do
+      print("device.preferences[infoChanged]=", device.preferences[id], "preferences: ", id)
+      local oldPreferenceValue = device:get_field(id)
+      local newParameterValue = device.preferences[id]
       if oldPreferenceValue ~= newParameterValue then
         device:set_field(id, newParameterValue, {persist = true})
-         print("<< Preference changed name:", id, "old value:", oldPreferenceValue, "new value:", newParameterValue)
+        print("<< Preference changed name:", id, "old value:", oldPreferenceValue, "new value:", newParameterValue)
         if  id == "maxTime" or id == "changeRep" then
           local maxTime = device.preferences.maxTime * 60
           local changeRep = device.preferences.changeRep
             print ("maxTime:", maxTime,"changeRep:", changeRep)
-            device:send(device_management.build_bind_request(device, tempMeasurement.ID, self.environment_info.hub_zigbee_eui))
+            --device:send(device_management.build_bind_request(device, tempMeasurement.ID, self.environment_info.hub_zigbee_eui))
             device:send(tempMeasurement.attributes.MeasuredValue:configure_reporting(device, 30, maxTime, changeRep))
 
           --change profile tile
@@ -135,12 +113,12 @@ local function info_Changed(self,device)
             print("<<< Temp >>>")
             device:try_update_metadata({profile = "st-temp-multipurpose"})
           end
-        elseif id == "accelThreshold" or id == "accelThresholdCentralite" or "accelThresholdST" then
+        elseif id == "accelThreshold" or id == "accelThresholdCentralite" or id == "accelThresholdST" then
           configure_accel_threshold (self, device)
         end
       end
     end
-  end
+
  --print manufacturer, model and leng of the strings
    local manufacturer = device:get_manufacturer()
    local model = device:get_model()
@@ -160,13 +138,45 @@ end
 
 ---- driverSwitched
 local function do_configure(self,device)
-   device:configure()
+  if device:get_manufacturer() == "eWeLink" or device:get_manufacturer() == "_TZ3000_f1hmoyj4" then -- configuration of battery 600 sec for no offline
+    print("<<< special configure battery 600 sec >>>")
+    local configuration = configurationMap.get_device_configuration(device)
+    if configuration ~= nil then
+      for _, attribute in ipairs(configuration) do
+        device:add_configured_attribute(attribute)
+        device:add_monitored_attribute(attribute)
+      end
+    end
+  else
+    device:configure()
+  end
+  --device:configure()
+  if device:supports_capability_by_id(capabilities.temperatureMeasurement.ID) then
+    local maxTime = device.preferences.maxTime * 60
+    local changeRep = device.preferences.changeRep
+    print ("maxTime:", maxTime, "changeRep:", changeRep)
+    device:send(device_management.build_bind_request(device, tempMeasurement.ID, self.environment_info.hub_zigbee_eui))
+    device:send(tempMeasurement.attributes.MeasuredValue:configure_reporting(device, 30, maxTime, changeRep))
+  end
+  if device:get_manufacturer() == "Ecolink" or 
+    device:get_manufacturer() == "frient A/S" or
+    device:get_manufacturer() == "Sercomm Corp." or
+    device:get_manufacturer() == "Universal Electronics Inc" or
+    device:get_manufacturer() == "SmartThings" or
+    device:get_manufacturer() == "Leedarson" or
+    device:get_manufacturer() == "CentraLite" then
+      
+    -- init battery voltage
+    battery_defaults.build_linear_voltage_init(2.3, 3.0)
+    
+    --- Read Battery voltage
+    device:send(clusters.PowerConfiguration.attributes.BatteryVoltage:read(device))
+  end
 end
 
--- i it 
+-- init 
 local function do_init(self, device)
     --change profile tile
-    --if device.preferences.changeTempProfile == nil then return end
     if device.preferences.changeTempProfile == "Contact" then
       device:try_update_metadata({profile = "contact-profile"})
     elseif device.preferences.changeTempProfile == "Temp" then
@@ -186,12 +196,38 @@ local function do_init(self, device)
       device:get_manufacturer() == "Sercomm Corp." or
       device:get_manufacturer() == "Universal Electronics Inc" or
       device:get_manufacturer() == "SmartThings" or
+      device:get_manufacturer() == "Leedarson" or
       device:get_manufacturer() == "CentraLite" then
         
       -- init battery voltage
       battery_defaults.build_linear_voltage_init(2.3, 3.0)
 
+      --- Read Battery voltage
+      device:send(clusters.PowerConfiguration.attributes.BatteryVoltage:read(device))
+
+    elseif device:get_manufacturer() == "eWeLink" or device:get_manufacturer() == "_TZ3000_f1hmoyj4" then -- configuration of battery 600 sec for no offline
+      print("<<< special configure battery 600 sec >>>")
+      local configuration = configurationMap.get_device_configuration(device)
+      if configuration ~= nil then
+        for _, attribute in ipairs(configuration) do
+          device:add_configured_attribute(attribute)
+          device:add_monitored_attribute(attribute)
+        end
+      end
     end
+    if device:get_latest_state("main", signal_Metrics.ID, signal_Metrics.signalMetrics.NAME) == nil then
+      device:emit_event(signal_Metrics.signalMetrics({value = "Waiting Zigbee Message"}, {visibility = {displayed = false }}))
+    end
+end
+
+-- battery_percentage_handler
+local function battery_percentage_handler(driver, device, raw_value, zb_rx)
+  -- emit signal metrics
+  signal.metrics(device, zb_rx)
+
+  print("raw_value >>>>",raw_value.value)
+  local percentage = utils.clamp_value(utils.round(raw_value.value / 2), 0, 100)
+  device:emit_event(capabilities.battery.battery(percentage))
 end
 
 ---Driver template
@@ -207,8 +243,16 @@ local zigbee_contact_driver_template = {
   lifecycle_handlers = {
     infoChanged = info_Changed,
     driverSwitched = do_configure,
-    init = do_init
+    init = do_init,
+    doConfigure = do_configure
 
+    },
+    zigbee_handlers = {
+      attr = {
+        [clusters.PowerConfiguration.ID] = {
+          [clusters.PowerConfiguration.attributes.BatteryPercentageRemaining.ID] = battery_percentage_handler
+        }
+     }
     },
   sub_drivers = {require("battery-overrides"),require("battery-voltage"),require("temperature"),require("multi-contact")},
   ias_zone_configuration_method = constants.IAS_ZONE_CONFIGURE_TYPE.AUTO_ENROLL_RESPONSE

@@ -225,6 +225,31 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_n2egfsli
     model: TS0203
     deviceProfileName: contact-battery-profile
+  - id: "_TZ3000_n2egfsli/Close Sensor"
+    deviceLabel: TS0203 Close Sensor
+    manufacturer: _TZ3000_n2egfsli
+    model: TS0203
+    deviceProfileName: contact-battery-profile
+  - id: "Sercomm Corp./Tripper"
+    deviceLabel: Sercomm Open/Closed Sensor
+    manufacturer: Sercomm Corp.
+    model: Tripper
+    deviceProfileName: contact-battery-profile
+  - id: "TUYATEC-0l6xaqmi/RH3001"
+    deviceLabel: RH3001 Open/Close Sensor
+    manufacturer: TUYATEC-0l6xaqmi
+    model: RH3001
+    deviceProfileName: contact-battery-profile
+  - id: "Visonic/MCT-350 SMA"
+    deviceLabel: Tyco Open/Closed Sensor
+    manufacturer: Visonic
+    model: MCT-350 SMA
+    deviceProfileName: contact-profile
+  - id: "CentraLite/3323-G"
+    deviceLabel: Contact Sensor 3323-G
+    manufacturer: CentraLite
+    model: 3323-G
+    deviceProfileName: contact-profile
 
   # ST multipurpose sensors
   - id: "Samjin/multi"

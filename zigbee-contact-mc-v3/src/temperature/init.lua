@@ -2,7 +2,9 @@ local zcl_clusters = require "st.zigbee.zcl.clusters"
 local tempMeasurement = zcl_clusters.TemperatureMeasurement
 local device_management = require "st.zigbee.device_management"
 local tempMeasurement_defaults = require "st.zigbee.defaults.temperatureMeasurement_defaults"
-local capabilities = require "st.capabilities"
+--local capabilities = require "st.capabilities"
+--module emit signal metrics
+local signal = require "signal-metrics"
 
 local can_handle = function(opts, driver, device)
   if device:get_manufacturer() == "ORVIBO" then
@@ -27,6 +29,8 @@ local can_handle = function(opts, driver, device)
     return device:get_manufacturer() == "SmartThings"
   elseif device:get_manufacturer() == "CentraLite" then
     return device:get_manufacturer() == "CentraLite"
+  elseif device:get_manufacturer() == "Leedarson" then
+    return device:get_manufacturer() == "Leedarson"
   end
 end
 
@@ -42,11 +46,14 @@ end
 
 ---- Temperature mesure handler
 local function temp_attr_handler(self, device, tempvalue, zb_rx)
-    tempMeasurement_defaults.temp_attr_handler(self, device, tempvalue, zb_rx)
+  -- emit signal metrics
+  signal.metrics(device, zb_rx)
+
+  tempMeasurement_defaults.temp_attr_handler(self, device, tempvalue, zb_rx)
 end
 
 local temp_sensor = {
-    NAME = "MultiSensor",
+    NAME = "Temp-Sensor",
     lifecycle_handlers = {
       doConfigure = do_configure
     },

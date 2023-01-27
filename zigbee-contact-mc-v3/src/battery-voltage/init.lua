@@ -1,8 +1,10 @@
 local zcl_clusters = require "st.zigbee.zcl.clusters"
 local capabilities = require "st.capabilities"
 local battery = capabilities.battery
-local battery_defaults = require "st.zigbee.defaults.battery_defaults"
+--local battery_defaults = require "st.zigbee.defaults.battery_defaults"
 local utils = require "st.utils"
+--module emit signal metrics
+local signal = require "signal-metrics"
 
 local can_handle = function(opts, driver, device)
   if device:get_manufacturer() == "Ecolink" then
@@ -17,10 +19,18 @@ local can_handle = function(opts, driver, device)
     return device:get_manufacturer() == "SmartThings"
   elseif device:get_manufacturer() == "CentraLite" then
     return device:get_manufacturer() == "CentraLite"
+  elseif device:get_manufacturer() == "Visonic" then
+    return device:get_manufacturer() == "Visonic"
+  elseif device:get_manufacturer() == "Leedarson" then
+    return device:get_manufacturer() == "Leedarson"
   end
 end
 
 local battery_handler = function(driver, device, value, zb_rx)
+
+  -- emit signal metrics
+  signal.metrics(device, zb_rx)
+
   local minVolts = 2.3
   local maxVolts = 3.0
   if device:get_manufacturer() == "Ecolink" or 
@@ -37,16 +47,16 @@ local battery_handler = function(driver, device, value, zb_rx)
 
     device:emit_event(battery.battery(batteryMap[value]))
   else
-    if device:get_manufacturer() == "Universal Electronics Inc" then
+    if device:get_manufacturer() == "Universal Electronics Inc" or device:get_manufacturer() == "Visonic" then
       minVolts = 2.1
       maxVolts = 3.0
     end
     local battery_pct = math.floor(((((value.value / 10) - minVolts) + 0.001) / (maxVolts - minVolts)) * 100)
     if battery_pct > 100 then 
       battery_pct = 100
-     elseif battery_pct < 0 then
+    elseif battery_pct < 0 then
       battery_pct = 0
-     end
+    end
     device:emit_event(battery.battery(battery_pct))
  end
 end

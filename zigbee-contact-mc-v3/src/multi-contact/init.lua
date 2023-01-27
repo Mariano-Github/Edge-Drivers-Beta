@@ -8,6 +8,8 @@ local data_types = require "st.zigbee.data_types"
 local common = require("common")
 local device_management = require "st.zigbee.device_management"
 --local battery_defaults = require "st.zigbee.defaults.battery_defaults"
+--module emit signal metrics
+local signal = require "signal-metrics"
 
 local multi_utils = require "multi_utils"
 --local utils = require "st.utils"
@@ -27,12 +29,18 @@ local can_handle = function(opts, driver, device)
 end
 
 local function ias_zone_status_change_handler(driver, device, zb_rx)
+    -- emit signal metrics
+    signal.metrics(device, zb_rx)
+
     if (device.preferences.garageSensor ~= "Yes") then
         contact_sensor_defaults.ias_zone_status_change_handler(driver, device, zb_rx)
     end
 end
 
 local function ias_zone_status_attr_handler(driver, device, zone_status, zb_rx)
+    -- emit signal metrics
+    signal.metrics(device, zb_rx)
+    
     if (device.preferences.garageSensor ~= "Yes") then
         contact_sensor_defaults.ias_zone_status_attr_handler(driver, device, zone_status, zb_rx)
     end
