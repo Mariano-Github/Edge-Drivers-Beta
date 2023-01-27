@@ -1,0 +1,167 @@
+name: fibaro-roller-shutter-3-venetian
+components:
+- id: main
+  capabilities:
+  - id: windowShade
+    version: 1
+  - id: windowShadeLevel
+    version: 1
+  - id: windowShadePreset
+    version: 1
+  - id: powerMeter
+    version: 1
+  - id: energyMeter
+    version: 1
+- id: venetianBlind
+  capabilities:
+  - id: windowShadeLevel
+    version: 1
+  categories:
+  - name: Blind
+preferences:
+  - name: "presetPosition"
+    title: "window shade Preset Position"
+    description: "This setting select window shade preset position command (0-100%)."
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 100
+      default: 50
+  - name: "switchType"
+    title: "switch type - 20"
+    description: "Parameter 20 defines as what type the device should treat the switch connected to the S1 and S2 terminals"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "momentary switch"
+        1: "toggle sw. (ON/OFF)"
+        2: "Single,momentary switch(connect S1)"
+      default: 0
+  - name: "calibration"
+    title: "Calibration - 150"
+    description: "This setting allows triggering blinds calibration process."
+    preferenceType: enumeration
+    required: true
+    definition:
+      options:
+        0: "Calibration not started"
+        2: "Start calibration"
+      default: 0
+  - name: "operatingMode"
+    title: "Operating mode - 151"
+    description: "This setting allows adjusting operation according to the connected device."
+    preferenceType: enumeration
+    required: true
+    definition:
+      options:
+        1: "Roller blind (with positioning)"
+        2: "Venetian blind (with positioning)"
+        3: "Gate Mode, without positioning"
+        4: "Gate Mode, with positioning"
+        5: "Roller blind with built-in driver"
+        6: "Roller blind built-in impulse driver"
+      default: 1
+  - name: "venetianBlindTurnTime"
+    title: "Venetian blind turn time - 152"
+    description: "The setting determines time of full turn cycle of the slats. [100 = 1s]"
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 65535
+      default: 150
+  - name: "delayAtEndSwitch"
+    title: "Delay at end switch - 154"
+    description: "The setting determines the time after which the motor will be stopped after end switch contacts are closed."
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 1
+      maximum: 255
+      default: 10
+  - name: "motorEndMoveDetection"
+    title: "Motor end move detection - 155"
+    description: "Power threshold interpreted as reaching a limit switch."
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 1
+      maximum: 255
+      default: 10
+  - name: "timeUpMovement"
+    title: "Time of up movement - 156"
+    description: "time needed for roller blinds to reach the top..only modes without positioning 1-65535 (0.01-655.35s, every 0.01s)"
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 1
+      maximum: 65535
+      default: 6000
+  - name: "inputsOrientation"
+    title: "Inputs orientation-24"
+    description: "This setting allows reversing the operation of the buttons."
+    preferenceType: enumeration
+    required: true
+    definition:
+      options:
+        0: "Default (S1-1st chan, S2-2nd chan)"
+        1: "Reversed (S1-2nd chan, S2-1st chan)"
+      default: 0
+  - name: "outputsOrientation"
+    title: "Outputs orientation-25"
+    description: "This setting allows reversing the operation of Q1 and Q2 without changing the wiring."
+    preferenceType: enumeration
+    required: true
+    definition:
+      options:
+        0: "Default (Q1-1st chan, Q2-2nd chan)"
+        1: "Reversed (Q1-2nd chan, Q2-1st chan)"
+      default: 0
+  - name: "powerWithSelfConsumption"
+    title: "Power with self consumption - 60"
+    description: "This setting determines whether the power measurements should include power consumed by the device itself."
+    preferenceType: enumeration
+    required: true
+    definition:
+      options:
+        0: "Self-consumption not included"
+        1: "Self-consumption included"
+      default: 0
+  - name: "powerReportsOnChange"
+    title: "Power reports on change - 61"
+    description: "This setting defines minimal change (from the last reported) in measured power that results in sending new report."
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 500
+      default: 15
+  - name: "powerReportsPeriodic"
+    title: "Power reports periodic - 62"
+    description: "This setting defines reporting interval for measured power."
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 30
+      maximum: 32400
+      default: 3600
+  - name: "energyReportsOnChange"
+    title: "Energy reports on change - 65"
+    description: "This setting defines minimal change (from the last reported) in measured energy that results in sending new report."
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 500
+      default: 10
+  - name: "energyReportsPeriodic"
+    title: "Energy reports periodic - 66"
+    description: "This setting defines reporting interval for measured power."
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 30
+      maximum: 32400
+      default: 3600
