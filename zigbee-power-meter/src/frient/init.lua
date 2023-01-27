@@ -23,6 +23,7 @@ local SimpleMetering = clusters.SimpleMetering
 local ZIGBEE_POWER_METER_FINGERPRINTS = {
   { model = "ZHEMI101" },
   { model = "EMIZB-132" },
+  { model = "Meter Reader" } -- Eva Meter Reader
 }
 
 local is_frient_power_meter = function(opts, driver, device)
@@ -46,7 +47,7 @@ local function do_preferences(self, device)
       print("<< Preference changed:", id, "old=",oldPreferenceValue, "new =", newParameterValue)
       if  id == "simpleMeteringDivisor"  then
         device:set_field(constants.SIMPLE_METERING_DIVISOR_KEY, newParameterValue, {persist = true})
-      elseif id == "electricalMeasureDiviso" then
+      elseif id == "electricalMeasureDivisor" then
         device:set_field(constants.ELECTRICAL_MEASUREMENT_DIVISOR_KEY, newParameterValue, {persist = true})
       end
     end
@@ -83,7 +84,8 @@ local frient_power_meter_handler = {
   lifecycle_handlers = {
     init = device_init,
     doConfigure = do_configure,
-    infoChanged = do_preferences
+    infoChanged = do_preferences,
+    driverSwitched = do_configure
   },
   can_handle = is_frient_power_meter
 }

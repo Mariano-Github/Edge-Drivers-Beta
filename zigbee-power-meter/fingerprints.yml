@@ -7,17 +7,23 @@ zigbeeManufacturer:
     deviceLabel: frient Energy Monitor
     manufacturer: Develco
     model: "ZHEMI101"
-    deviceProfileName: power-meter-frient
+    deviceProfileName: power-meter-frient  #Modified M.Colmenarejo
   - id: "Develco/EMIZB-132"
     deviceLabel: frient Energy Monitor
     manufacturer: Develco Products A/S
     model: "EMIZB-132"
-    deviceProfileName: power-meter-frient
+    deviceProfileName: power-meter-frient  #Modified M.Colmenarejo
   - id: "ShinaSystem/PMM-300Z1"
     deviceLabel: SiHAS Energy Monitor
     manufacturer: ShinaSystem
     model: "PMM-300Z1"
     deviceProfileName: power-meter
+   # Added M.Colmenarejo
+  - id: "Eva/Meter Reader"
+    deviceLabel: Eva Energy Monitor
+    manufacturer: Eva
+    model: Meter Reader
+    deviceProfileName: power-meter-temp
 zigbeeGeneric:
   - id: "genericMeter"
     deviceLabel: Zigbee Meter

@@ -1,10 +1,12 @@
-name: power-meter-frient
+name: power-meter-temp
 components:
 - id: main
   capabilities:
   - id: powerMeter
     version: 1
   - id: energyMeter
+    version: 1
+  - id: temperatureMeasurement
     version: 1
   - id: firmwareUpdate
     version: 1
@@ -13,6 +15,8 @@ components:
   categories:
   - name: CurbPowerMeter
 preferences:
+  - preferenceId: tempOffset
+    explicit: true 
   - name: "simpleMeteringDivisor"
     title: "Simple Metering Divisor key"
     description: "Simple Metering Divisor for Energy or Instantaneus Power Calculation (default: 1000)"
@@ -20,14 +24,14 @@ preferences:
     preferenceType: number
     definition:
       minimum: 1
-      maximum: 100000
+      maximum: 10000000
       default: 1000
   - name: "electricalMeasureDivisor"
     title: "Electrical Measure Divisor key"
-    description: "Electrical Measure Divisor for Active Power Calculation (default: 10000)"
+    description: "Electrical Measure Divisor for Active Power Calculation (default: 1000)"
     required: false
     preferenceType: number
     definition:
       minimum: 1
-      maximum: 100000
-      default: 10000
+      maximum: 1000000
+      default: 1000
