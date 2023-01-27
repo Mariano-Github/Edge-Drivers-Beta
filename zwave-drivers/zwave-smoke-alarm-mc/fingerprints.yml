@@ -70,3 +70,15 @@ zwaveManufacturer:
     productType: 0x8002
     productId: 0x1000
     deviceProfileName: smoke-co-battery
+  - id: 0260/8005/1000
+    deviceLabel: Heiman HS1CA CO
+    manufacturerId: 0x0260
+    productType: 0x8005
+    productId: 0x1000
+    deviceProfileName: co-battery
+  - id: 0403/0002/0003
+    deviceLabel: Asus Smoke SHRM10000
+    manufacturerId: 0x0403
+    productType: 0x0002
+    productId: 0x0003
+    deviceProfileName: smoke-battery
