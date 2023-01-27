@@ -4,11 +4,6 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_vjhyd6ar
     model: TS0002
     deviceProfileName: two-switch
-  - id: "Zemismart/TZ3000_3wkqni6o"
-    deviceLabel: Zemismart TZ3000 Switch
-    manufacturer: _TZ3000_adkvzooy
-    model: TS0042
-    deviceProfileName: two-switch
   - id: "eWeLink/ZB-SW02"
     deviceLabel: eWeLink ZB-SW02 Switch
     manufacturer: eWeLink
@@ -509,6 +504,57 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_s8r1qoyq
     model: TS0012
     deviceProfileName: two-switch
+  - id: "S2 (5502)/ubisys"
+    deviceLabel: ubisys Switch
+    manufacturer: ubisys
+    model: S2 (5502)
+    deviceProfileName: two-switch
+  - id: "TS0003/_TZ3000_f09j9qjb"
+    deviceLabel: TS0003 2 Switch + 1 plug
+    manufacturer: _TZ3000_f09j9qjb
+    model: TS0003
+    deviceProfileName: three-switch
+  - id: "FeiBit/FB56-ZSW1IKJ1.7"
+    deviceLabel: FeiBit 3 Switch
+    manufacturer: Feibit Inc co.
+    model: FB56+ZSW1IKJ1.7
+    deviceProfileName: three-switch
+  #- id: "Compacta International/ZBMLC30-1"
+  #  deviceLabel: ZBMLC30-1 Two Switch
+  #  manufacturer: Compacta International, Ltd
+  #  model: ZBMLC30-1
+  #  deviceProfileName: two-switch-power-energy-1
+  - id: "TS0003/_TZ3000_w58g68s3"
+    deviceLabel: TS0003 3 Switch
+    manufacturer: _TZ3000_w58g68s3
+    model: TS0003
+    deviceProfileName: three-switch
+  - id: "TS0002/_TZ3000_xqxheaep"
+    deviceLabel: TS0002 2 Switch
+    manufacturer: _TZ3000_xqxheaep
+    model: TS0002
+    deviceProfileName: two-switch
+  - id: "TS0003/_TZ3000_eqsair32"
+    deviceLabel: TS0003 3 Switch
+    manufacturer: _TZ3000_eqsair32
+    model: TS0003
+    deviceProfileName: three-switch
+  - id: "3A Smart/LXN56-1S27LX1.2"
+    deviceLabel: 3A Smart 4 Switch
+    manufacturer: 3A Smart Home DE
+    model: LXN56-1S27LX1.2
+    deviceProfileName: four-switch
+  - id: "TS011F/_TZ3000_6s5dc9lx"
+    deviceLabel: TS011F Two Plugs
+    manufacturer: _TZ3000_6s5dc9lx
+    model: TS011F
+    deviceProfileName: two-switch-power-energy
+  - id: "FeiBit/FB56-ZSW1JK2.5"
+    deviceLabel: FeiBit 4 Switch
+    manufacturer: Feibit Inc co.
+    model: FB56+ZSW1JK2.5
+    deviceProfileName: four-switch
+  
 
     # level devices
   - id: "TS110E/_TZ3210_pagajpog"

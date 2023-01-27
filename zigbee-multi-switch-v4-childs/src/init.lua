@@ -32,6 +32,7 @@ local messages = require "st.zigbee.messages"
 local zb_const = require "st.zigbee.constants"
 --local Groups = zcl_clusters.Groups
 local Status = require "st.zigbee.generated.types.ZclStatus"
+local ep_ini = 1
 
 local child_devices = require "child-devices"
 local signal = require "signal-metrics"
@@ -68,8 +69,10 @@ local function write_attribute_function(device, cluster_id, attr_id, data_value,
 
   --tuyaBlackMagic() {return zigbee.readAttribute(0x0000, [0x0004, 0x000, 0x0001, 0x0005, 0x0007, 0xfffe], [:], delay=200)}
   local function read_attribute_function(device, cluster_id, attr_id)
-    print("<<<< attr_id >>>>",utils.stringify_table(attr_id))
-    --local read_body = read_attribute.ReadAttribute({ attr_id })
+    if device.preferences.logDebugPrint == true then
+      print("<<<< attr_id >>>>",utils.stringify_table(attr_id))
+    end
+    --local read_body = read_attribute.ReadAttribute({ attr_id }) --- Original lua librares
     local read_body = read_attribute.ReadAttribute( attr_id )
     local zclh = zcl_messages.ZclHeader({
       cmd = data_types.ZCLCommandId(read_attribute.ReadAttribute.ID)
@@ -108,7 +111,9 @@ end
 --- Update preferences after infoChanged recived ---
 local function do_preferences (driver, device)
   for id, value in pairs(device.preferences) do
-    print("device.preferences[infoChanged]=", device.preferences[id])
+    if device.preferences.logDebugPrint == true then
+      print("device.preferences[infoChanged]=", device.preferences[id])
+    end
     local oldPreferenceValue = device:get_field(id)
     local newParameterValue = device.preferences[id]
     if oldPreferenceValue ~= newParameterValue then
@@ -191,7 +196,9 @@ local function do_preferences (driver, device)
           local comp = device.profile.components[ids].id
           if comp == "main" then
             local endpoint = device:get_endpoint_for_component_id(comp)
-            print("<<<< Componente, end_point >>>>",comp, endpoint)
+            if device.preferences.logDebugPrint == true then
+              print("<<<< Componente, end_point >>>>",comp, endpoint)
+            end
             local value_send = tonumber(newParameterValue)
             local data_value = {value = value_send, ID = 0x30}
             local cluster_id = {value = 0x0006}
@@ -399,12 +406,15 @@ local function all_switches_status(driver,device)
  end
 
  --- return endpoint from component_id
-local ep_ini = 1
-
 local function component_to_endpoint(device, component_id)
   --print("<<<<< device.fingerprinted_endpoint_id >>>>>>",device.fingerprinted_endpoint_id)
-  --in this models device.fingerprinted_endpoint_id is the last endpoint
-  if device:get_model() == "FB56+ZSW1JKJ2.7" or device:get_model()=="FB56+ZSW1JKJ2.5" then
+  --------- in this models device.fingerprinted_endpoint_id is the last endpoint
+  if device:get_model() == "FB56+ZSW1JKJ2.7" or 
+    device:get_model()=="FB56+ZSW1IKJ2.5" or 
+    device:get_model()=="FB56+ZSW1HKJ2.5" or
+    device:get_model()=="FB56+ZSW1IKJ1.7" or
+    device:get_model()=="FB56+ZSW1JK2.5" or
+    device:get_model()=="FB56+ZSW1HKJ2.7"  then
     ep_ini = 16
   else
     ep_ini = device.fingerprinted_endpoint_id
@@ -436,14 +446,18 @@ end
 local function endpoint_to_component(device, ep)
 
   --print("<<<<< device.fingerprinted_endpoint_id >>>>>>",device.fingerprinted_endpoint_id)
-  --in this models device.fingerprinted_endpoint_id is the last endpoint
-  if device:get_model() == "FB56+ZSW1JKJ2.7" or device:get_model()=="FB56+ZSW1JKJ2.5" then
+  ------------------ in this models device.fingerprinted_endpoint_id is the last endpoint
+  if device:get_model() == "FB56+ZSW1JKJ2.7" or 
+    device:get_model()=="FB56+ZSW1IKJ2.5" or 
+    device:get_model()=="FB56+ZSW1HKJ2.5" or
+    device:get_model()=="FB56+ZSW1IKJ1.7" or
+    device:get_model()=="FB56+ZSW1JK2.5" or
+    device:get_model()=="FB56+ZSW1HKJ2.7"  then
     ep_ini = 16
   else
     ep_ini = device.fingerprinted_endpoint_id
   end
 
-  --if ep == device.fingerprinted_endpoint_id then
   if ep == ep_ini then
     return "main"
   else
@@ -510,7 +524,6 @@ local function device_init (driver, device)
 
     device:set_component_to_endpoint_fn(component_to_endpoint)
     device:set_endpoint_to_component_fn(endpoint_to_component)
-    --device:set_component_to_endpoint_fn(component_to_endpoint)
 
       -- INIT parents devices Global variables
       Parent_devices[device.id] = device
@@ -518,7 +531,9 @@ local function device_init (driver, device)
 
       ------ Selected profile & Icon
       for id, value in pairs(device.preferences) do
-        print("<< Preference name: >>", id, "Preference value:", device.preferences[id])
+        if device.preferences.logDebugPrint == true then
+          print("<< Preference name: >>", id, "Preference value:", device.preferences[id])
+        end
         if id == "changeProfileThreePlug" then
           if device.preferences[id] == "Single" then
           device:try_update_metadata({profile = "three-outlet"})
@@ -588,6 +603,18 @@ local function device_init (driver, device)
         end
     end
 
+    --tuyaBlackMagic() {return zigbee.readAttribute(0x0000, [0x0004, 0x000, 0x0001, 0x0005, 0x0007, 0xfffe], [:], delay=200)}
+    if device:get_model() ~= "FB56+ZSW1JKJ2.7" and 
+      device:get_model()~="FB56+ZSW1IKJ2.5" and 
+      device:get_model()~= "FB56+ZSW1HKJ2.5" and
+      device:get_model()~="FB56+ZSW1IKJ1.7" and
+      device:get_model()~="FB56+ZSW1JK2.5" and
+      device:get_model()~= "FB56+ZSW1HKJ2.7" then
+      print("<<< Read Basic clusters attributes >>>")
+      local attr_ids = {0x0004, 0x0000, 0x0001, 0x0005, 0x0007,0xFFFE} 
+      device:send(read_attribute_function (device, data_types.ClusterId(0x0000), attr_ids))
+    end
+
     --- special cofigure for this device, read attribute on-off every 120 sec and not configure reports
     if device:get_manufacturer() == "_TZ3000_fvh3pjaz"
      or device:get_manufacturer() == "_TZ3000_wyhuocal" then   -- devices tutn off after 2 minutes
@@ -618,7 +645,9 @@ local function device_init (driver, device)
       function ()
         if device:get_manufacturer() == "_TZ3000_fvh3pjaz" 
         or device:get_manufacturer() == "_TZ3000_wyhuocal" then    -- devices tutn off after 2 minutes
-          print("<<< Timer read attribute >>>")
+          if device.preferences.logDebugPrint == true then
+            print("<<< Timer read attribute >>>")
+          end
           device:send(zcl_clusters.OnOff.attributes.OnOff:read(device):to_endpoint (1))
           device:send(zcl_clusters.OnOff.attributes.OnOff:read(device):to_endpoint (2))
           if device:get_manufacturer() == "_TZ3000_wyhuocal" then
@@ -626,19 +655,15 @@ local function device_init (driver, device)
           end
         end
       end,
-      'Refresh schedule') 
-    end
-
-    --tuyaBlackMagic() {return zigbee.readAttribute(0x0000, [0x0004, 0x000, 0x0001, 0x0005, 0x0007, 0xfffe], [:], delay=200)}
-    if device:get_model() ~= "FB56+ZSW1JKJ2.7" and device:get_model()~="FB56+ZSW1JKJ2.5" then
-      print("<<< Read Basic clusters attributes >>>")
-      local attr_ids = {0x0004, 0x0000, 0x0001, 0x0005, 0x0007,0xFFFE} 
-      device:send(read_attribute_function (device, data_types.ClusterId(0x0000), attr_ids))
+      'Refresh schedule')
+    else
+      --device:configure()
     end
 
     if device:get_latest_state("main", signal_Metrics.ID, signal_Metrics.signalMetrics.NAME) == nil then
       device:emit_event(signal_Metrics.signalMetrics({value = "Waiting Zigbee Message"}, {visibility = {displayed = false }}))
     end
+    
   else
     -- INIT Childs devices global variable if exist
     Child_devices_created[device.parent_device_id .. device.model] = device
@@ -661,7 +686,12 @@ local function driver_Switched(driver,device)
       and device:get_manufacturer() ~= nil then
 
       --tuyaBlackMagic() {return zigbee.readAttribute(0x0000, [0x0004, 0x000, 0x0001, 0x0005, 0x0007, 0xfffe], [:], delay=200)}
-      if device:get_model() ~= "FB56+ZSW1JKJ2.7" and device:get_model() ~= "FB56+ZSW1JKJ2.5" then
+      if device:get_model() ~= "FB56+ZSW1JKJ2.7" and 
+      device:get_model()~="FB56+ZSW1IKJ2.5" and 
+      device:get_model()~= "FB56+ZSW1HKJ2.5" and
+      device:get_model()~="FB56+ZSW1IKJ1.7" and
+      device:get_model()~="FB56+ZSW1JK2.5" and
+      device:get_model()~= "FB56+ZSW1HKJ2.7" then
         print("<<< Read Basic clusters attributes >>>")
         local attr_ids = {0x0004, 0x0000, 0x0001, 0x0005, 0x0007,0xFFFE} 
         device:send(read_attribute_function (device, data_types.ClusterId(0x0000), attr_ids))
@@ -680,12 +710,14 @@ end
 
 ---- switch_All_On_Off_handler
 local function switch_All_On_Off_handler(driver, device, command)
-  print("command >>>>>", command)
+  if device.preferences.logDebugPrint == true then
+    print("command >>>>>", command)
+    print("command.args.value >>>>>", command.args.value)
+  end
   local ep_init = 1
   local state = ""
   local attr = capabilities.switch.switch
   if command ~= "All On" and  command ~= "All Off" then    ---- commad with this values is from child device command
-    print("command.args.value >>>>>", command.args.value)
     state = command.args.value
     device:emit_event(switch_All_On_Off.switchAllOnOff(state))
     ep_init = device:get_endpoint_for_component_id(command.component)
@@ -782,8 +814,10 @@ local function on_handler(driver, device, command)
     device:send_to_component(command.component, zcl_clusters.OnOff.server.commands.On(device))
   
   else
-    print("device.parent_device_id >>>",device.parent_device_id)
-    print("Parent_devices[device.parent_device_id] >>>",Parent_devices[device.parent_device_id])
+    if device.preferences.logDebugPrint == true then
+      print("device.parent_device_id >>>",device.parent_device_id)
+      print("Parent_devices[device.parent_device_id] >>>",Parent_devices[device.parent_device_id])
+    end
     device:emit_event(capabilities.switch.switch.on())
 
     local component = device.model
@@ -804,8 +838,10 @@ local function off_handler(driver, device, command)
     device:send_to_component(command.component, zcl_clusters.OnOff.server.commands.Off(device))
 
   else
-    print("device.parent_device_id >>>",device.parent_device_id)
-    print("Parent_devices[device.parent_device_id] >>>",Parent_devices[device.parent_device_id])
+    if device.preferences.logDebugPrint == true then
+      print("device.parent_device_id >>>",device.parent_device_id)
+      print("Parent_devices[device.parent_device_id] >>>",Parent_devices[device.parent_device_id])
+    end
     device:emit_event(capabilities.switch.switch.off())
     local component = device.model
     if component == "main" then
@@ -827,7 +863,9 @@ local function on_off_attr_handler(driver, device, value, zb_rx)
 
     local src_endpoint = zb_rx.address_header.src_endpoint.value
     local attr_value = value.value
-    print ("src_endpoint =", zb_rx.address_header.src_endpoint.value , "value =", value.value)
+    if device.preferences.logDebugPrint == true then
+      print ("src_endpoint =", zb_rx.address_header.src_endpoint.value , "value =", value.value)
+    end
 
     --- Emit event from zigbee message recived
     if attr_value == false or attr_value == 0 then
@@ -835,11 +873,10 @@ local function on_off_attr_handler(driver, device, value, zb_rx)
     elseif attr_value == true or attr_value == 1 then
       device:emit_event_for_endpoint(src_endpoint, capabilities.switch.switch.on())
     end
-    --print ("src_endpoint =", zb_rx.address_header.src_endpoint.value , "value =", value.value)
 
     -- emit event for child devices
     local component = device:get_component_id_for_endpoint(src_endpoint)
-    if Child_devices_created[device.id .. component] ~= nil then
+    if Child_devices_created[device.id .. component] ~= nil and component ~= "main" then
       if attr_value == false or attr_value == 0 then
         Child_devices_created[device.id .. component]:emit_event(capabilities.switch.switch.off())
       elseif attr_value == true or attr_value == 1 then

@@ -15,7 +15,7 @@ components:
   - id: firmwareUpdate
     version: 1
   categories:
-  - name: Switch
+  - name: SmartPlug
 - id: switch2
   capabilities:
   - id: switch
@@ -25,7 +25,7 @@ components:
   - id: refresh
     version: 1
   categories:
-  - name: Switch
+  - name: SmartPlug
 preferences:
   - name: "version"
     title: "Version 2.0 (Feb 2022)"
@@ -88,7 +88,13 @@ preferences:
         "Yes" : "Create Single Device"
         "No": "No Create Single Device"
       default: "No"
+  - name: "logDebugPrint"
+    title: "Show Logs Debug Prints in CLI"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
 metadata:
-  deviceType: Switch
-  ocfDeviceType: oic.d.switch
-  deviceTypeId: Switch  
+  deviceType: SmartPlug
+  ocfDeviceType: oic.d.smartplug
+  deviceTypeId: SmartPlug  

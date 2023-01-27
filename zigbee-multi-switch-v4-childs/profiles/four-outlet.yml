@@ -120,6 +120,12 @@ preferences:
         "Yes" : "Create Single Device"
         "No": "No Create Single Device"
       default: "No"
+  - name: "logDebugPrint"
+    title: "Show Logs Debug Prints in CLI"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
 metadata:
   deviceType: SmartPlug
   ocfDeviceType: oic.d.smartplug
