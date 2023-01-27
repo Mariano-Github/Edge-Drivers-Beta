@@ -1,0 +1,26 @@
+name: temp-alert-alarm-battery
+components:
+- id: main
+  capabilities:
+  - id: temperatureAlarm
+    version: 1
+  - id: switch
+    version: 1
+  - id: alarm
+    version: 1
+  - id: temperatureMeasurement
+    version: 1
+  - id: battery
+    version: 1
+  - id: refresh
+    version: 1
+  - id: legendabsolute60149.signalMetrics
+    version: 1
+  - id: firmwareUpdate
+    version: 1
+  categories:
+  - name: Siren
+metadata:
+  deviceType: SmokeDetector
+  ocfDeviceType: x.com.st.d.sensor.smoke
+  deviceTypeId: SmokeDetector

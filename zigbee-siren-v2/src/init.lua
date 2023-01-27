@@ -36,6 +36,10 @@ local battery = capabilities.battery
 local switch = capabilities.switch
 local temperatureMeasurement = capabilities.temperatureMeasurement
 
+-- required module
+local signal = require "signal-metrics"
+local signal_Metrics = capabilities["legendabsolute60149.signalMetrics"]
+
 -- Constants
 local ALARM_COMMAND = "alarmCommand"
 local ALARM_LAST_DURATION = "lastDuration"
@@ -95,6 +99,11 @@ local send_siren_command = function(device, warning_mode, warning_siren_level, s
 end
 
 local default_response_handler = function(driver, device, zigbee_message)
+  -- emit signal metrics
+  if device:get_model() == "HESZB-120" then
+    signal.metrics(device, zigbee_message)
+  end
+
   local is_success = zigbee_message.body.zcl_body.status.value
   local command = zigbee_message.body.zcl_body.cmd.value
   local alarm_ev = device:get_field(ALARM_COMMAND)
@@ -150,17 +159,32 @@ end
 
 local device_init = function(self, device)
   device:set_field(ALARM_MAX_DURATION, ALARM_DEFAULT_MAX_DURATION, {persist = true})
+
+  --if device:get_model() == "HESZB-120" then
+    --if device:get_latest_state("main", signal_Metrics.ID, signal_Metrics.signalMetrics.NAME) == nil then
+      --device:emit_event(signal_Metrics.signalMetrics({value = "Waiting Zigbee Message"}, {visibility = {displayed = false }}))
+    --end
+  --end
 end
 
 local function device_added(driver, device)
   device:emit_event(capabilities.alarm.alarm.off())
   device:emit_event(capabilities.switch.switch.off())
+  
+  if device:get_model() == "HESZB-120" then
+    device:emit_event(capabilities.temperatureAlarm.temperatureAlarm("cleared"))
+    if device:get_latest_state("main", signal_Metrics.ID, signal_Metrics.signalMetrics.NAME) == nil then
+      device:emit_event(signal_Metrics.signalMetrics({value = "Waiting Zigbee Message"}, {visibility = {displayed = false }}))
+    end
+  end
 end
 
 local zigbee_siren_driver_template = {
   supported_capabilities = {
     alarm,
-    switch
+    switch,
+    capabilities.temperatureMeasurement,
+    capabilities.battery
   },
   ias_zone_configuration_method = constants.IAS_ZONE_CONFIGURE_TYPE.AUTO_ENROLL_RESPONSE,
   zigbee_handlers = {
@@ -192,7 +216,7 @@ local zigbee_siren_driver_template = {
     added = device_added,
     doConfigure = do_configure
   },
-  sub_drivers = { require("ozom"), require("frient") },
+  sub_drivers = { require("ozom"), require("frient"), require("frient-heat") },
   cluster_configurations = {
     [alarm.ID] = {
       {
