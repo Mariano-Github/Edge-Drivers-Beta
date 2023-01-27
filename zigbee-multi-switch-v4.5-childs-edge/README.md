@@ -1,4 +1,4 @@
-## (LAST RELEASE) New version 5 of Zigbee Multi Switch Mc driver as Zigbee Multi Switch and Childs Mc
+## (LAST RELEASE) New version 4.5 of Zigbee Multi Switch Mc driver as Zigbee Multi Switch and Childs Mc
 
 - Includes preferences to create EDGE child devices for each component, including All Switch On-Off.
 
