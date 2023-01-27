@@ -9,6 +9,11 @@ zigbeeManufacturer:
     manufacturer: LUMI
     model: lumi.curtain.v1
     deviceProfileName: window-treatment-aqara
+  - id: "LUMI/lumi.curtain.acn002"
+    deviceLabel: Aqara Curtain Controller
+    manufacturer: LUMI
+    model: lumi.curtain.acn002
+    deviceProfileName: window-treatment-aqara
   - id: "REXENSE/KG0001"
     deviceLabel: Window Treatment
     manufacturer: REXENSE

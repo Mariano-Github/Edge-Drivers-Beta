@@ -35,7 +35,8 @@ local PREF_INITIALIZE = "\x00\x01\x00\x00\x00\x00\x00"
 
 local FINGERPRINTS = {
   { mfr = "LUMI", model = "lumi.curtain" },
-  { mfr = "LUMI", model = "lumi.curtain.v1" }
+  { mfr = "LUMI", model = "lumi.curtain.v1" },
+  { mfr = "LUMI", model = "lumi.curtain.acn002" }
 }
 
 local is_aqara_products = function(opts, driver, device)
