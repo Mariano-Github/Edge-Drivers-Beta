@@ -875,6 +875,12 @@ zwaveManufacturer:
     manufacturerId: 0x010F
     productType: 0x0102
     deviceProfileName: fibaro-metering-dimmer
+  - id: "010F/0100/100A" # added by M. Colmenarejo FGD-211
+    deviceLabel: Fibaro Single Dimmer-1
+    manufacturerId: 0x010F
+    productType: 0x0100
+    productId: 0x100A
+    deviceProfileName: fibaro-metering-dimmer-1
 
   # added M colmenarejo
   - id: 010F/0600/1000
@@ -1027,7 +1033,7 @@ zwaveManufacturer:
     manufacturerId: 0x0293
     productType: 0x0003
     productId: 0x4412
-    deviceProfileName: dual-switch-multi
+    deviceProfileName: dual-switch
   - id: 0293/0003/4413
     deviceLabel: THree Switches
     manufacturerId: 0x0293
@@ -1041,11 +1047,11 @@ zwaveManufacturer:
     productId: 0x4411
     deviceProfileName: switch-binary
   - id: 0109/2017/1717
-    deviceLabel: Two Switches
+    deviceLabel: Monoprice Double Relay
     manufacturerId: 0x0109
     productType: 0x2017
     productId: 0x1717
-    deviceProfileName: dual-switch-multi
+    deviceProfileName: dual-switch
   - id: 0258/0200/1027
     deviceLabel: NEO Coolcam Outlet
     manufacturerId: 0x0258
@@ -1056,14 +1062,14 @@ zwaveManufacturer:
     deviceLabel: Fibaro Dimmer 1
     manufacturerId: 0x010F
     productType: 0x0100
-    #productId: 0x100A
-    deviceProfileName: switch-level
+    productId: 0x0109
+    deviceProfileName: fibaro-metering-dimmer-1
   - id: 010F/0000/100A
     deviceLabel: Fibaro Dimmer 1
     manufacturerId: 0x010F
     productType: 0x0000
     productId: 0x100A
-    deviceProfileName: switch-level
+    deviceProfileName: fibaro-metering-dimmer-1
   - id: 0060/0003/0001
     deviceLabel: Everspring Dimmer
     manufacturerId: 0x0060
@@ -1154,6 +1160,36 @@ zwaveManufacturer:
     productType: 0x0111
     #productId: 0x0605 & 0x0606
     deviceProfileName: dual-switch
+  - id: 0013C/0001/0011
+    deviceLabel: Philio PAN11-1B
+    manufacturerId: 0x013C
+    productType: 0x0001
+    productId: 0x0011
+    deviceProfileName: metering-plug
+  - id: 0060/0003/0003
+    deviceLabel: Nexa Dimmer Switch
+    manufacturerId: 0x0060
+    productType: 0x0003
+    productId: 0x0003
+    deviceProfileName: switch-level
+  - id: 0166/0100/0100
+    deviceLabel: Nexa Dimmer Switch
+    manufacturerId: 0x0166
+    productType: 0x0100
+    productId: 0x0100
+    deviceProfileName: switch-binary
+  - id: "010F/0200"
+    deviceLabel: Fibaro Double Relay #old model
+    manufacturerId: 0x010F
+    productType: 0x0200
+    #productId: 0x100A
+    deviceProfileName: fibaro-relay-dual
+  - id: 0258/0200/102B
+    deviceLabel: NEO Coolcam 3 Switches
+    manufacturerId: 0x0258
+    productType: 0x0200
+    productId: 0x102B
+    deviceProfileName: switch-multicomponent-3
 
 zwaveGeneric:
   - id: "GenericSwitch/1"
