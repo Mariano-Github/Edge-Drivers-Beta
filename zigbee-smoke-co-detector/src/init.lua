@@ -16,12 +16,32 @@ local capabilities = require "st.capabilities"
 local ZigbeeDriver = require "st.zigbee"
 local defaults = require "st.zigbee.defaults"
 local constants = require "st.zigbee.constants"
+local clusters = require "st.zigbee.zcl.clusters"
+local utils = require "st.utils"
+-- required module
+local signal = require "signal-metrics"
+
+-- battery_percentage_handler
+local function battery_percentage_handler(driver, device, raw_value, zb_rx)
+  -- emit signal metrics
+  signal.metrics(device, zb_rx)
+
+  local percentage = utils.clamp_value(utils.round(raw_value.value / 2), 0, 100)
+  device:emit_event(capabilities.battery.battery(percentage))
+end
 
 local zigbee_smoke_driver_template = {
   supported_capabilities = {
     capabilities.smokeDetector,
     --capabilities.carbonMonoxideDetector,
     capabilities.battery
+  },
+  zigbee_handlers = {
+    attr = {
+      [clusters.PowerConfiguration.ID] = {
+        [clusters.PowerConfiguration.attributes.BatteryPercentageRemaining.ID] = battery_percentage_handler
+      }
+   }
   },
   sub_drivers = { require("frient"), require("co-handler") },
   ias_zone_configuration_method = constants.IAS_ZONE_CONFIGURE_TYPE.AUTO_ENROLL_RESPONSE,

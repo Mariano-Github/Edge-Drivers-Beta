@@ -16,7 +16,9 @@ local battery_defaults = require "st.zigbee.defaults.battery_defaults"
 local zcl_clusters = require "st.zigbee.zcl.clusters"
 local capabilities = require "st.capabilities"
 local battery = capabilities.battery
-local utils = require "st.utils"
+--local utils = require "st.utils"
+-- required module
+local signal = require "signal-metrics"
 
 local is_frient_smoke_detector = function(opts, driver, device)
   if device:get_manufacturer() == "frient A/S" or device:get_manufacturer() == "LUMI" then
@@ -33,14 +35,26 @@ local battery_handler = function(driver, device, value, zb_rx)
       local maxVolts = 3.0
       
       local battery_pct = math.floor(((((value.value / 10) - minVolts) + 0.05) / (maxVolts - minVolts)) * 100)
+      if battery_pct > 100 then 
+        battery_pct = 100
+       elseif battery_pct < 0 then
+        battery_pct = 0
+       end
       device:emit_event(battery.battery(battery_pct))
     else
       local minVolts = 2.5
       local maxVolts = 3.0
   
       local battery_pct = math.floor(((((value.value / 10) - minVolts) + 0.05) / (maxVolts - minVolts)) * 100)
+      if battery_pct > 100 then 
+        battery_pct = 100
+       elseif battery_pct < 0 then
+        battery_pct = 0
+       end
       device:emit_event(battery.battery(battery_pct))
     end
+    -- emit signal metrics
+    signal.metrics(device, zb_rx)
   end
 
 local frient_smoke_detector = {

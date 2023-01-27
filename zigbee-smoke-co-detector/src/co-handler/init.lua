@@ -18,10 +18,14 @@ local capabilities = require "st.capabilities"
 --local battery = capabilities.battery
 --local utils = require "st.utils"
 local constants = require "st.zigbee.constants"
+-- required module
+local signal = require "signal-metrics"
 
 
 local is_co_detector = function(opts, driver, device)
-  if device:get_model() == "FNB56-COS06FB1.7" and device:get_manufacturer() == "feibit" then
+  if (device:get_manufacturer() == "feibit" and device:get_model() == "FNB56-COS06FB1.7")
+    or (device:get_manufacturer() == "HEIMAN" and device:get_model() == "COSensor-EF-3.0")
+    or (device:get_manufacturer() == "_TYZB01_18pkine6" and device:get_model() == "TS0204") then
     return true
   end
   return false
@@ -32,6 +36,10 @@ local generate_event_from_zone_status = function(driver, device, zone_status, zi
   device:emit_event_for_endpoint(
       zigbee_message.address_header.src_endpoint.value,
       (zone_status:is_alarm1_set() or zone_status:is_alarm2_set()) and capabilities.carbonMonoxideDetector.carbonMonoxide.detected() or capabilities.carbonMonoxideDetector.carbonMonoxide.clear())
+
+  -- emit signal metrics
+  signal.metrics(device, zigbee_message)
+
 end
 
 -- Default handler for zoneStatus attribute on the IAS Zone cluster

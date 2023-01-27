@@ -4,6 +4,8 @@ components:
   capabilities:
   - id: smokeDetector
     version: 1
+  - id: legendabsolute60149.signalMetrics
+    version: 1
   - id: refresh
     version: 1
   - id: firmwareUpdate

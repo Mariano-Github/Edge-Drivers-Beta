@@ -85,6 +85,11 @@ zigbeeManufacturer:
     manufacturer: _TYZB01_dsjszp0x
     model: TS0205
     deviceProfileName: smoke-battery
+  - id: "SMC Networks/SMCCO02-Z CA"
+    deviceLabel: Smoke Detector
+    manufacturer: SMC Networks
+    model: SMCCO02-Z CA
+    deviceProfileName: smoke-battery
   # CO Sensors
   - id: "feibit/FNB56-COS06FB1.7"
     deviceLabel: SCA01ZB CO Sensor
