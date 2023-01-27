@@ -20,8 +20,8 @@ components:
     version: 1
   - id: battery
     version: 1
-  - id: legendabsolute60149.driverVersion1
-    version: 1
+  #- id: legendabsolute60149.driverVersion1
+  #  version: 1
   - id: refresh
     version: 1
   - id: firmwareUpdate
@@ -79,7 +79,7 @@ preferences:
       default: 10 
   - name: "onTime"
     title: "Programmed time for ON State"
-    description: "Selec Programmed time for ON State (1 min to 60 min)"
+    description: "Selec Programmed time for ON State (1 min to 600 min)"
     required: false
     preferenceType: integer
     definition:
@@ -88,7 +88,7 @@ preferences:
       default: 10
   - name: "offTime"
     title: "Programmed time for OFF State"
-    description: "Selec Programmed time for OFF State (1 min to 60 min)"
+    description: "Selec Programmed time for OFF State (1 min to 600 min)"
     required: false
     preferenceType: integer
     definition:
@@ -141,6 +141,12 @@ preferences:
         "Yes": "Signal Metrics Visible"
         "No": "Signal Metrics No Visible"
       default: "No"
+  - name: "logDebugPrint"
+    title: "Show Logs Debug Prints in CLI"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
 metadata:
   deviceType: Light
   ocfDeviceType: oic.d.light

@@ -444,3 +444,23 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_0t4zjtia
     model: TS0001
     deviceProfileName: single-switch
+  - id: "_TZ3000_upjrsxh1/TS011F"
+    deviceLabel: Lidl Plug
+    manufacturer: _TZ3000_upjrsxh1
+    model: TS011F
+    deviceProfileName: single-switch-plug
+  - id: "Third Reality/3RSS007Z"
+    deviceLabel: Third Reality 3RSS007Z
+    manufacturer: Third Reality, Inc
+    model: 3RSS007Z
+    deviceProfileName: switch-battery-light
+  - id: "Third Reality/3RSS008Z"
+    deviceLabel: Third Reality 3RSS008Z
+    manufacturer: Third Reality, Inc
+    model: 3RSS008Z
+    deviceProfileName: switch-battery-light
+  - id: "LIDL Plug/_TZ3000_ynmowqk2"
+    deviceLabel: Lidl Plug
+    manufacturer: _TZ3000_ynmowqk2
+    model: TS011F
+    deviceProfileName: single-switch-plug

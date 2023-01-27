@@ -1,4 +1,5 @@
 name: 'Zigbee Switch Mc'
 packageKey: 'Zigbee_Switch_v6.5'
+description: 'Devices: https://github.com/Mariano-Github/Edge-Drivers-Beta/blob/main/zigbee-switch-v6.5/fingerprints.yml'
 permissions:
   zigbee: {}

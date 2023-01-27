@@ -12,7 +12,7 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 
--------- Author Mariano Colmenarejo (Oct 2021)
+--------- Author Mariano Colmenarejo (Oct 2021)
 
 local capabilities = require "st.capabilities"
 local ZigbeeDriver = require "st.zigbee"
@@ -92,12 +92,37 @@ end
 
 ------ do_configure device when driver switched
 local function driver_Switched(self,device)
+   ------ Change profile & Icon
+   if device.preferences.changeProfile == "Switch" then
+    device:try_update_metadata({profile = "single-switch"})
+   elseif device.preferences.changeProfile == "Plug" then
+    device:try_update_metadata({profile = "single-switch-plug"})
+   elseif device.preferences.changeProfile == "Light" then
+    device:try_update_metadata({profile = "single-switch-light"})
+   elseif device.preferences.changeProfile == "Vent" then
+    device:try_update_metadata({profile = "switch-vent"})
+   elseif device.preferences.changeProfile == "Camera" then
+    device:try_update_metadata({profile = "switch-camera"})
+   elseif device.preferences.changeProfile == "Humidifier" then
+    device:try_update_metadata({profile = "switch-humidifier"})
+   elseif device.preferences.changeProfile == "Air" then
+    device:try_update_metadata({profile = "switch-air"})
+   elseif device.preferences.changeProfile == "Tv" then
+    device:try_update_metadata({profile = "switch-tv"})
+   elseif device.preferences.changeProfile == "Oven" then
+    device:try_update_metadata({profile = "switch-oven"})
+   elseif device.preferences.changeProfile == "Refrigerator" then
+    device:try_update_metadata({profile = "switch-refrigerator"})
+   elseif device.preferences.changeProfile == "Washer" then
+    device:try_update_metadata({profile = "switch-washer"})
+  elseif device.preferences.changeProfile == "Irrigation" then
+    device:try_update_metadata({profile = "switch-irrigation"})
+   end 
   device:refresh()
   if device:get_manufacturer() ~= "_TZ3000_9hpxg80k" then
     device:configure()
   end
 end
-
 
 ---- Driver template config
 local zigbee_switch_driver_template = {

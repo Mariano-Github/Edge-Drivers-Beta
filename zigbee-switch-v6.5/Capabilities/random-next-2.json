@@ -9,7 +9,7 @@
     },
     "detailView": [
         {
-            "label": "Timer Next Change:",     
+            "label": "Timer Next Change:",
             "displayType": "state",
             "state": {
                 "label": "{{randomNext.value}}"

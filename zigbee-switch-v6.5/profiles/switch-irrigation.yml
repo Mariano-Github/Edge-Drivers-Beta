@@ -1,4 +1,4 @@
-name: switch-oven
+name: switch-irrigation
 components:
 - id: main
   capabilities:
@@ -65,7 +65,7 @@ preferences:
         "Refrigerator": "Refrigerator"
         "Washer": "Washer"
         "Irrigation": "Irrigation"
-      default: "Oven"
+      default: "Irrigation"
   - name: "restoreState"
     title: "Restore State After Power Lost"
     description: "After the power supply is back on, the State can be restored to previous state or remain switched off"
@@ -121,7 +121,7 @@ preferences:
     definition:
       minimum: 0
       maximum: 4000
-      default: 0 
+      default: 0
   - name: "powerTimer"
     title: "Power Interval Calculation(min)"
     description: "Select Power Interval Calculation (1 min to 10 min)"
@@ -166,6 +166,6 @@ preferences:
     definition:
       default: false
 metadata:
-  deviceType: Oven
-  ocfDeviceType: oic.d.oven
-  deviceTypeId: Oven
+  deviceType: Irrigation
+  ocfDeviceType: x.com.st.d.irrigation
+  deviceTypeId: Irrigation

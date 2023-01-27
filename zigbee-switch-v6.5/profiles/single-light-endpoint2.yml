@@ -1,4 +1,4 @@
-name: single-switch
+name: single-light-endpoint2
 components:
 - id: main
   capabilities:
@@ -18,18 +18,20 @@ components:
     version: 1
   - id: legendabsolute60149.signalMetrics
     version: 1
-  #- id: legendabsolute60149.driverVersion1
-  #  version: 1
   - id: refresh
     version: 1
+  categories:
+  - name: SmartPlug
+- id: endpoint2
+  capabilities:
   - id: firmwareUpdate
-    version: 1
+    version: 1  
   categories:
   - name: SmartPlug
 preferences:
   - name: "version"
     title: "Version 6.5 (jun 2022)"
-    description: "Added signal metrics, state after power lost and battery profile"   
+    description: "Added signal metrics, state after power lost and battery profile"  
     required: false
     preferenceType: string
     definition:
@@ -46,26 +48,6 @@ preferences:
       minimum: -12
       maximum: 12
       default: 0 
-  - name: "changeProfile"
-    title: "Select Profile Icon"
-    description: "Select Profile Icon:"
-    required: true
-    preferenceType: enumeration
-    definition:
-      options:
-        "Switch" : "Switch"
-        "Plug": "Plug"
-        "Light": "Light"
-        "Vent": "Vent"
-        "Camera": "Camera"
-        "Humidifier": "Humidifier"
-        "Oven" : "Oven"
-        "Tv": "Tv"
-        "Air": "Air"
-        "Refrigerator": "Refrigerator"
-        "Washer": "Washer"
-        "Irrigation": "Irrigation"
-      default: "Switch"
   - name: "restoreState"
     title: "Restore State After Power Lost"
     description: "After the power supply is back on, the State can be restored to previous state or remain switched off"
@@ -121,7 +103,7 @@ preferences:
     definition:
       minimum: 0
       maximum: 4000
-      default: 0 
+      default: 0
   - name: "powerTimer"
     title: "Power Interval Calculation(min)"
     description: "Select Power Interval Calculation (1 min to 10 min)"
@@ -166,6 +148,6 @@ preferences:
     definition:
       default: false
 metadata:
-  deviceType: Switch
-  ocfDeviceType: oic.d.switch
-  deviceTypeId: Switch
+  deviceType: Light
+  ocfDeviceType: oic.d.light
+  deviceTypeId: Light

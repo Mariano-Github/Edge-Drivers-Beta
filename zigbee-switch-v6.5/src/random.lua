@@ -1,7 +1,7 @@
 --- Smartthings library load ---
 local capabilities = require "st.capabilities"
-local ZigbeeDriver = require "st.zigbee"
-local defaults = require "st.zigbee.defaults"
+--local ZigbeeDriver = require "st.zigbee"
+--local defaults = require "st.zigbee.defaults"
 local zcl_clusters = require "st.zigbee.zcl.clusters"
 local OnOff = zcl_clusters.OnOff
 local Groups = zcl_clusters.Groups
@@ -60,8 +60,34 @@ local function write_attribute_function(device, cluster_id, attr_id, data_value)
    }))
 end
 
+ --- return endpoint from component_id
+local function component_to_endpoint(device, component_id)
+  print("<<<<< device.fingerprinted_endpoint_id >>>>>>",device.fingerprinted_endpoint_id)
+  if component_id == "main" then
+    return 2
+  else
+    return 1
+  end
+end
+
+--- return Component_id from endpoint
+local function endpoint_to_component(device, ep)
+  print("<<<<< device.fingerprinted_endpoint_id >>>>>>",device.fingerprinted_endpoint_id)
+  if ep == 2 then
+    return "main"
+  else
+    return "endpoint2"
+  end
+end
+
 ----- do_init device tables create for dimming variables ----
 function driver_handler.do_init (self, device)
+ if device:get_manufacturer() == "Quirky" and device:get_model() == "Smart Switch" then
+    --This device has endpoint 1 and endpoint 2 is the main component 
+    device:set_component_to_endpoint_fn(component_to_endpoint)
+    device:set_endpoint_to_component_fn(endpoint_to_component)
+ end
+
   local device_exist = "no"
   for id, value in pairs(device_running) do
    --print("id >>>>, device_runniung >>>>>, device >>>>>",id, device_running[id], device)
@@ -72,41 +98,97 @@ function driver_handler.do_init (self, device)
  ---- If is new device initialize table values
  if device_exist == "no" then
   device_running[device]= device
-  oldPreferenceValue[device] = "-"
-  newParameterValue[device] = "-"
+  --oldPreferenceValue[device] = "-"
+  --newParameterValue[device] = "-"
   random_Step[device] = 1
   random_totalStep[device] =2
   random_timer[device] = math.random(10, 20)
 
-  -- send zigbee event if random on-of inactive
-  print("<<<< random_state >>>>>",device:get_field("random_state"))
+  -- send zigbee event if random on-off inactive
+  if device.preferences.logDebugPrint == true then
+    print("<<<< random_state >>>>>",device:get_field("random_state"))
+  end
   if device:get_field("random_state") == "Inactive"  or device:get_field("random_state") == nil then
    device:emit_event(random_On_Off.randomOnOff("Inactive"))
    device:emit_event(random_Next_Step.randomNext("Inactive"))
    device:set_field("random_state", "Inactive", {persist = true})
   end
   ----- print device init values for debug------
-  for id, value in pairs(device_running) do
-   print("device_running[id]=",device_running[id])
-   print("device_running, random_Step=",device_running[id],random_Step[id])
-   print("device_running, random_totalStep=",device_running[id],random_totalStep[id])
-   print("device_running, random_timer=",device_running[id],random_timer[id])
+  if device.preferences.logDebugPrint == true then
+    for id, value in pairs(device_running) do
+      print("device_running[id]=",device_running[id])
+      print("device_running, random_Step=",device_running[id],random_Step[id])
+      print("device_running, random_totalStep=",device_running[id],random_totalStep[id])
+      print("device_running, random_timer=",device_running[id],random_timer[id])
+    end
   end
  end
 
+ ------ Change profile & Icon
+  if device:get_manufacturer() == "Quirky" and device:get_model() == "Smart Switch" then
+    device:try_update_metadata({profile = "single-light-endpoint2"})
+  else
+    if device.preferences.changeProfile == "Switch" then
+    device:try_update_metadata({profile = "single-switch"})
+    elseif device.preferences.changeProfile == "Plug" then
+    device:try_update_metadata({profile = "single-switch-plug"})
+    elseif device.preferences.changeProfile == "Light" then
+    device:try_update_metadata({profile = "single-switch-light"})
+    elseif device.preferences.changeProfile == "Vent" then
+    device:try_update_metadata({profile = "switch-vent"})
+    elseif device.preferences.changeProfile == "Camera" then
+    device:try_update_metadata({profile = "switch-camera"})
+    elseif device.preferences.changeProfile == "Humidifier" then
+    device:try_update_metadata({profile = "switch-humidifier"})
+    elseif device.preferences.changeProfile == "Air" then
+    device:try_update_metadata({profile = "switch-air"})
+    elseif device.preferences.changeProfile == "Tv" then
+    device:try_update_metadata({profile = "switch-tv"})
+    elseif device.preferences.changeProfile == "Oven" then
+    device:try_update_metadata({profile = "switch-oven"})
+    elseif device.preferences.changeProfile == "Refrigerator" then
+    device:try_update_metadata({profile = "switch-refrigerator"})
+    elseif device.preferences.changeProfile == "Washer" then
+    device:try_update_metadata({profile = "switch-washer"})
+    elseif device.preferences.changeProfile == "Irrigation" then
+    device:try_update_metadata({profile = "switch-irrigation"})
+    end 
+  end
+
   -- initialice total energy and restart timer if is ON 
   if device:get_field("power_time_ini") == nil then device:set_field("power_time_ini", os.time(), {persist = false}) end
-  print("Last_energy_Total >>>>>",device:get_latest_state("main", capabilities.energyMeter.ID, capabilities.energyMeter.energy.NAME))
-  print("energy_Total >>>>>",device:get_field("energy_Total"))
-  print("energy_Total_persist >>>>>",device:get_field("energy_Total_persist"))
-  print("power_meter_timer >>>>>>>",device:get_field("power_meter_timer"))
 
+  if device.preferences.logDebugPrint == true then
+    print("Last_energy_Total >>>>>",device:get_latest_state("main", capabilities.energyMeter.ID, capabilities.energyMeter.energy.NAME))
+    print("energy_Total >>>>>",device:get_field("energy_Total"))
+    print("energy_Total_persist >>>>>",device:get_field("energy_Total_persist"))
+    print("power_meter_timer >>>>>>>",device:get_field("power_meter_timer"))
+  end
+
+  -- test to set_fiel
+  --local value = device:get_field("test_key")
+  --value = value and value or "nil"
+  --print ("field value on pre init: " .. value)
+
+  --device:set_field("test_key", 48, {persist = true})
+
+  --value = device:get_field("test_key")
+  --value = value and value or "nil"
+  --print ("field value on post init: " .. value)
+
+  --print("function INIT: get_field(energy_Total_persist)",device:get_field("energy_Total_persist"))
   if device:get_field("energy_Total_persist") == nil then
     local energy_Total = device:get_latest_state("main", capabilities.energyMeter.ID, capabilities.energyMeter.energy.NAME)
     if energy_Total == nil then energy_Total = 0 end
-    device:set_field("energy_Total", energy_Total, {persist = false}) 
+    device:set_field("energy_Total", energy_Total, {persist = false})
+    device:set_field("energy_Total_persist", energy_Total, {persist = true})
+    local energy_event = tonumber(string.format("%.3f",energy_Total))
+    device:emit_event(capabilities.energyMeter.energy({value = energy_event, unit = "kWh" }))
   else
     device:set_field("energy_Total", device:get_field("energy_Total_persist"), {persist = false})
+    local energy_Total = device:get_latest_state("main", capabilities.energyMeter.ID, capabilities.energyMeter.energy.NAME)
+    local energy_event = tonumber(string.format("%.3f",energy_Total))
+    device:emit_event(capabilities.energyMeter.energy({value = energy_event, unit = "kWh" }))
   end
   if device:get_field("powerTimer_Changed") == nil then device:set_field("powerTimer_Changed", "No", {persist = false}) end
   if device:get_field("date_reset") == nil then
@@ -152,7 +234,9 @@ function driver_handler.do_init (self, device)
   end
 
   --restart random on-off if active
-  print("random_state >>>>>",device:get_field("random_state"))
+  if device.preferences.logDebugPrint == true then
+    print("random_state >>>>>",device:get_field("random_state"))
+  end
   if device:get_field("random_state") ~= "Inactive" then  
     driver_handler.random_on_off_handler(self,device,"Active")
   end
@@ -163,8 +247,8 @@ function driver_handler.do_removed(self,device)
   for id, value in pairs(device_running) do
     if device_running[id] == device then
     device_running[device] =nil
-    oldPreferenceValue[device] = nil
-    newParameterValue[device] = nil
+    --oldPreferenceValue[device] = nil
+    --newParameterValue[device] = nil
     random_Step[device] = nil
     random_totalStep[device] = nil
     random_timer[device] = nil
@@ -172,98 +256,105 @@ function driver_handler.do_removed(self,device)
   end
   
   -----print tables of devices no removed from driver ------
-  for id, value in pairs(device_running) do
-    print("device_running[id]",device_running[id])
-    print("device_running, random_Step=",device_running[id],random_Step[id])
-    print("device_running, random_totalStep=",device_running[id],random_totalStep[id])
-    print("device_running, random_timer=",device_running[id],random_timer[id])
- end
+  if device.preferences.logDebugPrint == true then
+    for id, value in pairs(device_running) do
+      print("device_running[id]",device_running[id])
+      print("device_running, random_Step=",device_running[id],random_Step[id])
+      print("device_running, random_totalStep=",device_running[id],random_totalStep[id])
+      print("device_running, random_timer=",device_running[id],random_timer[id])
+    end
+  end
 end
 
 --- Update preferences after infoChanged recived---
 function driver_handler.do_Preferences (self, device)
+  print("<< do_Prefrences >>")
   for id, value in pairs(device.preferences) do
-    print("device.preferences[infoChanged]=", device.preferences[id])
-    oldPreferenceValue[device] = device:get_field(id)
-    newParameterValue[device] = device.preferences[id]
-    if oldPreferenceValue[device] ~= newParameterValue[device] then
-      device:set_field(id, newParameterValue[device], {persist = true})
-      print("<< Preference changed: name, old, new >>", id, oldPreferenceValue[device], newParameterValue[device])
+    if device.preferences.logDebugPrint == true then
+      print("device.preferences[infoChanged]=", device.preferences[id])
+    end
+    oldPreferenceValue = device:get_field(id)
+    newParameterValue = device.preferences[id]
+    if oldPreferenceValue ~= newParameterValue then
+      device:set_field(id, newParameterValue, {persist = true})
+      print("<< Preference changed name:",id, "old value:",oldPreferenceValue, "new value:", newParameterValue)
  
       --- Groups code preference value changed
-    if id == "groupAdd" then
-      if device.preferences[id] > 0 then
-       print("Add Groups >>>>>>>>>>>>>>>>>")
-       local data = device.preferences[id]
-       device:send(Groups.server.commands.AddGroup(device, data, "Group"..tostring(data)))
-       device:send(Groups.server.commands.GetGroupMembership(device, {}))
-      else
-       device:send(Groups.server.commands.GetGroupMembership(device, {}))
+      if id == "groupAdd" then
+        if device.preferences[id] > 0 then
+        print("Add Groups >>>>>>>>>>>>>>>>>")
+        local data = device.preferences[id]
+        device:send(Groups.server.commands.AddGroup(device, data, "Group"..tostring(data)))
+        device:send(Groups.server.commands.GetGroupMembership(device, {}))
+        else
+        device:send(Groups.server.commands.GetGroupMembership(device, {}))
+        end
       end
-     end
- 
-     if id == "groupRemove" then
-      print("Remove Groups >>>>>>>>>>>>>>>>>")
-      if device.preferences[id] > 0 then
-       device:send(Groups.server.commands.RemoveGroup(device, device.preferences[id]))
-      else
-       device:send(Groups.server.commands.RemoveAllGroups(device, {}))
+  
+      if id == "groupRemove" then
+        print("Remove Groups >>>>>>>>>>>>>>>>>")
+        if device.preferences[id] > 0 then
+        device:send(Groups.server.commands.RemoveGroup(device, device.preferences[id]))
+        else
+        device:send(Groups.server.commands.RemoveAllGroups(device, {}))
+        end
+        device:send(Groups.server.commands.GetGroupMembership(device, {}))
       end
-      device:send(Groups.server.commands.GetGroupMembership(device, {}))
-     end
 
-      ------ Change profile & Icon
-      if id == "changeProfile" then
-       if newParameterValue[device] == "Switch" then
-        device:try_update_metadata({profile = "single-switch"})
-       elseif newParameterValue[device] == "Plug" then
-        device:try_update_metadata({profile = "single-switch-plug"})
-       elseif newParameterValue[device] == "Light" then
-        device:try_update_metadata({profile = "single-switch-light"})
-       elseif newParameterValue[device] == "Vent" then
-        device:try_update_metadata({profile = "switch-vent"})
-       elseif newParameterValue[device] == "Camera" then
-        device:try_update_metadata({profile = "switch-camera"})
-       elseif newParameterValue[device] == "Humidifier" then
-        device:try_update_metadata({profile = "switch-humidifier"})
-       elseif newParameterValue[device] == "Air" then
-        device:try_update_metadata({profile = "switch-air"})
-       elseif newParameterValue[device] == "Tv" then
-        device:try_update_metadata({profile = "switch-tv"})
-       elseif newParameterValue[device] == "Oven" then
-        device:try_update_metadata({profile = "switch-oven"})
-       elseif newParameterValue[device] == "Refrigerator" then
-        device:try_update_metadata({profile = "switch-refrigerator"})
-       elseif newParameterValue[device] == "Washer" then
-        device:try_update_metadata({profile = "switch-washer"})
-       end   
-      --- Preference power timer changed
-      elseif id == "powerTimer" then
-       if device:get_field("power_meter_timer") == "ON" then 
-        device:set_field("powerTimer_Changed", "Yes", {persist = false})
-       end 
-      -- Any Preference timer mode changed restart timer handler
-      elseif id == "randomMin" or id == "randomMax" or id == "onTime" or id == "offTime" then
-        if device:get_field("random_state") ~= "Inactive" then  
-          driver_handler.random_on_off_handler(self,device,"Active")
-        end 
-      end
-      --- Configure on-off cluster, attributte 0x8002 and 4003 to value restore state in preferences
-      if id == "restoreState" then
-        print("<<< Write restore state >>>")
-        local value_send = tonumber(newParameterValue[device])
-        local data_value = {value = value_send, ID = 0x30}
-        local cluster_id = {value = 0x0006}
-        --write atribute for Tuya devices
-        local attr_id = 0x4003
-        write_attribute_function(device, cluster_id, attr_id, data_value)
+        ------ Change profile & Icon
+        if id == "changeProfile" and device:get_manufacturer() ~= "Quirky" and device:get_model() ~= "Smart Switch" then
+          if newParameterValue == "Switch" then
+            device:try_update_metadata({profile = "single-switch"})
+          elseif newParameterValue == "Plug" then
+            device:try_update_metadata({profile = "single-switch-plug"})
+          elseif newParameterValue == "Light" then
+            device:try_update_metadata({profile = "single-switch-light"})
+          elseif newParameterValue == "Vent" then
+            device:try_update_metadata({profile = "switch-vent"})
+          elseif newParameterValue == "Camera" then
+            device:try_update_metadata({profile = "switch-camera"})
+          elseif newParameterValue == "Humidifier" then
+            device:try_update_metadata({profile = "switch-humidifier"})
+          elseif newParameterValue == "Air" then
+            device:try_update_metadata({profile = "switch-air"})
+          elseif newParameterValue == "Tv" then
+            device:try_update_metadata({profile = "switch-tv"})
+          elseif newParameterValue == "Oven" then
+            device:try_update_metadata({profile = "switch-oven"})
+          elseif newParameterValue == "Refrigerator" then
+            device:try_update_metadata({profile = "switch-refrigerator"})
+          elseif newParameterValue == "Washer" then
+            device:try_update_metadata({profile = "switch-washer"})
+          elseif newParameterValue == "Irrigation" then
+            device:try_update_metadata({profile = "switch-irrigation"})
+          end   
+        --- Preference power timer changed
+        elseif id == "powerTimer" then
+          if device:get_field("power_meter_timer") == "ON" then 
+            device:set_field("powerTimer_Changed", "Yes", {persist = false})
+          end 
+          -- Any Preference timer mode changed restart timer handler
+        elseif id == "randomMin" or id == "randomMax" or id == "onTime" or id == "offTime" then
+          if device:get_field("random_state") ~= "Inactive" then  
+            driver_handler.random_on_off_handler(self,device,"Active")
+          end 
+        end
+        --- Configure on-off cluster, attributte 0x8002 and 4003 to value restore state in preferences
+        if id == "restoreState" then
+          print("<<< Write restore state >>>")
+          local value_send = tonumber(newParameterValue)
+          local data_value = {value = value_send, ID = 0x30}
+          local cluster_id = {value = 0x0006}
+          --write atribute for standard devices
+          local attr_id = 0x4003
+          write_attribute_function(device, cluster_id, attr_id, data_value)
 
-        --write atribute for Tuya devices (Restore previous state = 0x02)
-        if newParameterValue[device] == "255" then data_value = {value = 0x02, ID = 0x30} end
-        attr_id = 0x8002
-        write_attribute_function(device, cluster_id, attr_id, data_value)
+          --write atribute for Tuya devices (Restore previous state = 0x02)
+          if newParameterValue == "255" then data_value = {value = 0x02, ID = 0x30} end
+          attr_id = 0x8002
+          write_attribute_function(device, cluster_id, attr_id, data_value)
+        end
       end
-    end
   end
 
   -- ********* Emit event for new driver version availabale ********
@@ -283,6 +374,8 @@ function driver_handler.do_Preferences (self, device)
   print("Device ID", device)
   print("Manufacturer >>>", manufacturer, "Manufacturer_Len >>>",manufacturer_len)
   print("Model >>>", model,"Model_len >>>",model_len)
+  local firmware_full_version = device.data.firmwareFullVersion
+  print("<<<<< Firmware Version >>>>>",firmware_full_version)
   -- This will print in the log the total memory in use by Lua in Kbytes
   print("Memory >>>>>>>",collectgarbage("count"), " Kbytes")
 end
@@ -294,14 +387,13 @@ local function save_energy(self, device)
    device:emit_event_for_endpoint("main", capabilities.powerMeter.power({value = 0, unit = "W" }))
 
    --- Energy calculation
-   --local current_level = device:get_latest_state("main", capabilities.switchLevel.ID, capabilities.switchLevel.level.NAME)
-   --current_level = tonumber(current_level)
    local power_time = (os.time() - device:get_field("power_time_ini")) / 3600
    local energy_Total = device:get_field("energy_Total") + (power_time * device.preferences.loadPower / 1000)
    local energy_event = tonumber(string.format("%.3f",energy_Total))
    device:emit_event_for_endpoint("main", capabilities.energyMeter.energy({value = energy_event, unit = "kWh" }))
    device:set_field("energy_Total", energy_Total, {persist = false})
    device:set_field("energy_Total_persist", energy_Total, {persist = true})
+   --print("function save_energy: set_field(energy_Total_persist, energy_Total, {persist = true})", device:get_field("energy_Total_persist"))
    device:set_field("power_time_ini", os.time(), {persist = false})
 
 end
@@ -309,22 +401,39 @@ end
 ---------------------------------------------------------
 ----on_off_attr_handler
 function driver_handler.on_off_attr_handler(self, device, value, zb_rx)
-  print("value.value >>>>>>>>>>>", value.value)
-
+  if device.preferences.logDebugPrint == true then
+    print("value.value >>>>>>>>>>>", value.value)
+  end
+  -- for sonnof mini messages bad data type Uint8 values
+  if value.value == 0 then
+    value.value = false
+  elseif value.value == 1 then
+    value.value = true
+  end
+  if device.preferences.logDebugPrint == true then
+    print("New value.value >>>>>>>>>>>", value.value)
+  end
   --print("LQI >>>>>",zb_rx.lqi.value)
   --print("RSSI >>>>>",zb_rx.rssi.value)
   --print (string.format("src_Address: 0x%04X", zb_rx.address_header.src_addr.value))
-  --local metrics = string.format("DNI: 0x%04X", zb_rx.address_header.src_addr.value)..",  LQI: "..zb_rx.lqi.value..",  RSSI: "..zb_rx.rssi.value.." dBm"
 
   local visible_satate = false
   if device.preferences.signalMetricsVisibles == "Yes" then
     visible_satate = true
   end
-  local metrics = "LQI: "..zb_rx.lqi.value.." ... RSSI: "..zb_rx.rssi.value.." dBm"
+
+  local gmt = os.date("%Y/%m/%d Time: %H:%M",os.time())
+  local dni = string.format("0x%04X", zb_rx.address_header.src_addr.value)
+  --local metrics = "<em table style='font-size:70%';'font-weight: bold'</em>".. <b>DNI: </b>".. dni .. "  ".."<b> LQI: </b>" .. zb_rx.lqi.value .."  ".."<b>RSSI: </b>".. zb_rx.rssi.value .. "dbm".."</em>".."<BR>"
+  local metrics = "<em table style='font-size:70%';'font-weight: bold'</em>".. "<b>GMT: </b>".. gmt .."<BR>"
+  metrics = metrics .. "<b>DNI: </b>".. dni .. "  ".."<b> LQI: </b>" .. zb_rx.lqi.value .."  ".."<b>RSSI: </b>".. zb_rx.rssi.value .. "dbm".."</em>".."<BR>"
+
   device:emit_event(signal_Metrics.signalMetrics({value = metrics}, {visibility = {displayed = visible_satate }}))
 
  if value.value == false or value.value == true then -- this is for correct a dupplicated message state in sonnof mini
-  print("<<<<<<< Power meter Timer >>>>>", device:get_field("power_meter_timer"))
+  if device.preferences.logDebugPrint == true then
+    print("<<<<<<< Power meter Timer >>>>>", device:get_field("power_meter_timer"))
+  end
   local attr = capabilities.switch.switch
   device:emit_event_for_endpoint(zb_rx.address_header.src_endpoint.value, value.value and attr.on() or attr.off())
 
@@ -374,8 +483,8 @@ function driver_handler.on_off_attr_handler(self, device, value, zb_rx)
       local energy_Total = device:get_field("energy_Total") + (power_time * power / 1000)
       local energy_event = tonumber(string.format("%.3f",energy_Total))
       device:emit_event_for_endpoint("main", capabilities.energyMeter.energy({value = energy_event, unit = "kWh" }))
-
       device:set_field("energy_Total", energy_Total, {persist = false})
+
       ---- re-start timer if preferences changed
       if device:get_field("powerTimer_Changed") == "Yes" then
         device:set_field("powerTimer_Changed", "No", {persist = false})
@@ -415,84 +524,119 @@ function driver_handler.random_on_off_handler(self,device,command)
     random_state = command.args.value
   end
   --print("randomOnOff Value", command.args.value)
-  print("randomOnOff Value", random_state)
+  --print("randomOnOff Value", random_state)
+  --print("device:get_field(random_state)",device:get_field("random_state"))
   if random_state == "Inactive" then
-   -- send zigbee event
-   device:send(OnOff.server.commands.Off(device))
-   device:set_field("last_state", "off", {persist = false})
-   device:emit_event(random_On_Off.randomOnOff("Inactive"))
+    device:set_field("time_nextChange", 0, {persist = true})
+    -- send zigbee event
+    device:send(OnOff.server.commands.Off(device))
+    device:set_field("last_state", "off", {persist = false})
+    device:emit_event(random_On_Off.randomOnOff("Inactive"))
 
-   --emit time for next change
-   nextChange = "Inactive"
-   device:emit_event(random_Next_Step.randomNext(nextChange))
-   device:set_field("random_state", "Inactive", {persist = true})
-   save_energy(self, device)
+    --emit time for next change
+    nextChange = "Inactive"
+    device:emit_event(random_Next_Step.randomNext(nextChange))
+    device:set_field("random_state", "Inactive", {persist = true})
+    save_energy(self, device)
 
  elseif random_state == "Random" or random_state == "Program" then
-  device:emit_event(random_On_Off.randomOnOff(random_state))
-  device:set_field("random_state", random_state, {persist = true})
+    device:emit_event(random_On_Off.randomOnOff(random_state))
+    if random_state ~= device:get_field("random_state") then
+      device:set_field("time_nextChange", 0, {persist = true})
+    end
+    --print("device:get_field(time_nextChange)",device:get_field("time_nextChange"))
+    device:set_field("random_state", random_state, {persist = true})
 
-  if random_state == "Random" then
-   --Random timer calculation
-   random_timer[device] = math.random(device.preferences.randomMin * 60, device.preferences.randomMax * 60)
-   random_Step[device] = 0
-   random_totalStep[device] = math.ceil(random_timer[device] / 30)
-   nextChange= os.date("%H:%M:%S",os.time() + random_timer[device] + device.preferences.localTimeOffset * 3600)
-  else
-   device:send(OnOff.server.commands.On(device))
-   device:set_field("last_state", "on", {persist = false})
-   --Program timer calculation
-   random_timer[device] = device.preferences.onTime * 60
-   random_Step[device] = 0
-   random_totalStep[device] = math.ceil(random_timer[device] / 30)
-   nextChange= os.date("%H:%M:%S",os.time() + random_timer[device] + device.preferences.localTimeOffset * 3600)
-  end
+    if random_state == "Random" then
+      --Random timer calculation
+      random_timer[device] = math.random(device.preferences.randomMin * 60, device.preferences.randomMax * 60)
+      random_Step[device] = 0
+      random_totalStep[device] = math.ceil(random_timer[device] / 30)
+      --nextChange= os.date("%H:%M:%S",os.time() + random_timer[device] + device.preferences.localTimeOffset * 3600)
+    else
+      if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) == "on" then
+        device:send(OnOff.server.commands.On(device))
+        device:set_field("last_state", "on", {persist = false})
+        --Program timer calculation
+        random_timer[device] = device.preferences.onTime * 60
+      else
+        device:send(OnOff.server.commands.Off(device))
+        device:set_field("last_state", "off", {persist = false})
+        --Program timer calculation
+        random_timer[device] = device.preferences.offTime * 60
+      end
+        random_Step[device] = 0
+        random_totalStep[device] = math.ceil(random_timer[device] / 30)
+      --nextChange= os.date("%H:%M:%S",os.time() + random_timer[device] + device.preferences.localTimeOffset * 3600)
+    end
 
-  --emit time for next change
-  device:emit_event(random_Next_Step.randomNext(nextChange))
-  print("random_totalStep=",random_totalStep[device])
-  print("NextChange=",nextChange)
+    if device:get_field("time_nextChange") == nil then device:set_field("time_nextChange", os.time()-30, {persist = true}) end
+    if (os.time() + (device.preferences.localTimeOffset * 3600)) > device:get_field("time_nextChange") then
+      nextChange= os.date("%H:%M:%S",os.time() + random_timer[device] + device.preferences.localTimeOffset * 3600)
+      local time_nextChange = os.time() + random_timer[device] + device.preferences.localTimeOffset * 3600
+      device:set_field("time_nextChange", time_nextChange, {persist = true})
+    else
+      nextChange= os.date("%H:%M:%S", device:get_field("time_nextChange"))
+    end
 
------- Timer activation
+    --emit time for next change
+    device:emit_event(random_Next_Step.randomNext(nextChange))
+    if device.preferences.logDebugPrint == true then
+      print("random_totalStep=",random_totalStep[device])
+      print("NextChange=",nextChange)
+      print("time_nextChange", os.date("%H:%M:%S",device:get_field("time_nextChange")))
+    end
+
+  ------ Timer activation
   device.thread:call_on_schedule(
   30,
   function ()
-   random_Step[device] = random_Step[device] + 1
-   print("random_step, random_totalStep=",random_Step[device],random_totalStep[device])
-
-   if random_Step[device] >= random_totalStep[device] then
-
-    if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) == "on" then
-      device:send(OnOff.server.commands.Off(device))
-      device:set_field("last_state", "off", {persist = false})
-      save_energy(self, device)
-    else
-       device:send(OnOff.server.commands.On(device))
-       device:set_field("power_time_ini", os.time(), {persist = false})
-       device:set_field("last_state", "on", {persist = false})
-    end    
-    
-    if random_state == "Random" then
-     random_timer[device] = math.random(device.preferences.randomMin * 60, device.preferences.randomMax * 60)
-     random_Step[device] = 0
-     random_totalStep[device] = math.ceil(random_timer[device] / 30)
-     nextChange= os.date("%H:%M:%S",os.time() + random_timer[device] + device.preferences.localTimeOffset * 3600)
-    else
-     --Program timer calculation
-     if device:get_field("last_state") == "on" then
-      random_timer[device] = device.preferences.onTime * 60
-     else
-      random_timer[device] = device.preferences.offTime * 60
-     end 
-     random_Step[device] = 0
-     random_totalStep[device] = math.ceil(random_timer[device] / 30)
-     nextChange= os.date("%H:%M:%S",os.time() + random_timer[device] + device.preferences.localTimeOffset * 3600)
+    random_Step[device] = random_Step[device] + 1
+    if device.preferences.logDebugPrint == true then
+      print("random_step, random_totalStep=",random_Step[device],random_totalStep[device])
     end
-    --emit time for next change
-    device:emit_event(random_Next_Step.randomNext(nextChange))
-    print("NEW-random_totalStep=",random_totalStep[device])
-    print("NextChange=",nextChange)
-   end
+
+    if random_Step[device] >= random_totalStep[device] or (os.time() + (device.preferences.localTimeOffset * 3600)) > device:get_field("time_nextChange") then
+
+      if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) == "on" then
+        device:send(OnOff.server.commands.Off(device))
+        device:set_field("last_state", "off", {persist = false})
+        save_energy(self, device)
+      else
+        device:send(OnOff.server.commands.On(device))
+        device:set_field("power_time_ini", os.time(), {persist = false})
+        device:set_field("last_state", "on", {persist = false})
+      end    
+      
+      if random_state == "Random" then
+        random_timer[device] = math.random(device.preferences.randomMin * 60, device.preferences.randomMax * 60)
+        random_Step[device] = 0
+        random_totalStep[device] = math.ceil(random_timer[device] / 30)
+        --nextChange= os.date("%H:%M:%S",os.time() + random_timer[device] + device.preferences.localTimeOffset * 3600)
+      else
+      --Program timer calculation
+        if device:get_field("last_state") == "on" then
+          random_timer[device] = device.preferences.onTime * 60
+        else
+          random_timer[device] = device.preferences.offTime * 60
+        end 
+        random_Step[device] = 0
+        random_totalStep[device] = math.ceil(random_timer[device] / 30)
+        --nextChange= os.date("%H:%M:%S",os.time() + random_timer[device] + device.preferences.localTimeOffset * 3600)
+      end
+
+      nextChange= os.date("%H:%M:%S",os.time() + random_timer[device] + device.preferences.localTimeOffset * 3600)
+      local time_nextChange = os.time() + random_timer[device] + device.preferences.localTimeOffset * 3600
+      device:set_field("time_nextChange", time_nextChange, {persist = true})
+
+      --emit time for next change
+      device:emit_event(random_Next_Step.randomNext(nextChange))
+      if device.preferences.logDebugPrint == true then
+        print("NEW-random_totalStep=",random_totalStep[device])
+        print("NextChange=",nextChange)
+        print("time_nextChange", os.date("%H:%M:%S",device:get_field("time_nextChange")))
+      end
+    end
   end
   ,'Random-ON-OFF')   
  end
