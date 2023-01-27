@@ -289,3 +289,28 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_gvn91tmx
     model: TS011F
     deviceProfileName: switch-power-energy-plug
+  - id: "Dimmer-Switch-ZB3.0/HZC"
+    deviceLabel: HZC Dimmer
+    manufacturer: HZC
+    model: Dimmer-Switch-ZB3.0
+    deviceProfileName: level-power-energy-light
+  - id: "_TZ3000_g5xawfcq/TS0121"
+    deviceLabel: TS0121 Plug
+    manufacturer: _TZ3000_g5xawfcq
+    model: TS0121
+    deviceProfileName: switch-power-energy-plug
+  - id: "_TZ3000_gznh2xla/TS011F"
+    deviceLabel: TS011F Plug
+    manufacturer: _TZ3000_gznh2xla
+    model: TS011F
+    deviceProfileName: switch-power-energy-plug
+  - id: "OSRAM Plug 01"
+    deviceLabel: OSRAM_Plug 01
+    manufacturer: OSRAM
+    model: Plug 01
+    deviceProfileName: switch-power-plug
+  - id: "Third Reality/3RSP02028BZ"
+    deviceLabel: Third Reality Plug
+    manufacturer: Third Reality, Inc
+    model: 3RSP02028BZ
+    deviceProfileName: switch-power-plug

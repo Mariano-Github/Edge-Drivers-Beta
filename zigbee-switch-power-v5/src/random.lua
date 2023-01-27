@@ -1,12 +1,12 @@
 --- Smartthings library load ---
 local capabilities = require "st.capabilities"
-local ZigbeeDriver = require "st.zigbee"
-local defaults = require "st.zigbee.defaults"
+--local ZigbeeDriver = require "st.zigbee"
+--local defaults = require "st.zigbee.defaults"
 local zcl_clusters = require "st.zigbee.zcl.clusters"
 local OnOff = zcl_clusters.OnOff
-local zigbee_constants = require "st.zigbee.constants"
-local ElectricalMeasurement = zcl_clusters.ElectricalMeasurement
-local SimpleMetering = zcl_clusters.SimpleMetering
+--local zigbee_constants = require "st.zigbee.constants"
+--local ElectricalMeasurement = zcl_clusters.ElectricalMeasurement
+--local SimpleMetering = zcl_clusters.SimpleMetering
 local Groups = zcl_clusters.Groups
 
 local write = require "writeAttribute"

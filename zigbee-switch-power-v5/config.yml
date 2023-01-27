@@ -1,4 +1,5 @@
 name: 'Zigbee Switch Power Mc'
 packageKey: 'Zigbee_Switch_Power-v5'
+description: 'Devices Supported: https://github.com/Mariano-Github/Edge-Drivers-Beta/blob/main/zigbee-switch-power-v5/fingerprints.yml'
 permissions:
   zigbee: {}
