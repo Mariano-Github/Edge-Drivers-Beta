@@ -1,5 +1,0 @@
-name: 'Zigbee Multi Switch and Child Mc'
-packageKey: 'Zigbee_Multi_Switch-v4'
-description: 'Devices: https://github.com/Mariano-Github/Edge-Drivers-Beta/blob/main/zigbee-multi-switch-v3.5-childs/fingerprints.yml'
-permissions:
-  zigbee: {}
