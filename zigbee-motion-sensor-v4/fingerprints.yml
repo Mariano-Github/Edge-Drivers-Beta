@@ -259,3 +259,23 @@ zigbeeManufacturer:
     manufacturer: TUYATEC-dxnohkpd
     model: RH3040
     deviceProfileName: motion-battery
+  - id: "D-Link/DCH-B122"
+    deviceLabel: D-Link Motion Sensor
+    manufacturer: D-Link
+    model: DCH-B122
+    deviceProfileName: motion-battery
+  - id: "Universal Electronics/URC4470BC0-X-R"
+    deviceLabel: Motion Sensor
+    manufacturer: Universal Electronics Inc
+    model: URC4470BC0-X-R
+    deviceProfileName: motion-temp-battery
+  - id: "Visonic/MP-841"
+    deviceLabel: Visonic Motion Sensor
+    manufacturer: Visonic
+    model: MP-841
+    deviceProfileName: motion-temp-battery
+  - id: "SmartThings-Motionv4"
+    deviceLabel: SmartThings Motion Sensor
+    manufacturer: SmartThings
+    model: motionv4
+    deviceProfileName: motion-temp-battery

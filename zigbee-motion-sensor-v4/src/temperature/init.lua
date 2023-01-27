@@ -22,6 +22,10 @@ local can_handle = function(opts, driver, device)
     return device:get_manufacturer() == "frient A/S"
   elseif device:get_manufacturer() == "iMagic by GreatStar" and device:get_model() == "1117-S" then
     return device:get_manufacturer() == "iMagic by GreatStar"
+  elseif device:get_manufacturer() == "Universal Electronics Inc" then
+    return device:get_manufacturer() == "Universal Electronics Inc"
+  elseif device:get_manufacturer() == "Visonic" then
+    return device:get_manufacturer() == "Visonic"
   end
 end
 
@@ -37,6 +41,8 @@ local function do_configure(self,device)
       device:get_manufacturer() == "SmartThings" or
       device:get_manufacturer() == "Bosch" or
       device:get_manufacturer() == "CentraLite" or
+      device:get_manufacturer() == "Universal Electronics Inc" or
+      device:get_manufacturer() == "Visonic" or
       (device:get_manufacturer() == "iMagic by GreatStar" and device:get_model() == "1117-S") then
 
         device:send(device_management.build_bind_request(device, zcl_clusters.PowerConfiguration.ID, self.environment_info.hub_zigbee_eui))
@@ -54,7 +60,7 @@ end
 local temp_sensor = {
     NAME = "MultiSensor",
     lifecycle_handlers = {
-      doConfigure = do_configure
+      doConfigure = do_configure,
     },
     zigbee_handlers = {
       attr = {

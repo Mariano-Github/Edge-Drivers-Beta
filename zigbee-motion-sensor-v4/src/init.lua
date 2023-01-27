@@ -68,7 +68,7 @@ local function do_preferences(self, device)
         local maxTime = device.preferences.maxTime * 60
         local changeRep = device.preferences.changeRep
          print ("maxTime y changeRep: ", maxTime, changeRep)
-          device:send(device_management.build_bind_request(device, tempMeasurement.ID, self.environment_info.hub_zigbee_eui))
+          --device:send(device_management.build_bind_request(device, tempMeasurement.ID, self.environment_info.hub_zigbee_eui))
           device:send(tempMeasurement.attributes.MeasuredValue:configure_reporting(device, 30, maxTime, changeRep))
 
       --- Configure motionSensitivity IAS cluster 0x0500 and attribute 0013 
@@ -80,6 +80,12 @@ local function do_preferences(self, device)
         --write atribute for zigbee standard devices
         local attr_id = 0x0013
         write.write_attribute_function(device, cluster_id, attr_id, data_value)
+
+        device.thread:call_with_delay(3, function(d)
+          --device:send_to_component("main", zcl_clusters.Basic.attributes.ApplicationVersion:read(device))
+          device:send_to_component("main", zcl_clusters.IASZone.attributes.CurrentZoneSensitivityLevel:read(device))
+          device:send_to_component("main", zcl_clusters.IASZone.attributes.NumberOfZoneSensitivityLevelsSupported:read(device))
+        end)
       end
      end
   end
@@ -89,13 +95,6 @@ local function do_preferences(self, device)
    local model = device:get_model()
    local manufacturer_len = string.len(manufacturer)
    local model_len = string.len(model)
-
-    device.thread:call_with_delay(3, function(d)
-      --device:send_to_component("main", zcl_clusters.Basic.attributes.ApplicationVersion:read(device))
-      device:send_to_component("main", zcl_clusters.IASZone.attributes.CurrentZoneSensitivityLevel:read(device))
-      device:send_to_component("main", zcl_clusters.IASZone.attributes.NumberOfZoneSensitivityLevelsSupported:read(device))
-    end)
-   
  
    print("Device ID >>>", device)
    print("Manufacturer >>>", manufacturer, "Manufacturer_Len >>>",manufacturer_len)
@@ -107,7 +106,7 @@ end
 
 -- do_configure
 local function do_configure(self,device)
-  --device:configure()
+  device:configure() -- mod (09/01/2023)
   if device:get_manufacturer() == "frient A/S" or 
       device:get_manufacturer() == "IKEA of Sweden" or
       device:get_manufacturer() == "SmartThings" or
@@ -115,6 +114,8 @@ local function do_configure(self,device)
       device:get_manufacturer() == "Konke" or
       device:get_manufacturer() == "NYCE"  or
       device:get_manufacturer() == "CentraLite" or
+      device:get_manufacturer() == "Universal Electronics Inc" or
+      device:get_manufacturer() == "Visonic" or
       (device:get_manufacturer() == "iMagic by GreatStar" and device:get_model() == "1117-S") then
 
         device:send(device_management.build_bind_request(device, zcl_clusters.PowerConfiguration.ID, self.environment_info.hub_zigbee_eui))
@@ -169,6 +170,7 @@ local function NumberOfZoneSensitivityLevelsSupported_handler(self, device, valu
 end
 
 local function do_init(self, device)
+  --print("<<<<< do_init for Main int.lua >>>>>>")
 
   if device:get_latest_state("main", signal_Metrics.ID, signal_Metrics.signalMetrics.NAME) == nil then
     device:emit_event(signal_Metrics.signalMetrics({value = "Waiting Zigbee Message"}, {visibility = {displayed = false }}))
@@ -197,6 +199,7 @@ local function battery_percentage_handler(driver, device, raw_value, zb_rx)
 
   if device:get_manufacturer() == "Samjin" then
     local raw_percentage = raw_value.value - (200 - raw_value.value) / 2
+    print("raw_value >>>>",raw_value.value)
     print("raw_percentage >>>>",raw_percentage)
     local percentage = utils.clamp_value(utils.round(raw_percentage / 2), 0, 100)
     device:emit_event(capabilities.battery.battery(percentage))
@@ -208,7 +211,15 @@ end
 
 --- do_driverSwitched
 local function do_driverSwitched(self, device)
-  device:configure()
+  --device:configure() -- mod (09/01/2023)
+  if device:supports_capability_by_id(capabilities.temperatureMeasurement.ID) then
+    local maxTime = device.preferences.maxTime * 60
+    local changeRep = device.preferences.changeRep
+    print ("maxTime:", maxTime, "changeRep:", changeRep)
+    device:send(device_management.build_bind_request(device, tempMeasurement.ID, self.environment_info.hub_zigbee_eui))
+    --device.thread:call_with_delay(2, function() device:send(tempMeasurement.attributes.MeasuredValue:configure_reporting(device, 30, maxTime, changeRep)) end)
+    device:send(tempMeasurement.attributes.MeasuredValue:configure_reporting(device, 30, maxTime, changeRep))
+  end
   do_configure(self, device)
 end
 
@@ -254,10 +265,10 @@ zigbee_handlers = {
   sub_drivers = { require("aurora"),
                   require("ikea"),
                   --require("iris"),
+                  require("tuya"),
                   require("gatorsystem"),
                   require("motion_timeout"),
                   require("nyce"),
-                  require("tuya"),
                   require("zigbee-plugin-motion-sensor"),
                   require("battery"),
                   require("temperature"),

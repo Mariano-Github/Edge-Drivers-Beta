@@ -20,7 +20,6 @@ local messages = require "st.zigbee.messages"
 local mgmt_bind_resp = require "st.zigbee.zdo.mgmt_bind_response"
 local mgmt_bind_req = require "st.zigbee.zdo.mgmt_bind_request"
 local zdo_messages = require "st.zigbee.zdo"
-
 local signal = require "signal-metrics"
 
 --local PowerConfiguration = clusters.PowerConfiguration
@@ -103,10 +102,10 @@ local function tuya_handler_illuminance(self, device, zb_rx)
 end
 
 local function tuya_handler(self, device, zb_rx)
-  -- emit signal metrics
-  signal.metrics(device, zb_rx)
-  
-  -- dispatch table
+
+    -- emit signal metrics
+    signal.metrics(device, zb_rx)
+
   local dp_table = {
     [0x01] = tuya_handler_motion,
     [0x04] = tuya_handler_battery,
@@ -114,7 +113,6 @@ local function tuya_handler(self, device, zb_rx)
     -- Zigbee EUI + Network ID
     --[0xe2] = GenericBody:  00 01 E2 55 44 33 22 11 00 11 00
   }
-  
   local version = zb_rx.body.zcl_body.body_bytes:byte(1)
   local sequence = zb_rx.body.zcl_body.body_bytes:byte(2)
   local dp = zb_rx.body.zcl_body.body_bytes:byte(3)

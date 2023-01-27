@@ -22,6 +22,10 @@ local can_handle = function(opts, driver, device)
     return device:get_manufacturer() == "NYCE"
   elseif device:get_manufacturer() == "IKEA of Sweden" then
     return device:get_manufacturer() == "IKEA of Sweden"
+  elseif device:get_manufacturer() == "Universal Electronics Inc" then
+    return device:get_manufacturer() == "Universal Electronics Inc"
+  elseif device:get_manufacturer() == "Visonic" then
+    return device:get_manufacturer() == "Visonic"
   end
 end
 
@@ -46,13 +50,13 @@ local battery_handler = function(driver, device, value, zb_rx)
 
     return
   --end
-  elseif device:get_manufacturer() == "frient A/S" or device:get_manufacturer() == "IKEA of Sweden" then
+  elseif device:get_manufacturer() == "frient A/S" or device:get_manufacturer() == "IKEA of Sweden" or device:get_manufacturer() == "Visonic" then
     minVolts = 2.1
     maxVolts = 3.0
   elseif device:get_manufacturer() == "iMagic by GreatStar" and device:get_model() == "1117-S" then
     minVolts = 2.4
     maxVolts = 2.7
-  elseif device:get_manufacturer() == "NYCE" then
+  elseif device:get_manufacturer() == "NYCE" or device:get_manufacturer() == "Universal Electronics Inc" then
     minVolts = 2.1
     maxVolts = 3.0
   elseif device:get_manufacturer() == "Bosch" then
