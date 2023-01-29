@@ -284,14 +284,10 @@ local function thermostatMode_handler(self,device,command)
   end
 
   ---- set thermostat lock status
-  if thermostat_Mode == "away" or thermostat_Mode == "manual" then
+  if (thermostat_Mode == "away" or thermostat_Mode == "manual") and device:get_field("thermostat_Lock") == "Unlocked" then
     device:emit_event(thermostat_Locked.thermostatLocked("Locked"))
     --Save thermostat_Locked
     device:set_field("thermostat_Lock", "Locked", {persist = true})
-  else
-    device:emit_event(thermostat_Locked.thermostatLocked("Unlocked"))
-    --Save thermostat_Locked
-    device:set_field("thermostat_Lock", "Unlocked", {persist = true})
   end
 
   --- set thermostat or fan cycle run
