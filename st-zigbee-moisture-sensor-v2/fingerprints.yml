@@ -99,3 +99,8 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_2wcynpml
     model: TS0207
     deviceProfileName: moisture-battery
+  - id: "_TZ3000_d16y6col/Sensor"
+    deviceLabel: TS0207 Water Sensor
+    manufacturer: _TZ3000_d16y6col
+    model: TS0207
+    deviceProfileName: moisture-battery
