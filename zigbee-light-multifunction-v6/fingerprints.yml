@@ -393,7 +393,12 @@ zigbeeManufacturer:
     deviceLabel: Light Gledopto
     manufacturer: GLEDOPTO
     model: GL-S-004Z
-    deviceProfileName: level-colortemp-2700-6500
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "GL-S-005Z/Gledopto"
+    deviceLabel: Light Gledopto
+    manufacturer: GLEDOPTO
+    model: GL-S-005Z
+    deviceProfileName: rgbw-level-colortemp-2700-6500
   - id: "GL-C-002P/Gledopto"
     deviceLabel: Light Gledopto
     manufacturer: GLEDOPTO
@@ -769,6 +774,56 @@ zigbeeManufacturer:
     manufacturer: IKEA of Sweden
     model: TRADFRI bulb E14 WS globe 470lm
     deviceProfileName: level-colortemp-2200-4000
+  - id: "AduroSmart/BDP3001"
+    deviceLabel: AduroSmart BDP3001
+    manufacturer: AduroSmart Eria
+    model: BDP3001
+    deviceProfileName: switch-level
+  - id: "GL-C-001P/Gledopto"
+    deviceLabel: Light Gledopto
+    manufacturer: GLEDOPTO
+    model: GL-C-001P
+    deviceProfileName: level-colortemp-2700-6500
+  - id: "_TZ3210_eejm8dcr/TS0505B"
+    deviceLabel: RGBW TS0505B
+    manufacturer: _TZ3210_eejm8dcr
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "Aurora/RGBGU10Bulb50AU"
+    deviceLabel: RGBW Aurora
+    manufacturer: Aurora
+    model: RGBGU10Bulb50AU
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "Aurora/RGBBulb51AU"
+    deviceLabel: RGBW Aurora
+    manufacturer: Aurora
+    model: RGBBulb51AU
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "Aurora/TWGU10Bulb50AU"
+    deviceLabel: TWGU10 Aurora
+    manufacturer: Aurora
+    model: TWGU10Bulb50AU
+    deviceProfileName: level-colortemp-2000-6500
+  - id: "LEEDARSON/LED_GU1O_OWDT"
+    deviceLabel: LEEDARSON LED_GU1O_OWDT
+    manufacturer: LEEDARSON LIGHTING
+    model: LED_GU1O_OWDT
+    deviceProfileName: level-colortemp-2700-6500
+  - id: sengled/E1F-N5E
+    deviceLabel: Sengled Light
+    manufacturer: sengled
+    model: E1F-N5E
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZ3210_r5afgmkl/TS0505B"
+    deviceLabel: RGBW TS0505B
+    manufacturer: _TZ3210_r5afgmkl
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "AduroSmart/LED Strip V1.0"
+    deviceLabel: AduroSmart RGBW
+    manufacturer: AduroSmart Eria
+    model: Extended Color LED Strip V1.0
+    deviceProfileName: rgbw-level-colortemp-2700-6500
 
   # XY Color
   - id: "IKEA/E27 CWS 806lm"
@@ -851,6 +906,43 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_obacbukl
     model: TS0503A
     deviceProfileName: level-rgb
+  - id: "TRADFRI bulb E26 CWS 800lm"
+    deviceLabel: IKEA E26 Bulb
+    manufacturer: IKEA of Sweden
+    model: TRADFRI bulb E26 CWS 800lm
+    deviceProfileName: rgbw-level-colortemp-2200-4000
+  - id: "TRADFRI bulb E12 CWS 450lm"
+    deviceLabel: IKEA E12 Bulb
+    manufacturer: IKEA of Sweden
+    model: TRADFRI bulb E12 CWS 450lm
+    deviceProfileName: rgbw-level-colortemp-2200-4000
+
+  # Dimmers
+  - id: "3A-Smart-Home/LXN56-DC27LX1.1"
+    deviceLabel: Nue Inline Dimmer
+    manufacturer: 3A Smart Home DE
+    model: LXN56-DC27LX1.1
+    deviceProfileName: switch-level
+  - id: "3A-Smart-Home/LXN56-DS27LX1.1"
+    deviceLabel: Nue Dimmer Switch
+    manufacturer: 3A Smart Home DE
+    model: LXN56-DS27LX1.1
+    deviceProfileName: switch-level
+  - id: "3A-Smart-Home/LXN60-DS27LX1.3"
+    deviceLabel: Nue Dimmer Switch
+    manufacturer: 3A Smart Home DE
+    model: LXN60-DS27LX1.3
+    deviceProfileName: switch-level
+  - id: "3A-Smart-Home/LXN56-DS27LX1.3"
+    deviceLabel: Nue Dimmer Switch
+    manufacturer: 3A Smart Home DE
+    model: LXN56-DS27LX1.3
+    deviceProfileName: switch-level
+  - id: "CentraLite/4256050-ZHAC"
+    deviceLabel: CentraLite Dimmer Plug
+    manufacturer: CentraLite Systems
+    model: 4256050-ZHAC
+    deviceProfileName: switch-level
 
 zigbeeGeneric:
   - id: "dimmer-generic ZLL"
