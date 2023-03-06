@@ -24,6 +24,11 @@ zigbeeManufacturer:
     manufacturer: Eva
     model: Meter Reader
     deviceProfileName: power-meter-temp
+  - id: "Climax/PCM_00.00.03.09TC"
+    deviceLabel: Climax Energy Monitor
+    manufacturer: Climax Technology
+    model: PCM_00.00.03.09TC
+    deviceProfileName: power-energy-meter
 zigbeeGeneric:
   - id: "genericMeter"
     deviceLabel: Zigbee Meter
