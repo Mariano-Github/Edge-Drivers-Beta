@@ -1,4 +1,0 @@
-name: 'ST-Zigbee Motion Sensor'
-packageKey: 'st-zigbee-motion-sensor'
-permissions:
-  zigbee: {}
