@@ -549,18 +549,67 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_6s5dc9lx
     model: TS011F
     deviceProfileName: two-switch-power-energy
-  - id: "FeiBit/FB56-ZSW1JK2.5"
+  - id: "FeiBit/FB56-ZSW1JKJ2.5"
     deviceLabel: FeiBit 4 Switch
     manufacturer: Feibit Inc co.
-    model: FB56+ZSW1JK2.5
+    model: FB56+ZSW1JKJ2.5
     deviceProfileName: four-switch
-  
+  - id: "_TZ3000_mdj7kra9/TS0004"
+    deviceLabel: TS0004 Switch
+    manufacturer: _TZ3000_mdj7kra9
+    model: TS0004
+    deviceProfileName: four-switch
+  - id: "Lumi Vietnam/LM-SZ4"
+    deviceLabel: LM-SZ4 Switch
+    manufacturer: Lumi Vietnam
+    model: LM-SZ4
+    deviceProfileName: four-switch
+  - id: "Lumi Vietnam/LM-SZ2"
+    deviceLabel: LM-SZ2 Switch
+    manufacturer: Lumi Vietnam
+    model: LM-SZ2
+    deviceProfileName: two-switch
+  - id: "LUMI/LM-SZ3"
+    deviceLabel: LM-SZ3 Switch
+    manufacturer: LUMI
+    model: LM-SZ3
+    deviceProfileName: three-switch
+  - id: "Lumi Vietnam/LM-SZ3"
+    deviceLabel: LM-SZ3 Switch
+    manufacturer: Lumi Vietnam
+    model: LM-SZ3
+    deviceProfileName: three-switch
+  - id: "TYZB01_b1ngbmlm/Plug"
+    deviceLabel: TYZB01 Plug + USB
+    manufacturer: _TYZB01_b1ngbmlm
+    model: TS0112
+    deviceProfileName: two-outlet
+  - id: "_TZ3000_fxjdcikv/TS0014"
+    deviceLabel: TS0014 Switch
+    manufacturer: _TZ3000_fxjdcikv
+    model: TS0014
+    deviceProfileName: four-switch
+  - id: "TS011F/_TZ3210_raqjcxo5"
+    deviceLabel: TS011F Double Plug
+    manufacturer: _TZ3210_raqjcxo5
+    model: TS011F
+    deviceProfileName: two-switch-power-energy-1
+  - id: "TS011F/_TZ3000_dd8wwzcy"
+    deviceLabel: TS011F Double Plug
+    manufacturer: _TZ3000_dd8wwzcy
+    model: TS011F
+    deviceProfileName: two-switch-power-energy-1
+  - id: "TERNCY-SM01-D3"
+    deviceLabel: TERNCY-SM01-D3
+    # manufacturer: TERNCY
+    model: TERNCY-SM01-D3
+    deviceProfileName: three-switch
 
     # level devices
   - id: "TS110E/_TZ3210_pagajpog"
     deviceLabel: TS110E Dimmer
     manufacturer: _TZ3210_pagajpog
-    model: TS110E
+    model: TS0110E
     deviceProfileName: two-switch-level
   - id: "TS110F/_TYZB01_v8gtiaed"
     deviceLabel: TS110F Dimmer
