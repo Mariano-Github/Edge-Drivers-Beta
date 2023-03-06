@@ -56,6 +56,7 @@ local function curtain_switch_handler(driver, device, value, zb_rx)
 
   device:emit_event(device_Info.deviceInfo(str))
 
+  device:refresh()
 end
 
 local function accurate_calibration_handler(driver, device, value, zb_rx)
@@ -70,7 +71,7 @@ local function accurate_calibration_handler(driver, device, value, zb_rx)
   str = time .. str
 
   device:emit_event(device_Info.deviceInfo(str))
- 
+
 end
 
 local function travel_time_handler(driver, device, value, zb_rx)
@@ -129,7 +130,7 @@ local tuya_handler = {
         [0xF000] = curtain_switch_handler,
         [0xF001] = accurate_calibration_handler,
         [0xF003] = travel_time_handler,
-        [0x0008] = default_current_lift_percentage_handler
+        --[0x0008] = default_current_lift_percentage_handler
       },
     }
   },
