@@ -34,11 +34,6 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_f1bapcit
     model: TS011F
     deviceProfileName: switch-power-energy
-  - id: "TYZB01_b1ngbmlm/Plug"
-    deviceLabel: TYZB01 Plug
-    manufacturer: _TYZB01_b1ngbmlm
-    model: TS0112
-    deviceProfileName: switch-power-energy-plug
   - id: "CentraLite/3210-L"
     deviceLabel: CentraLite Plug
     manufacturer: CentraLite
@@ -314,3 +309,8 @@ zigbeeManufacturer:
     manufacturer: Third Reality, Inc
     model: 3RSP02028BZ
     deviceProfileName: switch-power-plug
+  - id: "_TZ3000_tgddllx4/TS0001"
+    deviceLabel: TS0001 Plug
+    manufacturer: _TZ3000_tgddllx4
+    model: TS0001
+    deviceProfileName: switch-power-energy-plug
