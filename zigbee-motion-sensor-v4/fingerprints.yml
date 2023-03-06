@@ -279,3 +279,28 @@ zigbeeManufacturer:
     manufacturer: SmartThings
     model: motionv4
     deviceProfileName: motion-temp-battery
+  - id: "_TZ3000_6ygjfyll/Motion"
+    deviceLabel: TS0202 Motion Sensor
+    manufacturer: _TZ3000_6ygjfyll
+    model: TS0202
+    deviceProfileName: motion-battery
+  - id: "_TZ3000_0b0c7d6h/Motion"
+    deviceLabel: TS0202 Motion Sensor
+    manufacturer: _TZ3000_0b0c7d6h
+    model: TS0202
+    deviceProfileName: motion-battery
+  - id: "585fdfb8c2304119a2432e9845cf2623"
+    deviceLabel: Orvibo Motion Sensor
+    manufacturer: 欧瑞
+    model: 585fdfb8c2304119a2432e9845cf2623
+    deviceProfileName: motion-battery
+  - id: "_TZ3000_mg4dy6z6/Motion"
+    deviceLabel: TS0202 Motion Sensor
+    manufacturer: _TZ3000_mg4dy6z6
+    model: TS0202
+    deviceProfileName: motion-battery
+  - id: "EZVIZ/CS-T1C-A0-BG"
+    deviceLabel: EZVIZ Motion Sensor
+    manufacturer: EZVIZ
+    model: CS-T1C-A0-BG
+    deviceProfileName: motion-battery
