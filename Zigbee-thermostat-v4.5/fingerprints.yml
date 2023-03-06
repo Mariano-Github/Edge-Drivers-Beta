@@ -194,3 +194,8 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_itnrsufe
     model: TS0201
     deviceProfileName: temp-humid-therm-battery-05
+  - id: "samjin/Button"
+    deviceLabel: SmartThings Button
+    manufacturer: Samjin
+    model: button
+    deviceProfileName: button-temp-therm-battery-05
