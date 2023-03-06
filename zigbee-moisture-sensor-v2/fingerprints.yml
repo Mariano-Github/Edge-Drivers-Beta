@@ -1,0 +1,111 @@
+zigbeeManufacturer:
+  - id: "SmartThings-Moisture-Sensor"
+    deviceLabel: ST Water Sensor
+    manufacturer: Samjin
+    model: water
+    deviceProfileName: moisture-temp-battery
+  - id: "SmartThings-F-ADT-WTR-1-Sensor"
+    deviceLabel: ST ADT Water Sensor
+    manufacturer: Nortek Security and Control
+    model: F-ADT-WTR-1
+    deviceProfileName: moisture-temp-battery-volts
+  - id: "SmartThings-CentraLite-Sensor"
+    deviceLabel: ST CentraLite Water Sensor
+    manufacturer: CentraLite
+    model: 3315-S
+    deviceProfileName: moisture-temp-battery-volts
+  - id: "SmartThings/moisturev4 Sensor"
+    deviceLabel: SmartThings moisture Sensor
+    manufacturer: SmartThings
+    model: moisturev4
+    deviceProfileName: moisture-temp-battery
+  - id: "3315-CentraLite-Sensor"
+    deviceLabel: ST CentraLite Water Sensor
+    manufacturer: CentraLite
+    model: 3315
+    deviceProfileName: moisture-temp-battery-volts
+  - id: "3315-Seu-CentraLite-Sensor"
+    deviceLabel: ST CentraLite Water Sensor
+    manufacturer: CentraLite
+    model: 3315-Seu
+    deviceProfileName: moisture-temp-battery-volts
+  - id: "_TZ3000_it1hm1cr-Sensor"
+    deviceLabel: TS0207 Water Sensor
+    manufacturer: _TZ3000_it1hm1cr
+    model: TS0207
+    deviceProfileName: moisture-battery
+  - id: "_TZ3000_kyb656no-Sensor"
+    deviceLabel: TS0207 Water Sensor
+    manufacturer: _TZ3000_kyb656no
+    model: TS0207
+    deviceProfileName: moisture-battery
+  - id: "_TZ3000_upgcbody-Sensor"
+    deviceLabel: TS0207 Water Sensor
+    manufacturer: _TZ3000_upgcbody
+    model: TS0207
+    deviceProfileName: moisture-battery
+  - id: "_TZ3000_85czd6fy-Sensor"
+    deviceLabel: TS0207 Water Sensor
+    manufacturer: _TZ3000_85czd6fy
+    model: TS0207
+    deviceProfileName: moisture-battery
+  - id: "HEIMAN-EF-3.0"
+    deviceLabel: HEIMAN Water Sensor
+    manufacturer: HEIMAN
+    model: WaterSensor-EF-3.0
+    deviceProfileName: moisture-battery
+  - id: "_TYZB01_sqmd19i1-Sensor"
+    deviceLabel: TS0207 Water Sensor
+    manufacturer: _TYZB01_sqmd19i1
+    model: TS0207
+    deviceProfileName: moisture-battery
+  - id: "_TZ3000_qdmnmddg-Sensor"
+    deviceLabel: TS0207 Water Sensor
+    manufacturer: _TZ3000_qdmnmddg
+    model: TS0207
+    deviceProfileName: moisture-battery
+  - id: "_TZ3000_qhozxs2b-Sensor"
+    deviceLabel: TS0207 Water Sensor
+    manufacturer: _TZ3000_qhozxs2b
+    model: TS0207
+    deviceProfileName: moisture-battery
+  - id: "3315-G/CentraLite-Sensor"
+    deviceLabel: ST CentraLite Water Sensor
+    manufacturer: CentraLite
+    model: 3315-G
+    deviceProfileName: moisture-temp-battery-volts
+  - id: "_TZ3000_ww9i3e0y-Sensor"
+    deviceLabel: TS0207 Water Sensor
+    manufacturer: _TZ3000_ww9i3e0y
+    model: TS0207
+    deviceProfileName: moisture-battery
+  - id: "_TZ3000_ocjlo4ea-Sensor"
+    deviceLabel: TS0207 Water Sensor
+    manufacturer: _TZ3000_ocjlo4ea
+    model: TS0207
+    deviceProfileName: moisture-battery
+  - id: "Lumi/SJCG11LM"
+    deviceLabel: Aqara Water Leak Sensor
+    manufacturer: LUMI
+    model: lumi.sensor_wleak.aq1
+    deviceProfileName: moisture-battery
+  - id: "_TZ3000_t6jriawg/Sensor"
+    deviceLabel: TS0207 Water Sensor
+    manufacturer: _TZ3000_t6jriawg
+    model: TS0207
+    deviceProfileName: moisture-battery
+  - id: "_TZ3000_2wcynpml/Sensor"
+    deviceLabel: TS0207 Water Sensor
+    manufacturer: _TZ3000_2wcynpml
+    model: TS0207
+    deviceProfileName: moisture-battery
+  - id: "_TYZB01_ttvdudvx-Sensor"
+    deviceLabel: TS0207 Water Sensor
+    manufacturer: _TYZB01_ttvdudvx
+    model: TS0207
+    deviceProfileName: moisture-battery
+  - id: "_TZ3000_d16y6col/Sensor"
+    deviceLabel: TS0207 Water Sensor
+    manufacturer: _TZ3000_d16y6col
+    model: TS0207
+    deviceProfileName: moisture-battery

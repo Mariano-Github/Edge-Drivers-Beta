@@ -1,0 +1,5 @@
+name: 'Zigbee Moisture Sensor Mc'
+packageKey: 'st-zigbee-moisture-sensor-v2'
+description: 'Devices Supported: https://github.com/Mariano-Github/Edge-Drivers-Beta/blob/main/st-zigbee-moisture-sensor-v2/fingerprints.yml'
+permissions:
+  zigbee: {}

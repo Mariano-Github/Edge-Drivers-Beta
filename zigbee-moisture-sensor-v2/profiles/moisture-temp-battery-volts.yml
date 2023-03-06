@@ -1,0 +1,67 @@
+name: moisture-temp-battery-volts
+components:
+- id: main
+  capabilities:
+  - id: waterSensor
+    version: 1
+  - id: temperatureMeasurement
+    version: 1
+  - id: voltageMeasurement
+    version: 1
+  - id: battery
+    version: 1
+  - id: legendabsolute60149.signalMetrics
+    version: 1
+  - id: refresh
+    version: 1
+  - id: firmwareUpdate
+    version: 1
+  categories:
+  - name: LeakSensor
+preferences:
+  - preferenceId: tempOffset
+    explicit: true  
+  - name: "version"
+    title: "Version 2.0 (Nov 2022)"
+    description: "Added Aqara Water Sensor" 
+    required: false
+    preferenceType: string
+    definition:
+      stringType: text
+      minLength: 0
+      maxLength: 0
+      default: ""
+  - name: "maxTime"
+    title: "Temperature Report Interval (min)"
+    description: "Select Temp. Report Max. Interval (5 min to 240 min)"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 5
+      maximum: 240
+      default: 15   
+  - name: "changeRep"
+    title: "Temperature Reportable Change"
+    description: "Select Temp. Reportable Change 0.1º to 6º"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 0.1
+      maximum: 6
+      default: 0.5
+  - name: "signalMetricsVisibles"
+    title: "Signal Metrics Visible in History"
+    description: "Signal Metrics Visible in App History (default: No Visible):"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Yes" : "Signal Metrics Visible"
+        "No": "Signal Metrics No Visible"
+      default: "No"
+metadata:
+  deviceType: LeakSensor
+  ocfDeviceType: x.com.st.d.sensor.moisture
+  deviceTypeId: LeakSensor
+  mnmn: SmartThingsCommunity
+  vid: b93db8fd-6dc4-3d27-bcf9-4eb12ab53928
