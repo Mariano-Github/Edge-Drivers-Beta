@@ -1,0 +1,5 @@
+name: 'Zigbee Lock Mc'
+packageKey: 'zigbee-lock'
+description: 'Device Supported:'
+permissions:
+  zigbee: {}
