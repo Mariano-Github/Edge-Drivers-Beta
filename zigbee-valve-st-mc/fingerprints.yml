@@ -63,4 +63,9 @@ zigbeeManufacturer :
     deviceLabel: Water Valve
     manufacturer: _TZ3000_tvuarksa
     model: TS0011F
-    deviceProfileName: water-valve    
+    deviceProfileName: water-valve 
+  - id: "GasValve/SG-V100-ZB"
+    deviceLabel: Dawon Valve
+    manufacturer: DAWON_DNS
+    model: SG-V100-ZB
+    deviceProfileName: valve-battery-powerSource   
