@@ -1,0 +1,24 @@
+name: power-energy-meter
+components:
+- id: main
+  capabilities:
+  - id: powerMeter
+    version: 1
+  - id: energyMeter
+    version: 1
+  - id: firmwareUpdate
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: CurbPowerMeter
+preferences:
+  - name: "simpleMeteringDivisor"
+    title: "Simple Metering Divisor key"
+    description: "Simple Metering Divisor for Energy or Instantaneus Power Calculation (default: 10000)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 1
+      maximum: 1000000
+      default: 10000

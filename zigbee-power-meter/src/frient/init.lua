@@ -84,7 +84,7 @@ local frient_power_meter_handler = {
   lifecycle_handlers = {
     init = device_init,
     doConfigure = do_configure,
-    infoChanged = do_preferences,
+    --infoChanged = do_preferences,
     driverSwitched = do_configure
   },
   can_handle = is_frient_power_meter
