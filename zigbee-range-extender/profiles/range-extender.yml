@@ -1,0 +1,23 @@
+name: range-extender
+components:
+- id: main
+  capabilities:
+  - id: legendabsolute60149.signalMetrics
+    version: 1
+  - id: firmwareUpdate
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: Networking
+preferences:
+  - name: "signalMetricsVisibles"
+    title: "Signal Metrics Visible in History"
+    description: "Signal Metrics Visible in App History (default: No Visible):"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Yes" : "Signal Metrics Visible"
+        "No": "Signal Metrics No Visible"
+      default: "No"

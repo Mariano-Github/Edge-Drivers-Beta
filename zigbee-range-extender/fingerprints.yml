@@ -1,0 +1,46 @@
+zigbeeManufacturer:
+  - id: "Rooms Beautiful/R001"
+    deviceLabel: Rooms Beautiful Repeater/Extender
+    manufacturer: Rooms Beautiful
+    model: R001
+    deviceProfileName: range-extender
+  - id: "Smartenit Inc/ZB3RE"
+    deviceLabel: Smartenit Repeater/Extender
+    manufacturer: Smartenit, Inc
+    model: ZB3RE
+    deviceProfileName: range-extender
+  - id: "IKEAofSweden/TRADFRISignalRepeater"
+    deviceLabel: IKEA Repeater/Extender
+    manufacturer: IKEA of Sweden
+    model: TRADFRI Signal Repeater
+    deviceProfileName: range-extender
+  - id: "IKEAofSweden/TRADFRIsignalrepeater"
+    deviceLabel: IKEA Repeater/Extender
+    manufacturer: IKEA of Sweden
+    model: TRADFRI signal repeater
+    deviceProfileName: range-extender
+  - id: "_TZ3000_m0vaazab/TS0207"
+    deviceLabel: TS0207 Repeater/Extender
+    manufacturer: _TZ3000_m0vaazab
+    model: TS0207
+    deviceProfileName: range-extender
+  - id: "_TZ3000_nkkl7uzv/TS0207"
+    deviceLabel: TS0207 Repeater/Extender
+    manufacturer: _TZ3000_nkkl7uzv
+    model: TS0207
+    deviceProfileName: range-extender
+  - id: "_TZ3000_gszjt2xx/TS0207"
+    deviceLabel: TS0207 Repeater/Extender
+    manufacturer: _TZ3000_gszjt2xx
+    model: TS0207
+    deviceProfileName: range-extender
+  - id: "_TZ3000_ufttklsz/TS0207"
+    deviceLabel: TS0207 Repeater/Extender
+    manufacturer: _TZ3000_ufttklsz
+    model: TS0207
+    deviceProfileName: range-extender
+  - id: "_TZ3000_5k5vh43t/TS0207"
+    deviceLabel: TS0207 Repeater/Extender
+    manufacturer: _TZ3000_5k5vh43t
+    model: TS0207
+    deviceProfileName: range-extender
