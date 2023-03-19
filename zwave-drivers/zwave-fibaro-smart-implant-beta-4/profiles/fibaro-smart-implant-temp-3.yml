@@ -1,0 +1,395 @@
+name: fibaro-smart-implant-temp-3
+components:
+- id: main
+  label: Internal Temperature
+  capabilities:
+    - id: temperatureMeasurement
+      version: 1
+      config:
+      values:
+        - key: "temperature.value"
+          range: [ -50, 250 ]
+    - id: refresh
+      version: 1
+  categories:
+  - name: Thermostat
+- id: externalTemp1
+  label: External Temperature-1
+  capabilities:
+    - id: temperatureMeasurement
+      version: 1
+      config:
+      values:
+        - key: "temperature.value"
+          range: [ -50, 250 ]
+    - id: refresh
+      version: 1
+  categories:
+  - name: Thermostat
+- id: externalTemp2
+  label: External Temperature-2
+  capabilities:
+    - id: temperatureMeasurement
+      version: 1
+      config:
+      values:
+        - key: "temperature.value"
+          range: [ -50, 250 ]
+    - id: refresh
+      version: 1
+  categories:
+  - name: Thermostat
+- id: externalTemp3
+  label: External Temperature-3
+  capabilities:
+    - id: temperatureMeasurement
+      version: 1
+      config:
+      values:
+        - key: "temperature.value"
+          range: [ -50, 250 ]
+    - id: refresh
+      version: 1
+  categories:
+  - name: Thermostat
+- id: out1
+  label: Out-1
+  capabilities:
+    - id: switch
+      version: 1
+    - id: refresh
+      version: 1
+  categories:
+  - name: Switch
+- id: out2
+  label: Out-2
+  capabilities:
+    - id: switch
+      version: 1
+    - id: refresh
+      version: 1
+  categories:
+  - name: Switch
+preferences:
+  - name: "changeProfileExtTemp"
+    title: "Select Smart Implant Profile"
+    description: "Select Smart Implant Profile. Default = 3 External Temp Probe"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "0" : "Double Switch"
+        "1" : "1 External Temp Probe"
+        "2" : "2 External Temp Probe"
+        "3" : "3 External Temp Probe"
+        "4" : "4 External Temp Probe"
+        "5" : "5 External Temp Probe"
+        "6" : "6 External Temp Probe"
+        "7" : "2 Contact Sensors + 2 Switch"
+        "8" : "2 Motion Sensors + 2 Switch"
+      default: "3"
+  - name: "internalTempOffset"
+    title: "Internal Temperature Custom Offset"
+    description: "Select Internal Temperature Custom Offset (-20.0º to +20.0º)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: -20
+      maximum: 20
+      default: 0
+  - name: "externalTempOffset1"
+    title: "External Temperature-1 Custom Offset"
+    description: "Select External Temperature Custom Offset (-20.0º to +20.0º)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: -20
+      maximum: 20
+      default: 0
+  - name: "externalTempOffset2"
+    title: "External Temperature-2 Custom Offset"
+    description: "Select External Temperature Custom Offset (-20.0º to +20.0º)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: -20
+      maximum: 20
+      default: 0
+  - name: "externalTempOffset3"
+    title: "External Temperature-3 Custom Offset"
+    description: "Select External Temperature Custom Offset (-20.0º to +20.0º)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: -20
+      maximum: 20
+      default: 0 
+  - name: "childThermostat"
+    title: "Create Virtual Thermostat 1"
+    description: "Create Virtual Thermostat Device for External Probe 1:"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "childThermostat2"
+    title: "Create Virtual Thermostat 2"
+    description: "Create Virtual Thermostat Device for External Probe 2:"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "childThermostat3"
+    title: "Create Virtual Thermostat 3"
+    description: "Create Virtual Thermostat Device for External Probe 3:"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "operatingIn1"
+    title: "Input 1 - operating mode- 20"
+    description: "This parameter 20 allows to choose mode of 1st input (IN1). Change it depending on connected device. default= Monostable button (Central Scene)"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "Normally closed alarm"
+        1: "Normally open alarm"
+        2: "Monostable button"
+        3: "Bistable button"
+        4: "Ana. IN without pull-up"
+        5: "Ana. IN with pull-up"
+      default: 2
+  - name: "operatingIn2"
+    title: "Input 2 - operating mode- 21"
+    description: "This parameter 21 allows to choose mode of 1st input (IN2). Change it depending on connected device. default= Monostable button (Central Scene)"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "Normally closed alarm"
+        1: "Normally open alarm"
+        2: "Monostable button"
+        3: "Bistable button"
+        4: "Analog IN without pull-up"
+        5: "Analog IN with pull-up"
+      default: 2
+  - name: "inputOrientation"
+    title: "Input Orientation- 24"
+    description: "This parameter 24 allows reversing operation of IN1 and IN2 inputs without changing the wiring. Use in case of incorrect wiring. Default= reversed (IN1-2nd input, IN2-1st input)"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "IN1-1st, IN2-2nd"
+        1: "IN1-2nd, IN2-1st"
+      default: 0
+  - name: "outOrientation"
+    title: "Output Orientation- 25"
+    description: "This parameter 25 allows reversing operation of OUT1 and OUT2 inputs without changing the wiring. Use in case of incorrect wiring. Default= reversed (OUT1-1st output, OUT2-2nd output)"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "OUT1-1st, OUT2-2nd"
+        1: "OUT1-2nd, OUT2-1st"
+      default: 0
+  - name: "input1SentScenes"
+    title: "input 1 Sent Scenes- 40"
+    description: "This parameter 40 defines which actions result in sending scene ID and attribute assigned to them. Parameter relevant only if parameter 20 is set to 2 or 3. Default: No scenes sent"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "No scenes sent"
+        1: "Key pressed 1 time"
+        2: "Key pressed 2 times"
+        4: "Key pressed 3 times"
+        8: "Key hold down and released"
+      default: 0
+  - name: "input2SentScenes"
+    title: "input 2 Sent Scenes- 41"
+    description: "This parameter 41 defines which actions result in sending scene ID and attribute assigned to them. Parameter relevant only if parameter 20 is set to 2 or 3. Default: No scenes sent"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "No scenes sent"
+        1: "Key pressed 1 time"
+        2: "Key pressed 2 times"
+        4: "Key pressed 3 times"
+        8: "Key hold down and released"
+      default: 0
+  - name: "input1Sensitivity"
+    title: "input 1 Sensitivity- 150"
+    description: "This parameter 150 defines the inertia time of IN1 input in alarm modes. (10ms-1000ms, 10ms step). Parameter relevant only if parameter 20 is set to 0 or 1 (alarm mode)."
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 1
+      maximum: 100
+      default: 10
+  - name: "input2Sensitivity"
+    title: "input 2 Sensitivity- 151"
+    description: "This parameter 151 defines the inertia time of IN2 input in alarm modes. (10ms-1000ms, 10ms step). Parameter relevant only if parameter 21 is set to 0 or 1 (alarm mode)."
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 100
+      default: 10
+  - name: "input1DelayAlarm"
+    title: "input 1 Delay Alarm- 152"
+    description: "This parameter 152 defines additional delay of cancelling the alarm on IN1 input in sec. (0 = no dalay). Parameter relevant only if parameter 20 is set to 0 or 1 (alarm mode)."
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 3600
+      default: 0
+  - name: "input2DelayAlarm"
+    title: "input 1 Delay Alarm- 153"
+    description: "This parameter 153 defines additional delay of cancelling the alarm on IN2 input in sec. (0 = no dalay). Parameter relevant only if parameter 21 is set to 0 or 1 (alarm mode)."
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 3600
+      default: 0
+  - name: "out1Logic"
+    title: "Out 1 Logic Operation- 154"
+    description: "This parameter 154 defines logic of OUT1 output operation. Default = Normally open and closed when active"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "Normal open-closed if active"
+        1: "Normal closed-open if active"
+      default: 0
+  - name: "out2Logic"
+    title: "Out 2 Logic Operation- 155"
+    description: "This parameter 155 defines logic of OUT1 output operation. Default = Normally open and closed when active"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "Normal open-closed if active"
+        1: "Normal closed-open if active"
+      default: 0
+  - name: "out1AutoOff"
+    title: "Output 1 - auto off- 156"
+    description: "This parameter 156 defines time after which sec OUT1 will be automatically deactivated. 0 = disabled. 1-27000 (0.1s-45min, 0.1s step). Default = 0"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 27000
+      default: 0
+  - name: "out2AutoOff"
+    title: "Output 2 - auto off- 157"
+    description: "This parameter 157 defines time after which sec OUT1 will be automatically deactivated. 0 = disabled. 1-27000 (0.1s-45min, 0.1s step). Default = 0"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 27000
+      default: 0
+  - name: "analogInputsReport"
+    title: "Analog inputs-Min change report- 63"
+    description: "This parameter 63 defines minimal change of analog input value that results in sending new report. 0= disabled. 1-100 (0.1-10V, 0.1V step). Default= 5"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 100
+      default: 5
+  - name: "analogInpIntervalReport"
+    title: "Analog inputs-periodical reports- 64"
+    description: "This parameter 64 defines reporting period of analog inputs value. 0= disabled. 60-32400 (60s-9h). Deafault = 0"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 32400
+      default: 0
+  - name: "intTempReportsThreshold"
+    title: "Temp minimal change to report- 65"
+    description: "This parameter 65 defines minimal change of Internal Temperature sensor value that results in sending new report.0= Disabled. 1-255 (0.1-25.5°C). Default= 5 "
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 255
+      default: 5
+  - name: "intTempInterval"
+    title: "Interval of Temp Reports- 66"
+    description: "This parameter 66 defines reporting period of Internal Temperature value. 0= disabled. 60-32400 (60s-9h). Deafault = 0"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 32400
+      default: 0
+  - name: "extTempReportsThreshold"
+    title: "Temp minimal change to report- 67"
+    description: "This parameter 67 defines minimal change of External Sensors value that results in sending new report.0= Disabled. 1-255 (0.1-25.5 units). Default= 5 "
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 255
+      default: 5
+  - name: "extTempInterval"
+    title: "Interval of Temp Reports- 68"
+    description: "This parameter 68 defines reporting period of External Sensors value. 0= disabled. 60-32400 (60s-9h). Deafault = 0"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 32400
+      default: 0
+  - name: "out1LocalProtection"
+    title: "Output-1 local Protection"
+    description: "Input-1 Local Operation with Output-1. Default = In-1 connected to Out-1"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "In-1 connected to Out-1"
+        2: "In-1 NOT connected to Out-1"
+      default: 0
+  - name: "out1RfProtection"
+    title: "Output-1 Zwave Protection"
+    description: "Output-1 Zwave Control. Default = Out-1 Zwave Controlled"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "Out-1 Zwave Controlled"
+        1: "Out-1 NOT Zwave Controlled"
+      default: 0
+  - name: "out2LocalProtection"
+    title: "Output-2 local Protection"
+    description: "Input-2 Operation with Output-2. Default = In-2 connected to Out-2"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "In-2 connected to Out-2"
+        2: "In-2 NOT connected to Out-2"
+      default: 0
+  - name: "out2RfProtection"
+    title: "Output-2 Zwave Protection"
+    description: "Output-2 Zwave Control. Default = Out-2 Zwave Controlled"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "Out-2 Zwave Controlled"
+        1: "Out-2 NOT Zwave Controlled"
+      default: 0
+metadata:
+  deviceType: Thermostat	
+  ocfDeviceType: oic.d.thermostat
+  deviceTypeId: Thermostat
+  # mnmn: SmartThingsCommunity
+  # vid: f39361d3-bd10-3069-83f0-ea03749ef940

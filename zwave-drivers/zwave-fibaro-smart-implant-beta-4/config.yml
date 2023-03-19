@@ -1,0 +1,5 @@
+name: 'Fibaro Smart Implant BETA-4'
+packageKey: 'zwave-fibaro-smart-implant-4'
+description: 'Devices Supported: Fibaro Smart Implant FGBS-222'
+permissions:
+  zwave: {}

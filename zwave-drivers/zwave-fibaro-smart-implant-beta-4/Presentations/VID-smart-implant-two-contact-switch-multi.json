@@ -1,0 +1,205 @@
+{
+    "mnmn": "SmartThingsCommunity",
+    "vid": "0aaac4ad-0625-311b-ac19-f3d3492da8cb",     
+    "version": "0.0.1",
+    "type": "profile",
+    "dashboard": {
+        "states": [
+            {
+                "component": "main",
+                "capability": "temperatureMeasurement",
+                "version": 1,
+                "idx": 0,
+                "group": "main",
+                "values": [],
+                "composite": true
+            },
+            {
+                "component": "in1",
+                "capability": "contactSensor",
+                "version": 1,
+                "idx": 0,
+                "group": "Input-1",
+                "values": [],
+                "composite": true
+            },
+            {
+                "component": "out1",
+                "capability": "switch",
+                "version": 1,
+                "idx": 0,
+                "group": "Out-1",
+                "values": [],
+                "composite": true
+            },
+            {
+                "component": "in2",
+                "capability": "contactSensor",
+                "version": 1,
+                "idx": 0,
+                "group": "Input-2",
+                "values": [],
+                "composite": true
+            },
+            {
+                "component": "out2",
+                "capability": "switch",
+                "version": 1,
+                "idx": 0,
+                "group": "Out-2",
+                "values": [],
+                "composite": true
+            }
+        ],
+        "actions": [
+            {
+                "component": "out1",
+                "capability": "switch",
+                "version": 1,
+                "idx": 0,
+                "group": "Out-1",
+                "inline": null
+            },
+            {
+                "component": "out2",
+                "capability": "switch",
+                "version": 1,
+                "idx": 0,
+                "group": "Out-2",
+                "inline": null
+            }
+        ],
+        "basicPlus": []
+    },
+    "detailView": [
+        {
+            "component": "main",
+            "capability": "temperatureMeasurement",
+            "version": 1,
+            "values": [
+                {
+                    "key": "temperature.value",
+                    "enabledValues": [],
+                    "range": [
+                        -50,
+                        250
+                    ]
+                }
+            ],
+            "patch": []
+        },
+        {
+            "component": "in1",
+            "capability": "contactSensor",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "out1",
+            "capability": "switch",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "out1",
+            "capability": "refresh",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "in2",
+            "capability": "contactSensor",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "out2",
+            "capability": "switch",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "out2",
+            "capability": "refresh",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "main",
+            "capability": "refresh",
+            "version": 1,
+            "values": [],
+            "patch": []
+        }
+    ],
+    "automation": {
+        "conditions": [
+            {
+                "component": "main",
+                "capability": "temperatureMeasurement",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "in1",
+                "capability": "contactSensor",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "out1",
+                "capability": "switch",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "in2",
+                "capability": "contactSensor",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "out2",
+                "capability": "switch",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            }
+        ],
+        "actions": [
+            {
+                "component": "out1",
+                "capability": "switch",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "out2",
+                "capability": "switch",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            }
+        ]
+    },
+    "presentationId": "0aaac4ad-0625-311b-ac19-f3d3492da8cb",
+    "manufacturerName": "SmartThingsCommunity"
+}
