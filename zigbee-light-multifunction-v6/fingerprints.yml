@@ -24,6 +24,11 @@ zigbeeManufacturer:
     manufacturer: sengled
     model: E11-G13
     deviceProfileName: switch-level
+  - id: "Sengled/E1F-N9G"
+    deviceLabel: Sengled E1F-N9G
+    manufacturer: sengled
+    model: E1F-N9G
+    deviceProfileName: switch-level
   - id: "IKEA/Bulb E27 WW"
     deviceLabel: IKEA Bulb
     manufacturer: IKEA of Sweden
