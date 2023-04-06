@@ -109,3 +109,8 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_d16y6col
     model: TS0207
     deviceProfileName: moisture-battery
+  - id: "PECLS01"
+    deviceLabel: PECLS01 Water Leak Sensor
+    manufacturer: Perenio
+    model: PECLS01
+    deviceProfileName: moisture-battery
