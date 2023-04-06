@@ -314,3 +314,23 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_tgddllx4
     model: TS0001
     deviceProfileName: switch-power-energy-plug
+  - id: "_TZ3000_amdymr71/TS011F"
+    deviceLabel: TS011F Plug
+    manufacturer: _TZ3000_amdymr71
+    model: TS011F
+    deviceProfileName: switch-power-energy-plug
+  - id: "lumi.switch.n0agl1/SWITCH"
+    deviceLabel: Aqara T1 Switch
+    manufacturer: LUMI
+    model: lumi.switch.n0agl1
+    deviceProfileName: switch-power-energy-plug
+  - id: "_TZ3000_tqlv4ug4/Switch"
+    deviceLabel: TS0001 Switch
+    manufacturer: _TZ3000_tqlv4ug4
+    model: TS0001
+    deviceProfileName: switch-power-energy-plug
+  - id: "_TZ3000_ynmowqk2/TS011F"
+    deviceLabel: TS011F Lidl Plug
+    manufacturer: _TZ3000_ynmowqk2
+    model: TS011F
+    deviceProfileName: switch-power-energy-plug 
