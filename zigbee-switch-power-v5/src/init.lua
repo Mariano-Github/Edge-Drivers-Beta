@@ -52,6 +52,9 @@ local do_configure = function(self, device)
     if (device:get_manufacturer() == "_TZ3000_gjnozsaz" or
       device:get_manufacturer() == "_TZ3000_gvn91tmx" or
       device:get_manufacturer() == "_TZ3000_qeuvnohg" or
+      device:get_manufacturer() == "_TZ3000_amdymr71" or
+      device:get_manufacturer() == "_TZ3000_typdpbpg" or
+      device:get_manufacturer() == "_TZ3000_ynmowqk2" or
       device:get_manufacturer() == "_TZ3000_cphmq0q7") then
         device:set_field(constants.SIMPLE_METERING_DIVISOR_KEY, 100, {persist = true})
     end
