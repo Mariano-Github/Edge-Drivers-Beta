@@ -44,3 +44,13 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_5k5vh43t
     model: TS0207
     deviceProfileName: range-extender
+  - id: "AEOTEC/WG001-Z01"
+    deviceLabel: Aeotec Range Extender Zi
+    manufacturer: AL001
+    model: WG001-Z01
+    deviceProfileName: range-extender
+  - id: "_TZ3000_misw04hq/TS0207"
+    deviceLabel: TS0207 Repeater/Extender
+    manufacturer: _TZ3000_misw04hq
+    model: TS0207
+    deviceProfileName: range-extender
