@@ -333,4 +333,4 @@ zigbeeManufacturer:
     deviceLabel: TS011F Lidl Plug
     manufacturer: _TZ3000_ynmowqk2
     model: TS011F
-    deviceProfileName: switch-power-energy-plug 
+    deviceProfileName: switch-power-energy-plug
