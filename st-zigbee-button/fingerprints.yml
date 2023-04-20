@@ -4,6 +4,11 @@ zigbeeManufacturer:
     manufacturer: Samjin
     model: button
     deviceProfileName: button-temp-battery
+  - id: "EZVIZ/Button"
+    deviceLabel: EZVIZ Button
+    manufacturer: EZVIZ
+    model: CS-T3C-A0-BG
+    deviceProfileName: button-battery
 zigbeeGeneric:
   - id: "st-Button"
     deviceLabel: "ST Button"
