@@ -854,6 +854,21 @@ zigbeeManufacturer:
     manufacturer: sengled
     model: E1F-N9G
     deviceProfileName: switch-level
+  - id: "_TZ3210_ksqwlz9v/TS0502B"
+    deviceLabel: TS0502B LED
+    manufacturer: _TZ3210_ksqwlz9v
+    model: TS0502B
+    deviceProfileName: level-colortemp-2000-6500
+  - id: "_TZ3210_jtifm80b/TS0502B"
+    deviceLabel: TS0502B LED
+    manufacturer: _TZ3210_jtifm80b
+    model: TS0502B
+    deviceProfileName: level-colortemp-2000-6500
+  - id: "_TZ3210_ijczzg9h/TS0505B"
+    deviceLabel: RGBW TS0505B
+    manufacturer: _TZ3210_ijczzg9h
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2000-6500
 
   # XY Color
   - id: "IKEA/E27 CWS 806lm"
