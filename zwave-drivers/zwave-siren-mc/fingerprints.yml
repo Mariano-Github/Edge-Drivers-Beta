@@ -70,12 +70,12 @@ zwaveManufacturer:
     productType: 0x0003
     productId: 0x1083
     deviceProfileName: zipato-alarm-battery # Modified by M. Colmenarejo 
-  - id: 0258/0003/1088
-    deviceLabel: NEO Coolcam Siren
-    manufacturerId: 0x0258
-    productType: 0x0003
-    productId: 0x1088
-    deviceProfileName: alarm-battery
+  #- id: 0258/0003/1088
+  #  deviceLabel: NEO Coolcam Siren
+  #  manufacturerId: 0x0258
+  #  productType: 0x0003
+  #  productId: 0x1088
+  #  deviceProfileName: alarm-battery
   - id: 0129/6F01/0001
     deviceLabel: Yale Siren
     manufacturerId: 0x0129
@@ -98,14 +98,14 @@ zwaveManufacturer:
     deviceLabel: Vision Siren
     manufacturerId: 0x0109
     productType: 0x2005
-    productId: 0x0518
+    ##productId: 0x0518 -- Modified for 0x0508 22-feb-23
     deviceProfileName: alarm-battery
-  - id: 0258/0003/6088
-    deviceLabel: NEO Coolcam Siren
-    manufacturerId: 0x0258
-    productType: 0x0003
-    productId: 0x6088
-    deviceProfileName: alarm-battery
+  #- id: 0258/0003/6088
+  #  deviceLabel: NEO Coolcam Siren
+  #  manufacturerId: 0x0258
+  #  productType: 0x0003
+  #  productId: 0x6088
+  #  deviceProfileName: alarm-battery # changed to coolcam-alarm-battery
   - id: 0258/0600/1028
     deviceLabel: NEO Coolcam Siren
     manufacturerId: 0x0258
@@ -137,6 +137,18 @@ zwaveManufacturer:
     productType: 0x8009
     productId: 0x1000
     deviceProfileName: base-siren
+  - id: 017F/0200/0001
+    deviceLabel: Renamed Zipato Siren
+    manufacturerId: 0x017F
+    productType: 0x0200
+    productId: 0x001
+    deviceProfileName: zipato-alarm-battery # Modified by M. Colmenarejo
+  - id: "Boundary Siren"
+    deviceLabel: Boundary Siren
+    manufacturerId: 0x044A
+    productType: 0x0004
+    productId: 0x0002
+    deviceProfileName: alarm-battery-temp-tamper
 zwaveGeneric:
   - id: "SmartAlert/Siren"
     deviceLabel: Siren
