@@ -419,7 +419,7 @@ zwaveManufacturer:
     deviceLabel: Everspring Open/Closed Sensor
     manufacturerId: 0x0060
     productType: 0x0002
-    productId: 0x0003
+    # productId: 0x0003 # 0x0002 mod 22/03/2023
     deviceProfileName: contact-battery-tamperalert
   - id: 0371/00BB
     deviceLabel: Aeotec Open/Closed Sensor
@@ -521,7 +521,7 @@ zwaveManufacturer:
     deviceLabel: Fibaro Motion Sensor
     manufacturerId: 0x010F
     productType: 0x0800
-    deviceProfileName: motion-battery-temperature-illuminance-acceleration
+    deviceProfileName: fibaro-motion-battery-temp-illuminance-accel # mod 13 mar 2023
   - id: 0084/0063/010C
     deviceLabel: SmartThings Water Leak Sensor
     manufacturerId: 0x0084
@@ -575,6 +575,37 @@ zwaveManufacturer:
     productType: 0x0003
     productId: 0x0101
     deviceProfileName: base-contact
+  - id: 044A/0004/0003
+    deviceLabel: Boundary Motion Sensor
+    manufacturerId: 0x044A
+    productType: 0x0004
+    productId: 0x0003
+    deviceProfileName: motion-battery-tamper
+  - id: 044A/0004/0007
+    deviceLabel: Boundary Contact Sensor
+    manufacturerId: 0x044A
+    productType: 0x0004
+    productId: 0x0007
+    deviceProfileName: contact-battery-tamperalert-temperature
+  - id: 0208/0201/0008
+    deviceLabel: Monoprice 24259 Contact Sensor
+    manufacturerId: 0x0208
+    productType: 0x0201
+    productId: 0x0008
+    deviceProfileName: contact-battery-tamperalert
+  - id: 0260/0168/0168
+    deviceLabel: Heiman HS1DS-Z Contact Sensor
+    manufacturerId: 0x0260
+    productType: 0x0168
+    productId: 0x0168
+    deviceProfileName: contact-battery-tamperalert
+  - id: Heiman/HS1HT-Z
+    deviceLabel: Temp Humidity Sensor
+    manufacturerId: 0x0260
+    productType: 0x8007
+    productId: 0x1000
+    deviceProfileName: humidity-temperature-battery
+    
 zwaveGeneric:
   - id: "GenericSensorAlarm"
     deviceLabel: Z-Wave Sensor
