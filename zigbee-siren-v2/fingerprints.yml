@@ -40,3 +40,8 @@ zigbeeManufacturer :
     manufacturer: frient A/S
     model: HESZB-120
     deviceProfileName: temp-alert-alarm-battery
+  - id : Develco/SIRZB-110
+    deviceLabel : Develco Siren
+    manufacturer : Develco Products A/S
+    model : SIRZB-110
+    deviceProfileName : switch-alarm
