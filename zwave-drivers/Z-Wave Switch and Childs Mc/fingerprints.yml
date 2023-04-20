@@ -42,7 +42,7 @@ zwaveManufacturer:
     deviceLabel: Eaton Dimmer Switch
     manufacturerId: 0x001A
     productType: 0x4441
-    productId: 0x0000
+  # productId: 0x0000 # 0x0502 modified 27/03/2023
     deviceProfileName: switch-level
   - id: "Inovelli/Dimmer/Power/Energy"
     deviceLabel: Inovelli Dimmer Switch
@@ -469,7 +469,7 @@ zwaveManufacturer:
     manufacturerId: 0x011A
     productType: 0x0101
     productId: 0x0603
-    deviceProfileName: switch-binary
+    deviceProfileName: smartplug-switch-2 #Mod from switch-bynary 23/03/2023
   - id: 0039/5052/3038
     deviceLabel: Honeywell Outlet
     manufacturerId: 0x0039
@@ -554,6 +554,25 @@ zwaveManufacturer:
     deviceLabel: Minoston Outlet
     manufacturerId: 0x0312
     productType: 0xFF00
+    productId: 0xFF07
+    deviceProfileName: switch-binary
+  - id: 0312/FF00/FF06 #added
+    deviceLabel: Minoston Outlet
+    manufacturerId: 0x0312
+    productType: 0xFF00
+    productId: 0xFF06
+    deviceProfileName: switch-binary
+  - id: 0312/FF00/FF01 #added
+    deviceLabel: Minoston Outlet
+    manufacturerId: 0x0312
+    productType: 0xFF00
+    productId: 0xFF01
+    deviceProfileName: switch-binary
+  - id: 0312/FF00/FF0C #added 07/feb
+    deviceLabel: Minoston Outlet
+    manufacturerId: 0x0312
+    productType: 0xFF00
+    productId: 0xFF0C
     deviceProfileName: switch-binary
   - id: 0312/C000/C003
     deviceLabel: Evalogik Outlet
@@ -690,6 +709,13 @@ zwaveManufacturer:
     deviceLabel: Minoston Dimmer Switch
     manufacturerId: 0x0312
     productType: 0xFF00
+    productId: 0xFF04
+    deviceProfileName: switch-level
+  - id: 0312/FF00/FF02 #added
+    deviceLabel: Minoston Dimmer Switch
+    manufacturerId: 0x0312
+    productType: 0xFF00
+    productId: 0xFF02
     deviceProfileName: switch-level
   - id: 0312/AA00/AA02
     deviceLabel: Evalogik Dimmer Switch
@@ -1189,7 +1215,43 @@ zwaveManufacturer:
     manufacturerId: 0x0258
     productType: 0x0200
     productId: 0x102B
-    deviceProfileName: switch-multicomponent-3
+    deviceProfileName: switch-multicomponent-4
+  - id: 0208/0101/000A
+    deviceLabel: HKZW-SO03 Outlet
+    manufacturerId: 0x0208
+    productType: 0x0101
+    productId: 0x000A
+    deviceProfileName: metering-plug
+  - id: 5254/8201/8201
+    deviceLabel: Remotec Outlet
+    manufacturerId: 0x5254
+    productType: 0x8201
+    productId: 0x8201
+    deviceProfileName: switch-binary
+  - id: 016A/0103/0060
+    deviceLabel: Oomi Outlet
+    manufacturerId: 0x016A
+    productType: 0x0103
+    productId: 0x0060
+    deviceProfileName: metering-plug
+  - id: 014F/5457/3033
+    deviceLabel: GoControl Switch
+    manufacturerId: 0x014F
+    productType: 0x5457
+    productId: 0x3033
+    deviceProfileName: switch-binary
+  - id: 0060/0004/0007
+    deviceLabel: NEXA AN-180 Outlet
+    manufacturerId: 0x0060
+    productType: 0x0004
+    productId: 0x0007
+    deviceProfileName: switch-binary
+  - id: 0060/0004/0008
+    deviceLabel: NEXA AN-179 Switch
+    manufacturerId: 0x0060
+    productType: 0x0004
+    productId: 0x0008
+    deviceProfileName: switch-binary
 
 zwaveGeneric:
   - id: "GenericSwitch/1"
