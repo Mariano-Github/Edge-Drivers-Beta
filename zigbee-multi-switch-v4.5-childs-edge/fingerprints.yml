@@ -604,6 +604,41 @@ zigbeeManufacturer:
     # manufacturer: TERNCY
     model: TERNCY-SM01-D3
     deviceProfileName: three-switch
+  - id: "TS0002/_TZ3000_in5qxhtt"
+    deviceLabel: TS0002 2 Switch
+    manufacturer: _TZ3000_in5qxhtt
+    model: TS0002
+    deviceProfileName: two-switch
+  - id: "NodOn/SIN-4-2-20"
+    deviceLabel: Lighting Relay Switch
+    manufacturer: NodOn
+    model: SIN-4-2-20
+    deviceProfileName: two-switch
+  - id: "NodOn/SIN-4-2-20-PRO"
+    deviceLabel: Lighting Relay Switch PRO
+    manufacturer: NodOn
+    model: SIN-4-2-20-PRO
+    deviceProfileName: two-switch
+  - id: "TS0012/_TZ3000_yhbwevhs"
+    deviceLabel: TS0012 Switch
+    manufacturer: _TZ3000_yhbwevhs
+    model: TS0012
+    deviceProfileName: two-switch
+  - id: "TS0012/_TZ3000_ugaem1nb"
+    deviceLabel: TS0012 Switch
+    manufacturer: _TZ3000_ugaem1nb
+    model: TS0012
+    deviceProfileName: two-switch
+  - id: "Zemismart/_TZ3000_qcgw8qfa"
+    deviceLabel: Zemismart TS0002 Switch
+    manufacturer: _TZ3000_qcgw8qfa
+    model: TS0002
+    deviceProfileName: two-switch
+  - id: "TS011F/_TZ3000_jak16dll"
+    deviceLabel: TS011F Double Plug
+    manufacturer: _TZ3000_jak16dll
+    model: TS011F
+    deviceProfileName: two-switch-power-energy-1
 
     # level devices
   - id: "TS110E/_TZ3210_pagajpog"
