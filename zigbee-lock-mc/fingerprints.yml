@@ -70,6 +70,11 @@ zigbeeManufacturer:
     manufacturer: Yale
     model: YMC 420 D
     deviceProfileName: base-lock
+  - id: "Yale/YMC420"
+    deviceLabel: "Yale Door Lock"
+    manufacturer: Yale
+    model: YMC420
+    deviceProfileName: base-lock # added 31/03/2023
   # KWIKSET
   - id: "Kwikset/SMARTCODE_DEADBOLT_5"
     deviceLabel: "Kwikset Door Lock"
@@ -105,6 +110,11 @@ zigbeeManufacturer:
     deviceLabel: "Kwikset Door Lock"
     manufacturer: Kwikset
     model: Smartcode
+    deviceProfileName: base-lock
+  - id: "Kwikset/SMARTCODE_DEADBOLT_10_W3"
+    deviceLabel: "Kwikset Door Lock"
+    manufacturer: Kwikset
+    model: SMARTCODE_DEADBOLT_10_W3 # added 11 mar 2023
     deviceProfileName: base-lock
   # SCHLAGE
   - id: "Schlage/BE468"
