@@ -139,3 +139,8 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_itnrsufe
     model: TS0201
     deviceProfileName: temp-humid-battery
+  - id: "LUMI/RS-THP-MP-1.0"
+    deviceLabel: Aqara WSDCGQ01LM
+    manufacturer: LUMI
+    model: RS-THP-MP-1.0
+    deviceProfileName: temp-humid-press-battery
