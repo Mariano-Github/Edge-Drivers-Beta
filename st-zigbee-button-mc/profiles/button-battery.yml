@@ -1,0 +1,18 @@
+name: button-battery
+components:
+- id: main
+  capabilities:
+  - id: button
+    version: 1
+  - id: firmwareUpdate
+    version: 1
+  - id: battery
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: RemoteController
+metadata:
+  deviceType: RemoteController
+  ocfDeviceType: x.com.st.d.remotecontroller
+  deviceTypeId: RemoteController
