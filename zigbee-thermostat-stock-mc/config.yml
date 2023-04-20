@@ -1,0 +1,6 @@
+name: 'Zigbee Thermostat Mc'
+defaultProfile: 'thermostat-battery-powerSource'
+packageKey: 'zigbee-thermostat-mc'
+description: 'Stock Driver Modified to Add New User devices.'
+permissions:
+  zigbee: {}
