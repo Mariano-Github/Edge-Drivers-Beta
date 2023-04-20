@@ -275,6 +275,16 @@ zigbeeManufacturer:
     manufacturer: EZVIZ
     model: CS-T2C-A0-BG
     deviceProfileName: contact-battery-profile
+  - id: "_TZ3000_ebar6ljy/Contact Sensor"
+    deviceLabel: TS0203 Contact Sensor
+    manufacturer: _TZ3000_ebar6ljy
+    model: TS0203
+    deviceProfileName: contact-battery-profile
+  - id: "_TZ3000_hdtmulpn/Contact Sensor"
+    deviceLabel: TS0203 Contact Sensor
+    manufacturer: _TZ3000_hdtmulpn
+    model: TS0203
+    deviceProfileName: contact-battery-profile
 
   # ST multipurpose sensors
   - id: "Samjin/multi"
