@@ -253,7 +253,7 @@ zigbeeManufacturer:
     deviceLabel: Luminance Motion Sensor
     manufacturer: _TZE200_3towulqd
     model: TS0601
-    deviceProfileName: motion-illuminance-battery
+    deviceProfileName:  motion-illuminance-battery-ef00
   - id: "TUYATEC-dxnohkpd/RH3040"
     deviceLabel: Qnect SH-ZS03-QNE Motion Sensor
     manufacturer: TUYATEC-dxnohkpd
@@ -304,3 +304,29 @@ zigbeeManufacturer:
     manufacturer: EZVIZ
     model: CS-T1C-A0-BG
     deviceProfileName: motion-battery
+  - id: "TCL/MS01"
+    deviceLabel: TCL Motion Sensor
+    manufacturer: TCL
+    model: MS01
+    deviceProfileName: motion-battery
+  - id: "_TZ3000_hgu1dlak/Motion"
+    deviceLabel: TS0202 Motion Sensor
+    manufacturer: _TZ3000_hgu1dlak
+    model: TS0202
+    deviceProfileName: motion-battery
+  - id: "_TZ3000_fkxmyics/TS0210"
+    deviceLabel: TS0210 Motion Sensor
+    manufacturer: _TZ3000_fkxmyics
+    model: TS0210
+    deviceProfileName: motion-battery-sens
+  - id: "MOSZB-140/Develco"
+    deviceLabel: Develco Motion Sensor
+    manufacturer: Develco Products A/S
+    model: MOSZB-140
+    deviceProfileName: motion-illuminance-battery
+  - id: "MOSZB-130/Develco"
+    deviceLabel: Develco Motion Sensor
+    manufacturer: Develco Products A/S
+    model: MOSZB-130
+    deviceProfileName: motion-illuminance-battery
+  
