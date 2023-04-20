@@ -489,3 +489,13 @@ zigbeeManufacturer:
     manufacturer: CentraLite Systems
     model: 4256050-ZHAC
     deviceProfileName: single-switch-plug
+  - id: "TS011F/_TZ3000_2xlvlnez"
+    deviceLabel: TS011F Plug
+    manufacturer: _TZ3000_2xlvlnez
+    model: TS011F
+    deviceProfileName: single-switch-plug
+  - id: "_TZ3000_gjrubzje/TS0001"
+    deviceLabel: TS0001 Switch
+    manufacturer: _TZ3000_gjrubzje
+    model: TS0001
+    deviceProfileName: single-switch
