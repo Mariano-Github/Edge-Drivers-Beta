@@ -411,13 +411,17 @@ local function all_switches_status(driver,device)
 local function component_to_endpoint(device, component_id)
   --print("<<<<< device.fingerprinted_endpoint_id >>>>>>",device.fingerprinted_endpoint_id)
   --------- in this models device.fingerprinted_endpoint_id is the last endpoint
+  local endpoint_odd = false
   if device:get_model() == "FB56+ZSW1JKJ2.7" or 
     device:get_model()=="FB56+ZSW1IKJ2.5" or 
     device:get_model()=="FB56+ZSW1HKJ2.5" or
     device:get_model()=="FB56+ZSW1IKJ1.7" or
-    device:get_model()=="FB56+ZSW1JK2.5" or
+    device:get_model()=="FB56+ZSW1JKJ2.5" or
     device:get_model()=="FB56+ZSW1HKJ2.7"  then
       ep_ini = 16
+  elseif device:get_model() == "LM-SZ2" or device:get_model() == "LM-SZ3" or device:get_model() == "LM-SZ4" then
+    ep_ini = 1
+    endpoint_odd = true -- use odd endpoints only LUMI and Lumi Vietnam
   else
     ep_ini = device.fingerprinted_endpoint_id
   end
@@ -427,11 +431,23 @@ local function component_to_endpoint(device, component_id)
   else
     local ep_num = component_id:match("switch(%d)")
     if ep_num == "2" then
-      return ep_ini + 1
+      if endpoint_odd == true then
+        return 3
+      else
+        return ep_ini + 1
+      end
     elseif ep_num == "3" then
-      return ep_ini + 2
+      if endpoint_odd == true then
+        return 5
+      else
+        return ep_ini + 2
+      end
     elseif ep_num == "4" then
-      return ep_ini + 3
+      if endpoint_odd == true then
+        return 7
+      else
+        return ep_ini + 3
+      end
     elseif ep_num == "5" then
       if device:get_manufacturer() == "_TYZB01_vkwryfdr" then
         return ep_ini + 6
@@ -449,13 +465,17 @@ local function endpoint_to_component(device, ep)
 
   --print("<<<<< device.fingerprinted_endpoint_id >>>>>>",device.fingerprinted_endpoint_id)
   ------------------ in this models device.fingerprinted_endpoint_id is the last endpoint
+  local endpoint_odd = false
   if device:get_model() == "FB56+ZSW1JKJ2.7" or 
     device:get_model()=="FB56+ZSW1IKJ2.5" or 
     device:get_model()=="FB56+ZSW1HKJ2.5" or
     device:get_model()=="FB56+ZSW1IKJ1.7" or
-    device:get_model()=="FB56+ZSW1JK2.5" or
+    device:get_model()=="FB56+ZSW1JKJ2.5" or
     device:get_model()=="FB56+ZSW1HKJ2.7" then
       ep_ini = 16
+  elseif device:get_model() == "LM-SZ2" or device:get_model() == "LM-SZ3" or device:get_model() == "LM-SZ4" then
+      ep_ini = 1
+      endpoint_odd = true -- use odd endpoints only LUMI and Lumi Vietnam
   else
     ep_ini = device.fingerprinted_endpoint_id
   end
@@ -463,18 +483,28 @@ local function endpoint_to_component(device, ep)
   if ep == ep_ini then
     return "main"
   else
-    if ep == ep_ini + 1 then
+    if ep == ep_ini + 1 and endpoint_odd == false then
       --return string.format("switch%d", ep)
       return "switch2"
     elseif ep == ep_ini + 2 then
-      return "switch3"
-    elseif ep == ep_ini + 3 then
+      if endpoint_odd == true then -- use endpoints odd only
+        return "switch2"
+      else
+        return "switch3"
+      end
+    elseif ep == ep_ini + 3 and endpoint_odd == false then
       return "switch4"
     elseif ep == ep_ini + 4 then
-      return "switch5"
+      if endpoint_odd == true then -- use endpoints odd only
+        return "switch3"
+      else
+        return "switch5"
+      end
     elseif ep == ep_ini + 6 and device:get_manufacturer() == "_TYZB01_vkwryfdr" then
       return "switch5"
-    elseif ep == ep_ini + 5 then
+    elseif ep == ep_ini + 6 and endpoint_odd == true then -- use endpoints odd only
+      return "switch4"
+    elseif ep == ep_ini + 5 and endpoint_odd == false then
       return "switch6"
     end 
   end
@@ -610,7 +640,7 @@ local function device_init (driver, device)
       device:get_model()~="FB56+ZSW1IKJ2.5" and 
       device:get_model()~= "FB56+ZSW1HKJ2.5" and
       device:get_model()~="FB56+ZSW1IKJ1.7" and
-      device:get_model()~="FB56+ZSW1JK2.5" and
+      device:get_model()~="FB56+ZSW1JKJ2.5" and
       device:get_model()~= "FB56+ZSW1HKJ2.7" then
         print("<<< Read Basic clusters attributes >>>")
         local attr_ids = {0x0004, 0x0000, 0x0001, 0x0005, 0x0007,0xFFFE} 
@@ -658,16 +688,11 @@ local function device_init (driver, device)
         end
       end,
       'Refresh schedule')
-    else
-
     end
 
     if device:get_latest_state("main", signal_Metrics.ID, signal_Metrics.signalMetrics.NAME) == nil then
       device:emit_event(signal_Metrics.signalMetrics({value = "Waiting Zigbee Message"}, {visibility = {displayed = false }}))
     end
-    
-  else
-   
   end
 end
 
@@ -686,7 +711,7 @@ local function driver_Switched(driver,device)
         device:get_model()~="FB56+ZSW1IKJ2.5" and 
         device:get_model()~= "FB56+ZSW1HKJ2.5" and
         device:get_model()~="FB56+ZSW1IKJ1.7" and
-        device:get_model()~="FB56+ZSW1JK2.5" and
+        device:get_model()~="FB56+ZSW1JKJ2.5" and
         device:get_model()~= "FB56+ZSW1HKJ2.7") then
           print("<<< Read Basic clusters attributes >>>")
           local attr_ids = {0x0004, 0x0000, 0x0001, 0x0005, 0x0007,0xFFFE} 
@@ -996,7 +1021,6 @@ end
         parent_device:send_to_component(component, zcl_clusters.Level.commands.MoveToLevelWithOnOff(parent_device, math.floor(on_Level/100.0 * 254), 0xFFFF))
       end
     end
-    
   end
 
 ---- Level response emit event
