@@ -60,13 +60,13 @@ zwaveManufacturer:
   deviceProfileName: switch-level-colortemp
 # added or modified
 - id: Fibaro_RGBW_Controller/EU
-  deviceLabel: Fibaro Light
+  deviceLabel: Fibaro RGBW
   manufacturerId: 0x010F
   productType: 0x0900
   # productId: 0x1000
   deviceProfileName: fibaro-rgbw-controller
 - id: Fibaro_RGBW_Controller-2
-  deviceLabel: Fibaro Light
+  deviceLabel: Fibaro RGBW
   manufacturerId: 0x010F
   productType: 0x0902
   # productId: 0x1000
