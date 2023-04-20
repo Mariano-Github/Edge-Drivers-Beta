@@ -95,6 +95,16 @@ zigbeeManufacturer:
     manufacturer: Heimgard
     model: HT-SMO-2
     deviceProfileName: smoke-battery
+  - id: "Heiman/GAS_V15"
+    deviceLabel: HEIMAN Gas Detector
+    manufacturer: Heiman
+    model: GAS_V15
+    deviceProfileName: smoke-battery
+  - id: "Develco/SMSZB-120"
+    deviceLabel: Develco Smoke Detector
+    manufacturer: Develco Products A/S
+    model: SMSZB-120
+    deviceProfileName: smoke-battery-temp
   # CO Sensors
   - id: "feibit/FNB56-COS06FB1.7"
     deviceLabel: SCA01ZB CO Sensor
