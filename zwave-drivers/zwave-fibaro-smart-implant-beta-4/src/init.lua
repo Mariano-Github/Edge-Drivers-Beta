@@ -140,7 +140,7 @@ local function device_init(self, device)
     device:set_component_to_endpoint_fn(component_to_endpoint)
     device:set_endpoint_to_component_fn(endpoint_to_component)
 
-    device:set_update_preferences_fn(preferences.update_preferences)
+    --device:set_update_preferences_fn(preferences.update_preferences)
   end
 end
 
