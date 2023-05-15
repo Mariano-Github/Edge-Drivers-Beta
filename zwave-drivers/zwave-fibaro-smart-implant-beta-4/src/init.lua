@@ -291,15 +291,15 @@ local function switch_off_handler(driver, device, command)
 
   if command.component == "out1" then
     if device.preferences.out1Logic == "0" then -- out1: Normal open (OFF) and closed if active (ON)
-      switch_set_helper(driver, device, SwitchBinary.value.OFF_ENABLE, command)
+      switch_set_helper(driver, device, SwitchBinary.value.OFF_DISABLE, command)
     else
-      switch_set_helper(driver, device, SwitchBinary.value.ON_DISABLE, command)
+      switch_set_helper(driver, device, SwitchBinary.value.ON_ENABLE, command)
     end
   elseif command.component == "out2" then
     if device.preferences.out2Logic == "0" then -- out2: Normal open (OFF) and closed if active (ON)
-      switch_set_helper(driver, device, SwitchBinary.value.OFF_ENABLE, command)
+      switch_set_helper(driver, device, SwitchBinary.value.OFF_DISABLE, command)
     else
-      switch_set_helper(driver, device, SwitchBinary.value.ON_DISABLE, command)
+      switch_set_helper(driver, device, SwitchBinary.value.ON_ENABLE, command)
     end
   end
 
