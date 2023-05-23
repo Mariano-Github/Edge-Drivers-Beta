@@ -9,6 +9,16 @@ zigbeeManufacturer:
     manufacturer: eWeLink
     model: ZB-SW02
     deviceProfileName: two-switch
+  - id: "_TZ3000_yf8iuzil/TS011F"
+    deviceLabel: Prakriti Smart 2-gang white switch
+    manufacturer: Prakriti
+    model: TS011F
+    deviceProfileName: two-switch
+  - id: "_TZ3000_yf8iuzil/TS002"
+    deviceLabel: Prakriti Smart 2-gang black switch
+    manufacturer: Prakriti
+    model: TS002
+    deviceProfileName: two-switch
   - id: "Zemismart/TZ3000_tonrapsk"
     deviceLabel: Zemismart TZ3000 Switch
     manufacturer: _TZ3000_tonrapsk
