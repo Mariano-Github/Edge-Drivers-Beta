@@ -169,6 +169,11 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_3zofvcaa
     model: TS011F
     deviceProfileName: two-outlet
+  - id: "_TZ3000_k6fvknrr/Outlet"
+    deviceLabel: Prakriti Smart Wall Outlet
+    manufacturer: _TZ3000_k6fvknrr
+    model: TS011F
+    deviceProfileName: two-outlet
   - id: "Zemismart/_TYZB01_wmak4qjy"
     deviceLabel: Zemismart TS0002 Switch
     manufacturer: _TYZB01_wmak4qjy
