@@ -174,6 +174,11 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_k6fvknrr
     model: TS011F
     deviceProfileName: two-outlet
+  - id: "_TZ3000_cfnprab5/Outlet"
+    deviceLabel: Prakriti Smart Power Strip
+    manufacturer: _TZ3000_cfnprab5
+    model: TS011F
+    deviceProfileName: five-outlet
   - id: "Zemismart/_TYZB01_wmak4qjy"
     deviceLabel: Zemismart TS0002 Switch
     manufacturer: _TYZB01_wmak4qjy
