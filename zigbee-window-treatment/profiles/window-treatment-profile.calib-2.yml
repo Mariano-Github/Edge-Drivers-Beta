@@ -10,6 +10,8 @@ components:
     version: 1
   - id: legendabsolute60149.deviceInfo
     version: 1
+  - id: legendabsolute60149.signalMetrics
+    version: 1
   - id: firmwareUpdate
     version: 1
   - id: refresh
@@ -48,3 +50,13 @@ preferences:
         "0": "Normal"
         "1": "Reverse"
       default: "0"
+  - name: "signalMetricsVisibles"
+    title: "Signal Metrics Visible in History"
+    description: "Signal Metrics Visible in App History (default: No Visible):"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Yes" : "Signal Metrics Visible"
+        "No": "Signal Metrics No Visible"
+      default: "No"

@@ -15,14 +15,20 @@
 local capabilities = require "st.capabilities"
 local zcl_clusters = require "st.zigbee.zcl.clusters"
 local window_shade_defaults = require "st.zigbee.defaults.windowShade_defaults"
-local PowerConfiguration = zcl_clusters.PowerConfiguration
-
 local WindowCovering = zcl_clusters.WindowCovering
+local PowerConfiguration = zcl_clusters.PowerConfiguration
 
 local SHADE_SET_STATUS = "shade_set_status"
 
+local is_smartwings_window_shade = function(opts, driver, device)
+  if device:get_manufacturer() == "Smartwings" then
+    return true
+  end
+  return false
+end
+
 local function current_position_attr_handler(driver, device, value, zb_rx)
-  print("<<<< Subdriver IKEA: current_position_attr_handler")
+  print("<<<< Subdriver Smartwings: current_position_attr_handler")
   local level = 100 - value.value
   local current_level = device:get_latest_state("main", capabilities.windowShadeLevel.ID, capabilities.windowShadeLevel.shadeLevel.NAME)
   local windowShade = capabilities.windowShade.windowShade
@@ -64,30 +70,43 @@ local function current_position_attr_handler(driver, device, value, zb_rx)
   end
 end
 
-local function set_shade_level(device, value, command)
-  local level = 100 - value
-  device:send_to_component(command.component, WindowCovering.server.commands.GoToLiftPercentage(device, level))
+local function set_window_shade_level_close(driver, device, cmd)
+  print("<<<<< smartwings subdriver: set_window_shade_level_close >>>")
+  local level = 100
+    print("<<< level sent", level)
+    device:send_to_component(cmd.component, WindowCovering.server.commands.GoToLiftPercentage(device, level))
 end
 
-local function window_shade_level_cmd(driver, device, command)
-  set_shade_level(device, command.args.shadeLevel, command)
+local function set_window_shade_level_open(driver, device, cmd)
+  print("<<<<< smartwings subdriver: set_window_shade_level_open >>>")
+  local level = 0
+    print("<<< level sent", level)
+    device:send_to_component(cmd.component, WindowCovering.server.commands.GoToLiftPercentage(device, level))
 end
 
-local function window_shade_preset_cmd(driver, device, command)
-  if device.preferences ~= nil and device.preferences.presetPosition ~= nil then
-    set_shade_level(device, device.preferences.presetPosition, command)
-  end
+local function window_shade_level_cmd_handler(driver, device, cmd)
+  print("<<<<< smartwings subdriver: window_shade_level_cmd_handler >>>")
+  local level = 100 - cmd.args.shadeLevel
+  device:send_to_component(cmd.component, WindowCovering.server.commands.GoToLiftPercentage(device, level))
 end
 
+-- battery percentage
 local function battery_perc_attr_handler(driver, device, value, zb_rx)
-  if device:get_manufacturer() ~= "IKEA of Sweden" then
-    value.value = math.floor(value.value / 2.0 + 0.5)
-  end
+  -- this device use battery without / 2
   device:emit_event_for_endpoint(zb_rx.address_header.src_endpoint.value, capabilities.battery.battery(value.value))
 end
 
-local ikea_window_treatment = {
-  NAME = "ikea window treatment",
+local smartwings_window_shade = {
+  NAME = "smartwings window shade",
+  capability_handlers = {
+    [capabilities.windowShade.ID] = {
+      [capabilities.windowShade.commands.open.NAME] = set_window_shade_level_open,
+      [capabilities.windowShade.commands.close.NAME] = set_window_shade_level_close,
+    },
+    [capabilities.windowShadeLevel.ID] = {
+      [capabilities.windowShadeLevel.commands.setShadeLevel.NAME] = window_shade_level_cmd_handler
+    }
+  },
   zigbee_handlers = {
     attr = {
       [WindowCovering.ID] = {
@@ -98,21 +117,7 @@ local ikea_window_treatment = {
       }
     }
   },
-  capability_handlers = {
-    [capabilities.windowShadeLevel.ID] = {
-      [capabilities.windowShadeLevel.commands.setShadeLevel.NAME] = window_shade_level_cmd
-    },
-    [capabilities.windowShadePreset.ID] = {
-      [capabilities.windowShadePreset.commands.presetPosition.NAME] = window_shade_preset_cmd
-    }
-  },
-  can_handle = function(opts, driver, device, ...)
-    if device:get_manufacturer() == "IKEA of Sweden" then
-      return device:get_manufacturer() == "IKEA of Sweden"
-    elseif device:get_manufacturer() == "Third Reality, Inc" then
-      return device:get_manufacturer() == "Third Reality, Inc"    
-    end
-  end
+  can_handle = is_smartwings_window_shade
 }
 
-return ikea_window_treatment
+return smartwings_window_shade

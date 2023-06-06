@@ -136,9 +136,9 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_1dd0d5yi
     model: TS130F
     deviceProfileName: window-treatment-profile-calib-2
-  - id: "SmartWings/WM25/L-Z"
-    deviceLabel: SmartWings Window Treatment
-    manufacturer: SmartWings
+  - id: "Smartwings/WM25/L-Z"
+    deviceLabel: Smartwings Window Treatment
+    manufacturer: Smartwings
     model: WM25/L-Z
     deviceProfileName: window-treatment-battery
   - id: "TS130F_TZ3000_qqdbccb3"
@@ -154,6 +154,11 @@ zigbeeManufacturer:
   - id: "TS130F/_TZ3210_dwytrmda"
     deviceLabel: TS130F Window Treatment
     manufacturer: _TZ3210_dwytrmda
+    model: TS130F
+    deviceProfileName: window-treatment-profile-calib
+  - id: "TS130F/_TZ3000_dbpmpco1"
+    deviceLabel: TS130F Window Treatment
+    manufacturer: _TZ3000_dbpmpco1
     model: TS130F
     deviceProfileName: window-treatment-profile-calib
 zigbeeGeneric:

@@ -19,6 +19,8 @@ local zcl_clusters = require "st.zigbee.zcl.clusters"
 --local device_management = require "st.zigbee.device_management"
 --local Level = zcl_clusters.Level
 local TIMER = "partial_open_timer"
+--module emit signal metrics
+local signal = require "signal-metrics"
 
 local device_Info = capabilities["legendabsolute60149.deviceInfo"]
 
@@ -28,7 +30,10 @@ local ZIGBEE_WINDOW_SHADE_FINGERPRINTS = {
     { mfr = "_TZ3000_4uuaja4a", model = "TS130F" },
     { mfr = "_TZ3000_zirycpws", model = "TS130F" },
     { mfr = "_TZ3000_1dd0d5yi", model = "TS130F" },
-    { mfr = "_TZ3000_qqdbccb3", model = "TS130F" }
+    { mfr = "_TZ3000_qqdbccb3", model = "TS130F" },
+    { mfr = "_TZ3000_dph3rpss", model = "TS130F" },
+    { mfr = "_TZ3210_dwytrmda", model = "TS130F" },
+    { mfr = "_TZ3000_dbpmpco1", model = "TS130F" }
 }
 
 local is_zigbee_window_shade = function(opts, driver, device)
@@ -43,6 +48,9 @@ end
 
 local function curtain_switch_handler(driver, device, value, zb_rx)
   print("<<< Curtain Switch Value >>>",value.value)
+  -- emit signal metrics
+  signal.metrics(device, zb_rx)
+
   local str = "Stop"
   local curtain_switch = value.value
   local time = "UTC Time: "..os.date("%H:%M:%S",os.time())
@@ -56,11 +64,24 @@ local function curtain_switch_handler(driver, device, value, zb_rx)
 
   device:emit_event(device_Info.deviceInfo(str))
 
-  device:refresh()
+  if curtain_switch ~= 1 then
+    device:set_field("curtain_switch", curtain_switch, {persist = true}) -- save curtain switch position
+  end
+  device.thread:call_with_delay(3, function()
+    if curtain_switch == 1 then
+      device:set_field("curtain_switch", curtain_switch, {persist = true}) -- save curtain switch position
+      device:refresh()
+    end
+    --device:refresh()
+   end)
+
 end
 
 local function accurate_calibration_handler(driver, device, value, zb_rx)
   print("<<< Accurate calibration Value >>>",value.value)
+  -- emit signal metrics
+  signal.metrics(device, zb_rx)
+
   local accurate_calibration = value.value
   local time = "UTC Time: "..os.date("%H:%M:%S",os.time())
   local str = " Calibration finished"
