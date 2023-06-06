@@ -199,3 +199,13 @@ zigbeeManufacturer:
     manufacturer: Samjin
     model: button
     deviceProfileName: button-temp-therm-battery-05
+  - id: eWeLink/SNZB-02P
+    deviceLabel: eWeLink Multipurpose Sensor
+    manufacturer: eWeLink
+    model: SNZB-02P
+    deviceProfileName: temp-humid-therm-battery-05
+  - id: SONOFF/SNZB-02D
+    deviceLabel: SONOFF Multipurpose Sensor
+    manufacturer: SONOFF
+    model: SNZB-02D
+    deviceProfileName: temp-humid-therm-battery-05
