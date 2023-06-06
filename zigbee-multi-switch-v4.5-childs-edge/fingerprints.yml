@@ -639,6 +639,66 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_jak16dll
     model: TS011F
     deviceProfileName: two-switch-power-energy-1
+  - id: "TS011F/_TZ3000_wbloefbf"
+    deviceLabel: TS011F Switch
+    manufacturer: _TZ3000_wbloefbf
+    model: TS011F
+    deviceProfileName: five-outlet
+  - id: "TS0003/_TZ3000_ahnes6zm"
+    deviceLabel: TS0003 Switch
+    manufacturer: _TZ3000_ahnes6zm
+    model: TS0003
+    deviceProfileName: three-switch
+  - id: "_TZ3000_gexniqbq/TS0004"
+    deviceLabel: TS0004 Switch
+    manufacturer: _TZ3000_gexniqbq
+    model: TS0004
+    deviceProfileName: four-switch
+  - id: "TS0012/_TZ3000_sindap26"
+    deviceLabel: TS0012 Switch
+    manufacturer: _TZ3000_sindap26
+    model: TS0012
+    deviceProfileName: two-switch
+  - id: "TS0003/_TZ3000_ouwfc1qj"
+    deviceLabel: DS-112 Switch
+    manufacturer: _TZ3000_ouwfc1qj
+    model: TS0003
+    deviceProfileName: three-switch
+  - id: "TS0013/_TYZB01_qzxiz2hq"
+    deviceLabel: TS0013 Switch
+    manufacturer: _TYZB01_qzxiz2hq
+    model: TS0013
+    deviceProfileName: three-switch
+  - id: "LUMI/relay.c2acn01"
+    deviceLabel: LUMI Double Relay
+    manufacturer: LUMI
+    model: lumi.relay.c2acn01
+    deviceProfileName: two-switch-power-1
+  - id: "_TZ3000_yf8iuzil/TS011F"
+    deviceLabel: Prakriti Smart 2-gang white switch
+    manufacturer: _TZ3000_yf8iuzil
+    model: TS011F
+    deviceProfileName: two-switch
+  - id: "_TZ3000_yf8iuzil/TS0002"
+    deviceLabel: Prakriti Smart 2-gang black switch
+    manufacturer: _TZ3000_yf8iuzil
+    model: TS0002
+    deviceProfileName: two-switch
+  - id: "TS0003/_TZ3000_hbic3ka3"
+    deviceLabel: TS0003 Switch
+    manufacturer: _TZ3000_hbic3ka3
+    model: TS0003
+    deviceProfileName: three-switch
+  - id: "LUMI/switch.n3acn3"
+    deviceLabel: LUMI three Switch
+    manufacturer: LUMI
+    model: lumi.switch.n3acn3
+    deviceProfileName: three-switch
+  - id: "_TZ3000_k6fvknrr/TS011F"
+    deviceLabel: Prakriti Smart Wall Outlet
+    manufacturer: _TZ3000_k6fvknrr
+    model: TS011F
+    deviceProfileName: two-outlet
 
     # level devices
   - id: "TS110E/_TZ3210_pagajpog"
