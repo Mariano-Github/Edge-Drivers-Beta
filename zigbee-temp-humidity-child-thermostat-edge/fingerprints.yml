@@ -144,3 +144,13 @@ zigbeeManufacturer:
     manufacturer: LUMI
     model: RS-THP-MP-1.0
     deviceProfileName: temp-humid-press-battery
+  - id: eWeLink/SNZB-02P
+    deviceLabel: eWeLink Multipurpose Sensor
+    manufacturer: eWeLink
+    model: SNZB-02P
+    deviceProfileName: temp-humid-battery
+  - id: SONOFF/SNZB-02D
+    deviceLabel: SONOFF Multipurpose Sensor
+    manufacturer: SONOFF
+    model: SNZB-02D
+    deviceProfileName: temp-humid-battery
