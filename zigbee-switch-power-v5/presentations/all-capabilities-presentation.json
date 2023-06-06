@@ -39,6 +39,13 @@
         },
         {
             "component": "main",
+            "capability": "temperatureMeasurement",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "main",
             "capability": "legendabsolute60149.levelSteps",
             "version": 1,
             "values": [],
@@ -114,6 +121,14 @@
             {
                 "component": "main",
                 "capability": "switchLevel",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "main",
+                "capability": "temperatureMeasurement",
                 "version": 1,
                 "values": [],
                 "patch": [],

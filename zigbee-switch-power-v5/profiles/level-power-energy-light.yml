@@ -14,6 +14,8 @@ components:
     version: 1
   - id: energyMeter
     version: 1
+  - id: powerConsumptionReport
+    version: 1
   - id: legendabsolute60149.getGroups
     version: 1
   - id: legendabsolute60149.signalMetrics
@@ -44,6 +46,24 @@ preferences:
       minimum: -12
       maximum: 12
       default: 0 
+  - name: "simpleMeteringDivisor1"
+    title: "Custom Simple Metering Divisor"
+    description: "If you device has Power & Energy measurement then this Custom Divisor is used for Total Energy Calcualtioins. Some devices could use it for Power Instantaneous Demand calcualtions too, instead the Active Power. SET TO DEFAULT VALUE= 0, TO USE DEFAULTS DIVISOR OF DRIVER."
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 0
+      maximum: 1000000
+      default: 0
+  - name: "electricalMeasureDiviso1"
+    title: "Custom Electrical Measure Divisor"
+    description: "This Custom divisor will be used for Active Power Calcualtioins. SET TO DEFAULT VALUE= 0, TO USE DEFAULTS DIVISOR OF DRIVER."
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 0
+      maximum: 1000000
+      default: 0
   - name: "restoreState"
     title: "Restore State After Power Lost"
     description: "After the power supply is back on, the State can be restored to previous state or remain switched off"

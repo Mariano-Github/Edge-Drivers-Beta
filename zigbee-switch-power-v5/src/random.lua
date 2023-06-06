@@ -1,15 +1,14 @@
 --- Smartthings library load ---
 local capabilities = require "st.capabilities"
---local ZigbeeDriver = require "st.zigbee"
---local defaults = require "st.zigbee.defaults"
 local zcl_clusters = require "st.zigbee.zcl.clusters"
 local OnOff = zcl_clusters.OnOff
---local zigbee_constants = require "st.zigbee.constants"
---local ElectricalMeasurement = zcl_clusters.ElectricalMeasurement
---local SimpleMetering = zcl_clusters.SimpleMetering
 local Groups = zcl_clusters.Groups
+local constants = require "st.zigbee.constants"
+local ElectricalMeasurement = zcl_clusters.ElectricalMeasurement
+local SimpleMetering = zcl_clusters.SimpleMetering
 
 local write = require "writeAttribute"
+local customDivisors = require "customDivisors"
 
 
 ---- Load handlers written in dimmer.lua
@@ -32,6 +31,7 @@ local get_Groups = capabilities["legendabsolute60149.getGroups"]
 
 ----- do_init device tables create for dimming variables ----
 function driver_handler.do_init (self, device)
+  print("<<< random.do_init >>>")
   local device_exist = "no"
   for id, value in pairs(device_running) do
    if device_running[id] == device then
@@ -48,7 +48,7 @@ function driver_handler.do_init (self, device)
   random_timer[device] = math.random(10, 20)
 
   -- send zigbee event if random on-off Inactive or nil
-  print("<<<< random_state >>>>",device:get_field("random_state"))
+  --print("<<<< random_state >>>>",device:get_field("random_state"))
   if device:get_field("random_state") == "Inactive"  or device:get_field("random_state") == nil then
    device:emit_event(random_On_Off.randomOnOff("Inactive"))
    device:emit_event(random_Next_Step.randomNext("Inactive"))
@@ -65,10 +65,9 @@ function driver_handler.do_init (self, device)
  end
   --restart random on-off if active
   print("random_state >>>>>",device:get_field("random_state"))
-  if device:get_field("random_state") ~= "Inactive" then  
+  if device:get_field("random_state") ~= "Inactive" and device:get_field("random_state") ~= nil then  
     driver_handler.random_on_off_handler(self,device,"Active")
   end
-
 end
 
 ---- do_removed device procedure: delete all device data
@@ -98,12 +97,10 @@ function driver_handler.do_Preferences (self, device)
   for id, value in pairs(device.preferences) do
     print("device.preferences[infoChanged]=", device.preferences[id])
     oldPreferenceValue[device] = device:get_field(id)
-    --print("oldPreferenceValue ", oldPreferenceValue[device])
     newParameterValue[device] = device.preferences[id]
-    --print("newParameterValue ", newParameterValue[device])
     if oldPreferenceValue[device] ~= newParameterValue[device] then
       device:set_field(id, newParameterValue[device], {persist = true})
-      print("<< Preference changed: name, old, new >>", id, oldPreferenceValue[device], newParameterValue[device])
+      print("<< Preference changed:", id, "old value:",oldPreferenceValue[device], "new Value:", newParameterValue[device])
 
       --- Groups code preference value changed
       if id == "groupAdd" then
@@ -115,9 +112,8 @@ function driver_handler.do_Preferences (self, device)
         else
          device:send(Groups.server.commands.GetGroupMembership(device, {}))
         end
-      end
-   
-      if id == "groupRemove" then
+      --end
+      elseif id == "groupRemove" then
         print("Remove Groups >>>>>>>>>>>>>>>>>")
         if device.preferences[id] > 0 then
          device:send(Groups.server.commands.RemoveGroup(device, device.preferences[id]))
@@ -146,8 +142,27 @@ function driver_handler.do_Preferences (self, device)
         end
       -- Any Preference timer mode changed restart timer handler
       elseif id == "randomMin" or id == "randomMax" or id == "onTime" or id == "offTime" then
-        if device:get_field("random_state") ~= "Inactive" then  
+        if device:get_field("random_state") ~= "Inactive" and device:get_field("random_state") ~= nil then  
           driver_handler.random_on_off_handler(self,device,"Active")
+        end
+      -- set custom power and energy divisors
+      elseif id == "simpleMeteringDivisor1" then
+        if newParameterValue[device] > 0 then
+          device:set_field(constants.SIMPLE_METERING_DIVISOR_KEY, device.preferences.simpleMeteringDivisor1, {persist = true})
+        else
+          device:set_field(constants.SIMPLE_METERING_DIVISOR_KEY, 1, {persist = true})
+          device:send(SimpleMetering.attributes.Divisor:read(device))
+          --- save optionals device divisors
+          device.thread:call_with_delay(2, function() customDivisors.set_custom_divisors(self, device) end)
+        end
+      elseif id == "electricalMeasureDiviso1" then
+        if newParameterValue[device] > 0 then
+          device:set_field(constants.ELECTRICAL_MEASUREMENT_DIVISOR_KEY, device.preferences.electricalMeasureDiviso1, {persist = true})
+        else
+          device:set_field(constants.ELECTRICAL_MEASUREMENT_DIVISOR_KEY, 1, {persist = true})
+          device:send(ElectricalMeasurement.attributes.ACPowerDivisor:read(device))
+          --- save optionals device divisors
+          device.thread:call_with_delay(2, function() customDivisors.set_custom_divisors(self, device) end)
         end
       end  
 

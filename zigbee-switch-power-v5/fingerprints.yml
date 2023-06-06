@@ -1,9 +1,14 @@
 zigbeeManufacturer:
-  - id: "SAMOTECH/MS-104Z"
-    deviceLabel: Samotech Switch
-    manufacturer: _TYZB01_iuepbmpv
-    model: TS0121
-    deviceProfileName: switch-power-energy
+  #- id: "SAMOTECH/MS-104Z"
+  #  deviceLabel: Samotech Switch
+  #  manufacturer: _TYZB01_iuepbmpv
+  #  model: TS0121
+  #  deviceProfileName: switch-power-energy # only for my test
+  #- id: "LIDL Plug/TS011F"
+  #  deviceLabel: Lidl Plug
+  #  manufacturer: _TZ3000_kdi2o9m6
+  #  model: TS011F
+  #  deviceProfileName: switch-temp-power-energy-plug # only for my test
   - id: "Computime/SLP2b"
     deviceLabel: Computime Plug SLP2b
     manufacturer: Computime
@@ -223,7 +228,7 @@ zigbeeManufacturer:
     deviceLabel: SPLZB-131 Plug
     manufacturer: Develco Products A/S
     model: SPLZB-131
-    deviceProfileName: switch-power-energy-plug
+    deviceProfileName: switch-temp-power-energy-plug
   - id: "SMRZB-332/Develco Products"
     deviceLabel: SMRZB-332 Plug
     manufacturer: Develco Products A/S
@@ -333,4 +338,35 @@ zigbeeManufacturer:
     deviceLabel: TS011F Lidl Plug
     manufacturer: _TZ3000_ynmowqk2
     model: TS011F
+    deviceProfileName: switch-power-energy-plug
+  - id: "_TZ3000_2putqrmw/TS011F"
+    deviceLabel: TS011F Lidl Plug
+    manufacturer: _TZ3000_2putqrmw
+    model: TS011F
+    deviceProfileName: switch-power-energy-plug
+  - id: "lumi.switch.n0acn2/Switch"
+    deviceLabel: Lumi Switch
+    manufacturer: LUMI
+    model: lumi.switch.n0acn2
+    deviceProfileName: switch-power-energy-plug
+  - id: "_TZ3000_zw7yf6yk/TS0001"
+    deviceLabel: TS0001 Lidl Plug
+    manufacturer: _TZ3000_zw7yf6yk
+    model: TS0001
+    deviceProfileName: switch-power-energy-plug
+zigbeeGeneric:
+  - id: "generic/switch/power"
+    deviceLabel: Generic Switch Power
+    clusters:
+      server:
+        - 0x0006 #OnOff
+        - 0x0B04 #Electrical Measurment
+    deviceProfileName: switch-power
+  - id: "switch/power/energy"
+    deviceLabel: Generic Switch Power Energy
+    clusters:
+      server:
+        - 0x0006 #OnOff
+        - 0x0702 #Simple Metering
+        - 0x0B04 #Electrical Measurment
     deviceProfileName: switch-power-energy-plug

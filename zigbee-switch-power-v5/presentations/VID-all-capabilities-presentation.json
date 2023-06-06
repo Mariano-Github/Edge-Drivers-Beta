@@ -1,9 +1,8 @@
 {
     "mnmn": "SmartThingsCommunity",
-    "vid": "453b2e94-5d71-37eb-aff7-d006b5d03394",
+    "vid": "caaf5bac-0cc8-3012-8de5-bbf375bd9015",
     "version": "0.0.1",
     "type": "profile",
-    "iconUrl": null,
     "dashboard": {
         "states": [
             {
@@ -22,9 +21,11 @@
                 "capability": "switch",
                 "version": 1,
                 "idx": 0,
-                "group": "main"
+                "group": "main",
+                "inline": null
             }
-        ]
+        ],
+        "basicPlus": []
     },
     "detailView": [
         {
@@ -37,6 +38,13 @@
         {
             "component": "main",
             "capability": "switchLevel",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "main",
+            "capability": "temperatureMeasurement",
             "version": 1,
             "values": [],
             "patch": []
@@ -118,6 +126,14 @@
             {
                 "component": "main",
                 "capability": "switchLevel",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "main",
+                "capability": "temperatureMeasurement",
                 "version": 1,
                 "values": [],
                 "patch": [],
@@ -255,6 +271,6 @@
             }
         ]
     },
-    "presentationId": "453b2e94-5d71-37eb-aff7-d006b5d03394",
+    "presentationId": "caaf5bac-0cc8-3012-8de5-bbf375bd9015",
     "manufacturerName": "SmartThingsCommunity"
 }
