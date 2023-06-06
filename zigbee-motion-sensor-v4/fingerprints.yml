@@ -329,4 +329,13 @@ zigbeeManufacturer:
     manufacturer: Develco Products A/S
     model: MOSZB-130
     deviceProfileName: motion-illuminance-battery
-  
+  - id: "_TZ3040_bb6xaihh/Motion"
+    deviceLabel: TS0202 Motion Sensor
+    manufacturer: _TZ3040_bb6xaihh
+    model: TS0202
+    deviceProfileName: motion-battery-sens
+  - id: "_TZ3040_fwxuzcf4/Motion"
+    deviceLabel: TS0202 Motion Sensor
+    manufacturer: _TZ3040_fwxuzcf4
+    model: TS0202
+    deviceProfileName: motion-battery-sens
