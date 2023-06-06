@@ -499,3 +499,23 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_gjrubzje
     model: TS0001
     deviceProfileName: single-switch
+  - id: "TS0011/_TZ3000_hufg57fw"
+    deviceLabel: TS0011 Switch
+    manufacturer: _TZ3000_hufg57fw
+    model: TS0011
+    deviceProfileName: single-switch
+  - id: "TS0001/_TZ3000_ckorfokt"
+    deviceLabel: TS0001 Switch
+    manufacturer: _TZ3000_ckorfokt
+    model: TS0001
+    deviceProfileName: single-switch
+  - id: "_TZ3000_bmzfjnbp/Switch"
+    deviceLabel: TS0011 Switch
+    manufacturer: _TZ3000_bmzfjnbp
+    model: TS0011
+    deviceProfileName: single-switch
+  - id: "_TZ3000_46t1rvdu/Switch"
+    deviceLabel: TS0001 Switch
+    manufacturer: _TZ3000_46t1rvdu
+    model: TS0001
+    deviceProfileName: single-switch
