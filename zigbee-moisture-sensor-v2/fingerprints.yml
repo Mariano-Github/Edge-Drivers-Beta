@@ -114,3 +114,18 @@ zigbeeManufacturer:
     manufacturer: Perenio
     model: PECLS01
     deviceProfileName: moisture-battery
+  - id: "_TZ3000_rurvxhcx/Sensor"
+    deviceLabel: TREATLIFE Water Sensor
+    manufacturer: _TZ3000_rurvxhcx
+    model: TS0207
+    deviceProfileName: moisture-battery
+  - id: "_TZ3000_k4ej3ww2/Sensor"
+    deviceLabel: TS0207 Water Sensor
+    manufacturer: _TZ3000_k4ej3ww2
+    model: TS0207
+    deviceProfileName: moisture-battery
+  - id: "_TZ3000_0s9gukzt/Sensor"
+    deviceLabel: TS0207 Water Sensor
+    manufacturer: _TZ3000_0s9gukzt
+    model: TS0207
+    deviceProfileName: moisture-battery
