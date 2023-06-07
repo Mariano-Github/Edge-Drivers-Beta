@@ -16,6 +16,7 @@ local capabilities = require "st.capabilities"
 local zcl_clusters = require "st.zigbee.zcl.clusters"
 local WindowCovering = zcl_clusters.WindowCovering
 local windowShadeDefaults = require "st.zigbee.defaults.windowShade_defaults"
+local PowerConfiguration = zcl_clusters.PowerConfiguration
 
 local YOOLAX_WINDOW_SHADE_FINGERPRINTS = {
     { mfr = "Yookee", model = "D10110" },                                 -- Yookee Window Treatment
@@ -54,6 +55,12 @@ local function current_position_attr_handler(driver, device, value, zb_rx)
   windowShadeDefaults.default_current_lift_percentage_handler(driver, device, {value = 100 - value.value}, zb_rx)
 end
 
+-- battery percentage
+local function battery_perc_attr_handler(driver, device, value, zb_rx)
+  -- this device use battery without / 2
+  device:emit_event_for_endpoint(zb_rx.address_header.src_endpoint.value, capabilities.battery.battery(value.value))
+end
+
 local yoolax_window_shade = {
   NAME = "yoolax window shade",
   capability_handlers = {
@@ -70,6 +77,9 @@ local yoolax_window_shade = {
     attr = {
       [WindowCovering.ID] = {
         [WindowCovering.attributes.CurrentPositionLiftPercentage.ID] = current_position_attr_handler
+      },
+      [PowerConfiguration.ID] = {
+        [PowerConfiguration.attributes.BatteryPercentageRemaining.ID] = battery_perc_attr_handler,
       }
     }
   },
