@@ -1,321 +1,1159 @@
 zigbeeManufacturer:
-  - id: "ORVIBO/e70f96b3773a4c9283c6862dbafb"
-    # Shorten because of 36 ch limit. Need to use complete model name
-    deviceLabel: Orvibo Open/Closed Sensor
-    manufacturer: ORVIBO
-    model: e70f96b3773a4c9283c6862dbafb6a99
-    deviceProfileName: contact-profile
-  - id: "eWeLink/DS01"
-    deviceLabel: eWeLink Open/Closed Sensor
-    manufacturer: eWeLink
-    model: DS01
-    deviceProfileName: contact-battery-profile
-  - id: "Aurora/WindowSensor51AU"
-    deviceLabel: Aurora Open/Closed Sensor
-    manufacturer: Aurora
-    model: WindowSensor51AU
-    deviceProfileName: contact-profile
-  - id: "Aurora/DoorSensor50AU"
-    deviceLabel: Aurora Open/Closed Sensor
-    manufacturer: Aurora
-    model: DoorSensor50AU
-    deviceProfileName: contact-profile
-  - id: "HEIMAN/DoorSensor-N"
-    deviceLabel: HEIMAN Open/Closed Sensor
-    manufacturer: HEIMAN
-    model: DoorSensor-N
-    deviceProfileName: contact-profile
-  - id: "NYCE/3010"
-    deviceLabel: NYCE Open/Closed Sensor
-    manufacturer: NYCE
-    model: 3010
-    deviceProfileName: contact-battery-profile
-  - id: "NYCE/3011"
-    deviceLabel: NYCE Open/Closed Sensor
-    manufacturer: NYCE
-    model: 3011
-    deviceProfileName: contact-battery-profile
-  - id: "NYCE/3014"
-    deviceLabel: NYCE Open/Closed Sensor
-    manufacturer: NYCE
-    model: 3014
-    deviceProfileName: contact-battery-profile
-  - id: "sengled/E1D-G73"
-    deviceLabel: Sengled Open/Closed Sensor
+  - id: "LIDL/TS0502A"
+    deviceLabel: Lidl Bulb
+    manufacturer: _TZ3000_49qchf10
+    model: TS0502A
+    deviceProfileName: level-colortemp-2000-6500
+  - id: "OSRAM/Classic"
+    deviceLabel: OSRAM Classic
+    manufacturer: OSRAM
+    model: Classic A60 W clear - LIGHTIFY
+    deviceProfileName: switch-level
+  - id: "OSRAM/LIGHTIFY BR"
+    deviceLabel: OSRAM LIGHTIFY BR
+    manufacturer: OSRAM
+    model: LIGHTIFY BR Tunable White
+    deviceProfileName: level-colortemp-2700-6500
+  - id: "Ecosmart-ZBT-A19-CCT"
+    deviceLabel: Ecosmart-ZBT
+    manufacturer: The Home Depot
+    model: Ecosmart-ZBT-A19-CCT-Bulb
+    deviceProfileName: level-colortemp-2700-6500
+  - id: "Sengled/E11-G13"
+    deviceLabel: Sengled E11-G13
     manufacturer: sengled
-    model: E1D-G73
-    deviceProfileName: contact-battery-profile
-  - id: "Visonic/MCT-340 SMA"
-    deviceLabel: Tyco Open/Closed Sensor
-    manufacturer: Visonic
-    model: MCT-340 SMA
-    deviceProfileName: contact-profile
-  - id: "LIDL Open/Close Sensor"
-    deviceLabel: LIDL Open/Close Sensor
-    manufacturer: _TZ1800_ejwkn2h2
-    model: TY0203
-    deviceProfileName: contact-battery-profile
-  - id: "NEDIS Open/Close Sensor"
-    deviceLabel: Nedis Open/Close Sensor
-    manufacturer: TUYATEC-crr8qb0p
-    model: RH3001
-    deviceProfileName: contact-battery-profile
-  - id: "HiveHom/DWS003 Open/Close Sensor"
-    deviceLabel: HiveHom DWS003 Open/Close Sensor
-    manufacturer: HiveHome.com
-    model: DWS003
-    deviceProfileName: contact-battery-profile
-  - id: "TUYATEC/r9hgssol Open/Close Sensor"
-    deviceLabel: TUYATEC r9hgssol Open/Close Sensor
-    manufacturer: TUYATEC-r9hgssol
-    model: RH3001
-    deviceProfileName: contact-battery-profile
-  - id: "TUYATEC/n4qd0btb Open/Close Sensor"
-    deviceLabel: TUYATEC-n4qd0btb Open/Close Sensor
-    manufacturer: TUYATEC-n4qd0btb
-    model: RH3001
-    deviceProfileName: contact-battery-profile
-  - id: "TUYATEC-xnoof3ts Open/Close Sensor"
-    deviceLabel: TUYATEC Open/Close Sensor
-    manufacturer: TUYATEC-xnoof3ts
-    model: RH3001
-    deviceProfileName: contact-profile
-  - id: "frient/WISZB-121"
-    deviceLabel: frient Open/Close Sensor
-    manufacturer: frient A/S
-    model: WISZB-121
-    deviceProfileName: contact-battery-profile
-  - id: "_TZ3000_o5wjxxqn/Close Sensor"
-    deviceLabel: TS0203 Close Sensor
-    manufacturer: _TZ3000_o5wjxxqn
-    model: TS0203
-    deviceProfileName: contact-battery-profile
-  - id: "Sercomm Corp./SZ-DWS08"
-    deviceLabel: Sercomm Open/Closed Sensor
-    manufacturer: Sercomm Corp.
-    model: SZ-DWS08
-    deviceProfileName: contact-profile
-  - id: "_TZ3000_oxslv1c9/Contact Sensor"
-    deviceLabel: TS0203 Contact Sensor
-    manufacturer: _TZ3000_oxslv1c9
-    model: TS0203
-    deviceProfileName: contact-battery-profile
-  - id: "ZB-DoorSensor-D0003"
-    deviceLabel: lk Door Sensor
+    model: E11-G13
+    deviceProfileName: switch-level
+  - id: "IKEA/Bulb E27 WW"
+    deviceLabel: IKEA Bulb
+    manufacturer: IKEA of Sweden
+    model: TRADFRI bulb E27 WW 806lm
+    deviceProfileName: switch-level
+  - id: "IKEA/Bulb E27 WS"
+    deviceLabel: IKEA Bulb
+    manufacturer: IKEA of Sweden
+    model: TRADFRI bulb E27 WS opal 980lm
+    deviceProfileName: level-colortemp-2700-6000
+  - id: "CREE/A-19-60W"
+    deviceLabel: CREE A-19 60W
+    manufacturer: CREE                            
+    model: Connected A-19 60W Equivalent   
+    deviceProfileName: switch-level
+  - id: "OSRAM/LIGHTIFY A19"
+    deviceLabel: OSRAM LIGHTIFY A19
+    manufacturer: OSRAM
+    model: LIGHTIFY A19 Tunable White
+    deviceProfileName: level-colortemp-2700-6500
+  - id: "Ecosmart-ZBT-A19-BR30"
+    deviceLabel: Ecosmart-ZBT-BR30
+    manufacturer: The Home Depot
+    model: Ecosmart-ZBT-A19-BR30-CCT-Bulb
+    deviceProfileName: level-colortemp-2700-6500
+  - id: "Ecosmart-ZBT-BR30-CCT"
+    deviceLabel: Ecosmart-ZBT-BR30
+    manufacturer: The Home Depot
+    model: Ecosmart-ZBT-BR30-CCT-Bulb
+    deviceProfileName: level-colortemp-2700-6500
+  - id: "OSRAM/CLA60-TW"
+    deviceLabel: OSRAM CLA60-TW
+    manufacturer: OSRAM
+    model: CLA60 TW OSRAM
+    deviceProfileName: level-colortemp-2700-6500
+  - id: "OSRAM/Gardenspot RGB"
+    deviceLabel: OSRAM Gardenspot RGB
+    manufacturer: OSRAM
+    model: LIGHTIFY Gardenspot RGB
+    deviceProfileName: level-rgb
+  - id: "OSRAM/Flex RGBW"
+    deviceLabel: OSRAM Flex RGBW
+    manufacturer: OSRAM
+    model: LIGHTIFY Flex RGBW
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "GLEDOPTO/GL-C-008S"
+    deviceLabel: GLEDOPTO GL-C-008S
+    manufacturer: GLEDOPTO
+    model: GL-C-008S
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "GLEDOPTO/GL-C-008P"
+    deviceLabel: GLEDOPTO GL-C-008P
+    manufacturer: GLEDOPTO
+    model: GL-C-008P
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "3A-Smart-Home/LS27LX1.7"
+    deviceLabel: 3A Smart LXT56-LS27LX1.7
+    manufacturer: 3A Smart Home DE
+    model: LXT56-LS27LX1.7
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "GLEDOPTO/GL-B-001ZS"
+    deviceLabel: GLEDOPTO GL-B-001ZS
+    manufacturer: GLEDOPTO
+    model: GL-B-001ZS
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "OSRAM/Classic B40 TW"
+    deviceLabel: OSRAM Classic B40 TW
+    manufacturer: OSRAM
+    model: Classic B40 TW - LIGHTIFY
+    deviceProfileName: level-colortemp-2700-6500
+  - id: "LEDVANCE/A60 TW"
+    deviceLabel: LEDVANCE A60 TW
+    manufacturer: LEDVANCE
+    model: A60 TW Value II
+    deviceProfileName: level-colortemp-2700-6500
+  - id: "FeiBit/ZSC05HG1.0"
+    deviceLabel: FeiBit Dimmer
+    manufacturer: Feibit Inc co.
+    model: FB56+ZSC05HG1.0
+    deviceProfileName: switch-level
+  - id: "sengled/E11-N1EA"
+    deviceLabel: sengled E11-N1EA
+    manufacturer: sengled
+    model: E11-N1EA
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "lk/Bulb M3500107"
+    deviceLabel: lK Bulb
     manufacturer: lk
-    model: ZB-DoorSensor-D0003
-    deviceProfileName: contact-battery-profile
-  - id: "TUYATEC-trhrga6p Open/Close Sensor"
-    deviceLabel: TTUYATEC-trhrga6p Open/Close Sensor
-    manufacturer: TUYATEC-trhrga6p
-    model: RH3001
-    deviceProfileName: contact-battery-profile
-  - id: "Universal Electronics/URC4460BC0-X-R"
-    deviceLabel: Open/Closed Sensor
-    manufacturer: Universal Electronics Inc
-    model: URC4460BC0-X-R
-    deviceProfileName: contact-profile
-  - id: "_TZ3000_7tbsruql/Close Sensor"
-    deviceLabel: TS0203 Close Sensor
-    manufacturer: _TZ3000_7tbsruql
-    model: TS0203
-    deviceProfileName: contact-battery-profile
-  - id: "_TZ3000_cn58yln1/Contact Sensor"
-    deviceLabel: TS0203 Contact Sensor
-    manufacturer: _TZ3000_cn58yln1
-    model: TS0203
-    deviceProfileName: contact-battery-profile
-  - id: "_TZ3000_26fmupbb/Contact Sensor"
-    deviceLabel: TS0203 Contact Sensor
-    manufacturer: _TZ3000_26fmupbb
-    model: TS0203
-    deviceProfileName: contact-battery-profile
-  - id: "_TZ3000_6jeesvrt/Close Sensor"
-    deviceLabel: TS0203 Close Sensor
-    manufacturer: _TZ3000_6jeesvrt
-    model: TS0203
-    deviceProfileName: contact-battery-profile
-  - id: "Visonic/MCT-340 E"
-    deviceLabel: Tyco Open/Closed Sensor
-    manufacturer: Visonic
-    model: MCT-340 E
-    deviceProfileName: contact-profile
-  - id: "Ecolink/4655BC0-R"
-    deviceLabel: Ecolink Open/Closed Sensor
-    manufacturer: Ecolink
-    model: 4655BC0-R
-    deviceProfileName: contact-profile
-  - id: "_TZ3000_hkcpblrs/Contact Sensor"
-    deviceLabel: TS0203 Contact Sensor
-    manufacturer: _TZ3000_hkcpblrs
-    model: TS0203
-    deviceProfileName: contact-battery-profile
-  - id: "_TZ3000_2mbfxlzr/Close Sensor"
-    deviceLabel: TS0203 Close Sensor
-    manufacturer: _TZ3000_2mbfxlzr
-    model: TS0203
-    deviceProfileName: contact-battery-profile
-  - id: "_TZ3000_402jjyro/Contact Sensor"
-    deviceLabel: TS0203 Contact Sensor
-    manufacturer: _TZ3000_402jjyro
-    model: TS0203
-    deviceProfileName: contact-battery-profile
-  - id: "Visonic/MCT-370 SMA"
-    deviceLabel: Tyco Open/Closed Sensor
-    manufacturer: Visonic
-    model: MCT-370 SMA
-    deviceProfileName: contact-profile
-  - id: "_TZ3000_f1hmoyj4/Close Sensor"
-    deviceLabel: TS0203 Close Sensor
-    manufacturer: _TZ3000_f1hmoyj4
-    model: TS0203
-    deviceProfileName: contact-battery-profile
-  - id: "Sercomm Corp./XHS2-SE"
-    deviceLabel: Sercomm Open/Closed Sensor
-    manufacturer: Sercomm Corp.
-    model: XHS2-SE
-    deviceProfileName: contact-profile
-  - id: "_TYZB01_ncdapbwy/Contact Sensor"
-    deviceLabel: TS0203 Contact Sensor
-    manufacturer: _TYZB01_ncdapbwy
-    model: TS0203
-    deviceProfileName: contact-battery-profile
-  - id: "_TYZB01_xph99wvr/Contact Sensor"
-    deviceLabel: TS0203 Contact Sensor
-    manufacturer: _TYZB01_xph99wvr
-    model: TS0203
-    deviceProfileName: contact-battery-profile
-  - id: "CentraLite/Contact Sensor-A"
-    deviceLabel: Contact Sensor-A
-    manufacturer: CentraLite
-    model: Contact Sensor-A
-    deviceProfileName: contact-profile
-  - id: "CentraLite/3320-L"
-    deviceLabel: Contact Sensor 3320-L
-    manufacturer: CentraLite
-    model: 3320-L
-    deviceProfileName: contact-profile
-  - id: "_TZ3000_bzxlofth/Contact Sensor"
-    deviceLabel: TS0203 Contact Sensor
-    manufacturer: _TZ3000_bzxlofth
-    model: TS0203
-    deviceProfileName: contact-battery-profile
-  - id: "_TZ3000_osu834un/Contact Sensor"
-    deviceLabel: TS0203 Contact Sensor
-    manufacturer: _TZ3000_osu834un
-    model: TS0203
-    deviceProfileName: contact-battery-profile
-  - id: "TUYATEC-rkqiqvcs/Close Sensor"
-    deviceLabel: RH3001 Open/Close Sensor
-    manufacturer: TUYATEC-rkqiqvcs
-    model: RH3001
-    deviceProfileName: contact-battery-profile
-  #- id: "_TZE200_pay2byax/TS0601"
-  #  deviceLabel: TS0601 Contact Sensor
-  #  manufacturer: _TZE200_pay2byax
-  #  model: TS0601
-  #  deviceProfileName: contact-battery-profile
-  - id: "Leedarson/LDHD2AZW"
-    deviceLabel: LDHD2AZW Open/Closed Sensor
-    manufacturer: Leedarson
-    model: LDHD2AZW
-    deviceProfileName: contact-profile
-  - id: "_TZ3000_n2egfsli/Close Sensor"
-    deviceLabel: TS0203 Close Sensor
-    manufacturer: _TZ3000_n2egfsli
-    model: TS0203
-    deviceProfileName: contact-battery-profile
-  - id: "_TZ3000_n2egfsli/Close Sensor"
-    deviceLabel: TS0203 Close Sensor
-    manufacturer: _TZ3000_n2egfsli
-    model: TS0203
-    deviceProfileName: contact-battery-profile
-  - id: "Sercomm Corp./Tripper"
-    deviceLabel: Sercomm Open/Closed Sensor
-    manufacturer: Sercomm Corp.
-    model: Tripper
-    deviceProfileName: contact-battery-profile
-  - id: "TUYATEC-0l6xaqmi/RH3001"
-    deviceLabel: RH3001 Open/Close Sensor
-    manufacturer: TUYATEC-0l6xaqmi
-    model: RH3001
-    deviceProfileName: contact-battery-profile
-  - id: "Visonic/MCT-350 SMA"
-    deviceLabel: Tyco Open/Closed Sensor
-    manufacturer: Visonic
-    model: MCT-350 SMA
-    deviceProfileName: contact-profile
-  - id: "CentraLite/3323-G"
-    deviceLabel: Contact Sensor 3323-G
-    manufacturer: CentraLite
-    model: 3323-G
-    deviceProfileName: contact-profile
-  - id: "_TZ3000_au1rjicn/Close Sensor"
-    deviceLabel: TS0203 Close Sensor
-    manufacturer: _TZ3000_au1rjicn
-    model: TS0203
-    deviceProfileName: contact-battery-profile
-  - id: "_TZ3000_suiggvyhClose Sensor"
-    deviceLabel: TS0203 Close Sensor
-    manufacturer: _TZ3000_suiggvyh
-    model: TS0203
-    deviceProfileName: contact-battery-profile
-  - id: "_TZ3000_0gkrb5py/Contact Sensor"
-    deviceLabel: TS0203 Contact Sensor
-    manufacturer: _TZ3000_0gkrb5py
-    model: TS0203
-    deviceProfileName: contact-battery-profile
-  - id: "_TZ3000_decxrtwa/Contact Sensor"
-    deviceLabel: TS0203 Contact Sensor
-    manufacturer: _TZ3000_decxrtwa
-    model: TS0203
-    deviceProfileName: contact-battery-profile
-  - id: "EZVIZ/CS-T2C-A0-BG"
-    deviceLabel: EZVIZ Contact Sensor
-    manufacturer: EZVIZ
-    model: CS-T2C-A0-BG
-    deviceProfileName: contact-battery-profile
-  - id: "_TZ3000_ebar6ljy/Contact Sensor"
-    deviceLabel: TS0203 Contact Sensor
-    manufacturer: _TZ3000_ebar6ljy
-    model: TS0203
-    deviceProfileName: contact-battery-profile
-  - id: "_TZ3000_hdtmulpn/Contact Sensor"
-    deviceLabel: TS0203 Contact Sensor
-    manufacturer: _TZ3000_hdtmulpn
-    model: TS0203
-    deviceProfileName: contact-battery-profile
+    model: ZBT-CCTLight-M3500107
+    deviceProfileName: level-colortemp-2700-6000
+  - id: "IKEA/Bulb E26 opal"
+    deviceLabel: IKEA Bulb
+    manufacturer: IKEA of Sweden
+    model: TRADFRI bulb E26 opal 1000lm
+    deviceProfileName: switch-level
+  - id: "IKEA/Bulb E14 WS"
+    deviceLabel: IKEA Bulb
+    manufacturer: IKEA of Sweden
+    model: TRADFRI bulb E14 WS 470lm
+    deviceProfileName: level-colortemp-2200-4000
+  - id: "IKEA/TRADFRIbulbGU10WS345lm"
+    deviceLabel: IKEA GU10 Bulb
+    manufacturer: IKEA of Sweden
+    model: TRADFRIbulbGU10WS345lm
+    deviceProfileName: level-colortemp-2700-6000
+  - id: "IKEA/E27WSglobeopal1055lm"
+    deviceLabel: IKEA E27 Bulb
+    manufacturer: IKEA of Sweden
+    model: TRADFRIbulbE27WSglobeopal1055lm
+    deviceProfileName: level-colortemp-2200-4000
+  - id: "LEDVANCE/A19 RGBW"
+    deviceLabel: LEDVANCE A19 RGBW
+    manufacturer: LEDVANCE
+    model: A19 RGBW
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "LUMI/light.acn003"
+    deviceLabel: lumi light
+    manufacturer: LUMI
+    model: lumi.light.acn003
+    deviceProfileName: level-colortemp-2700-6500
+  - id: "GLEDOPTO/GL-B-008P"
+    deviceLabel: GLEDOPTO GL-B-008P
+    manufacturer: GLEDOPTO
+    model: GL-B-008P
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "GLEDOPTO/GL-B-007P"
+    deviceLabel: GLEDOPTO GL-B-007P
+    manufacturer: GLEDOPTO
+    model: GL-B-007P
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "lk/Bulb D0106"
+    deviceLabel: lK Bulb
+    manufacturer: lk
+    model: ZBT-CCTLight-D0106
+    deviceProfileName: level-colortemp-2700-6500
+  - id: "GLEDOPTO/GL-B-008ZS"
+    deviceLabel: GLEDOPTO GL-B-008ZS
+    manufacturer: GLEDOPTO
+    model: GL-B-008ZS
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZ3000/TS0503B"
+    deviceLabel: RGBW TS0503B
+    manufacturer: _TZ3000_i8l0nqdu
+    model: TS0503B
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "GLEDOPTO/GL-C-007P"
+    deviceLabel: GLEDOPTO GL-C-007P
+    manufacturer: GLEDOPTO
+    model: GL-C-007P
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "IKEA/E14 WS opal 600lm"
+    deviceLabel: IKEA E14 Bulb
+    manufacturer: IKEA of Sweden
+    model: TRADFRI bulb E14 WS opal 600lm
+    deviceProfileName: level-colortemp-2200-4000
+  - id: "IKEA/FLOALT panel WS 30x30"
+    deviceLabel: IKEA FLOALT panel
+    manufacturer: IKEA of Sweden
+    model: FLOALT panel WS 30x30
+    deviceProfileName: level-colortemp-2200-4000
+  - id: "IKEA/FLOALT panel WS 60x60"
+    deviceLabel: IKEA FLOALT panel
+    manufacturer: IKEA of Sweden
+    model: FLOALT panel WS 60x60
+    deviceProfileName: level-colortemp-2200-4000
+  - id: "IKEA/TRADFRI bulb GU10 WS 400lm"
+    deviceLabel: IKEA GU10 Bulb
+    manufacturer: IKEA of Sweden
+    model: TRADFRI bulb GU10 WS 400lm
+    deviceProfileName: level-colortemp-2200-4000
+  - id: " _TZ3210/TS0505B"
+    deviceLabel: RGBW TS0505B
+    manufacturer: _TZ3210_remypqqm
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZB210_tmi0rihb/TS0505B"
+    deviceLabel: RGBW TS0505B
+    manufacturer: _TZB210_tmi0rihb
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "Signify/LWA017"
+    deviceLabel: Bulb LWA017
+    manufacturer: Signify Netherlands B.V.
+    model: LWA017
+    deviceProfileName: switch-level
+  - id: "Candeo/HK-DIM-A"
+    deviceLabel: Candeo HK-DIM-A
+    manufacturer: Candeo
+    model: HK-DIM-A
+    deviceProfileName: switch-level
+  - id: "_TZ3000_oborybow/TS0502A"
+    deviceLabel: TS0502A LIDL
+    manufacturer: _TZ3000_oborybow
+    model: TS0502A
+    deviceProfileName: level-colortemp-2000-6500
+  - id: "_TZ3000_th6zqqy6/TS0505B"
+    deviceLabel: TS0505B RGBW
+    manufacturer: _TZ3000_th6zqqy6
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "GLEDOPTO/GL-C-008"
+    deviceLabel: GLEDOPTO GL-C-008
+    manufacturer: GLEDOPTO
+    model: GL-C-008
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "GLEDOPTO/GL-C-007"
+    deviceLabel: GLEDOPTO GL-C-007
+    manufacturer: GLEDOPTO
+    model: GL-C-007
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "GLEDOPTO/GL-S-007Z"
+    deviceLabel: GLEDOPTO GL-S-007Z
+    manufacturer: GLEDOPTO
+    model: GL-S-007Z
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "LEDVANCE/A60 RGBW Value II"
+    deviceLabel: LEDVANCE A60 RGBW
+    manufacturer: LEDVANCE
+    model: A60 RGBW Value II
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "LEDVANCE/CLA60 RGBW Z3"
+    deviceLabel: LEDVANCE CLA60 RGBW
+    manufacturer: LEDVANCE
+    model: CLA60 RGBW Z3
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "Ajax online/AJ_ZB30_GU10"
+    deviceLabel: RGBW AJ_ZB30_GU10
+    manufacturer: Ajax online Ltd
+    model: AJ_ZB30_GU10
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZ3000_12sxjap4/TS0505B"
+    deviceLabel: TS0505B RGBW
+    manufacturer: _TZ3000_12sxjap4
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZ3000_qd7hej8u/TS0505B"
+    deviceLabel: TS0505B RGBW
+    manufacturer: _TZ3000_qd7hej8u
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "IKEA/Bulb E12 WS"
+    deviceLabel: IKEA Bulb
+    manufacturer: IKEA of Sweden
+    model: TRADFRI bulb E12 WS 450lm
+    deviceProfileName: level-colortemp-2200-4000
+  - id: "IKEA/TRADFRIbulbE14WScandleopal470lm"
+    deviceLabel: IKEA Bulb E14 WS
+    manufacturer: IKEA of Sweden
+    model: TRADFRIbulbE14WScandleopal470lm
+    deviceProfileName: level-colortemp-2200-4000
+  - id: "IKEA/TRADFRIbulbE14WSglobeopal470lm"
+    deviceLabel: IKEA Bulb E14 WS
+    manufacturer: IKEA of Sweden
+    model: TRADFRIbulbE14WSglobeopal470lm
+    deviceProfileName: level-colortemp-2200-4000
+  - id: "IKEA/TRADFRIbulbE26WSglobeopal1100lm"
+    deviceLabel: IKEA Bulb E26 WS
+    manufacturer: IKEA of Sweden
+    model: TRADFRIbulbE26WSglobeopal1100lm
+    deviceProfileName: level-colortemp-2200-4000
+  - id: "TRADFRI bulb E26 WS opal 1000lm"
+    deviceLabel: IKEA Bulb E26 WS
+    manufacturer: IKEA of Sweden
+    model: TRADFRI bulb E26 WS opal 1000lm
+    deviceProfileName: level-colortemp-2200-4000
+  - id: "E26 WS Opal 1000lm"
+    deviceLabel: IKEA Bulb E26 WS
+    manufacturer: IKEA of Sweden
+    model: E26 WS Opal 1000lm
+    deviceProfileName: level-colortemp-2200-4000
+  - id: "TRADFRI bulb E26 WS opal 980lm"
+    deviceLabel: IKEA Bulb E26 WS
+    manufacturer: IKEA of Sweden
+    model: TRADFRI bulb E26 WS opal 980lm
+    deviceProfileName: level-colortemp-2200-4000
+  - id: "TRADFRI bulb E27 WS opal 1000lm"
+    deviceLabel: IKEA Bulb E27 WS
+    manufacturer: IKEA of Sweden
+    model: TRADFRI bulb E27 WS opal 1000lm
+    deviceProfileName: level-colortemp-2200-4000
+  - id: "TRADFRI bulb E27 W opal 1000lm"
+    deviceLabel: IKEA Bulb E27 WS
+    manufacturer: IKEA of Sweden
+    model: TRADFRI bulb E27 W opal 1000lm
+    deviceProfileName: level-colortemp-2200-4000
+  - id: "innr/RB 285 C"
+    deviceLabel: innr RGBW
+    manufacturer: innr
+    model: RB 285 C
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "eWeLight/ZB-CT01"
+    deviceLabel: eWeLight CCT
+    manufacturer: eWeLight
+    model: ZB-CT01
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "GLEDOPTO/GL-MC-001"
+    deviceLabel: GLEDOPTO GL-MC-001
+    manufacturer: GLEDOPTO
+    model: GL-MC-001
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "IKEA/Bulb GU10 WW 400lm"
+    deviceLabel: IKEA Bulb
+    manufacturer: IKEA of Sweden
+    model: TRADFRI bulb GU10 WW 400lm
+    deviceProfileName: switch-level
+  - id: "LEDVANCE/RGBW Z3"
+    deviceLabel: LEDVANCE RGBW Z3
+    manufacturer: LEDVANCE
+    model: Gardenpole RGBW Z3
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "OSRAM/Ceiling TW"
+    deviceLabel: OSRAM Ceiling TW
+    manufacturer: OSRAM
+    model: Ceiling TW OSRAM
+    deviceProfileName: level-colortemp-2700-6500
+  - id: "sengled/Z01-A19NAE26"
+    deviceLabel: sengled Z01-A19NAE26
+    manufacturer: sengled
+    model: Z01-A19NAE26
+    deviceProfileName: level-colortemp-2700-6500
+  - id: "Feibit/FZB56-ZCW27LX1.0"
+    deviceLabel: Feibit RGBW
+    manufacturer: Feibit Inc co.
+    model: FZB56-ZCW27LX1.0
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "OSRAM/A19 RGBW"
+    deviceLabel: OSRAM A19 RGBW
+    manufacturer: OSRAM
+    model: LIGHTIFY A19 RGBW
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "OSRAM/RT RGBW"
+    deviceLabel: OSRAM RT RGBW
+    manufacturer: OSRAM
+    model: LIGHTIFY RT RGBW
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "OSRAM/BR RGBW"
+    deviceLabel: OSRAM BR RGBW
+    manufacturer: OSRAM
+    model: LIGHTIFY BR RGBW
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "ZB-CL01/eWeLight"
+    deviceLabel: eWeLight RGBW
+    manufacturer: eWeLight
+    model: ZB-CL01
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "LEDVANCE/PAR16 RGBW Z3"
+    deviceLabel: LEDVANCE PAR16 RGBW Z3
+    manufacturer: LEDVANCE
+    model: PAR16 RGBW Z3
+    deviceProfileName: rgbw-level-colortemp-2000-6500
+  - id: "SYLVANIA Light"
+    deviceLabel: SYLVANIA Light
+    manufacturer: OSRAM
+    model: LIGHTIFY A19 ON/OFF/DIM 10 Year
+    deviceProfileName: switch-level
+  - id: "Light/Smartthings"
+    deviceLabel: Light Smartthings
+    manufacturer: LDS
+    model: ZBT-DIMLight-GLS0006
+    deviceProfileName: switch-level
+  - id: "GL-C-006P/Gledopto"
+    deviceLabel: Light Gledopto
+    manufacturer: GLEDOPTO
+    model: GL-C-006P
+    deviceProfileName: level-colortemp-2700-6500
+  - id: "Light/Gledopto"
+    deviceLabel: Light Gledopto
+    manufacturer: GLEDOPTO
+    model: GL-S-004Z
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "GL-S-005Z/Gledopto"
+    deviceLabel: Light Gledopto
+    manufacturer: GLEDOPTO
+    model: GL-S-005Z
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "GL-C-002P/Gledopto"
+    deviceLabel: Light Gledopto
+    manufacturer: GLEDOPTO
+    model: GL-C-002P
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "OSL 130 C/innr"
+    deviceLabel: Light OSL 130 C
+    manufacturer: innr
+    model: OSL 130 C
+    deviceProfileName: rgbw-level-colortemp-2000-6500
+  - id: "_TZ3000_qqjaziws/TS0505B"
+    deviceLabel: RGBW TS0505B
+    manufacturer: _TZ3000_qqjaziws
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2000-6500
+  - id: "innr/BY 265"
+    deviceLabel: BY 265 Bulb
+    manufacturer: innr
+    model: BY 265
+    deviceProfileName: switch-level
+  - id: "eWeLight/ZB-DL01"
+    deviceLabel: ZB-DL01 Bulb
+    manufacturer: eWeLight
+    model: ZB-DL01
+    deviceProfileName: switch-level
+  - id: "Tuya ZigBee 3.0 LED Controller 2"
+    deviceLabel: Smart ZigBee 3.0
+    manufacturer: Light
+    model: A10
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZ3210_rcggc0ys/TS0505B"
+    deviceLabel: RGBW TS0505B
+    manufacturer: _TZ3210_rcggc0ys
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZ3210_p9ao60da/TS0505B"
+    deviceLabel: RGBW TS0505B
+    manufacturer: _TZ3210_p9ao60da
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZ3210_iystcadi/TS0505B"
+    deviceLabel: RGBW TS0505B
+    manufacturer: _TZ3210_iystcadi
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZ3210_c2iwpxf1/TS0502B"
+    deviceLabel: Lidl LED
+    manufacturer: _TZ3210_c2iwpxf1
+    model: TS0502B
+    deviceProfileName: level-colortemp-2000-6500
+  - id: "_TZ3210_trm3l2aw/TS0503B"
+    deviceLabel: RGBW TS0503B
+    manufacturer: _TZ3210_trm3l2aw
+    model: TS0503B/PAR16 50 TW
+    deviceProfileName: level-colortemp-2000-6500
+  - id: "OSRAM/TS0503B"
+    deviceLabel: OSRAM PAR16 50 TW
+    manufacturer: OSRAM
+    model: PAR16 50 TW
+    deviceProfileName: level-colortemp-2700-6500
+  - id: "innr/AE 280 C"
+    deviceLabel: RGBW AE 280 C
+    manufacturer: innr
+    model: AE 280 C
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "LEDVANCE/PAR16S RGBW"
+    deviceLabel: LEDVANCE PAR16S RGBW
+    manufacturer: LEDVANCE
+    model: PAR16S RGBW
+    deviceProfileName: rgbw-level-colortemp-2000-6500
+  - id: "3A Smart/LXN60-LS27-Z30"
+    deviceLabel: 3A Smart Home DE RGBW
+    manufacturer: 3A Smart Home DE
+    model: LXN60-LS27-Z30
+    deviceProfileName: rgbw-level-colortemp-2000-6500
+  - id: "TS0501B/_TZ3210_dxroobu3"
+    deviceLabel: TS0501B dimmer
+    manufacturer: _TZ3210_dxroobu3
+    model: TS0501B
+    deviceProfileName: switch-level
+  - id: "innr/AE 280 C"
+    deviceLabel: RGBW AE 280 C
+    manufacturer: innr
+    model: AE 280 C
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "AwoX/TLSR82xx"
+    deviceLabel: TLSR82xx RGBW
+    manufacturer: AwoX
+    model: TLSR82xx
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZ3210_leyz4rju/TS0505B"
+    deviceLabel: RGBW TS0505B
+    manufacturer: _TZ3210_leyz4rju
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "IKEA/TRADFRI Driver 30W"
+    deviceLabel: IKEA Light
+    manufacturer: IKEA of Sweden
+    model: TRADFRI Driver 30W
+    deviceProfileName: switch-level
+  - id: "_TZ3210_jd3z4yig/TS0505B"
+    deviceLabel: RGBW TS0505B
+    manufacturer: _TZ3210_jd3z4yig
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "JunYu/ZB-RGBCW"
+    deviceLabel: ZB-RGBCW
+    manufacturer: JunYu
+    model: ZB-RGBCW
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "IKEA/TRADFRIbulbG125E27WSopal470lm"
+    deviceLabel: IKEA Light
+    manufacturer: IKEA of Sweden
+    model: TRADFRIbulbG125E27WSopal470lm
+    deviceProfileName: level-colortemp-2200-4000
+  - id: "GLEDOPTO/GL-B-007Z"
+    deviceLabel: GLEDOPTO GL-B-007Z
+    manufacturer: GLEDOPTO
+    model: GL-B-007Z
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZ3210_vaiyrvd1/TS0505B"
+    deviceLabel: RGBW TS0505B
+    manufacturer: _TZ3210_vaiyrvd1
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: sengled/E12-N1E
+    deviceLabel: Sengled Element Color Plus
+    manufacturer: sengled
+    model: E12-N1E
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "IKEA/FLOALT panel WS 60x90"
+    deviceLabel: IKEA FLOALT panel
+    manufacturer: IKEA of Sweden
+    model: FLOALT panel WS 60x90
+    deviceProfileName: level-colortemp-2200-4000
+  - id: "GLEDOPTO/GL-FL-004P"
+    deviceLabel: GLEDOPTO GL-FL-004P
+    manufacturer: GLEDOPTO
+    model: GL-FL-004P
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "HUE/LCD006"
+    deviceLabel: HUE LCD006
+    manufacturer: Signify Netherlands B.V.
+    model: LCD006
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZ3210_k1pe6ibm/TS0505B"
+    deviceLabel: RGBW TS0505B
+    manufacturer: _TZ3210_k1pe6ibm
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "IKEA/bulbB22WSglobeopal1055lm"
+    deviceLabel: IKEA Bulb
+    manufacturer: IKEA of Sweden
+    model: TRADFRIbulbB22WSglobeopal1055lm
+    deviceProfileName: level-colortemp-2200-4000
+  - id: "3A Smart/LXN56-DS27LX1.3"
+    deviceLabel: 3A Smart Dimmer
+    manufacturer: 3A Smart Home DE
+    model: LXN56-DS27LX1.3
+    deviceProfileName: switch-level
+  - id: "GL-C-006/Gledopto"
+    deviceLabel: Light Gledopto
+    manufacturer: GLEDOPTO
+    model: GL-C-006
+    deviceProfileName: level-colortemp-2700-6500
+  - id: "tint-ColorTemperature/MLI"
+    deviceLabel: Light MLI
+    manufacturer: MLI
+    model: tint-ColorTemperature
+    deviceProfileName: level-colortemp-2000-6500
+  - id: "GLEDOPTO/GL-C-009"
+    deviceLabel: GLEDOPTO GL-C-009
+    manufacturer: GLEDOPTO
+    model: GL-C-009
+    deviceProfileName: switch-level
+  - id: "OSRAM/LIGHTIFY FLEX"
+    deviceLabel: LIGHTIFY FLEX RGBW
+    manufacturer: OSRAM
+    model: LIGHTIFY FLEX OUTDOOR RGBW
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "Light/A11"
+    deviceLabel: Light A11
+    manufacturer: Light
+    model: A11
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "Connected A-19 60W Equivalent"
+    deviceLabel: CREE A19 Bulb
+    manufacturer: CREE
+    model: Connected A-19 60W Equivalent
+    deviceProfileName: switch-level
+  - id: "LEDVANCE/PAR16 RGBW Z3"
+    deviceLabel: LEDVANCE PAR16 RGBW Z3
+    manufacturer: LEDVANCE
+    model: PAR16 RGBW Z3
+    deviceProfileName: rgbw-level-colortemp-2000-6500
+  - id: "LEDVANCE/A60S RGBW"
+    deviceLabel: LEDVANCE A60S RGBW
+    manufacturer: LEDVANCE
+    model: A60S RGBW
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZ3000_quqaeew6/TS0505B"
+    deviceLabel: TS0505B RGBW
+    manufacturer: _TZ3000_quqaeew6
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2000-6500
+  - id: "_TZ3210_c0s1xloa/TS0505B"
+    deviceLabel: TS0505B RGBW
+    manufacturer: _TZ3210_c0s1xloa
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2000-6500
+  - id: "GLEDOPTO/GL-B-008Z"
+    deviceLabel: GLEDOPTO GL-B-008Z
+    manufacturer: GLEDOPTO
+    model: GL-B-008Z
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "Interfree/IDSW1O"
+    deviceLabel: Interfree 1 Dimmer
+    manufacturer: Interfree
+    model: IDSW1O
+    deviceProfileName: switch-level
+  - id: "3A-Smart/FEB56-ZCW2CLX1.0"
+    deviceLabel: 3A Smart FEB56-ZCW2CLX1.0
+    manufacturer: 3A Smart Home
+    model: FEB56-ZCW2CLX1.0
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "IKEA/TRADFRI bulb E26 WS clear 950lm"
+    deviceLabel: IKEA Bulb
+    manufacturer: IKEA of Sweden
+    model: TRADFRI bulb E26 WS clear 950lm
+    deviceProfileName: level-colortemp-2200-4000
+  - id: sengled/E1G-G8E
+    deviceLabel: Sengled Smart Light Strip
+    manufacturer: sengled
+    model: E1G-G8E
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZ3210_k1msuvg6/TS110E"
+    deviceLabel: TS110E Dimmer
+    manufacturer: _TZ3210_k1msuvg6
+    model: TS110E
+    deviceProfileName: switch-level
+  - id: "LEDVANCE/FLEX RGBW Z3"
+    deviceLabel: LEDVANCE FLEX RGBW Z3
+    manufacturer: LEDVANCE
+    model: FLEX RGBW Z3
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "IKEA/TRADFRIbulbE27WSglobeclear806lm"
+    deviceLabel: IKEA Bulb
+    manufacturer: IKEA of Sweden
+    model: TRADFRIbulbE27WSglobeclear806lm
+    deviceProfileName: level-colortemp-2200-4000
+  - id: "OSRAM/CLA60 RGBW OSRAM"
+    deviceLabel: CLA60 RGBW OSRAM
+    manufacturer: OSRAM
+    model: CLA60 RGBW OSRAM
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "YSRSAI/ZB-CT01"
+    deviceLabel: YSRSAI CCT
+    manufacturer: YSRSAI
+    model: ZB-CT01
+    deviceProfileName: level-colortemp-2700-6500
+  - id: "YSRSAI/ZB-CL01"
+    deviceLabel: YSRSAI RGBW
+    manufacturer: YSRSAI
+    model: ZB-CL01
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "LDS/ZBT-DimmableLight"
+    deviceLabel: LDS ZBT-Dimmable Light
+    manufacturer: LDS
+    model: ZBT-DimmableLight
+    deviceProfileName: switch-level
+  - id: "GLEDOPTO/GL-G-003P"
+    deviceLabel: GLEDOPTO GL-G-003P
+    manufacturer: GLEDOPTO
+    model: GL-G-003P
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "LEDVANCE/Flex XL RGBW"
+    deviceLabel: LEDVANCE Flex XL RGBW
+    manufacturer: LEDVANCE
+    model: Flex XL RGBW
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "Sengled/E21-N1EA"
+    deviceLabel: Sengled E21-N1EA
+    manufacturer: sengled
+    model: E21-N1EA
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "innr/BY 185 C"
+    deviceLabel: innr RGBW
+    manufacturer: innr
+    model: BY 185 C
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "Signify/LWG004"
+    deviceLabel: Bulb LWG004
+    manufacturer: Signify Netherlands B.V.
+    model: LWG004
+    deviceProfileName: switch-level
+  - id: "Signify/LWB010"
+    deviceLabel: Bulb LWB010
+    manufacturer: Signify Netherlands B.V.
+    model: LWB010
+    deviceProfileName: switch-level
+  - id: "LEDVANCE/FLEX RGBW"
+    deviceLabel: LEDVANCE FLEX RGBW
+    manufacturer: LEDVANCE
+    model: FLEX RGBW
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "innr/BY 266"
+    deviceLabel: BY 266 Bulb
+    manufacturer: innr
+    model: BY 266
+    deviceProfileName: switch-level
+  - id: "innr/BY 286 C"
+    deviceLabel: innr RGBW
+    manufacturer: innr
+    model: BY 286 C
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "innr/RB 286 C"
+    deviceLabel: innr RGBW
+    manufacturer: innr
+    model: RB 286 C
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZ3210_e020aaa/TS0505B"
+    deviceLabel: RGBW TS0505B
+    manufacturer: _TZ3210_e020aaa
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "RGBCXStrip50AU/Aurora"
+    deviceLabel: Aurora RGBW
+    manufacturer: Aurora
+    model: RGBCXStrip50AU
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "ZBT-CCTLight-C4700107/lk"
+    deviceLabel: lk ZBT-CCTLight
+    manufacturer: lk
+    model: ZBT-CCTLight-C4700107
+    deviceProfileName: level-colortemp-2700-6500
+  - id: "eWeLink/Z102LG03-1"
+    deviceLabel: eWeLink Z102LG03-1
+    manufacturer: eWeLink
+    model: Z102LG03-1
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZ3210_dajkjxwt/TS0505B"
+    deviceLabel: RGBW TS0505B
+    manufacturer: _TZ3210_dajkjxwt
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "GLEDOPTO/GL-D-004ZS"
+    deviceLabel: GLEDOPTO RGBW GL-D-004ZS
+    manufacturer: GLEDOPTO
+    model: GL-D-004ZS
+    deviceProfileName: rgbw-level-colortemp-2000-6500
+  - id: "innr/RS 226"
+    deviceLabel: innr gu10
+    manufacturer: innr
+    model: RS 226
+    deviceProfileName: switch-level
+  - id: "Signify/LWA029"
+    deviceLabel: Bulb LWA017
+    manufacturer: Signify Netherlands B.V.
+    model: LWA029
+    deviceProfileName: switch-level
+  - id: "_TZ3210_09hzmirw/TS0502B"
+    deviceLabel: EcoDim LED
+    manufacturer: _TZ3210_09hzmirw
+    model: TS0502B
+    deviceProfileName: level-colortemp-2000-6500
+  - id: "OSRAM/Classic A60 TW"
+    deviceLabel: OSRAM Classic A60 TW
+    manufacturer: OSRAM
+    model: Classic A60 TW
+    deviceProfileName: level-colortemp-2700-6500
+  - id: "IKEA/TRADFRI bulb E14 WS globe 470lm"
+    deviceLabel: IKEA Bulb
+    manufacturer: IKEA of Sweden
+    model: TRADFRI bulb E14 WS globe 470lm
+    deviceProfileName: level-colortemp-2200-4000
+  - id: "AduroSmart/BDP3001"
+    deviceLabel: AduroSmart BDP3001
+    manufacturer: AduroSmart Eria
+    model: BDP3001
+    deviceProfileName: switch-level
+  - id: "GL-C-001P/Gledopto"
+    deviceLabel: Light Gledopto
+    manufacturer: GLEDOPTO
+    model: GL-C-001P
+    deviceProfileName: level-colortemp-2700-6500
+  - id: "_TZ3210_eejm8dcr/TS0505B"
+    deviceLabel: RGBW TS0505B
+    manufacturer: _TZ3210_eejm8dcr
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "Aurora/RGBGU10Bulb50AU"
+    deviceLabel: RGBW Aurora
+    manufacturer: Aurora
+    model: RGBGU10Bulb50AU
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "Aurora/RGBBulb51AU"
+    deviceLabel: RGBW Aurora
+    manufacturer: Aurora
+    model: RGBBulb51AU
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "Aurora/TWGU10Bulb50AU"
+    deviceLabel: TWGU10 Aurora
+    manufacturer: Aurora
+    model: TWGU10Bulb50AU
+    deviceProfileName: level-colortemp-2000-6500
+  - id: "LEEDARSON/LED_GU1O_OWDT"
+    deviceLabel: LEEDARSON LED_GU1O_OWDT
+    manufacturer: LEEDARSON LIGHTING
+    model: LED_GU1O_OWDT
+    deviceProfileName: level-colortemp-2700-6500
+  - id: sengled/E1F-N5E
+    deviceLabel: Sengled Light
+    manufacturer: sengled
+    model: E1F-N5E
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZ3210_r5afgmkl/TS0505B"
+    deviceLabel: RGBW TS0505B
+    manufacturer: _TZ3210_r5afgmkl
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "AduroSmart/LED Strip V1.0"
+    deviceLabel: AduroSmart RGBW
+    manufacturer: AduroSmart Eria
+    model: Extended Color LED Strip V1.0
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "IKEA/Bulb E27 WS-2"
+    deviceLabel: IKEA Bulb
+    manufacturer: IKEA of Sweden
+    model: TRADFRI bulb E27 WS�opal 980lm
+    deviceProfileName: level-colortemp-2200-4000
+  - id: "IKEA/E26WSglobeopal1055lm"
+    deviceLabel: IKEA E26 Bulb
+    manufacturer: IKEA of Sweden
+    model: TRADFRIbulbE26WSglobeopal1055lm
+    deviceProfileName: level-colortemp-2000-6500
+  - id: "HORNBATCH/VIYU-A60-806-CCT"
+    deviceLabel: HORNBATCH Bulb
+    manufacturer: HORNBATCH Baumarkt AG
+    model: VIYU-A60-806-CCT-10011723
+    deviceProfileName: level-colortemp-2700-6500
+  - id: "GLEDOPTO/GL-C-103P"
+    deviceLabel: GLEDOPTO GL-C-103P
+    manufacturer: GLEDOPTO
+    model: GL-C-103P
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "GLEDOPTO/GL-S-006P"
+    deviceLabel: GLEDOPTO GL-S-006P
+    manufacturer: GLEDOPTO
+    model: GL-S-006P
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "Sengled/E1F-N9G"
+    deviceLabel: Sengled E1F-N9G
+    manufacturer: sengled
+    model: E1F-N9G
+    deviceProfileName: switch-level
+  - id: "_TZ3210_ksqwlz9v/TS0502B"
+    deviceLabel: TS0502B LED
+    manufacturer: _TZ3210_ksqwlz9v
+    model: TS0502B
+    deviceProfileName: level-colortemp-2000-6500
+  - id: "_TZ3210_jtifm80b/TS0502B"
+    deviceLabel: TS0502B LED
+    manufacturer: _TZ3210_jtifm80b
+    model: TS0502B
+    deviceProfileName: level-colortemp-2000-6500
+  - id: "_TZ3210_ijczzg9h/TS0505B"
+    deviceLabel: RGBW TS0505B
+    manufacturer: _TZ3210_ijczzg9h
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2000-6500
+  - id: "_TZ3000_oh7jddmx/TS0502A"
+    deviceLabel: TS0502A LED
+    manufacturer: _TZ3000_oh7jddmx
+    model: TS0502A
+    deviceProfileName: level-colortemp-2000-6500
+  - id: "IKEA/TRADFRI bulb E12 WS globe 450lm"
+    deviceLabel: IKEA E12 Bulb
+    manufacturer: IKEA of Sweden
+    model: TRADFRI bulb E12 WS globe 450lm
+    deviceProfileName: level-colortemp-2200-4000
+  - id: "_TZ3210_3lbtuxgp/TS0505B"
+    deviceLabel: RGBW TS0505B
+    manufacturer: _TZ3210_3lbtuxgp
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2000-6500
+  - id: "_TZ3210_95txyzbx/TS0503B"
+    deviceLabel: RGB TS0503B
+    manufacturer: _TZ3210_95txyzbx
+    model: TS0503B
+    deviceProfileName: level-rgb
+  - id: "_TZB210_417ikxay/TS0505B"
+    deviceLabel: RGBW TS0505B
+    manufacturer: _TZB210_417ikxay
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2000-6500
+  - id: "GLEDOPTO/GL-C-003P"
+    deviceLabel: GLEDOPTO GL-C-003P
+    manufacturer: GLEDOPTO
+    model: GL-C-003P
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "GLEDOPTO/GL-C-009S"
+    deviceLabel: GLEDOPTO GL-C-009S
+    manufacturer: GLEDOPTO
+    model: GL-C-009S
+    deviceProfileName: switch-level
+  - id: sengled/E23-N13
+    deviceLabel: Sengled Multicolor par38
+    manufacturer: sengled
+    model: E23-N13
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "sengled/E23-N11"
+    deviceLabel: Sengled Light par38
+    manufacturer: sengled
+    model: E23-N11
+    deviceProfileName: switch-level
+  - id: "_TZ3210_s9lumfhn/TS0505B"
+    deviceLabel: RGBW TS0505B
+    manufacturer: _TZ3210_s9lumfhn
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2000-6500
+  - id: "GLEDOPTO/GL-G-002P"
+    deviceLabel: GLEDOPTO GL-G-002P
+    manufacturer: GLEDOPTO
+    model: GL-G-002P
+    deviceProfileName: rgbw-level-colortemp-2000-6500
+  - id: "GLEDOPTO/GL-G-001P"
+    deviceLabel: GLEDOPTO GL-G-001P
+    manufacturer: GLEDOPTO
+    model: GL-G-001P
+    deviceProfileName: rgbw-level-colortemp-2000-6500
+  - id: "_TZ3210_x8ay4yvz/TS0502B"
+    deviceLabel: TS0502B LED
+    manufacturer: _TZ3210_x8ay4yvz
+    model: TS0502B
+    deviceProfileName: level-colortemp-2000-6500
+  - id: "_TZ3210_pgq2qvyv/TS0502B"
+    deviceLabel: TS0502B LED
+    manufacturer: _TZ3210_pgq2qvyv
+    model: TS0502B
+    deviceProfileName: level-colortemp-2000-6500
+  - id: "_TZ3210_r0xgkft5/TS0505B"
+    deviceLabel: RGBW TS0505B
+    manufacturer: _TZ3210_r0xgkft5
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2000-6500
+  - id: "_TZ3210_8evra4gu/TS0502B"
+    deviceLabel: TS0502B LED
+    manufacturer: _TZ3210_8evra4gu
+    model: TS0502B
+    deviceProfileName: level-colortemp-2000-6500
+  - id: Juno/ABL-LIGHT-Z-001
+    deviceLabel: Juno Connect
+    manufacturer: Juno
+    model: ABL-LIGHT-Z-001
+    deviceProfileName: level-colortemp-2700-5000
+  - id: Juno/ABL-LIGHT-Z-001
+    deviceLabel: Juno Connect
+    manufacturer: Juno
+    model: ABL-LIGHT-Z-001
+    deviceProfileName: level-colortemp-2700-5000
+  - id: "Samsung Electronics/ABL-LIGHT-Z-001"
+    deviceLabel: Juno Connect
+    manufacturer: Samsung Electronics
+    model: ABL-LIGHT-Z-001
+    deviceProfileName: level-colortemp-2700-5000
 
-  # ST multipurpose sensors
-  - id: "Samjin/multi"
-    deviceLabel: Multipurpose Sensor
-    manufacturer: Samjin
-    model: multi
-    deviceProfileName: st-multipurpose
-  - id: "SmartThings/multiv4"
-    deviceLabel: Multipurpose Sensor
-    manufacturer: SmartThings
-    model: multiv4
-    deviceProfileName: st-multipurpose
-  - id: "CentraLite/3321-S"
-    deviceLabel: Multipurpose Sensor
-    manufacturer: CentraLite
-    model: 3321-S
-    deviceProfileName: st-multipurpose  
+  # XY Color
+  - id: "IKEA/E27 CWS 806lm"
+    deviceLabel: IKEA E27 Bulb
+    manufacturer: IKEA of Sweden
+    model: TRADFRI bulb E27 CWS 806lm
+    deviceProfileName: rgbw-level-colortemp-2200-4000 #level-rgb
+  - id: "TRADFRI bulb GU10 CWS 380lm"
+    deviceLabel: IKEA GU10 Bulb
+    manufacturer: IKEA of Sweden
+    model: TRADFRI bulb GU10 CWS 380lm
+    deviceProfileName: rgbw-level-colortemp-2200-4000
+  - id: "TRADFRI bulb E27 CWS opal 600lm"
+    deviceLabel: IKEA E27 Bulb
+    manufacturer: IKEA of Sweden
+    model: TRADFRI bulb E27 CWS opal 600lm
+    deviceProfileName: level-rgb # no es RGBW @amin300
+  - id: "TRADFRI bulb E26 CWS opal 600lm"
+    deviceLabel: IKEA E26 Bulb
+    manufacturer: IKEA of Sweden
+    model: TRADFRI bulb E26 CWS opal 600lm
+    deviceProfileName: rgbw-level-colortemp-2200-4000 #level-rgb
+  - id: "_TZ3000_riwp3k79/LIDL"
+    deviceLabel: LIDL TS0505A
+    manufacturer: _TZ3000_riwp3k79
+    model: TS0505A
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZ3000_dbou1ap4/LIDL"
+    deviceLabel: LIDL TS0505A
+    manufacturer: _TZ3000_dbou1ap4
+    model: TS0505A
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZ3000_kdpxju99/LIDL"
+    deviceLabel: LIDL TS0505A
+    manufacturer: _TZ3000_kdpxju99
+    model: TS0505A
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZ3210_sroezl0s/LIDL"
+    deviceLabel: LIDL TS0504B
+    manufacturer: _TZ3210_sroezl0s
+    model: TS0504B
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZ3000_v7fkcekx/LIDL"
+    deviceLabel: LIDL TS0505A
+    manufacturer: _TZ3000_v7fkcekx
+    model: TS0505A
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZ3000_odygigh/LIDL"
+    deviceLabel: LIDL TS0505A
+    manufacturer: _TZ3000_odygigth
+    model: TS0505A
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "TRADFRI bulb E14 CWS 470lm"
+    deviceLabel: IKEA E14 Bulb
+    manufacturer: IKEA of Sweden
+    model: TRADFRI bulb E14 CWS 470lm
+    deviceProfileName: rgbw-level-colortemp-2200-4000
+  - id: " TRADFRI bulb GU10 CWS 345lm"
+    deviceLabel: IKEA GU10 Bulb
+    manufacturer: IKEA of Sweden
+    model:  TRADFRI bulb GU10 CWS 345lm
+    deviceProfileName: rgbw-level-colortemp-2200-4000
+  - id: "_TZ3000_gek6snaj/LIDL"
+    deviceLabel: LIDL TS0505A
+    manufacturer: _TZ3000_gek6snaj
+    model: TS0505A
+    deviceProfileName: rgbw-level-colortemp-2000-6500
+  - id: "_TZ3000_9cpuaca6/LIDL"
+    deviceLabel: LIDL TS0505A
+    manufacturer: _TZ3000_9cpuaca6
+    model: TS0505A
+    deviceProfileName: rgbw-level-colortemp-2000-6500
+  - id: "_TZ3000_keabpigv/Woox"
+    deviceLabel: Woox TS0505A
+    manufacturer: _TZ3000_keabpigv
+    model: TS0505A
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZ3000_obacbukl/TS0503A"
+    deviceLabel: Woox TS0503A
+    manufacturer: _TZ3000_obacbukl
+    model: TS0503A
+    deviceProfileName: level-rgb
+  - id: "TRADFRI bulb E26 CWS 800lm"
+    deviceLabel: IKEA E26 Bulb
+    manufacturer: IKEA of Sweden
+    model: TRADFRI bulb E26 CWS 800lm
+    deviceProfileName: rgbw-level-colortemp-2200-4000
+  - id: "TRADFRI bulb E12 CWS 450lm"
+    deviceLabel: IKEA E12 Bulb
+    manufacturer: IKEA of Sweden
+    model: TRADFRI bulb E12 CWS 450lm
+    deviceProfileName: rgbw-level-colortemp-2200-4000
+  - id: "_TZ3000_utagpnzs/Livarno"
+    deviceLabel: Livarno TS0505A
+    manufacturer: _TZ3000_utagpnzs
+    model: TS0505A
+    deviceProfileName: rgbw-level-colortemp-2000-6500
+
+  # Dimmers
+  - id: "3A-Smart-Home/LXN56-DC27LX1.1"
+    deviceLabel: Nue Inline Dimmer
+    manufacturer: 3A Smart Home DE
+    model: LXN56-DC27LX1.1
+    deviceProfileName: switch-level
+  - id: "3A-Smart-Home/LXN56-DS27LX1.1"
+    deviceLabel: Nue Dimmer Switch
+    manufacturer: 3A Smart Home DE
+    model: LXN56-DS27LX1.1
+    deviceProfileName: switch-level
+  - id: "3A-Smart-Home/LXN60-DS27LX1.3"
+    deviceLabel: Nue Dimmer Switch
+    manufacturer: 3A Smart Home DE
+    model: LXN60-DS27LX1.3
+    deviceProfileName: switch-level
+  - id: "3A-Smart-Home/LXN56-DS27LX1.3"
+    deviceLabel: Nue Dimmer Switch
+    manufacturer: 3A Smart Home DE
+    model: LXN56-DS27LX1.3
+    deviceProfileName: switch-level
+  - id: "CentraLite/4256050-ZHAC"
+    deviceLabel: CentraLite Dimmer Plug
+    manufacturer: CentraLite Systems
+    model: 4256050-ZHAC
+    deviceProfileName: switch-level
+
 zigbeeGeneric:
-  - id: "contact-generic"
-    deviceLabel: "Zigbee Contact Sensor"
-    zigbeeProfiles:
+  - id: "dimmer-generic ZLL"
+    deviceLabel: "Zigbee Dimmer"
+    zigbeeProfiles: 
+      - 0xC05E
+    deviceIdentifiers: 
+      - 0x0100
+    clusters: 
+      server: 
+        - 0x0006
+        - 0x0008
+      client:
+        - 0x0019
+    deviceProfileName: switch-level
+  - id: "dimmer-generic"
+    deviceLabel: "Zigbee Dimmer"
+    zigbeeProfiles: 
       - 0x0104
-    deviceIdentifiers:
-      - 0x0402
-    clusters:
-      server:
-        - 0x0000
-        - 0x0001
-        - 0x0003
-        - 0x0009
-        - 0x0500
+    deviceIdentifiers: 
+      - 0x0101
+    clusters: 
+      server: 
+        - 0x0006
+        - 0x0008
       client:
         - 0x0000
-    deviceProfileName: contact-general
+    deviceProfileName: switch-level
+  - id: "dimmer-generic-1"
+    deviceLabel: "Zigbee Dimmer"
+    zigbeeProfiles: 
+      - 0x0104
+    deviceIdentifiers: 
+      - 0x0101
+    clusters: 
+      server: 
+        - 0x0006
+        - 0x0008
+      client:
+        - 0x0019
+    deviceProfileName: switch-level
+  - id: "RGBW ZLL-generic"
+    deviceLabel: "Zigbee RGBW ZLL"
+    zigbeeProfiles: 
+      - 0xC05E
+    deviceIdentifiers: 
+      - 0x0210
+    clusters: 
+      server: 
+        - 0x0006
+        - 0x0008
+        - 0x0300
+      client:
+        - 0x0019
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "RGBW-generic"
+    deviceLabel: "Zigbee RGBW"
+    zigbeeProfiles: 
+      - 0x0104
+    deviceIdentifiers: 
+      - 0x0102
+    clusters: 
+      server: 
+        - 0x0006
+        - 0x0008
+        - 0x0300
+      client:
+        - 0x0019
+    deviceProfileName: rgbw-level-colortemp-2700-6500
