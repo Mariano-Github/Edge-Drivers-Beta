@@ -35,6 +35,30 @@ local signal = require "signal-metrics"
 
 local signal_Metrics = capabilities["legendabsolute60149.signalMetrics"]
 
+-- no offline function
+local function no_offline(self,device)
+  print("***** function no_offline *********")
+
+  if device:get_manufacturer() == "_TZ3000_f1hmoyj4" or
+    --device:get_manufacturer() == "_TZ1800_ejwkn2h2" or
+    device:get_manufacturer() == "eWeLink" or
+    device:get_manufacturer() == "TUYATEC-rkqiqvcs" then
+
+    ------ Timer activation
+    device.thread:call_on_schedule( 300,
+    function ()
+      local last_state = device:get_latest_state("main", capabilities.contactSensor.ID, capabilities.contactSensor.contact.NAME)
+      print("<<<<< TIMER Last status >>>>>> ", last_state)
+      if last_state == "closed" then
+        device:emit_event(capabilities.contactSensor.contact.closed())
+      else
+        device:emit_event(capabilities.contactSensor.contact.open())
+      end
+    end
+    ,'Refresh state')
+  end  
+end
+
 -- configure accel threshold
 local function configure_accel_threshold (self,device)
   print("<<<<< configure_accel_threshold >>>>>")
@@ -55,28 +79,6 @@ end
 local function info_Changed(self,device)
 
  print("***** infoChanged *********")
-  ----- Execute emit state event for sonoff ewelink with infoChanged lifecycle or timer
-  if device:get_manufacturer() == "eWeLink" then
-    ---- Timers Cancel ------
-   for timer in pairs(device.thread.timers) do
-    print("<<<<< Cancel all timer >>>>>")
-    device.thread:cancel_timer(timer)
-   end
-    ------ Timer activation
-    device.thread:call_on_schedule(
-    300,
-   function ()
-    
-    local last_state = device:get_latest_state("main", capabilities.contactSensor.ID, capabilities.contactSensor.contact.NAME)
-    print("<<<<< Last status >>>>>> ", last_state)
-    if last_state == "closed" then
-      device:emit_event_for_endpoint("main", capabilities.contactSensor.contact.closed())
-    else
-      device:emit_event_for_endpoint("main", capabilities.contactSensor.contact.open())
-    end
-   end
-   ,'Refresh state')
-  end
 
  -- update preferences
     for id, value in pairs(device.preferences) do
@@ -138,19 +140,8 @@ end
 
 ---- driverSwitched
 local function do_configure(self,device)
-  if device:get_manufacturer() == "eWeLink" or device:get_manufacturer() == "_TZ3000_f1hmoyj4" then -- configuration of battery 600 sec for no offline
-    print("<<< special configure battery 600 sec >>>")
-    local configuration = configurationMap.get_device_configuration(device)
-    if configuration ~= nil then
-      for _, attribute in ipairs(configuration) do
-        device:add_configured_attribute(attribute)
-        device:add_monitored_attribute(attribute)
-      end
-    end
-  else
+   
     device:configure()
-  end
-  --device:configure()
   if device:supports_capability_by_id(capabilities.temperatureMeasurement.ID) then
     local maxTime = device.preferences.maxTime * 60
     local changeRep = device.preferences.changeRep
@@ -205,7 +196,9 @@ local function do_init(self, device)
       --- Read Battery voltage
       device:send(clusters.PowerConfiguration.attributes.BatteryVoltage:read(device))
 
-    elseif device:get_manufacturer() == "eWeLink" or device:get_manufacturer() == "_TZ3000_f1hmoyj4" then -- configuration of battery 600 sec for no offline
+    elseif device:get_manufacturer() == "_TZ3000_f1hmoyj4" or
+      device:get_manufacturer() == "eWeLink" or
+      device:get_manufacturer() == "TUYATEC-rkqiqvcs" then
       print("<<< special configure battery 600 sec >>>")
       local configuration = configurationMap.get_device_configuration(device)
       if configuration ~= nil then
@@ -215,9 +208,13 @@ local function do_init(self, device)
         end
       end
     end
+
     if device:get_latest_state("main", signal_Metrics.ID, signal_Metrics.signalMetrics.NAME) == nil then
       device:emit_event(signal_Metrics.signalMetrics({value = "Waiting Zigbee Message"}, {visibility = {displayed = false }}))
     end
+
+    -- set timer for offline devices issue 
+    no_offline(self,device)
 end
 
 -- battery_percentage_handler
