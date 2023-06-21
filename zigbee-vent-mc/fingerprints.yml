@@ -30,3 +30,8 @@ zigbeeManufacturer:
     manufacturer: Keen Home Inc
     model: SV01-410-MP-1.0
     deviceProfileName: vent-profile-1
+  - id: "keen/SV01-412-MP-1.1"
+    deviceLabel: Keen SV01-412-MP-1.1 Vent
+    manufacturer: Keen Home Inc
+    model: SV01-412-MP-1.1
+    deviceProfileName: vent-profile-1
