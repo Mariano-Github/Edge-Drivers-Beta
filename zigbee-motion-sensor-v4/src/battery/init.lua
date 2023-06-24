@@ -26,6 +26,10 @@ local can_handle = function(opts, driver, device)
     return device:get_manufacturer() == "Universal Electronics Inc"
   elseif device:get_manufacturer() == "Visonic" then
     return device:get_manufacturer() == "Visonic"
+  elseif device:get_manufacturer() == "TLC" then
+    return device:get_manufacturer() == "TLC"
+  elseif device:get_manufacturer() == "Develco Products A/S" then
+    return device:get_manufacturer() == "Develco Products A/S"
   end
 end
 

@@ -339,3 +339,13 @@ zigbeeManufacturer:
     manufacturer: _TZ3040_fwxuzcf4
     model: TS0202
     deviceProfileName: motion-battery-sens
+  - id: "TUYATEC-smmlguju/RH3040"
+    deviceLabel: RH3040 Motion Sensor
+    manufacturer: TUYATEC-smmlguju
+    model: RH3040
+    deviceProfileName: motion-battery
+  - id: "Heiman/PIR_TPV13"
+    deviceLabel: HEIMAN Motion Sensor
+    manufacturer: Heiman
+    model: PIR_TPV13
+    deviceProfileName: motion-battery

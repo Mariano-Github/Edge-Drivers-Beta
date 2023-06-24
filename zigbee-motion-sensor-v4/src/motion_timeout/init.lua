@@ -27,7 +27,9 @@ local ZIGBEE_MOTION_SENSOR_FINGERPRINTS = {
   { mfr = "_TYZB01_3zv6oleo", model = "TS0210", timeout = 30 },
   { mfr = "_TZ3000_mcxw5ehu", model = "TS0202", timeout = 30 },
   { mfr = "lk", model = "ZB-MotionSensor-D0003", timeout = 20 },
-  { mfr = "Konke", model = "3AFE28010402000D", timeout = 30 }
+  { mfr = "Konke", model = "3AFE28010402000D", timeout = 30 },
+  { mfr = "TCL", model = "MS01", timeout = 30 },
+  {mfr = "_TZ3000_fkxmyics", model = "TS0210", timeout = 30 },
 }
 
 local is_zigbee_motion_sensor = function(opts, driver, device)

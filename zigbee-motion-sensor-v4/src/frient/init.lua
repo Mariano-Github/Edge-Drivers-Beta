@@ -14,16 +14,18 @@
 
 local capabilities = require "st.capabilities"
 local zcl_clusters = require "st.zigbee.zcl.clusters"
-local battery_defaults = require "st.zigbee.defaults.battery_defaults"
+--local battery_defaults = require "st.zigbee.defaults.battery_defaults"
 local device_management = require "st.zigbee.device_management"
 local data_types = require "st.zigbee.data_types"
-local OccupancySensing = zcl_clusters.OccupancySensing
+--local OccupancySensing = zcl_clusters.OccupancySensing
 
 --module emit signal metrics
 local signal = require "signal-metrics"
 
 local ZIGBEE_FRIENT_MOTION_SENSOR_FINGERPRINTS = {
   { mfr = "frient A/S", model = "MOSZB-140" },
+  { mfr = "Develco Products A/S", model = "MOSZB-140" },
+  { mfr = "Develco Products A/S", model = "MOSZB-130" },
 }
 
 local is_zigbee_frient_motion_sensor = function(opts, driver, device)
@@ -48,11 +50,11 @@ local function add_illuminance(self,device)
 
   device:send(device_management.build_bind_request(device, zcl_clusters.IlluminanceMeasurement.ID, self.environment_info.hub_zigbee_eui))--:to_endpoint (0x27))
   device:send(zcl_clusters.IlluminanceMeasurement.attributes.MeasuredValue:configure_reporting(device, 60, maxTime, changeRep):to_endpoint (0x27))
-  --device:send(device_management.build_bind_request(device, zcl_clusters.OccupancySensing.ID, self.environment_info.hub_zigbee_eui))--:to_endpoint (0x28))
-  --device:send(zcl_clusters.OccupancySensing.attributes.Occupancy:configure_reporting(device, 0, 3600):to_endpoint (0x22))
+  device:send(device_management.build_bind_request(device, zcl_clusters.OccupancySensing.ID, self.environment_info.hub_zigbee_eui))--:to_endpoint (0x28))
+  device:send(zcl_clusters.OccupancySensing.attributes.Occupancy:configure_reporting(device, 0, 3600):to_endpoint (0x22))
 
   device:send(zcl_clusters.IlluminanceMeasurement.attributes.MeasuredValue:read(device):to_endpoint (0x27))
-  --device:send(zcl_clusters.OccupancySensing.attributes.Occupancy:read(device):to_endpoint (0x22))
+  device:send(zcl_clusters.OccupancySensing.attributes.Occupancy:read(device):to_endpoint (0x22))
   device.thread:call_with_delay(2, function(d)
     device:refresh()
   end)
