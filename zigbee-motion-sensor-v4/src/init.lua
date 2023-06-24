@@ -12,13 +12,15 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 
+-- Modified M.Colmenarejo 2022
+
 local capabilities = require "st.capabilities"
 local ZigbeeDriver = require "st.zigbee"
 local defaults = require "st.zigbee.defaults"
 local constants = require "st.zigbee.constants"
-local clusters = require "st.zigbee.zcl.clusters"
+--local clusters = require "st.zigbee.zcl.clusters"
 local utils = require "st.utils"
-local IlluminanceMeasurement = clusters.IlluminanceMeasurement
+--local IlluminanceMeasurement = clusters.IlluminanceMeasurement
 
 --- Temperature Mesurement config Samjin
 local zcl_clusters = require "st.zigbee.zcl.clusters"
@@ -61,7 +63,7 @@ local function do_preferences(self, device)
   print("***** infoChanged *********")
   
    for id, value in pairs(device.preferences) do
-    print("device.preferences[infoChanged]=", device.preferences[id], "preferences: ", id)
+    --print("device.preferences[infoChanged]=", device.preferences[id], "preferences: ", id)
     local oldPreferenceValue = device:get_field(id)
     local newParameterValue = device.preferences[id]
      if oldPreferenceValue ~= newParameterValue then
