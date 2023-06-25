@@ -1,0 +1,12 @@
+{
+    "tag": "en",
+    "label": "Switch Next Change:",
+    "attributes": {
+        "randomNext": {
+            "label": "randomNext",
+            "displayTemplate": "{{attribute}} of {{device.label}} is {{value}}",
+            "i18n": {}
+        }
+    },
+    "commands": {}
+}

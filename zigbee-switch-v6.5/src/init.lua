@@ -165,9 +165,10 @@ local zigbee_switch_driver_template = {
       [zcl_clusters.OnOff.attributes.OnOff.ID] = random.on_off_attr_handler
     }
   },
- }
+ },
+ sub_drivers = { require("tuya-fingerbot") }
 }
 -- run driver
 defaults.register_for_default_handlers(zigbee_switch_driver_template, zigbee_switch_driver_template.supported_capabilities)
-local zigbee_switch = ZigbeeDriver("Zigbee_Switch", zigbee_switch_driver_template)
+local zigbee_switch = ZigbeeDriver("Zigbee_Switch_Mc", zigbee_switch_driver_template)
 zigbee_switch:run()

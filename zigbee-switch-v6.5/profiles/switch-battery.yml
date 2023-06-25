@@ -1,4 +1,4 @@
-name: switch-battery-light
+name: switch-battery
 components:
 - id: main
   capabilities:
@@ -14,14 +14,10 @@ components:
     version: 1
   - id: legendabsolute60149.energyReset1
     version: 1
-  - id: legendabsolute60149.getGroups
-    version: 1
   - id: legendabsolute60149.signalMetrics
     version: 1
   - id: battery
     version: 1
-  #- id: legendabsolute60149.driverVersion1
-  #  version: 1
   - id: refresh
     version: 1
   - id: firmwareUpdate
@@ -30,8 +26,8 @@ components:
   - name: SmartPlug
 preferences:
   - name: "version"
-    title: "Version 6.5 (jun 2022)"
-    description: "Added signal metrics, state after power lost and battery profile"  
+    title: "Version 6.6 (jun 2023)"
+    description: "Added FingerBot Plus device"  
     required: false
     preferenceType: string
     definition:
@@ -47,16 +43,16 @@ preferences:
     definition:
       minimum: -12
       maximum: 12
-      default: 0
-  - name: "changeProfileBatt1"
-    title: "Select Profile Icon"
-    description: "Select Profile Icon:"
+      default: 0 
+  - name: "changeProfileBatt"
+    title: "Selected Profile"
+    description: "Selected Profile Fingerbot, Does not Change:"
     required: true
     preferenceType: enumeration
     definition:
       options:
-        "Battery1" : "Battery"
-      default: "Battery1"
+        "Fingerbot" : "Fingerbot"
+      default: "Fingerbot"
   - name: "randomMin"
     title: "Random ON-OFF Minimum Time"
     description: "Select Minimum Time ON-OFF Interval (0.5 min to 60 min)"
@@ -111,24 +107,6 @@ preferences:
       minimum: 1
       maximum: 10
       default: 5
-  - name: "groupAdd"
-    title: "Add Group Number"
-    description: "Insert Group number to Add. Value = 0, Get All Groups in History Events"
-    required: false
-    preferenceType: number
-    definition:
-      minimum: 0
-      maximum: 65535
-      default: 0 
-  - name: "groupRemove"
-    title: "Remove Group Number"
-    description: "Insert Group number to Remove. Value = 0, all Groups Removed"
-    required: false
-    preferenceType: number
-    definition:
-      minimum: 0
-      maximum: 65535
-      default: 1
   - name: "signalMetricsVisibles"
     title: "Signal Metrics Visible in History"
     description: "Signal Metrics Visible in App History:"
@@ -146,6 +124,6 @@ preferences:
     definition:
       default: false
 metadata:
-  deviceType: Light
-  ocfDeviceType: oic.d.light
-  deviceTypeId: Light
+  #deviceType: Light
+  #ocfDeviceType: oic.d.light
+  #deviceTypeId: Light
