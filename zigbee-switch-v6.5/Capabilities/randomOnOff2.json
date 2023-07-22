@@ -2,7 +2,7 @@
     "dashboard": {
         "states": [
             {
-                "label": "{{randomOnOff.value}}"
+                "label": "{{randomOnOff.value}} {{randomOnOff.unit}}"
             }
         ],
         "actions": []

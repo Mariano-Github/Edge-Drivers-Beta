@@ -699,6 +699,46 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_k6fvknrr
     model: TS011F
     deviceProfileName: two-outlet
+  - id: "LUMI/switch.n2aeu1"
+    deviceLabel: LUMI Double Switch
+    manufacturer: LUMI
+    model: lumi.switch.n2aeu1
+    deviceProfileName: two-switch-power-1
+  - id: "TS0012/_TYZB01_2athzhfr"
+    deviceLabel: Two Switch
+    manufacturer: _TYZB01_2athzhfr
+    model: TS0012
+    deviceProfileName: two-switch
+  - id: "TS011F/_TZ3000_in5s3wn1"
+    deviceLabel: TS011F Switch
+    manufacturer: _TZ3000_in5s3wn1
+    model: TS011F
+    deviceProfileName: five-outlet
+  - id: "_TZ3000_r0pmi2p3/TS0014"
+    deviceLabel: TS0014 Switch
+    manufacturer: _TZ3000_r0pmi2p3
+    model: TS0014
+    deviceProfileName: four-switch
+  - id: "_TZ3000_mtnpt6ws/TS0002"
+    deviceLabel: TS0002 Double Switch
+    manufacturer: _TZ3000_mtnpt6ws
+    model: TS0002
+    deviceProfileName: two-switch-power-1
+  - id: "TS0012/_TZ3000_kpatq5pq"
+    deviceLabel: Two Switch
+    manufacturer: _TZ3000_kpatq5pq
+    model: TS0012
+    deviceProfileName: two-switch
+  - id: "TS0013/_TZ3000_sznawwyw"
+    deviceLabel: Three Switch
+    manufacturer: _TZ3000_sznawwyw
+    model: TS0013
+    deviceProfileName: three-switch
+  - id: "TS0013/_TYZB01_mqel1whf"
+    deviceLabel: Three Switch
+    manufacturer: _TYZB01_mqel1whf
+    model: TS0013
+    deviceProfileName: three-switch
 
     # level devices
   - id: "TS110E/_TZ3210_pagajpog"

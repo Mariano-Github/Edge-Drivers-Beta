@@ -1,0 +1,12 @@
+{
+    "tag": "en",
+    "label": "Timer Mode",
+    "attributes": {
+        "randomOnOff": {
+            "label": "randomOnOff",
+            "displayTemplate": "{{attribute}} of {{device.label}} is {{value}}",
+            "i18n": {}
+        }
+    },
+    "commands": {}
+}

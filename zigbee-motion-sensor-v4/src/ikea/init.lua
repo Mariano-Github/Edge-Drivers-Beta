@@ -86,7 +86,7 @@ end
 local do_configure = function(self, device)
   device:send(device_management.build_bind_request(device, PowerConfiguration.ID, self.environment_info.hub_zigbee_eui))
   device:send(PowerConfiguration.attributes.BatteryPercentageRemaining:configure_reporting(device, 30, 21600, 1))
-  --device:send(device_management.build_bind_request(device, OnOff.ID, self.environment_info.hub_zigbee_eui))
+  device:send(device_management.build_bind_request(device, OnOff.ID, self.environment_info.hub_zigbee_eui))
   --device:send(OnOff.attributes.OnOff:configure_reporting(device, 0, 300))
   -- Read binding table
   local addr_header = messages.AddressHeader(
@@ -107,8 +107,8 @@ local do_configure = function(self, device)
                                                    })
   device:send(binding_table_cmd)
 
-  device:send(device_management.build_bind_request(device, OnOff.ID, self.environment_info.hub_zigbee_eui))
-  device:send(OnOff.attributes.OnOff:configure_reporting(device, 0, 300))
+  --device:send(device_management.build_bind_request(device, OnOff.ID, self.environment_info.hub_zigbee_eui))
+  --device:send(OnOff.attributes.OnOff:configure_reporting(device, 0, 300))
 end
 
 local ikea_motion_sensor = {

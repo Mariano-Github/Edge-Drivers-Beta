@@ -166,6 +166,6 @@ preferences:
     definition:
       default: false
 metadata:
-  deviceType: Switch
-  ocfDeviceType: oic.d.switch
-  deviceTypeId: Switch
+  #deviceType: Switch
+  #ocfDeviceType: oic.d.switch
+  #deviceTypeId: Switch

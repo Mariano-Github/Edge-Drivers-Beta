@@ -519,3 +519,8 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_46t1rvdu
     model: TS0001
     deviceProfileName: single-switch
+  - id: "_TZ3210_dse8ogfy/Fingerboot"
+    deviceLabel: Fingerboot Plus
+    manufacturer: _TZ3210_dse8ogfy
+    model: TS0001
+    deviceProfileName: switch-battery
