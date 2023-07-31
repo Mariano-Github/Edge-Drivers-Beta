@@ -63,7 +63,7 @@ zigbeeManufacturer:
     deviceLabel: LUMI Natgas Sensor
     manufacturer: LUMI
     model: lumi.sensor_natgas
-    deviceProfileName: smoke-battery
+    deviceProfileName: smoke
   # added after 15 oct
   - id: "LUMI/smoke.acn03"
     deviceLabel: LUMI Smoke.acn03
@@ -105,6 +105,17 @@ zigbeeManufacturer:
     manufacturer: Develco Products A/S
     model: SMSZB-120
     deviceProfileName: smoke-battery-temp
+  - id: "Heiman/SMOK_V16"
+    deviceLabel: HEIMAN Smoke Detector
+    manufacturer: Heiman
+    model: SMOK_V16
+    deviceProfileName: smoke-battery
+  # agosto 2023
+  - id: "Heiman/SmokeSensor-N"
+    deviceLabel: HEIMAN Smoke Detector
+    manufacturer: Heiman
+    model: SmokeSensor-N
+    deviceProfileName: smoke-battery
   # CO Sensors
   - id: "feibit/FNB56-COS06FB1.7"
     deviceLabel: SCA01ZB CO Sensor
@@ -120,4 +131,14 @@ zigbeeManufacturer:
     deviceLabel: HEIMAN CO Detector
     manufacturer: HEIMAN
     model: COSensor-EF-3.0
+    deviceProfileName: co-battery
+  - id: "Heiman/CO_V16"
+    deviceLabel: HEIMAN CO Detector
+    manufacturer: Heiman
+    model: CO_V16
+    deviceProfileName: co-battery
+  - id: "Trust/COSenssor-EM"
+    deviceLabel: Trust CO Detector
+    manufacturer: Trust
+    model: COSenssor-EM
     deviceProfileName: co-battery
