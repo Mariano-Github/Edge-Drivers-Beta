@@ -68,4 +68,15 @@ zigbeeManufacturer :
     deviceLabel: Dawon Valve
     manufacturer: DAWON_DNS
     model: SG-V100-ZB
-    deviceProfileName: valve-battery-powerSource   
+    deviceProfileName: valve-battery-powerSource
+  - id: "_TZ3000_h8ngtlxy/TS0001"
+    deviceLabel: Water Valve
+    manufacturer: _TZ3000_h8ngtlxy
+    model: TS0001
+    deviceProfileName: water-valve
+  #agosto 2023
+  - id: "_TZ3000_5ucujjts/TS0001"
+    deviceLabel: Water Valve
+    manufacturer: _TZ3000_5ucujjts
+    model: TS0001
+    deviceProfileName: water-valve
