@@ -129,3 +129,14 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_0s9gukzt
     model: TS0207
     deviceProfileName: moisture-battery
+  # Agosto 2023
+  - id: "_TYZB01_o63ssaah-Sensor"
+    deviceLabel: TS0207 Water Sensor
+    manufacturer: _TYZB01_o63ssaah
+    model: TS0207
+    deviceProfileName: moisture-battery
+  - id: "_TZ3000_4uvovz4r/Sensor"
+    deviceLabel: TS0207 Water Sensor
+    manufacturer: _TZ3000_4uvovz4r
+    model: TS0207
+    deviceProfileName: moisture-battery
