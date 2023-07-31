@@ -97,6 +97,12 @@ zwaveManufacturer:
     productType: 0x0300
     productId: 0xA30F
     deviceProfileName: multi-button-2
+  - id: Namron/1kanal/0330
+    deviceLabel: Namron 1kanal
+    manufacturerId: 0x0330
+    productType: 0x0300
+    productId: 0xA30F
+    deviceProfileName: multi-button-2
   - id: GoControl/WA00Z-1
     deviceLabel: GoControl WA00Z-1
     manufacturerId: 0x014F
