@@ -524,3 +524,14 @@ zigbeeManufacturer:
     manufacturer: _TZ3210_dse8ogfy
     model: TS0001
     deviceProfileName: switch-battery
+  # Agosto 2023
+  - id: "_TZ3000_jy3whlzd/Switch"
+    deviceLabel: TS0001 Switch
+    manufacturer: _TZ3000_jy3whlzd
+    model: TS0001
+    deviceProfileName: single-switch
+  - id: "_TZ3000_en6s3mku/TS0012"
+    deviceLabel: TS0012 Switch
+    manufacturer: _TZ3000_en6s3mku
+    model: TS0012
+    deviceProfileName: single-switch
