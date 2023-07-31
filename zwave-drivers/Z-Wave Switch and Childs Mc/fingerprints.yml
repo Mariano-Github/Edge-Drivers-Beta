@@ -251,19 +251,19 @@ zwaveManufacturer:
     deviceLabel: WYFY Switch 1
     manufacturerId: 0x015F
     productType: 0x3111
-    productId: 0x3111
+    #productId: 0x5102 # 0x5103
     deviceProfileName: switch-binary
   - id: 015F/3121/5102
     deviceLabel: WYFY Switch 1
     manufacturerId: 0x015F
     productType: 0x3121
-    productId: 0x5102
+    #productId: 0x5102 # 0x5103
     deviceProfileName: dual-switch
   - id: 015F/3141/5102
     deviceLabel: WYFY Switch 1
     manufacturerId: 0x015F
     productType: 0x3141
-    productId: 0x5102
+    #productId: 0x5102 # 0x5103
     deviceProfileName: switch-multicomponent-4
   - id: 010F/1C01/1000
     deviceLabel: Fibaro Walli Dimmer Switch
@@ -1252,6 +1252,25 @@ zwaveManufacturer:
     productType: 0x0004
     productId: 0x0008
     deviceProfileName: switch-binary
+  # Agosto 2023
+  - id: 0118/0311/0304
+    deviceLabel: Double Switch
+    manufacturerId: 0x0118
+    productType: 0x0311
+    productId: 0x0304
+    deviceProfileName: dual-switch
+  - id: 0298/13F1/1405
+    deviceLabel: Double Switch
+    manufacturerId: 0x0298
+    productType: 0x13F1
+    productId: 0x1405
+    deviceProfileName: dual-switch
+  - id: 014F/4C42/3133
+    deviceLabel: Linear Dimmer
+    manufacturerId: 0x014F
+    productType: 0x4C42
+    productId: 0x3133
+    deviceProfileName: switch-level
 
 zwaveGeneric:
   - id: "GenericSwitch/1"
