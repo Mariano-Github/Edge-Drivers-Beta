@@ -349,3 +349,9 @@ zigbeeManufacturer:
     manufacturer: Heiman
     model: PIR_TPV13
     deviceProfileName: motion-battery
+  # Agosto 2023
+  - id: "_TYZB01_vwqnz1sn/Motion"
+    deviceLabel: TS0210 Motion Sensor
+    manufacturer: _TYZB01_vwqnz1sn
+    model: TS0202
+    deviceProfileName: motion-illuminance
