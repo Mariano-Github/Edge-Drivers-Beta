@@ -739,6 +739,77 @@ zigbeeManufacturer:
     manufacturer: _TYZB01_mqel1whf
     model: TS0013
     deviceProfileName: three-switch
+  # agosto 2023
+  - id: "_TZ3000_jki3ox0o/TS0002"
+    deviceLabel: TS0002 switch
+    manufacturer: _TZ3000_jki3ox0o
+    model: TS0002
+    deviceProfileName: two-switch
+  - id: "_TZ3000_dx5pruwr/TS0012"
+    deviceLabel: TS0012 switch
+    manufacturer: _TZ3000_dx5pruwr
+    model: TS0012
+    deviceProfileName: two-switch
+  - id: "ELLKI/JZ-ZB-005"
+    deviceLabel: JZ-ZB-005 Switch
+    manufacturer: ELLKI
+    model: JZ-ZB-005
+    deviceProfileName: five-outlet
+  - id: "TS0013/_TYZB010_xiuox57i"
+    deviceLabel: Three Switch
+    manufacturer: _TYZB010_xiuox57i
+    model: TS0013
+    deviceProfileName: three-switch
+  - id: "TS0002/_TZ3000_spoktolc"
+    deviceLabel: TS0002 Switch
+    manufacturer: _TZ3000_spoktolc
+    model: TS0002
+    deviceProfileName: two-switch
+  - id: "LUMI/switch.l2aeu1"
+    deviceLabel: LUMI Double Switch
+    manufacturer: LUMI
+    model: lumi.switch.l2aeu1
+    deviceProfileName: two-switch
+  - id: "TS0003/_TZ3000_532ryjuj"
+    deviceLabel: TS0003 Switch
+    manufacturer: _TZ3000_532ryjuj
+    model: TS0003
+    deviceProfileName: three-switch
+  - id: "TS0003/_TZ3000_eabfqnbm"
+    deviceLabel: TS0003 Switch
+    manufacturer: _TZ3000_eabfqnbm
+    model: TS0003
+    deviceProfileName: three-switch
+  - id: "TS0003/_TYZB01_8gqspaab"
+    deviceLabel: TS0003 Switch
+    manufacturer: _TYZB01_8gqspaab
+    model: TS0003
+    deviceProfileName: three-switch
+  - id: "TS0003/_TZ3000_bote0iaw"
+    deviceLabel: TS0003 Switch
+    manufacturer: _TZ3000_bote0iaw
+    model: TS0003
+    deviceProfileName: three-switch
+  - id: "TS0013/_TYZB010_Lrjzz1UV"
+    deviceLabel: Three Switch
+    manufacturer: _TYZB010_Lrjzz1UV
+    model: TS0013
+    deviceProfileName: three-switch
+  - id: "TS0003/_TYZB01_b8cr31hp"
+    deviceLabel: TS0003 Switch
+    manufacturer: _TYZB01_b8cr31hp
+    model: TS0003
+    deviceProfileName: three-switch
+  - id: "TS0013/_TYZB010_gvackgwu"
+    deviceLabel: Three Switch
+    manufacturer: _TYZB010_gvackgwu
+    model: TS0013
+    deviceProfileName: three-switch
+  - id: "_TZ3000_99sdxhlg/TS0004"
+    deviceLabel: TS0004 Switch
+    manufacturer: _TZ3000_99sdxhlg
+    model: TS0004
+    deviceProfileName: four-switch
 
     # level devices
   - id: "TS110E/_TZ3210_pagajpog"
