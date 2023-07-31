@@ -964,6 +964,33 @@ zigbeeManufacturer:
     manufacturer: Samsung Electronics
     model: ABL-LIGHT-Z-001
     deviceProfileName: level-colortemp-2700-5000
+  # agosto 2023
+  - id: "YSRSAI/ZB-CL03"
+    deviceLabel: YSRSAI RGBW
+    manufacturer: YSRSAI
+    model: ZB-CL03
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "_TZ3000_el5kt5im/TS0502A"
+    deviceLabel: Lidl Bulb
+    manufacturer: _TZ3000_el5kt5im
+    model: TS0502A
+    deviceProfileName: level-colortemp-2000-6500
+  - id: "FeeBit/FB56-ZCW20FB1.2"
+    deviceLabel: FeeBit RGBW
+    manufacturer: FeeBit RGBW
+    model: FB56-ZCW20FB1.2
+    deviceProfileName: rgbw-level-colortemp-2000-6500
+  - id: "TRADFRI bulb E14 WS opal 400lm"
+    deviceLabel: IKEA E14 Bulb
+    manufacturer: IKEA of Sweden
+    model: TRADFRI bulb E14 WS opal 400lm
+    deviceProfileName: level-colortemp-2200-4000
+  - id: "Aqara/light.acn132"
+    deviceLabel: Aqara RGBW
+    manufacturer: Aqara
+    model: lumi.light.acn132
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  
 
   # XY Color
   - id: "IKEA/E27 CWS 806lm"
@@ -1061,6 +1088,13 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_utagpnzs
     model: TS0505A
     deviceProfileName: rgbw-level-colortemp-2000-6500
+  # Agosto 2023
+  - id: "_TZ3210_onejz0gt/LIDL"
+    deviceLabel: LIDL TS0504B
+    manufacturer: _TZ3210_onejz0gt
+    model: TS0504B
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  
 
   # Dimmers
   - id: "3A-Smart-Home/LXN56-DC27LX1.1"
@@ -1087,6 +1121,12 @@ zigbeeManufacturer:
     deviceLabel: CentraLite Dimmer Plug
     manufacturer: CentraLite Systems
     model: 4256050-ZHAC
+    deviceProfileName: switch-level
+  #agosto 2023
+  - id: "FeiBit/FB56-ZSC04HG1.0"
+    deviceLabel: FeiBit Dimmer
+    manufacturer: Feibit Inc co.
+    model: FB56+ZSC04HG1.0
     deviceProfileName: switch-level
 
 zigbeeGeneric:
