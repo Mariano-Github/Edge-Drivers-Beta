@@ -554,7 +554,31 @@ zigbeeManufacturer:
     manufacturer: Feibit Inc co.
     model: FB56+ZSW1JK2.5
     deviceProfileName: four-switch
-  
+  - id: "e96373b7-62d7-447b-8c3a-1dfb01df3288"
+    deviceLabel: Four Gang Switch
+    manufacturer: _TZ3000_t30zymvk
+    model: TS0004
+    deviceProfileName: four-switch
+  - id: "0cd7d1d1-e5c5-4d19-b852-a712877761fc"
+    deviceLabel: Four Gang Switch
+    manufacturer: _TZ3000_t30zymvk
+    model: TS0004
+    deviceProfileName: four-switch
+  - id: "faf7bb8a-e3de-496d-a25e-f9a12dc26335"
+    deviceLabel: Four Gang Switch
+    manufacturer: _TZ3000_t30zymvk
+    model: TS0004
+    deviceProfileName: four-switch
+  - id: "d84a66b5-1886-400a-b6a0-c86378980704"
+    deviceLabel: Two Gang Switch
+    manufacturer: _TZ3000_wuw8zv0t
+    model: TS0002
+    deviceProfileName: two-switch
+- id: "5e8d1913-a56d-41ee-94f3-f34772531c5f"
+    deviceLabel: Two Gang Switch
+    manufacturer: _TZ3000_wuw8zv0t
+    model: TS0002
+    deviceProfileName: two-switch
 
     # level devices
   - id: "TS110E/_TZ3210_pagajpog"
