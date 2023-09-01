@@ -89,6 +89,11 @@ zigbeeManufacturer:
     manufacturer: _TYZB01_ftdkanlj
     model: TS0222
     deviceProfileName: temp-humid-illumin-battery
+  - id: "_TYZB01_kvwjujy9/TS0222"
+    deviceLabel: Tuya TS0222
+    manufacturer: _TYZB01_kvwjujy9
+    model: TS0222
+    deviceProfileName: temp-humid-illumin-battery
   - id: "_TZE200_znbl8dj5/TS0601"
     deviceLabel: Tuya TS0601
     manufacturer: _TZE200_znbl8dj5
