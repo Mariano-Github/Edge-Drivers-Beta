@@ -27,6 +27,6 @@ preferences:
         "switch": "child-switch"
       default: "switch"
 metadata:
-  deviceType: Switch
-  ocfDeviceType: oic.d.switch
-  deviceTypeId: Switch  
+  #deviceType: Switch
+  #ocfDeviceType: oic.d.switch
+  #deviceTypeId: Switch  

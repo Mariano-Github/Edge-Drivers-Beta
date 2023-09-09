@@ -1,5 +1,5 @@
 -- Copyright 2021 SmartThings
--- M. Colmenarejo 2022
+--- M. Colmenarejo 2022
 -- Licensed under the Apache License, Version 2.0 (the "License");
 -- you may not use this file except in compliance with the License.
 -- You may obtain a copy of the License at
@@ -15,11 +15,11 @@
 local capabilities = require "st.capabilities"
 local ZigbeeDriver = require "st.zigbee"
 local defaults = require "st.zigbee.defaults"
-local device_management = require "st.zigbee.device_management"
+--local device_management = require "st.zigbee.device_management"
 local zcl_clusters = require "st.zigbee.zcl.clusters"
 local OnOff = zcl_clusters.OnOff
 local data_types = require "st.zigbee.data_types"
-local cluster_base = require "st.zigbee.cluster_base"
+--local cluster_base = require "st.zigbee.cluster_base"
 local utils = require "st.utils"
 local ElectricalMeasurement = zcl_clusters.ElectricalMeasurement
 local SimpleMetering = zcl_clusters.SimpleMetering
@@ -108,8 +108,9 @@ local function do_preferences (driver, device)
     local newParameterValue = device.preferences[id]
     if oldPreferenceValue ~= newParameterValue then
       device:set_field(id, newParameterValue, {persist = true})
-      print("<< Preference changed name:",id,"oldPreferenceValue:",oldPreferenceValue, "newParameterValue: >>", newParameterValue)
- 
+      if device.preferences.logDebugPrint == true then
+        print("<< Preference changed name:",id,"oldPreferenceValue:",oldPreferenceValue, "newParameterValue: >>", newParameterValue)
+      end
       ------ Change profile & Icon
       if id == "changeProfileThreePlug" then
        if newParameterValue == "Single" then
@@ -188,7 +189,9 @@ local function do_preferences (driver, device)
       --- Configure on-off cluster, attributte 0x8002 and 4003 to value restore state in preferences
       if id == "restoreState" then
         for ids, value in pairs(device.profile.components) do
-          print("<<< Write restore state >>>")
+          if device.preferences.logDebugPrint == true then
+            print("<<< Write restore state >>>")
+          end
           local comp = device.profile.components[ids].id
           if comp == "main" then
             local endpoint = device:get_endpoint_for_component_id(comp)
@@ -291,7 +294,9 @@ end
 --- set All switch status
 local function all_switches_status(driver,device)
 
-  print("all_switches_status >>>>>")
+  if device.preferences.logDebugPrint == true then
+    print("all_switches_status >>>>>")
+  end
    for id, value in pairs(device.preferences) do
      local total_on = 0
      local  total = 2
@@ -373,7 +378,8 @@ local function all_switches_status(driver,device)
        --print("Total_on >>>>>>", total_on,"Total >>>",total)
        emit_event_all_On_Off(driver, device, total_on, total,status_Text)
  
-    elseif id == "changeProfileThreePlug" or id == "changeProfileThreeSw" then
+    -- elseif id == "changeProfileThreePlug" or id == "changeProfileThreeSw" then
+    elseif (id == "switch3Child" and device.preferences.switch4Child == nil) then
      total = 3
      if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) == "on" then
        total_on = total_on + 1
@@ -390,7 +396,12 @@ local function all_switches_status(driver,device)
      --print("Total_on >>>>>>", total_on,"Total >>>",total)
      emit_event_all_On_Off(driver, device, total_on, total,status_Text)
  
-    elseif id == "changeProfileTwoPlug" or id == "changeProfileTwoSw" then
+    elseif id == "changeProfileTwoPlug" or 
+    id == "changeProfileTwoSw" or 
+    id == "changeProfileTwoSwPw1" or
+    id == "changeProfileTwoPlugPw" or
+    (id == "switch2LevelChild" and device.preferences.switch3Child == nil) or
+    (id == "switch2Child" and device.preferences.switch3Child == nil) then
      if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) == "on" then
        total_on = total_on + 1
        status_Text = status_Text.."S1:On "
@@ -409,7 +420,9 @@ local function all_switches_status(driver,device)
 
  --- return endpoint from component_id
 local function component_to_endpoint(device, component_id)
-  --print("<<<<< device.fingerprinted_endpoint_id >>>>>>",device.fingerprinted_endpoint_id)
+  if device.preferences.logDebugPrint == true then
+    print("<<<<< device.fingerprinted_endpoint_id >>>>>>",device.fingerprinted_endpoint_id)
+  end
   --------- in this models device.fingerprinted_endpoint_id is the last endpoint
   local endpoint_odd = false
   if device:get_model() == "FB56+ZSW1JKJ2.7" or 
@@ -463,7 +476,9 @@ end
 --- return Component_id from endpoint
 local function endpoint_to_component(device, ep)
 
-  --print("<<<<< device.fingerprinted_endpoint_id >>>>>>",device.fingerprinted_endpoint_id)
+  if device.preferences.logDebugPrint == true then
+    print("<<<<< device.fingerprinted_endpoint_id >>>>>>",device.fingerprinted_endpoint_id)
+  end
   ------------------ in this models device.fingerprinted_endpoint_id is the last endpoint
   local endpoint_odd = false
   if device:get_model() == "FB56+ZSW1JKJ2.7" or 
@@ -669,7 +684,7 @@ local function device_init (driver, device)
         for timer in pairs(device.thread.timers) do
           print("<<<<< Cancelando timer >>>>>")
           device.thread:cancel_timer(timer)
-      end
+        end
       --- Refresh atributte read schedule
       --print("<<<<<<<<<<<<< Timer read attribute >>>>>>>>>>>>>>>>")
       device.thread:call_on_schedule(
@@ -810,7 +825,8 @@ local function switch_All_On_Off_handler(driver, device, command)
       device:send(OnOff.server.commands.On(device):to_endpoint(ep_init + 2))
       device:send(OnOff.server.commands.On(device):to_endpoint(ep_init + 3))
     end
-   elseif id == "changeProfileThreePlug" or id == "changeProfileThreeSw" then
+   --elseif id == "changeProfileThreePlug" or id == "changeProfileThreeSw" then
+   elseif id == "switch3Child" and device.preferences.switch4Child == nil then
     if state == "All Off" then
       device:send(OnOff.server.commands.Off(device):to_endpoint(ep_init))
       device:send(OnOff.server.commands.Off(device):to_endpoint(ep_init + 1))
@@ -820,7 +836,9 @@ local function switch_All_On_Off_handler(driver, device, command)
       device:send(OnOff.server.commands.On(device):to_endpoint(ep_init + 1))
       device:send(OnOff.server.commands.On(device):to_endpoint(ep_init + 2))
     end
-   elseif id == "changeProfileTwoPlug" or id == "changeProfileTwoSw" then
+   --elseif id == "changeProfileTwoPlug" or id == "changeProfileTwoSw" then
+   elseif (id == "switch2Child" and device.preferences.switch3Child == nil) or
+    (id == "switch2LevelChild" and device.preferences.switch3Child == nil) then
     if state == "All Off" then
       device:send(OnOff.server.commands.Off(device):to_endpoint(ep_init))
       device:send(OnOff.server.commands.Off(device):to_endpoint(ep_init + 1))
@@ -834,7 +852,9 @@ end
 
 --- Command on handler ---- 
 local function on_handler(driver, device, command)
-  print("<<<< On command Handler >>>>")
+  if device.preferences.logDebugPrint == true then
+    print("<<<< On command Handler >>>>")
+  end
   if device.network_type ~= "DEVICE_EDGE_CHILD" then  ---- device (is NO Child device)
 
     device:send_to_component(command.component, zcl_clusters.OnOff.server.commands.On(device))
@@ -857,7 +877,9 @@ end
 
 --- Command off handler ----
 local function off_handler(driver, device, command)
-  print("<<<< Off command Handler >>>>")
+  if device.preferences.logDebugPrint == true then
+    print("<<<< Off command Handler >>>>")
+  end
   if device.network_type ~= "DEVICE_EDGE_CHILD" then  ---- device (is NO Child device)
     
     device:send_to_component(command.component, zcl_clusters.OnOff.server.commands.Off(device))
@@ -881,7 +903,9 @@ end
 
 --- read zigbee attribute OnOff messages ----
 local function on_off_attr_handler(driver, device, value, zb_rx)
+  if device.preferences.logDebugPrint == true then
     print ("function: on_off_attr_handler")
+  end
 
   if device.network_type ~= "DEVICE_EDGE_CHILD" then  ---- device (is NO Child device)
 
@@ -953,8 +977,9 @@ end
 
 --- default_response_handler
 local function default_response_handler(driver, device, zb_rx)
-  print("<<<<<< default_response_handler >>>>>>")
-
+  if device.preferences.logDebugPrint == true then
+    print("<<<<<< default_response_handler >>>>>>")
+  end 
   -- emit signal metrics
   signal.metrics(device, zb_rx)
 
@@ -996,11 +1021,23 @@ end
 
   --- switch_level_handler
   local function switch_level_handler(self,device,command)
-    print("handler_Level >>>>>>>>>>>>>>",command.args.level)
+    if device.preferences.logDebugPrint == true then
+      print("handler_Level >>>>>>>>>>>>>>",command.args.level)
+    end
+
     local on_Level = command.args.level
 
     if device.network_type ~= "DEVICE_EDGE_CHILD" then  ---- device (is NO Child device)
-      device:send_to_component(command.component,zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(on_Level/100.0 * 254), 0xFFFF))
+      if device:get_model() == "DoubleSocket50AU" then
+        if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) == "off" then
+          local emit_off = function (d)
+            device:emit_component_event("main", capabilities.switch.switch.off())
+          end
+          device.thread:call_with_delay(3, emit_off)
+        end
+      end
+      device:send_to_component(command.component, zcl_clusters.Level.server.commands.MoveToLevelWithOnOff(device, math.floor(on_Level/100.0 * 254), 0xFFFF))
+
     
       -- emit event for child devices
       local component = command.component
@@ -1025,7 +1062,9 @@ end
 
 ---- Level response emit event
 local function level_attr_handler(driver, device, value, zb_rx)
-  print("<<<< emit Level >>>>")
+  if device.preferences.logDebugPrint == true then
+    print("<<<< emit Level >>>>")
+  end
 
   if device.network_type ~= "DEVICE_EDGE_CHILD" then  ---- device (is NO Child device)
     device:emit_event_for_endpoint(zb_rx.address_header.src_endpoint.value, capabilities.switchLevel.level(math.floor((value.value / 254.0 * 100) + 0.5)))
