@@ -1,0 +1,4 @@
+name: 'Zigbee CO Detector Mc'
+packageKey: 'zigbee-carborn-monoxide-detector'
+permissions:
+  zigbee: {}
