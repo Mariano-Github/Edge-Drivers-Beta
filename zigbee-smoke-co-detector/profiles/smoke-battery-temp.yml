@@ -1,0 +1,27 @@
+name: smoke-battery-temp
+components:
+- id: main
+  capabilities:
+  - id: smokeDetector
+    version: 1
+  - id: temperatureMeasurement
+    version: 1
+  - id: battery
+    version: 1
+  - id: legendabsolute60149.signalMetrics
+    version: 1
+  - id: refresh
+    version: 1
+  - id: firmwareUpdate
+    version: 1
+  categories:
+  - name: SmokeDetector
+preferences:
+  - preferenceId: tempOffset
+    explicit: true
+metadata:
+  deviceType: SmokeDetector
+  ocfDeviceType: x.com.st.d.sensor.smoke
+  deviceTypeId: SmokeDetector
+  # mnmn: SmartThingsCommunity
+  # vid: f2fadb07-0100-3971-b871-8fac0305906d

@@ -21,7 +21,7 @@ local battery = capabilities.battery
 local signal = require "signal-metrics"
 
 local is_frient_smoke_detector = function(opts, driver, device)
-  if device:get_manufacturer() == "frient A/S" or device:get_manufacturer() == "LUMI" then
+  if device:get_manufacturer() == "frient A/S" or device:get_manufacturer() == "LUMI" or device:get_manufacturer() == "Develco Products A/S" then
     return true
   end
   return false

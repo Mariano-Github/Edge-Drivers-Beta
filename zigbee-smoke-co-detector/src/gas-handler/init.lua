@@ -20,15 +20,13 @@ local capabilities = require "st.capabilities"
 local constants = require "st.zigbee.constants"
 -- required module
 local signal = require "signal-metrics"
+local configurationMap = require "configurations"
 
 
-local is_co_detector = function(opts, driver, device)
-  if (device:get_manufacturer() == "feibit" and device:get_model() == "FNB56-COS06FB1.7")
-    or (device:get_manufacturer() == "HEIMAN" and device:get_model() == "COSensor-EF-3.0")
-    or (device:get_manufacturer() == "Heiman" and device:get_model() == "CO_V16")
-    or (device:get_manufacturer() == "Trust" and device:get_model() == "COSensor-EM")
-    or (device:get_manufacturer() == "_TYZB01_18pkine6" and device:get_model() == "TS0204")
-    or (device:get_manufacturer() == "_TYZB01_o7m83470" and device:get_model() == "TS0212") then
+local is_gas_detector = function(opts, driver, device)
+  if (device:get_manufacturer() == "LUMI" and device:get_model() == "lumi.sensor_gas.acn02") or
+    (device:get_manufacturer() == "_TYZB01_mfccmeio" and device:get_model() == "TS0204") then -- gas detector
+    --or (device:get_manufacturer() == "_TYZB01_18pkine6" and device:get_model() == "TS0204")
     return true
   end
   return false
@@ -36,9 +34,10 @@ end
 
 -- emit event defaults
 local generate_event_from_zone_status = function(driver, device, zone_status, zigbee_message)
-  device:emit_event_for_endpoint(
-      zigbee_message.address_header.src_endpoint.value,
-      (zone_status:is_alarm1_set() or zone_status:is_alarm2_set()) and capabilities.carbonMonoxideDetector.carbonMonoxide.detected() or capabilities.carbonMonoxideDetector.carbonMonoxide.clear())
+
+    device:emit_event_for_endpoint(
+        zigbee_message.address_header.src_endpoint.value,
+        (zone_status:is_alarm1_set() or zone_status:is_alarm2_set()) and capabilities.gasDetector.gas.detected() or capabilities.gasDetector.gas.clear())
 
   -- emit signal metrics
   signal.metrics(device, zigbee_message)
@@ -60,10 +59,20 @@ local function ias_zone_status_change_handler(driver, device, zb_rx)
   generate_event_from_zone_status(driver, device, zone_status, zb_rx)
 end
 
-local co_detector = {
-  NAME = "Co Detector",
+local function added(driver, device)
+  local configuration = configurationMap.get_device_configuration(device)
+    if configuration ~= nil then
+      for _, attribute in ipairs(configuration) do
+        device:add_configured_attribute(attribute)
+        device:add_monitored_attribute(attribute)
+      end
+    end
+end
+
+local gas_detector = {
+  NAME = "Gas Detector",
   supported_capabilities = {
-    capabilities.carbonMonoxideDetector,
+    capabilities.gasDetector,
     capabilities.battery
   },
   zigbee_handlers = {
@@ -79,11 +88,11 @@ local co_detector = {
     },
   },
   lifecycle_handlers = {
-
+    added = added
   },
   ias_zone_configuration_method = constants.IAS_ZONE_CONFIGURE_TYPE.AUTO_ENROLL_RESPONSE,
 
-  can_handle = is_co_detector
+  can_handle = is_gas_detector
 }
 
-return co_detector
+return gas_detector

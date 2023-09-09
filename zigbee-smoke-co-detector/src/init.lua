@@ -31,10 +31,14 @@ local function battery_percentage_handler(driver, device, raw_value, zb_rx)
 end
 
 local zigbee_smoke_driver_template = {
+  lifecycle_handlers = {
+
+  },
   supported_capabilities = {
     capabilities.smokeDetector,
-    --capabilities.carbonMonoxideDetector,
-    capabilities.battery
+    capabilities.battery,
+    capabilities.temperatureMeasurement
+
   },
   zigbee_handlers = {
     attr = {
@@ -43,7 +47,7 @@ local zigbee_smoke_driver_template = {
       }
    }
   },
-  sub_drivers = { require("frient"), require("co-handler") },
+  sub_drivers = { require("frient"), require("co-handler"), require("heiman-SMOK_V16"), require("gas-handler") },
   ias_zone_configuration_method = constants.IAS_ZONE_CONFIGURE_TYPE.AUTO_ENROLL_RESPONSE,
 }
 
