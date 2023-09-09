@@ -355,3 +355,23 @@ zigbeeManufacturer:
     manufacturer: _TYZB01_vwqnz1sn
     model: TS0202
     deviceProfileName: motion-illuminance
+  - id: "LUMI/sensor_motion.aq2"
+    deviceLabel: Aqara Motion Sensor
+    manufacturer: LUMI
+    model: lumi.sensor_motion.aq2
+    deviceProfileName: lumi-motion-illuminance
+  - id: "Bosch-ISW-ZDL1-WP11G-Motion"
+    deviceLabel: Bosch Motion Sensor
+    manufacturer: Bosch
+    model: ISW-ZDL1-WP11G
+    deviceProfileName: motion-temp-battery
+  - id: "TUYATEC-zw6hxafz/RH3040"
+    deviceLabel: RH3040 Motion Sensor
+    manufacturer: TUYATEC-zw6hxafz
+    model: RH3040
+    deviceProfileName: motion-battery
+  - id: "_TZE200_mgxy2d9f/SP2-ZB"
+    deviceLabel: SP2-ZB Motion Sensor
+    manufacturer: _TZE200_mgxy2d9f
+    model: TS0601
+    deviceProfileName:  motion-battery
