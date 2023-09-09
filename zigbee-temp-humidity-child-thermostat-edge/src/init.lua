@@ -50,6 +50,8 @@ local humidity_Target = capabilities ["legendabsolute60149.humidityTarget"]
 local illumin_Condition = capabilities ["legendabsolute60149.illuminCondition"]
 local illumin_Target = capabilities ["legendabsolute60149.illuminTarget"]
 local signal_Metrics = capabilities["legendabsolute60149.signalMetrics"]
+local atm_Pressure_Rate_Change = capabilities["legendabsolute60149.atmPressureRateChange"]
+
 
 -- initialice variables
 local temp_Condition_set ={}
@@ -60,6 +62,8 @@ local illumin_Condition_set = 0
 local temp_Target_set = " "
 local humidity_Target_set = " "
 local illumin_Target_set = " "
+local last_hour_press_values = {}
+local last_hour_press_time = {}
 
 --tuyaBlackMagic() {return zigbee.readAttribute(0x0000, [0x0004, 0x000, 0x0001, 0x0005, 0x0007, 0xfffe], [:], delay=200)}
 local function read_attribute_function(device, cluster_id, attr_id)
@@ -115,10 +119,10 @@ if device.network_type == "DEVICE_EDGE_CHILD" then return end
   print ("Humidity maxTime & changeRep: ", maxTime, changeRep)
   device:send(device_management.build_bind_request(device, HumidityCluster.ID, self.environment_info.hub_zigbee_eui))
   device:send(HumidityCluster.attributes.MeasuredValue:configure_reporting(device, 60, maxTime, changeRep))
-  device:configure()
+  --device:configure()
 
   -- configure pressure reports
-  if device.preferences.pressMaxTime ~= nil or device.preferences.pressChangeRep  ~= nil then
+  if device.preferences.pressMaxTime ~= nil and device.preferences.pressChangeRep  ~= nil then
     maxTime = device.preferences.pressMaxTime * 60
     changeRep = device.preferences.pressChangeRep * 10
     print ("Pressure maxTime y changeRep: ",maxTime, changeRep )
@@ -128,19 +132,20 @@ if device.network_type == "DEVICE_EDGE_CHILD" then return end
         cluster = 0x0403,
         attribute = 0x0000,
         minimum_interval = 60,
-      maximum_interval = maxTime,
-      reportable_change = changeRep,
-      data_type = data_types.Uint16,
-    }
-    device:add_configured_attribute(config)
-    device:add_monitored_attribute(config)            
-  else  
-    device:send(device_management.build_bind_request(device, zcl_clusters.PressureMeasurement.ID, self.environment_info.hub_zigbee_eui))
-    device:send(zcl_clusters.PressureMeasurement.attributes.MeasuredValue:configure_reporting(device, 60, maxTime, changeRep))
-  end
+        maximum_interval = maxTime,
+        reportable_change = changeRep,
+        data_type = data_types.Uint16,
+      }
+      device:add_configured_attribute(config)
+      device:add_monitored_attribute(config)
+    --end         
+    else  
+      device:send(device_management.build_bind_request(device, zcl_clusters.PressureMeasurement.ID, self.environment_info.hub_zigbee_eui))
+      device:send(zcl_clusters.PressureMeasurement.attributes.MeasuredValue:configure_reporting(device, 60, maxTime, changeRep))
+    end
  end
   -- configure Illuminance reports
- if device.preferences.illuMaxTime ~= nil or device.preferences.illuChangeRep  ~= nil then
+ if device.preferences.illuMaxTime ~= nil and device.preferences.illuChangeRep  ~= nil then
   maxTime = device.preferences.illuMaxTime * 60
   changeRep = math.floor(10000 * (math.log((device.preferences.illuChangeRep + 1), 10)))
   print ("Illuminance maxTime y changeRep: ",maxTime, changeRep )
@@ -162,12 +167,14 @@ end
 local function do_preferences(self, device)
   --if device.network_type == "DEVICE_EDGE_CHILD" then return end
   for id, value in pairs(device.preferences) do
-    print("device.preferences[infoChanged]=", device.preferences[id])
+    --print("device.preferences[infoChanged]=", device.preferences[id])
     local oldPreferenceValue = device:get_field(id)
     local newParameterValue = device.preferences[id]
      if oldPreferenceValue ~= newParameterValue then
       device:set_field(id, newParameterValue, {persist = true})
-      print("<< Preference changed: name, old, new >>", id, oldPreferenceValue, newParameterValue)
+      if device.preferences.logDebugPrint == true then
+        print("<< Preference changed:",id, "old value", oldPreferenceValue, "new value>>", newParameterValue)
+      end
       if  id == "tempMaxTime" or id == "tempChangeRep" then
         local maxTime = device.preferences.tempMaxTime * 60
         local changeRep = device.preferences.tempChangeRep * 100
@@ -181,27 +188,26 @@ local function do_preferences(self, device)
         --device:send(device_management.build_bind_request(device, HumidityCluster.ID, self.environment_info.hub_zigbee_eui))
         device:send(HumidityCluster.attributes.MeasuredValue:configure_reporting(device, 60, maxTime, changeRep))
       elseif id == "pressMaxTime" or id == "pressChangeRep" then
+        --local minTime = 60
+        local maxTime = device.preferences.pressMaxTime * 60
+        local changeRep = device.preferences.pressChangeRep * 10
         if device:get_manufacturer() == "KMPCIL" then
-          local minTime = 60
-          local maxTime = device.preferences.pressMaxTime * 60
-          local changeRep = device.preferences.pressChangeRep * 10
           print ("Press maxTime & changeRep: ", maxTime, changeRep)
           local config =
           {
             cluster = 0x0403,
             attribute = 0x0000,
-            minimum_interval = minTime,
+            minimum_interval = 60,
             maximum_interval = maxTime,
             reportable_change = changeRep,
             data_type = data_types.Uint16,
           }
           device:add_configured_attribute(config)
-        device:add_monitored_attribute(config)            
+          device:add_monitored_attribute(config)
+          device:configure() -- configure pressure with correct data types
+          do_configure(self,device)  -- configure correct intervals for temp, humid and illumin   
         else
-          local maxTime = device.preferences.pressMaxTime * 60
-          local changeRep = device.preferences.pressChangeRep * 10
           print ("Press maxTime & changeRep: ", maxTime, changeRep)
-
           --device:send(device_management.build_bind_request(device, zcl_clusters.PressureMeasurement.ID, self.environment_info.hub_zigbee_eui))
           device:send(zcl_clusters.PressureMeasurement.attributes.MeasuredValue:configure_reporting(device, 60, maxTime, changeRep))
         end
@@ -245,8 +251,8 @@ local function do_preferences(self, device)
 
       --configure basicinput cluster
       if device:get_manufacturer() == "KMPCIL" then
-        device:send(device_management.build_bind_request(device, BasicInput.ID, self.environment_info.hub_zigbee_eui))
-        device:send(BasicInput.attributes.PresentValue:configure_reporting(device, 0xFFFF, 0xFFFF))
+        --device:send(device_management.build_bind_request(device, BasicInput.ID, self.environment_info.hub_zigbee_eui))
+        --device:send(BasicInput.attributes.PresentValue:configure_reporting(device, 0xFFFF, 0xFFFF))
       end     
     end
   end
@@ -257,13 +263,15 @@ local function do_preferences(self, device)
   local manufacturer_len = string.len(manufacturer)
   local model_len = string.len(model)
 
-  print("Device ID", device)
-  print("Manufacturer >>>", manufacturer, "Manufacturer_Len >>>",manufacturer_len)
-  print("Model >>>", model,"Model_len >>>",model_len)
-  local firmware_full_version = device.data.firmwareFullVersion
-  print("<<<<< Firmware Version >>>>>",firmware_full_version)
-  -- This will print in the log the total memory in use by Lua in Kbytes
-  print("Memory >>>>>>>",collectgarbage("count"), " Kbytes")
+  if device.preferences.logDebugPrint == true then
+    print("Device ID", device)
+    print("Manufacturer >>>", manufacturer, "Manufacturer_Len >>>",manufacturer_len)
+    print("Model >>>", model,"Model_len >>>",model_len)
+    local firmware_full_version = device.data.firmwareFullVersion
+    print("<<<<< Firmware Version >>>>>",firmware_full_version)
+    -- This will print in the log the total memory in use by Lua in Kbytes
+    print("Memory >>>>>>>",collectgarbage("count"), " Kbytes")
+  end
 end
 
 --- temperature handler
@@ -312,21 +320,103 @@ local pressure_value_attr_handler = function (driver, device, value, zb_rx)
 
   print("Pressure.value >>>>>>", value.value)
   -- save previous pressure  and time values
-  if device:get_field("last_value") == nil then device:set_field("last_value", 0, {persist = false}) end
+  if device:get_field("last_value") == nil then device:set_field("last_value", 0, {persist = true}) end
   local last_value = device:get_field("last_value")
+
   if device:get_field("last_value_time") == nil then device:set_field("last_value_time", (os.time() - (device.preferences.pressMaxTime * 60)) , {persist = false}) end
   local last_value_time = device:get_field("last_value_time")
+
+  -- initialice 4 values of last hour to claculate rate change
+  if device:get_field("last_hour_press_values") == nil or
+    device:get_field("last_hour_press_time") == nil then
+      local current_time = os.time()
+      for i = 1, 4, 1 do
+        last_hour_press_values[i] = value.value
+        last_hour_press_time[i] = current_time
+        if device.preferences.logDebugPrint == true then
+          print("<<<< [i]=", i)
+          print("<<<< last_hour_press_values[i]",last_hour_press_values[i],"last_hour_press_time[i]",os.date("%H:%M:%S",last_hour_press_time[i]))
+        end
+      end
+      device:set_field("last_hour_press_values", last_hour_press_values, {persist = true})
+      device:set_field("last_hour_press_time", last_hour_press_time, {persist = true})
+
+    -- emit event atm_Pressure_Rate_Change
+    device:emit_event(atm_Pressure_Rate_Change.atmPressureRateChange({value = 0, unit = "mBar/h"}))
+  end
+
+  last_hour_press_values = device:get_field("last_hour_press_values")
+  last_hour_press_time = device:get_field("last_hour_press_time")
   
   local kPa = math.floor ((value.value + device.preferences.atmPressureOffset) / 10)
-  
+
+  --- Rate Change calculations
+    if os.time() - last_hour_press_time[1] >= 3600 then
+      local current_time = os.time()
+      if device.preferences.logDebugPrint == true then
+        for i = 1, 4, 1 do
+          print("<<<< [i]=", i)
+          print("<<<< last_hour_press_values[i]",last_hour_press_values[i],"last_hour_press_time[i]",os.date("%H:%M:%S",last_hour_press_time[i]))
+        end
+      end
+      local delta_press = value.value - last_hour_press_values[1]
+      local delta_time = current_time - last_hour_press_time[1]
+      local rate_change = tonumber(string.format("%.1f", 3600 / delta_time * delta_press))
+
+      if device.preferences.logDebugPrint == true then
+        print("<<<< delta_press",delta_press)
+        print("<<<< delta_time",delta_time)
+        print("<<<< rate_change",rate_change)
+      end
+
+      for i = 1, 3, 1 do
+        last_hour_press_time[i] = last_hour_press_time[i+1]
+        last_hour_press_values[i] = last_hour_press_values[i+1]
+      end
+      last_hour_press_time[4] = current_time
+      last_hour_press_values[4] = value.value
+      device:set_field("last_hour_press_values", last_hour_press_values, {persist = true})
+      device:set_field("last_hour_press_time", last_hour_press_time, {persist = true})
+
+      -- emit event atm_Pressure_Rate_Change
+      device:emit_event(atm_Pressure_Rate_Change.atmPressureRateChange({value = rate_change, unit = "mBar/h"}))
+      -- emit event atm_Pressure_kPa
+      device: emit_event (capabilities.atmosphericPressureMeasurement.atmosphericPressure ({value = kPa, unit = "kPa"}))
+      --emit even for custom capability in mBar
+      local mBar = value.value + device.preferences.atmPressureOffset
+      device:emit_event(atmos_Pressure.atmosPressure({value = mBar, unit = "mBar"}))
+      
+      --save emitted pressure value
+      device:set_field("last_value", value.value + device.preferences.atmPressureOffset, {persist = false})
+      device:set_field("last_value_time", os.time(), {persist = false})
+
+    elseif os.time() - last_hour_press_time[4] >= 900 then
+      local current_time = os.time()
+      if last_hour_press_time[1] == last_hour_press_time[2] then
+        for i = 2, 3, 1 do
+          last_hour_press_time[i] = last_hour_press_time[i+1]
+          last_hour_press_values[i] = last_hour_press_values[i+1]
+        end
+        last_hour_press_time[4] = current_time
+        last_hour_press_values[4] = value.value
+        device:set_field("last_hour_press_values", last_hour_press_values, {persist = true})
+        device:set_field("last_hour_press_time", last_hour_press_time, {persist = true})
+      end
+    end
+    if device.preferences.logDebugPrint == true then
+      for i = 1, 4, 1 do
+        print("<<<< [i]=", i)
+        print("<<<< last_hour_press_values[i]",last_hour_press_values[i],"last_hour_press_time[i]",os.date("%H:%M:%S",last_hour_press_time[i]))
+      end
+    end
+
   --- emmit only events for >= device.preferences.pressChangeRep or device.preferences.pressMaxTim
   if math.abs(value.value + device.preferences.atmPressureOffset - last_value) >= device.preferences.pressChangeRep * 10 or (os.time() - last_value_time) + 20 >= (device.preferences.pressMaxTime * 60) then
     device: emit_event (capabilities.atmosphericPressureMeasurement.atmosphericPressure ({value = kPa, unit = "kPa"}))
-
-    -- emit even for custom capability in mBar
+    --emit even for custom capability in mBar
     local mBar = value.value + device.preferences.atmPressureOffset
-    device:emit_event(atmos_Pressure.atmosPressure(mBar))
-
+    device:emit_event(atmos_Pressure.atmosPressure({value = mBar, unit = "mBar"}))
+    
     --save emitted pressure value
     device:set_field("last_value", value.value + device.preferences.atmPressureOffset, {persist = false})
     device:set_field("last_value_time", os.time(), {persist = false})
@@ -341,7 +431,9 @@ local function humidity_attr_handler(driver, device, value, zb_rx)
 
   if device:get_manufacturer() == "_TZ3000_ywagc4rj" then
     value.value = value.value * 10
-    print("_TZ3000_ywagc4rj-value.value=", value.value)
+    if device.preferences.logDebugPrint == true then
+      print("_TZ3000_ywagc4rj-value.value=", value.value)
+    end
   end
 
   local last_humid_value = utils.round(value.value / 100.0) + device.preferences.humidityOffset
@@ -387,20 +479,24 @@ local function set_TempCondition_handler(self,device,command)
   print("set_TempCondition.value=", command.args.value)
   temp_Condition_set.value = command.args.value
 
-  print("device:get_latest_state >>>>", device:get_latest_state("main", capabilities.temperatureMeasurement.ID, capabilities.temperatureMeasurement.temperature.NAME))
   local last_temp_value = device:get_latest_state("main", capabilities.temperatureMeasurement.ID, capabilities.temperatureMeasurement.temperature.NAME)
   if last_temp_value == nil then last_temp_value = 0 end
   last_temp_value = utils.round(last_temp_value) + device.preferences.tempOffset
 
-  print("last_temp_value ºC=",last_temp_value)
+  if device.preferences.logDebugPrint == true then
+    print("device:get_latest_state >>>>", device:get_latest_state("main", capabilities.temperatureMeasurement.ID, capabilities.temperatureMeasurement.temperature.NAME))
+    print("last_temp_value ºC=",last_temp_value)
+  end
   local temp_scale = "C"
   -- convert temp sent by device to ºF
   if device.preferences.thermTempUnits == "Fahrenheit" then 
     temp_scale = "F"
     last_temp_value = utils.round((last_temp_value * 9 / 5)) + 32
   end
-  print("last_temp_value C or F =",last_temp_value)
-
+  if device.preferences.logDebugPrint == true then
+    print("last_temp_value C or F =",last_temp_value)
+  end
+  
   if last_temp_value < temp_Condition_set.value then
     temp_Target_set = "Down"
   elseif last_temp_value >= temp_Condition_set.value then
@@ -418,7 +514,9 @@ local function set_HumidityCondition_handler(self,device,command)
   print("set_HumidityCondition=", command.args.value)
   humidity_Condition_set = command.args.value
   local last_humid_value = device:get_latest_state("main", capabilities.relativeHumidityMeasurement.ID, capabilities.relativeHumidityMeasurement.humidity.NAME) + device.preferences.humidityOffset
-  print ("last_humid_value = ",last_humid_value)
+  if device.preferences.logDebugPrint == true then
+    print ("last_humid_value = ",last_humid_value)
+  end
 
   if last_humid_value < humidity_Condition_set then
     humidity_Target_set = "Down"
@@ -454,16 +552,37 @@ end
 local function do_init(self,device)
 
     --tuyaBlackMagic() {return zigbee.readAttribute(0x0000, [0x0004, 0x000, 0x0001, 0x0005, 0x0007, 0xfffe], [:], delay=200)}
-    if device:get_model() == "TS0601" and device:get_manufacturer()== "_TZE200_znbl8dj5" then
+    --if device:get_model() == "TS0601" and device:get_manufacturer()== "_TZE200_znbl8dj5" then
+    --if device:get_model() == "TS0222" and device:get_manufacturer()== "_TYZB01_ftdkanlj" then
       print("<<< Read Basic clusters attributes >>>")
       local attr_ids = {0x0004, 0x0000, 0x0001, 0x0005, 0x0007,0xFFFE} 
       device:send(read_attribute_function (device, data_types.ClusterId(0x0000), attr_ids))
+    --end
+      -- initialice device profiles
+    if device.preferences.changeProfileTHB == "Single" then
+        device:try_update_metadata({profile = "temp-humid-battery"})
+    elseif device.preferences.changeProfileTHB == "Multi" then
+        device:try_update_metadata({profile = "temp-humid-battery-multi"})
+    elseif device.preferences.changeProfileTHPB == "Single" then
+        device:try_update_metadata({profile = "temp-humid-press-battery"})
+    elseif device.preferences.changeProfileTHPB == "Multi" then
+        device:try_update_metadata({profile = "temp-humid-press-battery-multi"})
+    elseif device.preferences.changeProfileTHPI == "Single" then 
+        device:try_update_metadata({profile = "temp-humid-press-illumin"})
+    elseif device.preferences.changeProfileTHPI == "Multi" then 
+        device:try_update_metadata({profile = "temp-humid-press-illumin-multi"})
+    elseif device.preferences.changeProfileTHIB == "Single" then
+        device:try_update_metadata({profile = "temp-humid-illumin-battery"})
+    elseif device.preferences.changeProfileTHIB == "Multi" then
+        device:try_update_metadata({profile = "temp-humid-illumin-battery-multi"})
     end
 
     --  initialize values of capabilities
-    illumin_Condition_set = device:get_latest_state("main", illumin_Condition.ID, illumin_Condition.illuminCondition.NAME)
-    if illumin_Condition_set == nil then illumin_Condition_set = 0 end
-    device:emit_event(illumin_Condition.illuminCondition(illumin_Condition_set))
+    if device:supports_capability_by_id(illumin_Condition.ID) then
+      illumin_Condition_set = device:get_latest_state("main", illumin_Condition.ID, illumin_Condition.illuminCondition.NAME)
+      if illumin_Condition_set == nil then illumin_Condition_set = 0 end
+      device:emit_event(illumin_Condition.illuminCondition(illumin_Condition_set))
+    end
 
     humidity_Condition_set = device:get_latest_state("main", humidity_Condition.ID, humidity_Condition.humidityCondition.NAME)
     if humidity_Condition_set == nil then humidity_Condition_set = 0 end
@@ -478,9 +597,11 @@ local function do_init(self,device)
     end
     device:emit_event(temp_Condition.tempCondition({value = temp_Condition_set.value, unit = temp_scale }))
 
-    illumin_Target_set = device:get_latest_state("main", illumin_Target.ID, illumin_Target.illuminTarget.NAME)
-    if illumin_Target_set == nil then illumin_Target_set = " " end
-    device:emit_event(illumin_Target.illuminTarget(illumin_Target_set))
+    if device:supports_capability_by_id(illumin_Target.ID) then
+      illumin_Target_set = device:get_latest_state("main", illumin_Target.ID, illumin_Target.illuminTarget.NAME)
+      if illumin_Target_set == nil then illumin_Target_set = " " end
+      device:emit_event(illumin_Target.illuminTarget(illumin_Target_set))
+    end
 
     humidity_Target_set = device:get_latest_state("main", humidity_Target.ID, humidity_Target.humidityTarget.NAME)
     if humidity_Target_set == nil then humidity_Target_set = " " end
@@ -492,6 +613,26 @@ local function do_init(self,device)
 
     if device:get_latest_state("main", signal_Metrics.ID, signal_Metrics.signalMetrics.NAME) == nil then
       device:emit_event(signal_Metrics.signalMetrics({value = "Waiting Zigbee Message"}, {visibility = {displayed = false }}))
+    end
+
+    if device:get_manufacturer() == "KMPCIL" then
+      local maxTime = device.preferences.pressMaxTime * 60
+      local changeRep = device.preferences.pressChangeRep * 10
+      local config =
+      {
+        cluster = 0x0403,
+        attribute = 0x0000,
+        minimum_interval = 60,
+        maximum_interval = maxTime,
+        reportable_change = changeRep,
+        data_type = data_types.Uint16,
+      }
+      device:add_configured_attribute(config)
+      device:add_monitored_attribute(config)            
+    end
+
+    if device:get_latest_state("main", atm_Pressure_Rate_Change.ID, atm_Pressure_Rate_Change.atmPressureRateChange.NAME) == nil then
+      --device:emit_event(atm_Pressure_Rate_Change.atmPressureRateChange({value = nil, unit = "mBar/h"}))
     end
 
 end
@@ -508,6 +649,9 @@ local zigbee_temp_driver = {
     capabilities.relativeHumidityMeasurement,
     capabilities.atmosphericPressureMeasurement,
     atmos_Pressure,
+    illumin_Condition,
+    illumin_Target,
+    atm_Pressure_Rate_Change,
     capabilities.illuminanceMeasurement,
     capabilities.battery,
     capabilities.refresh

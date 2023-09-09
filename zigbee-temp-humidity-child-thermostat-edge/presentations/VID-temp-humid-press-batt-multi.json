@@ -1,6 +1,6 @@
 {
     "mnmn": "SmartThingsCommunity",
-    "vid": "3f03b005-0e01-3a82-b8b6-fb95b3890261",
+    "vid": "cb15cdb8-719a-38b4-88c4-cef5a8fbe461",     
     "version": "0.0.1",
     "type": "profile",
     "dashboard": {
@@ -85,6 +85,13 @@
         },
         {
             "component": "main",
+            "capability": "legendabsolute60149.atmPressureRateChange",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "main",
             "capability": "legendabsolute60149.tempCondition2",
             "version": 1,
             "values": [],
@@ -162,6 +169,14 @@
             },
             {
                 "component": "main",
+                "capability": "legendabsolute60149.atmPressureRateChange",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "main",
                 "capability": "battery",
                 "version": 1,
                 "values": [],
@@ -220,6 +235,6 @@
             }
         ]
     },
-    "presentationId": "3f03b005-0e01-3a82-b8b6-fb95b3890261",
+    "presentationId": "cb15cdb8-719a-38b4-88c4-cef5a8fbe461",
     "manufacturerName": "SmartThingsCommunity"
 }

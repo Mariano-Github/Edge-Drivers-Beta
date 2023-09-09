@@ -1,5 +1,5 @@
 -- Copyright 2021 SmartThings
---
+-- M. Colmenarejo 2022
 -- Licensed under the Apache License, Version 2.0 (the "License");
 -- you may not use this file except in compliance with the License.
 -- You may obtain a copy of the License at
@@ -114,10 +114,15 @@ local function thermostatMode_handler(self,device,command)
   end
 
   ---- set thermostat lock status
-  if (thermostat_Mode == "away" or thermostat_Mode == "manual") and device:get_field("thermostat_Lock") == "Unlocked" then
+  --if command ~= "init" and (thermostat_Mode == "away" or thermostat_Mode == "manual") and device:get_field("thermostat_Lock") == "Unlocked" then
+  if command ~= "init" and (command.args.mode == "away" or command.args.mode == "manual") and device:get_field("thermostat_Lock") == "Unlocked" then
     device:emit_event(thermostat_Locked.thermostatLocked("Locked"))
     --Save thermostat_Locked
     device:set_field("thermostat_Lock", "Locked", {persist = true})
+  --else
+    --device:emit_event(thermostat_Locked.thermostatLocked("Unlocked"))
+    --Save thermostat_Locked
+    --device:set_field("thermostat_Lock", "Unlocked", {persist = true})
   end
 
   --- thermostat run timer 
@@ -139,6 +144,10 @@ local function thermostatMode_handler(self,device,command)
 
     -- thermostat calculations
     refresh_thermostat.thermostat_data_check (self, device)
+  else
+    if device:get_field("thermostatFan_Mode") == "auto" and device:get_latest_state("main", fan_Cyclic_Mode.ID, fan_Cyclic_Mode.fanCyclicMode.NAME) ~= "Off" then
+      device:emit_event(fan_Cyclic_Mode.fanCyclicMode("Off"))
+    end
   end
 
   -- activate timer for fan_cycle
@@ -157,25 +166,25 @@ local function thermostatMode_handler(self,device,command)
       
     ------------ Fanc Circulate Cycling handler -------------
 
-      if device.preferences.fanCyclic == "Yes" then
+      --if device.preferences.fanCyclic == "Yes" then
         local onCyclicTotalSteps = device.preferences.onTime -- * 60  / thermostat_timer
         local offCyclicTotalSteps = device.preferences.offTime -- * 60  / thermostat_timer
 
         if device:get_field("cycleCurrent") == "off" then
-        local offCyclicStep = device:get_field("offCyclicStep") + 1
-        device:set_field("offCyclicStep", offCyclicStep, {persist = false})
-        if device.preferences.logDebugPrint == true then
-          print("offCyclicStep, offCyclicTotalSteps", device:get_field("offCyclicStep"),offCyclicTotalSteps)
-        end
-        if offCyclicStep >= offCyclicTotalSteps then 
-          offCyclicStep = 0
+          local offCyclicStep = device:get_field("offCyclicStep") + 1
           device:set_field("offCyclicStep", offCyclicStep, {persist = false})
-          local nextChange= os.date("%H:%M:%S",os.time() + (device.preferences.onTime * 60) + (device.preferences.localTimeOffset * 3600))
-          --emit fan state  and time for next change
-          device:emit_event(fan_Cyclic_Mode.fanCyclicMode("On"))
-          device:emit_event(fan_Next_Change.fanNextChange(nextChange))
-          device:set_field("cycleCurrent", "on", {persist = false})
-        end
+          if device.preferences.logDebugPrint == true then
+            print("offCyclicStep, offCyclicTotalSteps", device:get_field("offCyclicStep"),offCyclicTotalSteps)
+          end
+          if offCyclicStep >= offCyclicTotalSteps then 
+            offCyclicStep = 0
+            device:set_field("offCyclicStep", offCyclicStep, {persist = false})
+            local nextChange= os.date("%H:%M:%S",os.time() + (device.preferences.onTime * 60) + (device.preferences.localTimeOffset * 3600))
+            --emit fan state  and time for next change
+            device:emit_event(fan_Cyclic_Mode.fanCyclicMode("On"))
+            device:emit_event(fan_Next_Change.fanNextChange(nextChange))
+            device:set_field("cycleCurrent", "on", {persist = false})
+          end
         elseif device:get_field("cycleCurrent") == "on" then
           local onCyclicStep = device:get_field("onCyclicStep") + 1
           device:set_field("onCyclicStep", onCyclicStep, {persist = false})
@@ -192,7 +201,7 @@ local function thermostatMode_handler(self,device,command)
           device:set_field("cycleCurrent", "off", {persist = false})
           end   
         end
-      end
+      --end
     end,
       "fan_cycle_timer")
   end
@@ -270,21 +279,23 @@ local function thermostatFanMode_handler(self,device,command)
     thermostat_Mode = device:get_field("thermostat_Mode")
     thermostatOperatingState = device:get_field("thermostatOperatingState")
     if thermostatFan_Mode == "on" then
-     device:set_field ("cycleCurrent", "stop", {persist = false})
-     device:set_field ("timer_cycleCurrent", "stopped", {persist = false})
-     device:emit_event(fan_Cyclic_Mode.fanCyclicMode("On"))       
-     if thermostat_Mode == "off" then
-      device:emit_event(fan_Next_Change.fanNextChange("Inactive"))
-      device:emit_event(capabilities.thermostatOperatingState.thermostatOperatingState("fan only"))
-      device:set_field ("thermostatOperatingState", "fan only", {persist = false})
-     end     
+      device:set_field ("cycleCurrent", "stop", {persist = false})
+      device:set_field ("timer_cycleCurrent", "stopped", {persist = false})
+      device:emit_event(fan_Cyclic_Mode.fanCyclicMode("On"))
+      device:emit_event(fan_Next_Change.fanNextChange("Inactive"))     
+      if thermostat_Mode == "off" then
+        --device:emit_event(fan_Next_Change.fanNextChange("Inactive"))
+        device:emit_event(capabilities.thermostatOperatingState.thermostatOperatingState("fan only"))
+        device:set_field ("thermostatOperatingState", "fan only", {persist = false})
+      end     
     
     elseif thermostatFan_Mode == "circulate" then
      device:set_field ("cycleCurrent", "stop", {persist = false})
      device:set_field ("timer_cycleCurrent", "stopped", {persist = false})
      device:emit_event(fan_Cyclic_Mode.fanCyclicMode("On"))
+     device:emit_event(fan_Next_Change.fanNextChange("Inactive"))
      if thermostat_Mode == "off" then
-      device:emit_event(fan_Next_Change.fanNextChange("Inactive"))
+      --device:emit_event(fan_Next_Change.fanNextChange("Inactive"))
       device:emit_event(capabilities.thermostatOperatingState.thermostatOperatingState("vent economizer"))
       device:set_field ("thermostatOperatingState", "vent economizer", {persist = false})
      end 
@@ -304,7 +315,7 @@ local function thermostatFanMode_handler(self,device,command)
     
     elseif thermostatFan_Mode == "followschedule" then 
      ---- Set steps for cyclic fan operation
-     if device.preferences.fanCyclic == "Yes" then
+     --if device.preferences.fanCyclic == "Yes" then
       --emit fan state  and time for next change
       local nextChange= os.date("%H:%M:%S",os.time() + (device.preferences.onTime * 60) + (device.preferences.localTimeOffset * 3600))
       device:emit_event(fan_Cyclic_Mode.fanCyclicMode("On"))
@@ -319,11 +330,12 @@ local function thermostatFanMode_handler(self,device,command)
       if device.preferences.logDebugPrint == true then
         print("onCyclicStep, offCyclicStep, cycleCurrent", device:get_field ("onCyclicStep"),device:get_field ("offCyclicStep"),device:get_field ("cycleCurrent"))
       end
-     end     
+     --end     
     end
 
    if thermostatFan_Mode == "followschedule" or thermostat_Mode ~= "off" then
-    command.args.mode = thermostat_Mode
+    --command.args.mode = thermostat_Mode
+    command = "init"
     thermostatMode_handler(self,device,command)
    end
 end
@@ -359,20 +371,22 @@ local function do_init (self, device)
   thermostat_Modes_Supported(self,device)
 
   --Initialize selected profile
-  print("<<< Set Selected profile >>>")
-  print("<<< device.preferences.changeProfileTherm >>>",device.preferences.changeProfileTherm)
-  print("<<< device.preferences.multiTile >>>",device.preferences.multiTile)
+  if device.preferences.logDebugPrint == true then
+    print("<<< Set Selected profile >>>")
+    print("<<< device.preferences.changeProfileTherm >>>",device.preferences.changeProfileTherm)
+    print("<<< device.preferences.multiTile >>>",device.preferences.multiTile)
+  end
   if device.preferences.changeProfileTherm == "1" and device.preferences.multiTile == false then
-    print("<<< child-thermostat >>>")
+    --print("<<< child-thermostat >>>")
     device:try_update_metadata({profile = "child-thermostat"})
   elseif device.preferences.changeProfileTherm == "1" and device.preferences.multiTile == true then
-    print("<<< child-thermostat-multi >>>")
+    --print("<<< child-thermostat-multi >>>")
     device:try_update_metadata({profile = "child-thermostat-multi"})
   elseif device.preferences.changeProfileTherm == "5" and device.preferences.multiTile == false then
-    print("<<< child-thermostat-05 >>>")
+    --print("<<< child-thermostat-05 >>>")
     device:try_update_metadata({profile = "child-thermostat-05"})
   elseif device.preferences.changeProfileTherm == "5" and device.preferences.multiTile == true then
-    print("<<< child-thermostat-multi-05 >>>")
+    --print("<<< child-thermostat-multi-05 >>>")
     device:try_update_metadata({profile = "child-thermostat-multi-05"})
   end
 
@@ -529,7 +543,7 @@ local function do_Preferences (self, device)
   end
 
   -- This will print in the log the total memory in use by Lua in Kbytes
-  print("device.preferences.localTimeOffset >>>",device.preferences.localTimeOffset)
+  --print("device.preferences.localTimeOffset >>>",device.preferences.localTimeOffset)
   print("Memory >>>>>>>",collectgarbage("count"), " Kbytes")
 end
 
@@ -552,6 +566,13 @@ local function refresh_handler(self, device)
     if last_temp_value ~= nil then
       device:emit_event(capabilities.temperatureMeasurement.temperature({value = last_temp_value, unit = "C" }))
     end
+    
+  -- emit last parent device humidity
+  local parent_device = device:get_parent_device()
+  local last_humidity = parent_device:get_latest_state("main", capabilities.relativeHumidityMeasurement.ID, capabilities.relativeHumidityMeasurement.humidity.NAME)
+  if last_humidity ~= nil then
+    device:emit_event(capabilities.relativeHumidityMeasurement.humidity(last_humidity))
+  end
 
   -- thermostat calculations
   refresh_thermostat.thermostat_data_check (self, device)

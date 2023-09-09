@@ -9,7 +9,7 @@
     },
     "detailView": [
         {
-            "label": "Humidity Comparation",
+            "label": "Humidity Comparison Result",
             "displayType": "list",
             "list": {
                 "command": {
@@ -51,7 +51,7 @@
     "automation": {
         "conditions": [
             {
-                "label": "Humidity Comparation",
+                "label": "Humidity Comparison Result",
                 "displayType": "list",
                 "list": {
                     "alternatives": [

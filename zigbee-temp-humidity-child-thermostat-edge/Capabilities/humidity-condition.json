@@ -10,7 +10,7 @@
     },
     "detailView": [
         {
-            "label": "Humidity Routine Condition",
+            "label": "Humidity Comparison Condition",
             "displayType": "numberField",
             "numberField": {
                 "value": "humidityCondition.value",
@@ -29,7 +29,7 @@
         "conditions": [],
         "actions": [
             {
-                "label": "Humid Condit Set Value",
+                "label": "Humid Condition Set Value",
                 "displayType": "numberField",
                 "numberField": {
                     "command": "setHumidityCondition",

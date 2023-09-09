@@ -10,6 +10,8 @@ components:
     version: 1
   - id: legendabsolute60149.atmosPressure
     version: 1
+  - id: legendabsolute60149.atmPressureRateChange
+    version: 1
   - id: legendabsolute60149.tempCondition2
     version: 1
   - id: legendabsolute60149.tempTarget
@@ -117,13 +119,13 @@ preferences:
       default: 1
   - name: "pressMaxTime"
     title: "At. Pressure Report Interval (min)"
-    description: "Select At. Pressure Report Max. Interval (5 min to 300 min)"
+    description: "Select At. Pressure Report Max. Interval (5 min to 300 min). WARNING: For the best performance of the Atm Pressure Rate Change calculation use 5 to 15 minutes interval"
     required: false
     preferenceType: integer
     definition:
       minimum: 5
       maximum: 300
-      default: 30   
+      default: 15   
   - name: "pressChangeRep"
     title: "At. Pressure Reportable Change (kPa)"
     description: "Select At. Pressure Reportable Change 0.1 kPa to 5 kPa"
@@ -132,10 +134,26 @@ preferences:
     definition:
       minimum: 0.1
       maximum: 5
-      default: 1
+      default: 0.2
+  - name: "signalMetricsVisibles"
+    title: "Signal Metrics Visible in History"
+    description: "Signal Metrics Visible in App History:"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Yes": "Signal Metrics Visible"
+        "No": "Signal Metrics No Visible"
+      default: "No"
+  - name: "logDebugPrint"
+    title: "Show Logs Debug Prints in CLI"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
 metadata:
   deviceType: Thermostat	
   ocfDeviceType: oic.d.thermostat
   deviceTypeId: Thermostat
   mnmn: SmartThingsCommunity
-  vid: 3f03b005-0e01-3a82-b8b6-fb95b3890261
+  vid: cb15cdb8-719a-38b4-88c4-cef5a8fbe461

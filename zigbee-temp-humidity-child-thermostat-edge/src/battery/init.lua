@@ -7,7 +7,9 @@ local utils = require "st.utils"
 local can_handle = function(opts, driver, device)
   if device.manufacturer ~= nil then return false end
     if device:get_manufacturer() == "_TZ2000_a476raq2" then
-      return device:get_manufacturer() == "_TZ2000_a476raq2"
+      --(device:get_manufacturer() == "SONOFF" and device:get_model() == "SNZB-02D") then
+      return true
+    else return false
     end
 end
 

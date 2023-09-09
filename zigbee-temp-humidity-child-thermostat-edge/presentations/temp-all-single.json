@@ -43,6 +43,13 @@
         },
         {
             "component": "main",
+            "capability": "legendabsolute60149.atmPressureRateChange",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "main",
             "capability": "illuminanceMeasurement",
             "version": 1,
             "values": [],
@@ -121,6 +128,14 @@
             {
                 "component": "main",
                 "capability": "legendabsolute60149.atmosPressure",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "main",
+                "capability": "legendabsolute60149.atmPressureRateChange",
                 "version": 1,
                 "values": [],
                 "patch": [],

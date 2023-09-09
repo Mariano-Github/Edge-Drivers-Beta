@@ -9,7 +9,7 @@
     },
     "detailView": [
         {
-            "label": "Temp Routine Condition",
+            "label": "Temperature Comparison Condition",
             "displayType": "numberField",
             "numberField": {
                 "value": "tempCondition.value",
@@ -28,7 +28,7 @@
         "conditions": [],
         "actions": [
             {
-                "label": "Temp Condit Set Value",
+                "label": "Temp Condition Set Value",
                 "displayType": "numberField",
                 "numberField": {
                     "command": "setTempCondition",

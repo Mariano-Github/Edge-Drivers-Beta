@@ -2,7 +2,7 @@
     "dashboard": {
         "states": [
             {
-                "label": "{{atmosPressure.value}} {{atmosPressure.unit}}"
+                "label": "{{atmPressureRateChange.value}} {{atmPressureRateChange.unit}}"
             }
         ],
         "actions": [],
@@ -10,32 +10,32 @@
     },
     "detailView": [
         {
-            "label": "Atmospheric Pressure in mBar",
+            "label": "Atmospheric Pressure Rate Change",
             "displayType": "state",
             "state": {
-                "label": "{{atmosPressure.value}} {{atmosPressure.unit}}",
-                "unit": "atmosPressure.unit"
+                "label": "{{atmPressureRateChange.value}} {{atmPressureRateChange.unit}}",
+                "unit": "atmPressureRateChange.unit"
             }
         }
     ],
     "automation": {
         "conditions": [
             {
-                "label": "Atmospheric Pressure in mBar",
+                "label": "Atmospheric Pressure Rate Change",
                 "displayType": "numberField",
                 "numberField": {
-                    "value": "atmosPressure.value",
+                    "value": "atmPressureRateChange.value",
                     "valueType": "number",
-                    "unit": "atmosPressure.unit",
+                    "unit": "atmPressureRateChange.unit",
                     "range": [
-                        1,
-                        1500
+                        -100,
+                        100
                     ]
                 }
             }
         ],
         "actions": []
     },
-    "id": "legendabsolute60149.atmosPressure",
+    "id": "legendabsolute60149.atmPressureRateChange",
     "version": 1
 }

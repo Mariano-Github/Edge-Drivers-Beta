@@ -24,13 +24,14 @@ function refresh_thermostat.thermostat_data_check(driver, device)
   
     local last_temp = device:get_field("last_temp")
     if last_temp == nil then 
-      last_temp = device:get_latest_state("main", capabilities.temperatureMeasurement.ID, capabilities.temperatureMeasurement.temperature.NAME) + device.preferences.tempOffset
+      last_temp = device:get_latest_state("main", capabilities.temperatureMeasurement.ID, capabilities.temperatureMeasurement.temperature.NAME) -- + device.preferences.tempOffset
     else
-      last_temp = last_temp + device.preferences.tempOffset
+      --last_temp = last_temp + device.preferences.tempOffset
     end
     if device.preferences.thermTempUnits == "Fahrenheit" then
       last_temp = (last_temp * 9/5) + 32
     end
+    last_temp = last_temp + device.preferences.tempOffset
   
     --local thermostatOperatingState = device:get_latest_state("main", capabilities.thermostatOperatingState.ID, capabilities.thermostatOperatingState.thermostatOperatingState.NAME)
     thermostatOperatingState = device:get_field("thermostatOperatingState")
@@ -51,6 +52,9 @@ function refresh_thermostat.thermostat_data_check(driver, device)
       if thermostat_Mode == "off" then
         local text = "No Expected Change in Thermostat State"
         device:emit_event(info_Panel.infoPanel(text))
+        if device:get_field("thermostatFan_Mode") == "auto" and device:get_latest_state("main", fan_Cyclic_Mode.ID, fan_Cyclic_Mode.fanCyclicMode.NAME) ~= "Off" then
+          device:emit_event(fan_Cyclic_Mode.fanCyclicMode("Off"))
+        end
         return 
       end
   
@@ -67,20 +71,39 @@ function refresh_thermostat.thermostat_data_check(driver, device)
       end
     end
   
-    ---calculate temps for state change
-    local tempChangeToPendingHeat = (device:get_field("heating_Setpoint") - (device.preferences.diffStartStop / 2))
+    ---calculate temps for state change for default option "no"---"Radiators to Heat & Cool"
+    --local tempChangeToPendingHeat = (device:get_field("heating_Setpoint") - (device.preferences.diffStartStop / 2))
+    local tempChangeToPendingHeat = device:get_field("heating_Setpoint") - device.preferences.thermalInertia
     local tempChangeToHeating = device:get_field("heating_Setpoint") - (device.preferences.diffStartStop)
-    local tempChangeToPendingCool = (device:get_field("cooling_Setpoint") + (device.preferences.diffStartStop / 2))  
+    --local tempChangeToPendingCool = (device:get_field("cooling_Setpoint") + (device.preferences.diffStartStop / 2))
+    local tempChangeToPendingCool = device:get_field("cooling_Setpoint") + device.preferences.thermalInertia
     local tempChangeToCooling = device:get_field("cooling_Setpoint") + (device.preferences.diffStartStop)
     
     -- Re-Calculate temp Change To Heating and Cooling for radiant floor and Temp Units
     local unitsCorrection = 1
     if device.preferences.thermTempUnits =="Celsius" then unitsCorrection = 1 else unitsCorrection =2 end
-    if device.preferences.floorRadaint == "Heat" then
+    
+    if device.preferences.floorRadaint == "Heat" then --"Floor to Heat & Air to Cool"
+      --tempChangeToPendingHeat = (device:get_field("heating_Setpoint") - (device.preferences.diffStartStop / 1.5))
       tempChangeToHeating = tempChangeToPendingHeat - (0.15 * unitsCorrection)
-    elseif device.preferences.floorRadaint == "HeatCool" then
+      tempChangeToPendingCool = device:get_field("cooling_Setpoint")
+      tempChangeToCooling = device:get_field("cooling_Setpoint") + (device.preferences.diffStartStop)
+
+    elseif device.preferences.floorRadaint == "HeatCool" then --"Floor to Heat & Cool"
+      --tempChangeToPendingHeat = (device:get_field("heating_Setpoint") - (device.preferences.diffStartStop / 1.5))
       tempChangeToHeating = tempChangeToPendingHeat - (0.15 * unitsCorrection)
+      --tempChangeToPendingCool = (device:get_field("cooling_Setpoint") + (device.preferences.diffStartStop / 1.5))
       tempChangeToCooling = tempChangeToPendingCool + (0.15 * unitsCorrection)
+
+    elseif device.preferences.floorRadaint == "AirCool" then --"Radiators to Heat & Air to Cool"
+      tempChangeToPendingCool = device:get_field("cooling_Setpoint")
+      tempChangeToCooling = device:get_field("cooling_Setpoint") + (device.preferences.diffStartStop)
+
+    elseif device.preferences.floorRadaint == "AirCoolHeat" then --"Air to Heat & Cool"
+      tempChangeToPendingHeat = device:get_field("heating_Setpoint")
+      tempChangeToHeating = device:get_field("heating_Setpoint") - device.preferences.diffStartStop
+      tempChangeToPendingCool = device:get_field("cooling_Setpoint")
+      tempChangeToCooling = device:get_field("cooling_Setpoint") + (device.preferences.diffStartStop)
     end
   
     ---- Print values for thermostat state Calculate
@@ -118,14 +141,21 @@ function refresh_thermostat.thermostat_data_check(driver, device)
           thermostatOperatingState = "heating"
   
       elseif current_temp > tempChangeToPendingHeat and current_temp < (device:get_field("cooling_Setpoint")) - (device.preferences.diffStartStop) then
+        if math.abs(current_temp - device:get_field("heating_Setpoint")) <= math.abs(current_temp - device:get_field("cooling_Setpoint")) then
           thermostatOperatingState = "pending heat"
+        else
+          thermostatOperatingState = "pending cool"
+        end
   
-        elseif current_temp >= tempChangeToCooling then
-          thermostatOperatingState = "cooling"
+      elseif current_temp >= tempChangeToCooling then
+        thermostatOperatingState = "cooling"
   
       elseif current_temp < tempChangeToPendingCool and current_temp > (device:get_field("heating_Setpoint")) + (device.preferences.diffStartStop) then
+        if math.abs(device:get_field("cooling_Setpoint") - current_temp ) <= math.abs(current_temp - device:get_field("heating_Setpoint")) then
           thermostatOperatingState = "pending cool"
-  
+        else
+          thermostatOperatingState = "pending heat"
+        end
       end
     end
   

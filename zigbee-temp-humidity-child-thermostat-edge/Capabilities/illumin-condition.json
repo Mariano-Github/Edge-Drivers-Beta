@@ -10,7 +10,7 @@
     },
     "detailView": [
         {
-            "label": "illumin Routine Condition",
+            "label": "illuminance Comparison Condition",
             "displayType": "numberField",
             "numberField": {
                 "value": "illuminCondition.value",
@@ -29,7 +29,7 @@
         "conditions": [],
         "actions": [
             {
-                "label": "illumin Condit Set Value",
+                "label": "illumin Condition Set Value",
                 "displayType": "numberField",
                 "numberField": {
                     "command": "setIlluminCondition",

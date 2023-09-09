@@ -75,6 +75,13 @@
         },
         {
             "component": "main",
+            "capability": "legendabsolute60149.atmPressureRateChange",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "main",
             "capability": "legendabsolute60149.tempCondition2",
             "version": 1,
             "values": [],
@@ -145,6 +152,14 @@
             {
                 "component": "main",
                 "capability": "legendabsolute60149.atmosPressure",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "main",
+                "capability": "legendabsolute60149.atmPressureRateChange",
                 "version": 1,
                 "values": [],
                 "patch": [],
