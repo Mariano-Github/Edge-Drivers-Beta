@@ -18,6 +18,9 @@ local clusters = require "st.zigbee.zcl.clusters"
 local configurationMap = require "configurations"
 local utils = require "st.utils"
 local utils_xy = require "utils-xy-lidl"
+local mirror_groups = require "mirror-groups"
+
+local mirror_Group_Function = capabilities["legendabsolute60149.mirrorGroupFunction"]
 
 local zcl_clusters = require "st.zigbee.zcl.clusters"
 --local LevelControlCluster = zcl_clusters.Level
@@ -37,6 +40,10 @@ local XY_COLOR_BULB_FINGERPRINTS = {
     ["TRADFRI bulb E26 CWS opal 600lm"] = true,
     ["TRADFRI bulb GU10 CWS 380lm"] = true,
     ["TRADFRI bulb E27 CWS 806lm"] = true,
+    ["TRADFRI bulb E14 CWS 470lm"] = true,
+    ["TRADFRI bulb GU10 CWS 345lm"] = true,
+    ["TRADFRI bulb E26 CWS 800lm"] = true,
+    ["TRADFRI bulb E12 CWS 450lm"] = true,
   },
   ["_TZ3000_riwp3k79"] = {
     ["TS0505A"] = true
@@ -71,6 +78,12 @@ local XY_COLOR_BULB_FINGERPRINTS = {
   ["_TZ3000_obacbukl"] = {
     ["TS0503A"] = true
   },
+  ["_TZ3000_utagpnzs"] = {
+    ["TS0505A"] = true
+  },
+  ["_TZ3210_onejz0gt"] = {
+    ["TS0504B"] = true
+  },
   ----- WARNNING: ADD FINGERPRINTS TO configurations.lua file ------
   --["_TZ3000_49qchf10"] = { -- LIDL mia solo ColorTemp
     --["TS0502A"] = true
@@ -91,18 +104,53 @@ local function can_handle_xy_color_bulb(opts, driver, device)
 end
 
 local device_init = function(self, device)
-  device:configure()
-  device:remove_configured_attribute(ColorControl.ID, ColorControl.attributes.CurrentHue.ID)
-  device:remove_configured_attribute(ColorControl.ID, ColorControl.attributes.CurrentSaturation.ID)
-  device:remove_monitored_attribute(ColorControl.ID, ColorControl.attributes.CurrentHue.ID)
-  device:remove_monitored_attribute(ColorControl.ID, ColorControl.attributes.CurrentSaturation.ID)
+  if device.network_type == "DEVICE_EDGE_CHILD" then  ---- device (is Child device)
+    print("Adding EDGE:CHILD device...")
 
-  print("<<<< XY Configuration >>>>")
-  local configuration = configurationMap.get_device_configuration(device)
-  if configuration ~= nil then
-    for _, attribute in ipairs(configuration) do
-      device:add_configured_attribute(attribute)
-      device:add_monitored_attribute(attribute)
+    if device:get_field("mirror_group_function") == nil then
+      device:set_field("mirror_group_function", "Inactive", {persist = true})
+    end
+
+    device:emit_event(mirror_Group_Function.mirrorGroupFunction(device:get_field("mirror_group_function")))
+
+    local value = device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME)
+    if value == nil or value == "off" then
+      device:emit_event(capabilities.switch.switch.off())
+    else
+      device:emit_event(capabilities.switch.switch.off())
+    end
+
+    local level = device:get_latest_state("main", capabilities.switchLevel.ID, capabilities.switchLevel.level.NAME)
+    if level == nil then level = 100 end
+    device:emit_event(capabilities.switchLevel.level(level))
+
+    local colorTemp = device:get_latest_state("main", capabilities.colorTemperature.ID, capabilities.colorTemperature.colorTemperature.NAME)
+    if colorTemp == nil then colorTemp = 4000 end
+    colorTemp = math.floor(utils.round(colorTemp))
+    device:emit_event(capabilities.colorTemperature.colorTemperature(colorTemp))
+
+    local sat = device:get_latest_state("main", capabilities.colorControl.ID, capabilities.colorControl.saturation.NAME)
+    local hue = device:get_latest_state("main", capabilities.colorControl.ID, capabilities.colorControl.hue.NAME)
+    if sat == nil then sat = 100 end
+    if hue == nil then hue = 100 end
+    device:emit_event(capabilities.colorControl.saturation(sat))
+    device:emit_event(capabilities.colorControl.hue(hue))
+
+  --end
+  else
+    --device:configure()
+    device:remove_configured_attribute(ColorControl.ID, ColorControl.attributes.CurrentHue.ID)
+    device:remove_configured_attribute(ColorControl.ID, ColorControl.attributes.CurrentSaturation.ID)
+    device:remove_monitored_attribute(ColorControl.ID, ColorControl.attributes.CurrentHue.ID)
+    device:remove_monitored_attribute(ColorControl.ID, ColorControl.attributes.CurrentSaturation.ID)
+
+    print("<<<< XY Configuration >>>>")
+    local configuration = configurationMap.get_device_configuration(device)
+    if configuration ~= nil then
+      for _, attribute in ipairs(configuration) do
+        device:add_configured_attribute(attribute)
+        device:add_monitored_attribute(attribute)
+      end
     end
   end
 end
@@ -131,11 +179,14 @@ local function move_to_last_level(device)
   if device.preferences.levelTransTime == 0 then
     device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(last_Level/100.0 * 254), 0xFFFF))
   else
-    device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(last_Level/100.0 * 254), (device.preferences.levelTransTime * 4)))
+    device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(last_Level/100.0 * 254), (device.preferences.levelTransTime * 10)))
   end
 end
+
 local function set_color_handler(driver, device, cmd)
-  print("<<<< set_color_handler XY >>>>")
+  if device.preferences.logDebugPrint == true then
+    print("<<<< set_color_handler XY >>>>")
+  end
   local hue = cmd.args.color.hue > 99 and 99 or cmd.args.color.hue
   local sat = cmd.args.color.saturation
   local x, y, Y = 0,0,0
@@ -152,17 +203,16 @@ local function set_color_handler(driver, device, cmd)
     print(">>>>> Y_TRISTIMULUS_VALUE=",Y)
   end
 
-  --switch_defaults.on(driver,device,cmd)
   move_to_last_level(device)
-
-  --device:send(ColorControl.commands.MoveToColor(device, x, y, 0x0000))
-  device:send(ColorControl.commands.MoveToColor(device, x, y, device.preferences.colorTransTime *4))
+  device:send(ColorControl.commands.MoveToColor(device, x, y, device.preferences.colorTransTime *10))
 
   device.thread:call_with_delay(2, query_device(device))
 end
 
 local function set_hue_handler(driver, device, cmd)
-  print("<<<< set_hue_handler XY >>>>")
+  if device.preferences.logDebugPrint == true then
+    print("<<<< set_hue_handler XY >>>>")
+  end
   local sat = device:get_latest_state("main", capabilities.colorControl.ID, capabilities.colorControl.saturation.NAME)
   local hue = cmd.args.hue > 99 and 99 or cmd.args.hue
   local x, y, Y = 0,0,0
@@ -171,20 +221,18 @@ local function set_hue_handler(driver, device, cmd)
   else
     x, y, Y = utils_xy.safe_hsv_to_xy(hue, sat)
   end
-  --local x, y, Y = utils.safe_hsv_to_xy(hue, sat)
   store_xyY_values(device, x, y, Y)
   
-  --switch_defaults.on(driver,device,cmd)
   move_to_last_level(device)
-
-  --device:send(ColorControl.commands.MoveToColor(device, x, y, 0x0000))
-  device:send(ColorControl.commands.MoveToColor(device, x, y, device.preferences.colorTransTime *4))
+  device:send(ColorControl.commands.MoveToColor(device, x, y, device.preferences.colorTransTime *10))
 
   device.thread:call_with_delay(2, query_device(device))
 end
 
 local function set_saturation_handler(driver, device, cmd)
-  print("<<<< set_saturation_handler XY >>>>")
+  if device.preferences.logDebugPrint == true then
+    print("<<<< set_saturation_handler XY >>>>")
+  end
   local hue = device:get_latest_state("main", capabilities.colorControl.ID, capabilities.colorControl.hue.NAME)
   --local x, y, Y = utils.safe_hsv_to_xy(hue, cmd.args.saturation)
   local x, y, Y = 0,0,0
@@ -197,9 +245,7 @@ local function set_saturation_handler(driver, device, cmd)
   
   --switch_defaults.on(driver,device,cmd)
   move_to_last_level(device)
-
-  --device:send(ColorControl.commands.MoveToColor(device, x, y, 0x0000))
-  device:send(ColorControl.commands.MoveToColor(device, x, y, device.preferences.colorTransTime *4))
+  device:send(ColorControl.commands.MoveToColor(device, x, y, device.preferences.colorTransTime *10))
 
   device.thread:call_with_delay(2, query_device(device))
 end
@@ -208,7 +254,9 @@ local function current_x_attr_handler(driver, device, value, zb_rx)
 
   if device:get_field("colorChanging") =="Active" then return end
 
-  print("<<<< current_x_attr_handler XY >>>>")
+  if device.preferences.logDebugPrint == true then
+    print("<<<< current_x_attr_handler XY >>>>")
+  end
   local Y_tristimulus = device:get_field(Y_TRISTIMULUS_VALUE)
   local y = device:get_field(CURRENT_Y)
   local x = value.value
@@ -222,6 +270,13 @@ local function current_x_attr_handler(driver, device, value, zb_rx)
     end
     device:emit_event(capabilities.colorControl.hue(hue))
     device:emit_event(capabilities.colorControl.saturation(saturation))
+
+    -- emit event in child device
+    local child_device = device:get_child_by_parent_assigned_key("main")
+    if child_device ~= nil and device:get_field("mirror_group_function") == "Active" and child_device:get_field("mirror_group_function") == "Active" then
+      child_device:emit_event(capabilities.colorControl.hue(hue))
+      child_device:emit_event(capabilities.colorControl.saturation(saturation))
+    end
   end
 
   device:set_field(CURRENT_X, x)
@@ -230,8 +285,9 @@ end
 local function current_y_attr_handler(driver, device, value, zb_rx)
 
   if device:get_field("colorChanging") =="Active" then return end
-  
-  print("<<<< current_y_attr_handler XY >>>>")
+  if device.preferences.logDebugPrint == true then
+    print("<<<< current_y_attr_handler XY >>>>")
+  end
   local Y_tristimulus = device:get_field(Y_TRISTIMULUS_VALUE)
   local x = device:get_field(CURRENT_X)
   local y = value.value
@@ -243,15 +299,49 @@ local function current_y_attr_handler(driver, device, value, zb_rx)
     else
       hue, saturation = utils_xy.safe_xy_to_hsv(x, y, Y_tristimulus)
     end
-    --local hue, saturation = utils.safe_xy_to_hsv(x, y, Y_tristimulus)
 
     device:emit_event(capabilities.colorControl.hue(hue))
     device:emit_event(capabilities.colorControl.saturation(saturation))
+
+    -- emit event in child device
+    local child_device = device:get_child_by_parent_assigned_key("main")
+    if child_device ~= nil and device:get_field("mirror_group_function") == "Active" and child_device:get_field("mirror_group_function") == "Active" then
+      child_device:emit_event(capabilities.colorControl.hue(hue))
+      child_device:emit_event(capabilities.colorControl.saturation(saturation))
+    end
   end
 
   device:set_field(CURRENT_Y, y)
 end
 
+local function group_set_color_handler(driver, device, command)
+  if device.network_type == "DEVICE_EDGE_CHILD" then  ---- device (is Child device)
+    local hue = math.floor((command.args.color.hue))
+    local sat = math.floor((command.args.color.saturation))
+    device:emit_event(capabilities.colorControl.saturation(sat))
+    device:emit_event(capabilities.colorControl.hue(hue))
+    device:emit_event(capabilities.switch.switch.on())
+    if device:get_field("mirror_group_function") == "Active" then
+      for uuid, dev in pairs(device.driver:get_devices()) do
+        if dev.network_type ~= "DEVICE_EDGE_CHILD" then  ---- device (is NO Child device)
+          if dev:get_field("mirror_group_function") == "Active" and
+            dev:supports_capability_by_id(capabilities.colorControl.ID) and
+            device.preferences.onOffGroup > 0 and
+            dev.preferences.onOffGroup > 0 and
+            dev.preferences.onOffGroup == device.preferences.onOffGroup then
+              if dev:get_field("zll_xy") == "no" then
+                mirror_groups.color_control_handler(driver,device,command)
+              else
+                set_color_handler(driver,dev,command)
+              end
+          end 
+        end
+      end
+    end
+  else
+    set_color_handler(driver,device,command)
+  end
+end
 
 local xy_color_bulb = {
   NAME = "XY Color Bulb",
@@ -260,7 +350,7 @@ local xy_color_bulb = {
   },
   capability_handlers = {
     [capabilities.colorControl.ID] = {
-      [capabilities.colorControl.commands.setColor.NAME] = set_color_handler,
+      [capabilities.colorControl.commands.setColor.NAME] = group_set_color_handler,
       [capabilities.colorControl.commands.setHue.NAME] = set_hue_handler,
       [capabilities.colorControl.commands.setSaturation.NAME] = set_saturation_handler
     }

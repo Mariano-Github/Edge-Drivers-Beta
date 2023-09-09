@@ -1,4 +1,4 @@
-name: level-colortemp-2000-6500
+name: level-colortemp-2700-5000
 components:
 - id: main
   capabilities:
@@ -13,7 +13,7 @@ components:
     config:
       values:
         - key: "colorTemperature.value"
-          range: [ 2000, 6500 ]
+          range: [ 2700, 5000 ]
   - id: legendabsolute60149.colorTemperatureSteps
     version: 1
   - id: legendabsolute60149.randomOnOff1
@@ -205,22 +205,22 @@ preferences:
       default: "No"
   - name: "colorTempMinim"
     title: "Color Temperature  Min value (k)"
-    description: "Select Maximum Color Temp Increment value (2000k to 6000k, Default: 2000)"
+    description: "Select Maximum Color Temp Increment value (2700k to 4500k, Default: 2700)"
     required: false
     preferenceType: number
     definition:
-      minimum: 2000
-      maximum: 6000
-      default: 2000
+      minimum: 2700
+      maximum: 4500
+      default: 2700
   - name: "colorTempMaxim"
     title: "ColorTemp Increment Max value (k)"
-    description: "Select Maximum Color Temp Increment value (3000k to 6500k, Default: 6500)"
+    description: "Select Maximum Color Temp Increment value (3000k to 5000k, Default: 5000)"
     required: false
     preferenceType: number
     definition:
       minimum: 3000
-      maximum: 6500
-      default: 6500 
+      maximum: 5000
+      default: 5000 
   - name: "limitColorTemp"
     title: "Use ColorTemp Min and Max as limits"
     description: "Use ColorTemp Min and Max values as limits"

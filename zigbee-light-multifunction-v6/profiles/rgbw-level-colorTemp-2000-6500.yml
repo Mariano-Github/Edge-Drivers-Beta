@@ -36,6 +36,10 @@ components:
     version: 1
   - id: legendabsolute60149.colorChangeMode1
     version: 1
+  - id: legendabsolute60149.effectsSetCommand
+    version: 1
+  - id: legendabsolute60149.mirrorGroupFunction
+    version: 1
   - id: legendabsolute60149.getGroups
     version: 1
   - id: legendabsolute60149.signalMetrics
@@ -68,16 +72,33 @@ preferences:
       minimum: -12
       maximum: 12
       default: 0
+  - name: "groupChild"
+    title: "Create Device Mirror Group Control"
+    description: "Create Virtual Device for Mirror Group Control:"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "onOffGroup"
+    title: "Assign to one Mirror Group"
+    description: "Assign Device to one Mirror Group. 0 = Not Group Assigned (defualt: 0)"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 10
+      default: 0
   - name: "changeProfile"
     title: "Select Profile for Color Temperature"
-    description: "WARNING CHECK YOUR PREFERENCES: Color Temp Max and Min must be into the Profile Color Temperature Range. Select Profile for Color Temperature, (Default: 2000k-6500k)"
+    description: "WARNING CHECK YOUR PREFERENCES: Color Temp Max and Min must be into the Profile Color Temperature Range. Select Profile for Color Temperature, (Default: 2000k-6500k)."
     required: false
     preferenceType: enumeration
     definition:
       options:
-        "20006500": "2000k-6500k"
-        "22004000": "2200k-4000k"
-        "27006500": "2700k-6500k"
+        "20006500": "RGBW-2000k-6500k"
+        "22004000": "RGBW-2200k-4000k"
+        "27006500": "RGBW-2700k-6500k"
+        "RGB": "RGB"
       default: "20006500"
   - name: "restoreState"
     title: "ATTEMPT Restore State if Power Lost"
@@ -92,39 +113,39 @@ preferences:
       default: "255"
   - name: "onTransTime"
     title: "Turn ON and OFF Transition Time(sec)"
-    description: "Select Transition Time to Turn ON to last Level or OFF (0 to 10 sec, Default: 0)"
+    description: "Select Transition Time to Turn ON to last Level or OFF (0 to 3600 sec, Default: 0). WARNING: If the device is not able to move at a variable rate, the Transition time field MAY be disregarded and not will work"
     required: false
     preferenceType: number
     definition:
       minimum: 0
-      maximum: 10
+      maximum: 3600
       default: 0
   - name: "levelTransTime"
     title: "Transition Time to New Level(sec)"
-    description: "Select Transition Time to Move New Level (0 to 10 sec, Default: 0)"
+    description: "Select Transition Time to Move New Level (0 to 3600 sec, Default: 0). WARNING: If the device is not able to move at a variable rate, the Transition time field MAY be disregarded and not will work"
     required: false
     preferenceType: number
     definition:
       minimum: 0
-      maximum: 10
+      maximum: 3600
       default: 0
   - name: "tempTransTime"
     title: "Transition Time New ColorTemp(sec)"
-    description: "Select Transition Time to Move New Color Temperature (0 to 10 sec, Default: 0)"
+    description: "Select Transition Time to Move New Color Temperature (0 to 3600 sec, Default: 0). WARNING: If the device is not able to move at a variable rate, the Transition time field MAY be disregarded and not will work"
     required: false
     preferenceType: number
     definition:
       minimum: 0
-      maximum: 10
+      maximum: 3600
       default: 0
   - name: "colorTransTime"
     title: "Transition Time to New Color(sec)"
-    description: "Select Transition Time to Move New Color (0 to 10 sec, Default: 0)"
+    description: "Select Transition Time to Move New Color (0 to 3600 sec, Default: 0). WARNING: If the device is not able to move at a variable rate, the Transition time field MAY be disregarded and not will work"
     required: false
     preferenceType: number
     definition:
       minimum: 0
-      maximum: 10
+      maximum: 3600
       default: 0
   - name: "onTimeMax"
     title: "Turn (ON) Time to End Level(min)"
@@ -254,6 +275,13 @@ preferences:
       minimum: 1
       maximum: 100
       default: 100
+  - name: "circadianNightSetting"
+    title: "Use Circadian Night Minimum Settings"
+    description: "Use Circadian Night Minimum Settings of Color Temperature and Level"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: true
   - name: "setLevelMin"
     title: "Minimum Set Command Level %"
     description: "Select Minimum Level for Set Command (0 to 99, Default: 0)"

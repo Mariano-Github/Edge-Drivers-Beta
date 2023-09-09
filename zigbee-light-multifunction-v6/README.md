@@ -1,3 +1,9 @@
+## Added new to control all paired devices directly from the driver with custom groups. 
+
+- You can see how works all new mirror groups funtions in this smartthings community post:
+
+ https://community.smartthings.com/t/edge-driver-mc-zigbee-light-multifunction-mc/234387/763?u=mariano_colmenarejo
+
 ## (NEW RELEASE) Version 6.0 of the Edge Driver Zigbee Light Multifunction Mc
 
 ## Changes and Improvements:
@@ -7,7 +13,7 @@ NOTE: All color change modes are executed in the driver and are not programmed i
 
 2.	Added capability for information of the signal metric as in the last jump. In default history you don't see the events. In preferences you can enable visibility if you want to perform a troublesooting of the device signal.
 
-3.	Added preference for ATTEMPT Restore State if Power Lost, using the cluster 0x0006 and the attributes 0x4003 (zigbee standard) and 0x8002 (Yours). I don't know of any bulb that works with this, but in the switch-level profile there are dimmers that could work. If I manage to discover or know by someone the clusters and attributes used by some manufacturer I will add it
+3.	Added preference for ATTEMPT Restore State if Power Lost, using the cluster 0x0006 and the attributes 0x4003 (zigbee standard) and 0x8002 (Tuya). I don't know of any bulb that works with this, but in the switch-level profile there are dimmers that could work. If I manage to discover or know by someone the clusters and attributes used by some manufacturer I will add it
 
 4.	Added a non-visible capability, DriverVersion, which will warn in the event history once a day or when running an InfoChanged lifecycle that a new version of the driver is available that needs to be updated manually. It will be activated only when the driver is renamed (-OLD).
 

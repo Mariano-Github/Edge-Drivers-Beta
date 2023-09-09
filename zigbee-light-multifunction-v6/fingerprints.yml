@@ -977,7 +977,7 @@ zigbeeManufacturer:
     deviceProfileName: level-colortemp-2000-6500
   - id: "FeeBit/FB56-ZCW20FB1.2"
     deviceLabel: FeeBit RGBW
-    manufacturer: FeeBit RGBW
+    #manufacturer: FeeBit RGBW
     model: FB56-ZCW20FB1.2
     deviceProfileName: rgbw-level-colortemp-2000-6500
   - id: "TRADFRI bulb E14 WS opal 400lm"
@@ -990,8 +990,62 @@ zigbeeManufacturer:
     manufacturer: Aqara
     model: lumi.light.acn132
     deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "TCPi/60W_A19_2700K"
+    deviceLabel: TCPi Bulb
+    manufacturer: TCPi
+    model: 60W_A19_2700K
+    deviceProfileName: switch-level
+  - id: "_TZ3210_pz9zmxjj/TS0502B"
+    deviceLabel: TS0502B LED
+    manufacturer: _TZ3210_pz9zmxjj
+    model: TS0502B
+    deviceProfileName: level-colortemp-2000-6500
+  - id: "_TZ3210_e020aaaj/TS0505B"
+    deviceLabel: RGBW TS0505B
+    manufacturer: _TZ3210_e020aaaj
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2000-6500
+  - id: "_TZ3210_xwqng7ol/TS0502B"
+    deviceLabel: TS0502B LED
+    manufacturer: _TZ3210_xwqng7ol
+    model: TS0502B
+    deviceProfileName: level-colortemp-2000-6500
+  - id: "GLEDOPTO/GL-G-007Z"
+    deviceLabel: GLEDOPTO GL-G-007Z
+    manufacturer: GLEDOPTO
+    model: GL-G-007Z
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "icasa/ICZB-FC"
+    deviceLabel: ICZB-FC Bulb
+    manufacturer: icasa
+    model: ICZB-FC
+    deviceProfileName: level-colortemp-2000-6500
+  - id: "GLEDOPTO/GL-G-101P"
+    deviceLabel: GLEDOPTO GL-G-101P
+    manufacturer: GLEDOPTO
+    model: GL-G-101P
+    deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "DURAGREEN/DG-CW-02"
+    deviceLabel: DG Light
+    manufacturer: DURAGREEN
+    model: DG-CW-02
+    deviceProfileName: level-colortemp-2700-6500
+  - id: "DURAGREEN/DG-CW-01"
+    deviceLabel: DG Light
+    manufacturer: DURAGREEN
+    model: DG-CW-01
+    deviceProfileName: level-colortemp-2700-6500
+  - id: "DURAGREEN/DG-CCT-01"
+    deviceLabel: DG Light
+    manufacturer: DURAGREEN
+    model: DG-CCT-01
+    deviceProfileName: level-colortemp-2700-6500
+  - id: "Eaton/Halo_RL5601"
+    deviceLabel: Halo Light
+    manufacturer: Eaton
+    model: Halo_RL5601
+    deviceProfileName: level-colortemp-2700-5000
   
-
   # XY Color
   - id: "IKEA/E27 CWS 806lm"
     deviceLabel: IKEA E27 Bulb
@@ -1094,7 +1148,6 @@ zigbeeManufacturer:
     manufacturer: _TZ3210_onejz0gt
     model: TS0504B
     deviceProfileName: rgbw-level-colortemp-2700-6500
-  
 
   # Dimmers
   - id: "3A-Smart-Home/LXN56-DC27LX1.1"
@@ -1132,68 +1185,16 @@ zigbeeManufacturer:
 zigbeeGeneric:
   - id: "dimmer-generic ZLL"
     deviceLabel: "Zigbee Dimmer"
-    zigbeeProfiles: 
-      - 0xC05E
-    deviceIdentifiers: 
-      - 0x0100
     clusters: 
       server: 
         - 0x0006
         - 0x0008
-      client:
-        - 0x0019
     deviceProfileName: switch-level
-  - id: "dimmer-generic"
-    deviceLabel: "Zigbee Dimmer"
-    zigbeeProfiles: 
-      - 0x0104
-    deviceIdentifiers: 
-      - 0x0101
-    clusters: 
-      server: 
-        - 0x0006
-        - 0x0008
-      client:
-        - 0x0000
-    deviceProfileName: switch-level
-  - id: "dimmer-generic-1"
-    deviceLabel: "Zigbee Dimmer"
-    zigbeeProfiles: 
-      - 0x0104
-    deviceIdentifiers: 
-      - 0x0101
-    clusters: 
-      server: 
-        - 0x0006
-        - 0x0008
-      client:
-        - 0x0019
-    deviceProfileName: switch-level
-  - id: "RGBW ZLL-generic"
-    deviceLabel: "Zigbee RGBW ZLL"
-    zigbeeProfiles: 
-      - 0xC05E
-    deviceIdentifiers: 
-      - 0x0210
-    clusters: 
-      server: 
-        - 0x0006
-        - 0x0008
-        - 0x0300
-      client:
-        - 0x0019
-    deviceProfileName: rgbw-level-colortemp-2700-6500
   - id: "RGBW-generic"
     deviceLabel: "Zigbee RGBW"
-    zigbeeProfiles: 
-      - 0x0104
-    deviceIdentifiers: 
-      - 0x0102
     clusters: 
       server: 
         - 0x0006
         - 0x0008
         - 0x0300
-      client:
-        - 0x0019
     deviceProfileName: rgbw-level-colortemp-2700-6500

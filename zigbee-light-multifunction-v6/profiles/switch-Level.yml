@@ -18,6 +18,10 @@ components:
     version: 1
   - id: legendabsolute60149.forcedOnLevel
     version: 1
+  - id: legendabsolute60149.effectsSetCommand
+    version: 1
+  - id: legendabsolute60149.mirrorGroupFunction
+    version: 1
   - id: legendabsolute60149.getGroups
     version: 1
   - id: legendabsolute60149.signalMetrics
@@ -29,7 +33,7 @@ components:
   - id: firmwareUpdate
     version: 1
   categories:
-  - name: Switch
+  - name: SmartPlug
 preferences:
   - name: "version"
     title: "Version 6.2 (Nov 2022)"
@@ -50,6 +54,22 @@ preferences:
       minimum: -12
       maximum: 12
       default: 0
+  - name: "groupChild"
+    title: "Create Device Mirror Group Control"
+    description: "Create Virtual Device for Mirror Group Control:"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "onOffGroup"
+    title: "Assign to one Mirror Group"
+    description: "Assign Device to one Mirror Group. 0 = Not Group Assigned (defualt: 0)"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 10
+      default: 0
   - name: "restoreState"
     title: "ATTEMPT Restore State if Power Lost"
     description: "WARNNING: COULD NOT WORK\n After the power supply is back on, the State can be restored to previous state or remain switched off (Default: Device restores previous state)"
@@ -63,21 +83,21 @@ preferences:
       default: "255"
   - name: "onTransTime"
     title: "Turn ON and OFF Transition Time(sec)"
-    description: "Select Transition Time to Turn ON to last Level or OFF (0 to 10 sec, Default: 0)"
+    description: "Select Transition Time to Turn ON to last Level or OFF (0 to 3600 sec, Default: 0). WARNING: If the device is not able to move at a variable rate, the Transition time field MAY be disregarded and not will work"
     required: false
     preferenceType: number
     definition:
       minimum: 0
-      maximum: 10
+      maximum: 3600
       default: 0
   - name: "levelTransTime"
     title: "Transition Time to New Level(sec)"
-    description: "Select Transition Time to Move New Level (0 to 10 sec, Default: 0)"
+    description: "Select Transition Time to Move New Level (0 to 3600 sec, Default: 0). WARNING: If the device is not able to move at a variable rate, the Transition time field MAY be disregarded and not will work"
     required: false
     preferenceType: number
     definition:
       minimum: 0
-      maximum: 10
+      maximum: 3600
       default: 0
   - name: "onTimeMax"
     title: "Turn (ON) Time to End Level(min)"

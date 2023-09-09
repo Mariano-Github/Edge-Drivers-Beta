@@ -1,4 +1,4 @@
-name: level-colortemp-2000-6500
+name: level-rgb-rgbw
 components:
 - id: main
   capabilities:
@@ -8,13 +8,7 @@ components:
     version: 1
   - id: legendabsolute60149.levelSteps
     version: 1
-  - id: colorTemperature
-    version: 1
-    config:
-      values:
-        - key: "colorTemperature.value"
-          range: [ 2000, 6500 ]
-  - id: legendabsolute60149.colorTemperatureSteps
+  - id: colorControl
     version: 1
   - id: legendabsolute60149.randomOnOff1
     version: 1
@@ -26,7 +20,11 @@ components:
     version: 1
   - id: legendabsolute60149.forcedOnLevel
     version: 1
-  - id: legendabsolute60149.circadian
+  - id: legendabsolute60149.colorChanging
+    version: 1
+  - id: legendabsolute60149.colorChangeTimer
+    version: 1
+  - id: legendabsolute60149.colorChangeMode1
     version: 1
   - id: legendabsolute60149.effectsSetCommand
     version: 1
@@ -63,7 +61,7 @@ preferences:
     definition:
       minimum: -12
       maximum: 12
-      default: 0
+      default: 0 
   - name: "groupChild"
     title: "Create Device Mirror Group Control"
     description: "Create Virtual Device for Mirror Group Control:"
@@ -80,6 +78,18 @@ preferences:
       minimum: 0
       maximum: 10
       default: 0
+  - name: "changeProfile"
+    title: "Select Profile for Color Temperature"
+    description: "WARNING CHECK YOUR PREFERENCES: Color Temp Max and Min must be into the Profile Color Temperature Range. Select Profile for Color Temperature, (Default: 2000k-6500k)."
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "20006500": "RGBW-2000k-6500k"
+        "22004000": "RGBW-2200k-4000k"
+        "27006500": "RGBW-2700k-6500k"
+        "RGB": "RGB"
+      default: "RGB"
   - name: "restoreState"
     title: "ATTEMPT Restore State if Power Lost"
     description: "WARNNING: COULD NOT WORK\n After the power supply is back on, the State can be restored to previous state or remain switched off (Default: Device restores previous state)"
@@ -109,9 +119,9 @@ preferences:
       minimum: 0
       maximum: 3600
       default: 0
-  - name: "tempTransTime"
-    title: "Transition Time New ColorTemp(sec)"
-    description: "Select Transition Time to Move New Color Temperature (0 to 3600 sec, Default: 0). WARNING: If the device is not able to move at a variable rate, the Transition time field MAY be disregarded and not will work"
+  - name: "colorTransTime"
+    title: "Transition Time to New Color(sec)"
+    description: "Select Transition Time to Move New Color (0 to 3600 sec, Default: 0). WARNING: If the device is not able to move at a variable rate, the Transition time field MAY be disregarded and not will work"
     required: false
     preferenceType: number
     definition:
@@ -175,6 +185,15 @@ preferences:
         "Off" : "Light Turn Off "
         "Change": "Invert Dimming Direction"
       default: "Off"
+  - name: "setLevelMin"
+    title: "Minimum Set Command Level %"
+    description: "Select Minimum Level for Set Command (0 to 99, Default: 0)"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 99
+      default: 0
   - name: "randomMin"
     title: "Random ON-OFF Minimum Time"
     description: "Select Minimum Time ON-OFF Interval (0.5 min to 25 min, Default: 1)"
@@ -193,75 +212,6 @@ preferences:
       minimum: 0.5
       maximum: 25
       default: 10 
-  - name: "progLevelColor"
-    title: "Progressive (Level-TempColor) Active"
-    description: "Select Progressive Level-TempColor Active (Default: No)"
-    required: false
-    preferenceType: enumeration
-    definition:
-      options:
-        "Yes" : "Yes"
-        "No"  : "No"
-      default: "No"
-  - name: "colorTempMinim"
-    title: "Color Temperature  Min value (k)"
-    description: "Select Maximum Color Temp Increment value (2000k to 6000k, Default: 2000)"
-    required: false
-    preferenceType: number
-    definition:
-      minimum: 2000
-      maximum: 6000
-      default: 2000
-  - name: "colorTempMaxim"
-    title: "ColorTemp Increment Max value (k)"
-    description: "Select Maximum Color Temp Increment value (3000k to 6500k, Default: 6500)"
-    required: false
-    preferenceType: number
-    definition:
-      minimum: 3000
-      maximum: 6500
-      default: 6500 
-  - name: "limitColorTemp"
-    title: "Use ColorTemp Min and Max as limits"
-    description: "Use ColorTemp Min and Max values as limits"
-    required: false
-    preferenceType: boolean
-    definition:
-      default: false
-  - name: "circadLevelMin"
-    title: "Circadian Lighting MIN Level %"
-    description: "Select Minimum Level for Circadian Lighting (1 to 100, Default: 50)"
-    required: false
-    preferenceType: integer
-    definition:
-      minimum: 1
-      maximum: 100
-      default: 50   
-  - name: "circadLevelMax"
-    title: "Circadian Lighting MAX Level %"
-    description: "Select Maximum Level for Circadian Lighting (1 to 100, Default: 100)"
-    required: false
-    preferenceType: integer
-    definition:
-      minimum: 1
-      maximum: 100
-      default: 100
-  - name: "circadianNightSetting"
-    title: "Use Circadian Night Minimum Settings"
-    description: "Use Circadian Night Minimum Settings of Color Temperature and Level"
-    required: false
-    preferenceType: boolean
-    definition:
-      default: true
-  - name: "setLevelMin"
-    title: "Minimum Set Command Level %"
-    description: "Select Minimum Level for Set Command (0 to 99, Default: 0)"
-    required: false
-    preferenceType: integer
-    definition:
-      minimum: 0
-      maximum: 99
-      default: 0
   - name: "groupAdd"
     title: "Add Group Number"
     description: "Insert Group number to Add. Value = 0, Get All Groups in History Events, (Default: 0)"
@@ -300,5 +250,3 @@ metadata:
   deviceType: Light
   ocfDeviceType: oic.d.light
   deviceTypeId: Light
-  #mnmn: SmartThingsCommunity
-  #vid: dc0f9f67-eba0-3573-aad5-40a568f2e791
