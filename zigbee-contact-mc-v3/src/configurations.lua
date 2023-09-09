@@ -24,6 +24,7 @@ local devices = {
     FINGERPRINTS = {
       { mfr = "eWeLink", model = "DS01" },
       { mfr = "_TZ3000_f1hmoyj4", model = "TS0203" },
+      { mfr = "TUYATEC-rkqiqvcs", model = "RH3001" },
       --{ mfr = "eWeLink", model = "SNZB-04P" },
       --{ mfr = "HEIMAN", model = "DoorSensor-N" }
     },
@@ -41,6 +42,30 @@ local devices = {
         attribute = IASZone.attributes.ZoneStatus.ID,
         minimum_interval = 30,
         maximum_interval = 300,
+        data_type = IASZone.attributes.ZoneStatus.base_type,
+        reportable_change = 1
+      }
+    }
+  },
+  LUMI = {
+    FINGERPRINTS = {
+      { mfr = "LUMI", model = "lumi.magnet.agl02" },
+      { mfr = "LUMI", model = "lumi.magnet.ac01" }
+    },
+    CONFIGURATION = {
+      {
+        cluster = PowerConfiguration.ID,
+        attribute = PowerConfiguration.attributes.BatteryVoltage.ID,
+        minimum_interval = 30,
+        maximum_interval = 3600,
+        data_type = PowerConfiguration.attributes.BatteryVoltage.base_type,
+        reportable_change = 1
+      },
+      {
+        cluster = IASZone.ID,
+        attribute = IASZone.attributes.ZoneStatus.ID,
+        minimum_interval = 30,
+        maximum_interval = 3600,
         data_type = IASZone.attributes.ZoneStatus.base_type,
         reportable_change = 1
       }

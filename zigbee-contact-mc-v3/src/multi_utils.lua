@@ -77,8 +77,14 @@ multi_utils.handle_three_axis_report = function(device, x, y, z)
   if x ~= nil and y ~= nil and z ~= nil then
     device:emit_event(capabilities.threeAxis.threeAxis({value = {x, y, z}}))
   end
-  if z ~= nil and device.preferences["garageSensor"] then
-    handle_garage_event(device, math.abs(z))
+  local door_axis = z
+  if device.preferences.garageSensorAxis == "1" then
+    door_axis = x
+  elseif device.preferences.garageSensorAxis == "2" then
+    door_axis = y
+  end
+  if door_axis ~= nil and device.preferences["certifiedpreferences.garageSensor"] then
+    handle_garage_event(device, math.abs(door_axis))
   end
 end
 
@@ -148,7 +154,6 @@ multi_utils.convert_to_signedInt16 = function(byte1, byte2)
   else
     finalValue = swapped
   end
-  print("signedInt16 "..finalValue)
   return finalValue
 end
 

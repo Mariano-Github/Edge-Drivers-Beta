@@ -19,13 +19,13 @@ local can_handle = function(opts, driver, device)
     return device:get_manufacturer() == "TUYATEC-xnoof3ts"
   elseif device:get_manufacturer() == "Universal Electronics Inc" then
     return device:get_manufacturer() == "Universal Electronics Inc"
-  elseif device:get_manufacturer() == "Sercomm Corp." then
+  elseif device:get_manufacturer() == "Sercomm Corp." and device:get_model() ~= "Tripper" then
     return device:get_manufacturer() == "Sercomm Corp."
   elseif device:get_manufacturer() == "Ecolink" then
     return device:get_manufacturer() == "Ecolink"
   elseif device:get_manufacturer() == "Samjin" then
     return device:get_manufacturer() == "Samjin"
-  elseif device:get_manufacturer() == "SmartThings" then
+  elseif device:get_manufacturer() == "SmartThings" and device:get_model() ~="PGC313" and device:get_model() ~="PGC313EU" then
     return device:get_manufacturer() == "SmartThings"
   elseif device:get_manufacturer() == "CentraLite" then
     return device:get_manufacturer() == "CentraLite"
@@ -55,7 +55,7 @@ end
 local temp_sensor = {
     NAME = "Temp-Sensor",
     lifecycle_handlers = {
-      doConfigure = do_configure
+      --doConfigure = do_configure
     },
     zigbee_handlers = {
       attr = {

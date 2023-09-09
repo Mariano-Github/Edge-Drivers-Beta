@@ -19,7 +19,7 @@ local CENTRALITE_MFG = 0x104E
 
 
 local can_handle = function(opts, driver, device)
-    if device:get_manufacturer() == "SmartThings" then
+    if device:get_manufacturer() == "SmartThings" and device:get_model() ~="PGC313" and device:get_model() ~="PGC313EU" then
       return device:get_manufacturer() == "SmartThings"
     elseif device:get_manufacturer() == "Samjin" then
         return device:get_manufacturer() == "Samjin"
@@ -50,12 +50,13 @@ end
 local function configure_accel_threshold (self,device)
     print("<<<<< configure_accel_threshold >>>>>")
     if device:get_manufacturer() == "Samjin" then
+        --print("<<<<< device.preferences.accelThreshold:",device.preferences.accelThreshold)
         local accelThreshold = device.preferences.accelThreshold
         device:send(multi_utils.custom_write_attribute(device, multi_utils.MOTION_THRESHOLD_MULTIPLIER_ATTR, data_types.Uint8, accelThreshold, SAMJIN_MFG))
     elseif device:get_manufacturer() == "Centralite" then
         local accelThreshold = device.preferences.accelThresholdCentralite
         device:send(multi_utils.custom_write_attribute(device, multi_utils.MOTION_THRESHOLD_MULTIPLIER_ATTR, data_types.Uint8, accelThreshold, CENTRALITE_MFG))  
-    elseif device:get_manufacturer() == "SmartThings" then
+    elseif device:get_manufacturer() == "SmartThings" and device:get_model() ~="PGC313" and device:get_model() ~="PGC313EU" then
         local accelThreshold = device.preferences.accelThresholdST
         device:send(multi_utils.custom_write_attribute(device, multi_utils.MOTION_THRESHOLD_MULTIPLIER_ATTR, data_types.Uint8, 0x01, SMARTTHINGS_MFG))
         device:send(multi_utils.custom_write_attribute(device, multi_utils.MOTION_THRESHOLD_ATTR, data_types.Uint16, accelThreshold, SMARTTHINGS_MFG))

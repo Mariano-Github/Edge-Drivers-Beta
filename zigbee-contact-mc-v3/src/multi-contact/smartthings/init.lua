@@ -2,7 +2,7 @@
 local common = require("common")
 
 local can_handle = function(opts, driver, device)
-  if device:get_manufacturer() == "SmartThings" then
+  if device:get_manufacturer() == "SmartThings" and device:get_model() ~="PGC313" and device:get_model() ~="PGC313EU" then
     return device:get_manufacturer() == "SmartThings"
   elseif device:get_manufacturer() == "CentraLite" then
     return device:get_manufacturer() == "CentraLite"

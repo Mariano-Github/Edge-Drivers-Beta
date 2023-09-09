@@ -341,6 +341,46 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_6zvw8ham
     model: TS0203
     deviceProfileName: contact-battery-profile
+  - id: "TUYATEC-zfunf8j9/RH3001"
+    deviceLabel: RH3001 Open/Close Sensor
+    manufacturer: TUYATEC-zfunf8j9
+    model: RH3001
+    deviceProfileName: contact-battery-profile
+  - id: "_TZ3000_mq9f17dw/Contact Sensor"
+    deviceLabel: TS0203 Contact Sensor
+    manufacturer: _TZ3000_mq9f17dw
+    model: TS0203
+    deviceProfileName: contact-battery-profile
+  - id: "Sercomm Corp./SZ-DWS08N-CZ3"
+    deviceLabel: Sercomm Open/Closed Sensor
+    manufacturer: Sercomm Corp.
+    model: SZ-DWS08N-CZ3
+    deviceProfileName: contact-profile
+  - id: "_TZ3000_yxqnffam/Contact Sensor"
+    deviceLabel: TS0203 Contact Sensor
+    manufacturer: _TZ3000_yxqnffam
+    model: TS0203
+    deviceProfileName: contact-battery-profile
+  - id: "Namron/Contact Sensor"
+    deviceLabel: Namron Contact Sensor
+    manufacturer: Namron AS
+    model: 4512762
+    deviceProfileName: contact-battery-profile
+  - id: "TUYATEC-xrvzm3yI/RH3001"
+    deviceLabel: RH3001 Open/Close Sensor
+    manufacturer: TUYATEC-xrvzm3yI
+    model: RH3001
+    deviceProfileName: contact-battery-profile
+  - id: "LUMI/sensor_magnet.aq2"
+    deviceLabel: Aqara Door and Window Sensor E1
+    manufacturer: LUMI
+    model: lumi.sensor_magnet.aq2
+    deviceProfileName: contact-battery-profile
+  - id: "_TZ3000_cea5xugq/Woox"
+    deviceLabel: TS0203 Contact Sensor
+    manufacturer: _TZ3000_cea5xugq
+    model: TS0203
+    deviceProfileName: contact-battery-profile
 
   # ST multipurpose sensors
   - id: "Samjin/multi"
@@ -357,7 +397,17 @@ zigbeeManufacturer:
     deviceLabel: Multipurpose Sensor
     manufacturer: CentraLite
     model: 3321-S
-    deviceProfileName: st-multipurpose  
+    deviceProfileName: st-multipurpose
+  - id: Smartsense/multi/1
+    deviceLabel: Multipurpose Sensor
+    manufacturer: SmartThings
+    model: PGC313
+    deviceProfileName: smartsense-multi
+  - id: Smartsense/multi/2
+    deviceLabel: Multipurpose Sensor
+    manufacturer: SmartThings
+    model: PGC313EU
+    deviceProfileName: smartsense-multi
 zigbeeGeneric:
   - id: "contact-generic"
     deviceLabel: "Zigbee Contact Sensor"

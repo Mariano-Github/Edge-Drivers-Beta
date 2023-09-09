@@ -20,7 +20,7 @@ local utils = require "st.utils"
 local configurationMap = require "configurations"
 
 local clusters = require "st.zigbee.zcl.clusters"
---local PowerConfiguration = clusters.PowerConfiguration
+-- local PowerConfiguration = clusters.PowerConfiguration
 local device_management = require "st.zigbee.device_management"
 local tempMeasurement = clusters.TemperatureMeasurement
 local battery_defaults = require "st.zigbee.defaults.battery_defaults"
@@ -30,6 +30,8 @@ local data_types = require "st.zigbee.data_types"
 local SAMJIN_MFG = 0x1241
 local SMARTTHINGS_MFG = 0x110A
 local CENTRALITE_MFG = 0x104E
+local SMARTSENSE_MULTI_SENSOR_CUSTOM_PROFILE = 0xFC01
+
 --module emit signal metrics
 local signal = require "signal-metrics"
 
@@ -68,7 +70,7 @@ local function configure_accel_threshold (self,device)
   elseif device:get_manufacturer() == "Centralite" then
       local accelThreshold = device.preferences.accelThresholdCentralite
       device:send(multi_utils.custom_write_attribute(device, multi_utils.MOTION_THRESHOLD_MULTIPLIER_ATTR, data_types.Uint8, accelThreshold, CENTRALITE_MFG))  
-  elseif device:get_manufacturer() == "SmartThings" then
+  elseif device:get_manufacturer() == "SmartThings" and (device:get_model() ~="PGC313" and device:get_model() ~="PGC313EU") then
       local accelThreshold = device.preferences.accelThresholdST
       device:send(multi_utils.custom_write_attribute(device, multi_utils.MOTION_THRESHOLD_MULTIPLIER_ATTR, data_types.Uint8, 0x01, SMARTTHINGS_MFG))
       device:send(multi_utils.custom_write_attribute(device, multi_utils.MOTION_THRESHOLD_ATTR, data_types.Uint16, accelThreshold, SMARTTHINGS_MFG))
@@ -143,11 +145,13 @@ local function do_configure(self,device)
    
     device:configure()
   if device:supports_capability_by_id(capabilities.temperatureMeasurement.ID) then
-    local maxTime = device.preferences.maxTime * 60
-    local changeRep = device.preferences.changeRep
-    print ("maxTime:", maxTime, "changeRep:", changeRep)
-    device:send(device_management.build_bind_request(device, tempMeasurement.ID, self.environment_info.hub_zigbee_eui))
-    device:send(tempMeasurement.attributes.MeasuredValue:configure_reporting(device, 30, maxTime, changeRep))
+    if device:get_model() ~="PGC313" and device:get_model() ~="PGC313EU" then
+      local maxTime = device.preferences.maxTime * 60
+      local changeRep = device.preferences.changeRep
+      print ("maxTime:", maxTime, "changeRep:", changeRep)
+      device:send(device_management.build_bind_request(device, tempMeasurement.ID, self.environment_info.hub_zigbee_eui))
+      device:send(tempMeasurement.attributes.MeasuredValue:configure_reporting(device, 30, maxTime, changeRep))
+    end
   end
   if device:get_manufacturer() == "Ecolink" or 
     device:get_manufacturer() == "frient A/S" or
@@ -155,13 +159,14 @@ local function do_configure(self,device)
     device:get_manufacturer() == "Universal Electronics Inc" or
     device:get_manufacturer() == "SmartThings" or
     device:get_manufacturer() == "Leedarson" or
+    device:get_manufacturer() == "LUMI" or
     device:get_manufacturer() == "CentraLite" then
       
     -- init battery voltage
-    battery_defaults.build_linear_voltage_init(2.3, 3.0)
+    --battery_defaults.build_linear_voltage_init(2.3, 3.0)
     
     --- Read Battery voltage
-    device:send(clusters.PowerConfiguration.attributes.BatteryVoltage:read(device))
+    --device:send(clusters.PowerConfiguration.attributes.BatteryVoltage:read(device))
   end
 end
 
@@ -186,8 +191,9 @@ local function do_init(self, device)
       device:get_manufacturer() == "frient A/S" or
       device:get_manufacturer() == "Sercomm Corp." or
       device:get_manufacturer() == "Universal Electronics Inc" or
-      device:get_manufacturer() == "SmartThings" or
+      device:get_manufacturer() == "SmartThings" and (device:get_model() ~="PGC313" and device:get_model() ~="PGC313EU") or
       device:get_manufacturer() == "Leedarson" or
+      (device:get_manufacturer() == "LUMI" and device:get_model() ~= "lumi.sensor_magnet.aq2") or
       device:get_manufacturer() == "CentraLite" then
         
       -- init battery voltage
@@ -198,8 +204,9 @@ local function do_init(self, device)
 
     elseif device:get_manufacturer() == "_TZ3000_f1hmoyj4" or
       device:get_manufacturer() == "eWeLink" or
+      device:get_manufacturer() == "LUMI" or -- 3600s IAZone and batttery voltaje 3600s
       device:get_manufacturer() == "TUYATEC-rkqiqvcs" then
-      print("<<< special configure battery 600 sec >>>")
+      print("<<< special configure battery 600 sec or LUMI >>>")
       local configuration = configurationMap.get_device_configuration(device)
       if configuration ~= nil then
         for _, attribute in ipairs(configuration) do
@@ -237,6 +244,9 @@ local zigbee_contact_driver_template = {
     capabilities.accelerationSensor,
     capabilities.refresh
   },
+  additional_zcl_profiles = {
+    [SMARTSENSE_MULTI_SENSOR_CUSTOM_PROFILE] = true
+  },
   lifecycle_handlers = {
     infoChanged = info_Changed,
     driverSwitched = do_configure,
@@ -251,7 +261,14 @@ local zigbee_contact_driver_template = {
         }
      }
     },
-  sub_drivers = {require("battery-overrides"),require("battery-voltage"),require("temperature"),require("multi-contact")},
+  sub_drivers = {
+    require("battery-overrides"),
+    require("battery-voltage"),
+    require("temperature"),
+    require("multi-contact"),
+    require("smartsense-multi"),
+    require("lumi-switch-cluster")
+  },
   ias_zone_configuration_method = constants.IAS_ZONE_CONFIGURE_TYPE.AUTO_ENROLL_RESPONSE
 }
 

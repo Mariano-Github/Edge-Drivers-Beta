@@ -15,7 +15,7 @@ local can_handle = function(opts, driver, device)
     return device:get_manufacturer() == "Sercomm Corp."
   elseif device:get_manufacturer() == "Universal Electronics Inc" then
     return device:get_manufacturer() == "Universal Electronics Inc"
-  elseif device:get_manufacturer() == "SmartThings" then
+  elseif device:get_manufacturer() == "SmartThings" and device:get_model() ~="PGC313" and device:get_model() ~="PGC313EU" then
     return device:get_manufacturer() == "SmartThings"
   elseif device:get_manufacturer() == "CentraLite" then
     return device:get_manufacturer() == "CentraLite"
@@ -23,6 +23,8 @@ local can_handle = function(opts, driver, device)
     return device:get_manufacturer() == "Visonic"
   elseif device:get_manufacturer() == "Leedarson" then
     return device:get_manufacturer() == "Leedarson"
+  elseif (device:get_manufacturer() == "LUMI" and device:get_model() ~= "lumi.sensor_magnet.aq2") then
+    return device:get_manufacturer() == "LUMI"
   end
 end
 
@@ -46,9 +48,13 @@ local battery_handler = function(driver, device, value, zb_rx)
     value = utils.clamp_value(value.value, minVolts, maxVolts)
 
     device:emit_event(battery.battery(batteryMap[value]))
+
   else
     if device:get_manufacturer() == "Universal Electronics Inc" or device:get_manufacturer() == "Visonic" then
       minVolts = 2.1
+      maxVolts = 3.0
+    elseif device:get_manufacturer() == "LUMI" then
+      minVolts = 2.6
       maxVolts = 3.0
     end
     local battery_pct = math.floor(((((value.value / 10) - minVolts) + 0.001) / (maxVolts - minVolts)) * 100)
