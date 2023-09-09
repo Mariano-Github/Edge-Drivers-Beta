@@ -535,3 +535,18 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_en6s3mku
     model: TS0012
     deviceProfileName: single-switch
+  - id: "TS0001/_TZ3000_majwnphg"
+    deviceLabel: TS0001 Switch
+    manufacturer: _TZ3000_majwnphg
+    model: TS0001
+    deviceProfileName: single-switch
+  - id: "_TZ3210_j4pdtz9v/Fingerboot"
+    deviceLabel: Fingerboot Plus
+    manufacturer: _TZ3210_j4pdtz9v
+    model: TS0001
+    deviceProfileName: switch-battery
+  - id: "TS0001/_TZ3000_mantufyr"
+    deviceLabel: TS0001 Switch
+    manufacturer: _TZ3000_mantufyr
+    model: TS0001
+    deviceProfileName: single-switch

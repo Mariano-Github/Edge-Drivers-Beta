@@ -84,6 +84,7 @@ end
 
 ----- do_init device tables create for dimming variables ----
 function driver_handler.do_init (self, device)
+  print("<<< Device do_init >>>")
   if device:get_manufacturer() == "Quirky" and device:get_model() == "Smart Switch" then
     --This device has endpoint 1 and endpoint 2 is the main component 
     device:set_component_to_endpoint_fn(component_to_endpoint)
@@ -202,8 +203,9 @@ function driver_handler.do_init (self, device)
   end
   device:emit_event(energy_Reset.energyReset(device:get_field("date_reset")))
   if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) == "on" and device.preferences.loadPower > 0 then
-     -- send zigbee event
-    device:send(OnOff.server.commands.On(device))
+     -- read zigbee event
+    --device:send(OnOff.server.commands.On(device))
+    device:send(zcl_clusters.OnOff.attributes.OnOff:read(device))
   end
   device:set_field("power_meter_timer", "OFF", {persist = true})
 
