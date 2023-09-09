@@ -140,3 +140,28 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_4uvovz4r
     model: TS0207
     deviceProfileName: moisture-battery
+  - id: "TZ3000_3dfewsk1/Sensor"
+    deviceLabel: TS0207 Water Sensor
+    manufacturer: _TZ3000_3dfewsk1
+    model: TS0207
+    deviceProfileName: moisture-battery
+  - id: "Namron/Sensor"
+    deviceLabel: Namron Water Sensor
+    manufacturer: Namron AS
+    model: 4512764
+    deviceProfileName: moisture-battery
+  - id: ThirdReality/3RWS18BZ/1
+    deviceLabel: ThirdReality Water Leak Sensor
+    manufacturer: Third Reality, Inc
+    model: 3RWS18BZ
+    deviceProfileName: moisture-battery
+  - id: ThirdReality/3RWS18BZ/2
+    deviceLabel: ThirdReality Water Leak Sensor
+    manufacturer: THIRDREALITY
+    model: 3RWS18BZ
+    deviceProfileName: moisture-battery
+  - id: "HEIMAN/WATER_TPV14"
+    deviceLabel: HEIMAN Water Sensor
+    manufacturer: Heiman
+    model: WATER_TPV14
+    deviceProfileName: moisture-battery
