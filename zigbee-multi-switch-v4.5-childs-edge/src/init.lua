@@ -909,6 +909,15 @@ local function on_off_attr_handler(driver, device, value, zb_rx)
 
   if device.network_type ~= "DEVICE_EDGE_CHILD" then  ---- device (is NO Child device)
 
+    -- this Aurora model reponse to set indicator led level then not emit on-off event
+    if device:get_model() == "DoubleSocket50AU" then
+      --print("<< set-led >>", device:get_field("set-led"))
+      if device:get_field("set-led") == "yes" then
+        device:set_field("set-led", "reset-on-off")
+        return
+      end
+    end
+
     -- emit signal metrics
     signal.metrics(device, zb_rx)
 
@@ -980,6 +989,15 @@ local function default_response_handler(driver, device, zb_rx)
   if device.preferences.logDebugPrint == true then
     print("<<<<<< default_response_handler >>>>>>")
   end 
+
+  -- this Aurora model reponse to set indicator led level then not emit on-off event
+  if device:get_model() == "DoubleSocket50AU" then
+    --print("<< set-led >>", device:get_field("set-led"))
+    if device:get_field("set-led") == "yes" then
+      device:set_field("set-led", "reset-default")
+      return
+    end
+  end
   -- emit signal metrics
   signal.metrics(device, zb_rx)
 
@@ -1028,13 +1046,10 @@ end
     local on_Level = command.args.level
 
     if device.network_type ~= "DEVICE_EDGE_CHILD" then  ---- device (is NO Child device)
-      if device:get_model() == "DoubleSocket50AU" then
-        if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) == "off" then
-          local emit_off = function (d)
-            device:emit_component_event("main", capabilities.switch.switch.off())
-          end
-          device.thread:call_with_delay(3, emit_off)
-        end
+      -- this device uses level cluster to set led indicators level 
+      -- and need does not update the on-off attribute handler state
+      if device:get_model() == "DoubleSocket50AU" then 
+        device:set_field("set-led", "yes")
       end
       device:send_to_component(command.component, zcl_clusters.Level.server.commands.MoveToLevelWithOnOff(device, math.floor(on_Level/100.0 * 254), 0xFFFF))
 
