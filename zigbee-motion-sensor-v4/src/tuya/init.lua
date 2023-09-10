@@ -26,7 +26,8 @@ local PowerConfiguration = clusters.PowerConfiguration
 local TUYA_CLUSTER = 0xEF00
 
 local TUYA_MOTION_SENSOR_FINGERPRINTS = {
-    { mfr = "_TZE200_3towulqd", model = "TS0601" }
+    { mfr = "_TZE200_3towulqd", model = "TS0601" },
+    { mfr = "_TZE200_mgxy2d9f", model = "TS0601" }
 }
 
 local is_tuya_motion = function(opts, driver, device)
