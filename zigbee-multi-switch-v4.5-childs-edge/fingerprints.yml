@@ -912,3 +912,8 @@ zigbeeManufacturer:
     manufacturer: Interfree
     model: IDSW2O
     deviceProfileName: two-switch-level
+  - id: "TS110F/_TZ3000_92chsky7"
+    deviceLabel: QS-Zigbee-D02-TRIAC-2C-L
+    manufacturer: _TZ3000_92chsky7
+    model: TS110F
+    deviceProfileName: two-switch-level
