@@ -83,3 +83,27 @@ zwaveManufacturer:
   productType: 0x0001
   productId: 0x0054
   deviceProfileName: rgbw-bulb
+- id: "ZIPATO RGBW"
+  deviceLabel: Zipato Light
+  manufacturerId: 0x0131
+  productType: 0x0002
+  productId: 0x0002
+  deviceProfileName: rgbw-bulb
+- id: "Fantem_LED_Stripe_US"
+  deviceLabel: Fantem LED Stripe
+  manufacturerId: 0x016A
+  productType: 0x0103
+  productId: 0x0079
+  deviceProfileName: rgbw-bulb-3000K-8000K
+- id: "TKB Home RGBW"
+  deviceLabel: TKB Home Light
+  manufacturerId: 0x0118
+  productType: 0x0311
+  productId: 0x0302
+  deviceProfileName: tkb-rgbw-controller
+- id: "014F/4754/3038"
+  deviceLabel: LB60Z-1 Light
+  manufacturerId: 0x014F
+  productType: 0x4754
+  productId: 0x3038
+  deviceProfileName: switch-level
