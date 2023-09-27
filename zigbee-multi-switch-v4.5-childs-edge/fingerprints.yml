@@ -895,6 +895,16 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_wkr3jqmr
     model: TS0004
     deviceProfileName: four-switch
+  - id: "TS0004/_TZ3000_ww4xhmdg"
+    deviceLabel: TS0004 Switch
+    manufacturer: _TZ3000_ww4xhmdg
+    model: TS0004
+    deviceProfileName: four-switch
+  - id: "TS0002/_TZ3000_ywubfuvt"
+    deviceLabel: TS0002 Two Switch
+    manufacturer: _TZ3000_ywubfuvt
+    model: TS0002
+    deviceProfileName: two-switch
 
     # level devices
   - id: "TS110E/_TZ3210_pagajpog"
@@ -911,4 +921,25 @@ zigbeeManufacturer:
     deviceLabel: Interfree 2 Dimmer
     manufacturer: Interfree
     model: IDSW2O
+    deviceProfileName: two-switch-level
+  # sep 2023
+  - id: "TS110E/_TZ3210_3mpwqzuu"
+    deviceLabel: TS110E Dimmer
+    manufacturer: _TZ3210_3mpwqzuu
+    model: TS0110E
+    deviceProfileName: two-switch-level
+  - id: "TS110E/_TZ3210_wdexaypg"
+    deviceLabel: TS110E Dimmer
+    manufacturer: _TZ3210_wdexaypg
+    model: TS0110E
+    deviceProfileName: two-switch-level
+  - id: "EcoDim-Zigbee 3.0/EcoDim BV"
+    deviceLabel: EcoDim BV Dimmer
+    manufacturer: EcoDim BV
+    model: EcoDim-Zigbee 3.0
+    deviceProfileName: two-switch-level
+  - id: "TS110F/_TZ3000_92chsky7"
+    deviceLabel: QS-Zigbee-D02-TRIAC-2C-L
+    manufacturer: _TZ3000_92chsky7
+    model: TS110F
     deviceProfileName: two-switch-level
