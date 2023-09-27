@@ -1,16 +1,16 @@
 zwaveManufacturer:
-  # - id: "springs/window"
-  #   deviceLabel: Springs Window Shade
-  #   manufacturerId: 0x026E
-  #   productType: 0x4353
-  #   productId: 0x5A31
-  #   deviceProfileName: base-window-treatment
-  # - id: "springs/roller"
-  #   deviceLabel: Springs Roller Shade
-  #   manufacturerId: 0x026E
-  #   productType: 0x5253
-  #   productId: 0x5A31
-  #   deviceProfileName: base-window-treatment
+  - id: "springs/window"
+    deviceLabel: Springs Window Shade
+    manufacturerId: 0x026E
+    productType: 0x4353
+    productId: 0x5A31
+    deviceProfileName: base-window-treatment
+  - id: "springs/roller"
+    deviceLabel: Springs Roller Shade
+    manufacturerId: 0x026E
+    productType: 0x5253
+    productId: 0x5A31
+    deviceProfileName: base-window-treatment
   - id: "iblinds/blind"
     deviceLabel: iBlinds Window Treatment
     manufacturerId: 0x0287
@@ -29,6 +29,12 @@ zwaveManufacturer:
     productType: 0x1D01
     productId: 0x1000
     deviceProfileName: fibaro-roller-shutter
+  - id: FibaroRollerShutter1 #august 2023
+    deviceLabel: Fibaro Window Treatment
+    manufacturerId: 0x010F
+    productType: 0x0300
+    productId: 0x100A
+    deviceProfileName: fibaro-roller-shutter-1
   - id: FibaroRollerShutter2
     deviceLabel: Fibaro Window Treatment
     manufacturerId: 0x010F
@@ -69,9 +75,34 @@ zwaveManufacturer:
     manufacturerId: 0x0371
     productId: 0x008D
     deviceProfileName: stateless-curtain-power-button
+  # added after migration
   - id: NICE/IBT4ZWAVE
     deviceLabel: NICE Door IBT4ZWAVE
     manufacturerId: 0x0441
     productType: 0x2400
     productId: 0x1000
     deviceProfileName: window-treatment-power
+  - id: Forest Shuttle/Blind
+    deviceLabel: Forest Shuttle SML
+    manufacturerId: 0x0207
+    productType: 0x0027
+    productId: 0x0100
+    deviceProfileName: window-treatment-preset
+  - id: TechniSat ZM5101/Blind
+    deviceLabel: TechniSat ZM5101
+    manufacturerId: 0x0299
+    productType: 0x0005
+    productId: 0x1A93
+    deviceProfileName: window-treatment-power
+  - id: 0115/0110/0001
+    deviceLabel: Z-uno Windows Treatment
+    manufacturerId: 0x0115
+    productType: 0x0110
+    productId: 0x0001
+    deviceProfileName: window-treatment-preset-reverse-mc
+  - id: zipato/0258/0200/102C
+    deviceLabel: Z-uno Windows Treatment
+    manufacturerId: 0x0258
+    productType: 0x0200
+    productId: 0x102C
+    deviceProfileName: window-treatment-preset-reverse-mc
