@@ -1271,7 +1271,54 @@ zwaveManufacturer:
     productType: 0x4C42
     productId: 0x3133
     deviceProfileName: switch-level
-
+  - id: 0060/0033/0001
+    deviceLabel: Everspring AD370 MOS Dimmer Module
+    manufacturerId: 0x0060
+    productType: 0x0033
+    productId: 0x0001
+    deviceProfileName: metering-dimmer
+  - id: 0068/0003/0015
+    deviceLabel: HSA TD130X0Z2 In-wall Power Monitor Switch
+    manufacturerId: 0x0068
+    productType: 0x0003
+    productId: 0x0015
+    deviceProfileName: dual-metering-switch
+  - id: 0059/0003/0002
+    deviceLabel: Double Switch
+    manufacturerId: 0x0059
+    productType: 0x0003
+    productId: 0x0002
+    deviceProfileName: dual-switch
+  - id: 0013C/0001/0012
+    deviceLabel: Philio PAN04
+    manufacturerId: 0x013C
+    productType: 0x0001
+    productId: 0x0012
+    deviceProfileName: dual-switch
+  - id: 0013C/0001/0013
+    deviceLabel: Philio PAN06
+    manufacturerId: 0x013C
+    productType: 0x0001
+    productId: 0x0013
+    deviceProfileName: dual-switch #has 3 endpoint
+  - id: FFFF/0003/0004
+    deviceLabel: TKB Home TZ55S Plus Dimmer
+    manufacturerId: 0xFFFF
+    productType: 0x0003
+    productId: 0x0004
+    deviceProfileName: switch-level
+  - id: 0118/0311/0201
+    deviceLabel: TKB Home TZ55S Plus Dimmer
+    manufacturerId: 0x0118
+    productType: 0x0311
+    productId: 0x0201
+    deviceProfileName: switch-level
+  - id: 015F/4121/5102
+    deviceLabel: MCO Double Switch
+    manufacturerId: 0x015F
+    productType: 0x4121
+    productId: 0x5102
+    deviceProfileName: dual-switch
 zwaveGeneric:
   - id: "GenericSwitch/1"
     deviceLabel: Switch
