@@ -381,6 +381,21 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_cea5xugq
     model: TS0203
     deviceProfileName: contact-battery-profile
+  - id: "_TZ3000_2jxwezhd/TS0203"
+    deviceLabel: TS0203 Contact Sensor
+    manufacturer: _TZ3000_2jxwezhd
+    model: TS0203
+    deviceProfileName: contact-battery-profile
+  - id: "_TZ3000_zgrffiwg/TS0203"
+    deviceLabel: TS0203 Contact Sensor
+    manufacturer: _TZ3000_zgrffiwg
+    model: TS0203
+    deviceProfileName: contact-battery-profile
+  - id: "_TZ3000_bpkijo14/TS0203"
+    deviceLabel: TS0203 Contact Sensor
+    manufacturer: _TZ3000_bpkijo14
+    model: TS0203
+    deviceProfileName: contact-battery-profile
 
   # ST multipurpose sensors
   - id: "Samjin/multi"
