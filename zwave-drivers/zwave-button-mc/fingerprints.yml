@@ -4,13 +4,13 @@ zwaveManufacturer:
     manufacturerId: 0x026E
     productType: 0x5643
     productId: 0x5A31
-    deviceProfileName: battery
+    deviceProfileName: multi-button-2 #battery
   - id: "026E/4252/5A31"
     deviceLabel: 3 Button Window Remote
     manufacturerId: 0x026E
     productType: 0x4252
     productId: 0x5A31
-    deviceProfileName: battery
+    deviceProfileName: multi-button-3 #battery
   - id: "Fibaro/Button"
     deviceLabel: Fibaro Button
     manufacturerId: 0x010F
@@ -103,6 +103,12 @@ zwaveManufacturer:
     productType: 0x0300
     productId: 0xA30F
     deviceProfileName: multi-button-2
+  - id: Namron/1kanal/0310
+    deviceLabel: Namron 1kanal
+    manufacturerId: 0x0330
+    productType: 0x0300
+    productId: 0xA310
+    deviceProfileName: multi-button-4
   - id: GoControl/WA00Z-1
     deviceLabel: GoControl WA00Z-1
     manufacturerId: 0x014F
@@ -115,3 +121,9 @@ zwaveManufacturer:
     productType: 0x0801
     productId: 0x0B03
     deviceProfileName: multi-button-7
+  - id: 0178/5343/4735
+    deviceLabel: Nexia NX-1000
+    manufacturerId: 0x0178
+    productType: 0x5343
+    productId: 0x4735
+    deviceProfileName: multi-button-15
