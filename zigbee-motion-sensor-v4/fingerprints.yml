@@ -48,7 +48,7 @@ zigbeeManufacturer:
     deviceLabel: IKEA motion Sensor
     manufacturer: IKEA of Sweden
     model: TRADFRI motion sensor
-    deviceProfileName: motion-battery
+    deviceProfileName: motion-battery-ikea
   - id: "GatorSystem/GSHW01"
     deviceLabel: GatorSystem Multipurpose Sensor
     manufacturer: GatorSystem
@@ -375,3 +375,13 @@ zigbeeManufacturer:
     manufacturer: _TZE200_mgxy2d9f
     model: TS0601
     deviceProfileName:  motion-battery
+  - id: "_TZ3000_o4mkahkc/Motion"
+    deviceLabel: TS0202 Motion Sensor
+    manufacturer: _TZ3000_o4mkahkc
+    model: TS0202
+    deviceProfileName: motion-battery
+  - id: "_TZ3000_tiwq83wk/Motion"
+    deviceLabel: TS0202 Motion Sensor
+    manufacturer: _TZ3000_tiwq83wk
+    model: TS0202
+    deviceProfileName: motion-battery
