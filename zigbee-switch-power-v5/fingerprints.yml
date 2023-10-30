@@ -8,7 +8,7 @@ zigbeeManufacturer:
   #  deviceLabel: Lidl Plug
   #  manufacturer: _TZ3000_kdi2o9m6
   #  model: TS011F
-  #  deviceProfileName: switch-temp-power-energy-plug # only for my test
+  #  deviceProfileName: switch-power-energy-plug # only for my test
   - id: "Computime/SLP2b"
     deviceLabel: Computime Plug SLP2b
     manufacturer: Computime
@@ -98,7 +98,7 @@ zigbeeManufacturer:
     deviceLabel: TS0121 Plug
     manufacturer: _TZ3000_g5xawfcq
     model: TS0121
-    deviceProfileName: switch-power-energy-plug
+    deviceProfileName: switch-power-energy-plug-refresh
   - id: "_TZ3000_u5u4cakc/TS011F"
     deviceLabel: TS011F Plug
     manufacturer: _TZ3000_u5u4cakc
@@ -133,7 +133,7 @@ zigbeeManufacturer:
     deviceLabel: TS011F Plug
     manufacturer: _TZ3000_9vo5icau
     model: TS011F
-    deviceProfileName: switch-power-energy-plug
+    deviceProfileName: switch-power-energy-plug-refresh
   - id: Samjin/outlet
     deviceLabel: SmartThings Outlet
     manufacturer: Samjin
@@ -153,7 +153,7 @@ zigbeeManufacturer:
     deviceLabel: Lumi Plug
     manufacturer: LUMI
     model: lumi.plug.mmeu01
-    deviceProfileName: switch-power-energy-plug
+    deviceProfileName: switch-power-energy-plug-refresh
   - id: "lumi.plug.maus01/PLUG"
     deviceLabel: Lumi Plug
     manufacturer: LUMI
@@ -178,7 +178,7 @@ zigbeeManufacturer:
     deviceLabel: TS011F Metered Plug
     manufacturer: _TZ3000_1h2x4akh
     model: TS011F
-    deviceProfileName: switch-power-energy-plug
+    deviceProfileName: switch-power-energy-plug-refresh
   - id: "Ozom_ClimaxTech/PSM_00.00.00.35TC"
     deviceLabel: Ozom Outlet
     manufacturer: ClimaxTechnology
@@ -243,7 +243,7 @@ zigbeeManufacturer:
     deviceLabel: TS011F Plug
     manufacturer: _TZ3000_okaz9tjs
     model: TS011F
-    deviceProfileName: switch-power-energy-plug
+    deviceProfileName: switch-power-energy-plug-refresh
   - id: "TS011F/_TZ3000_ko6v90pg"
     deviceLabel: TS011F Plug
     manufacturer: _TZ3000_ko6v90pg
@@ -294,11 +294,11 @@ zigbeeManufacturer:
     manufacturer: HZC
     model: Dimmer-Switch-ZB3.0
     deviceProfileName: level-power-energy-light
-  - id: "_TZ3000_g5xawfcq/TS0121"
-    deviceLabel: TS0121 Plug
-    manufacturer: _TZ3000_g5xawfcq
-    model: TS0121
-    deviceProfileName: switch-power-energy-plug
+  #- id: "_TZ3000_g5xawfcq/TS0121"
+  #  deviceLabel: TS0121 Plug
+  #  manufacturer: _TZ3000_g5xawfcq
+  #  model: TS0121
+  #  deviceProfileName: switch-power-energy-plug
   - id: "_TZ3000_gznh2xla/TS011F"
     deviceLabel: TS011F Plug
     manufacturer: _TZ3000_gznh2xla

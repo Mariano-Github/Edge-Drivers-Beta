@@ -1,4 +1,4 @@
-name: switch-power-plug
+name: switch-power-energy-plug-refresh
 components:
 - id: main
   capabilities:
@@ -10,20 +10,24 @@ components:
     version: 1
   - id: powerMeter
     version: 1
+  - id: energyMeter
+    version: 1
+  - id: powerConsumptionReport
+    version: 1
   - id: legendabsolute60149.getGroups
     version: 1
   - id: legendabsolute60149.signalMetrics
     version: 1
   - id: refresh
     version: 1
-  - id: firmwareUpdate
-    version: 1
+  #- id: firmwareUpdate
+  #  version: 1
   categories:
   - name: SmartPlug
 preferences:
   - name: "version"
     title: "Version 6.6 (Sep 2023)"
-    description: "Added: Device custom interval reports"  
+    description: "Added: Device custom interval read power and energy"  
     required: false
     preferenceType: string
     definition:
@@ -31,15 +35,15 @@ preferences:
       minLength: 0
       maxLength: 0
       default: ""
-  - name: "onOffReports"
-    title: "Device On-Off Interval Report(Sec)"
-    description: "IF YOUR DEVICE & NETWORK WORK FINE THEN DON'T TOUCH. Set Device Interval Report (300 to 1200 sec). Smartthings Default = 300. Longer intervals reduce zigbee network traffic and Hub work. If Offline states occur with high values, then reduce the interval. Restore default Value before Driver Change."
+  - name: "powerEnergyRead"
+    title: "Power and Energy Read Interval"
+    description: "WARNING: INTERVALS LESS THAN 30 SEC MAY COLLAPSE YOUR ZIGBEE NETWORK. Due to this device does not send Power & Energy reports. Set interval to Manual Read of Power & Energy attributes when device is in On (5 to 180 sec). Default = 90 sec"
     required: true
     preferenceType: integer
     definition:
-      minimum: 300
-      maximum: 1200
-      default:  300
+      minimum: 5
+      maximum: 180
+      default:  90
   - name: "localTimeOffset"
     title: "Local Time Offset to UTC (-12 to 12)"
     description: "Select Your Local Time Offset to UTC Time Hours (-12 to 12)"
@@ -49,17 +53,15 @@ preferences:
       minimum: -12
       maximum: 12
       default: 0 
-  - name: "changeProfile"
-    title: "Select Profile Icon"
-    description: "Select Profile Icon:"
+  - name: "simpleMeteringDivisor1"
+    title: "Custom Simple Metering Divisor"
+    description: "If you device has Power & Energy measurement then this Custom Divisor is used for Total Energy Calcualtioins. Some devices could use it for Power Instantaneous Demand calcualtions too, instead the Active Power. SET TO DEFAULT VALUE= 0, TO USE DEFAULTS DIVISOR OF DRIVER."
     required: false
-    preferenceType: enumeration
+    preferenceType: number
     definition:
-      options:
-        "Switch" : "Switch"
-        "Plug": "Plug"
-        "Light": "Light"
-      default: "Plug"
+      minimum: 0
+      maximum: 1000000
+      default: 0
   - name: "electricalMeasureDiviso1"
     title: "Custom Electrical Measure Divisor"
     description: "This Custom divisor will be used for Active Power Calcualtioins. SET TO DEFAULT VALUE= 0, TO USE DEFAULTS DIVISOR OF DRIVER."

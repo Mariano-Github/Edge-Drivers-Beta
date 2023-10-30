@@ -40,25 +40,30 @@ local random_Next_Step = capabilities["legendabsolute60149.randomNextStep2"]
 local get_Groups = capabilities["legendabsolute60149.getGroups"]
 local signal_Metrics = capabilities["legendabsolute60149.signalMetrics"]
 
+local set_status_timer
+
 
 local function do_configure(self, device)
   print ("<<< do_configure >>>")
   
-  if device:get_manufacturer() == "_TZ3000_9vo5icau" or -- this device does not send power and energy reports
-    device:get_manufacturer() == "_TZ3000_1h2x4akh" or 
-    device:get_manufacturer() == "_TZ3000_g5xawfcq" then 
+  if device.preferences.powerEnergyRead ~= nil then
+  --if device:get_manufacturer() == "_TZ3000_9vo5icau" or -- this device does not send power and energy reports
+    --device:get_manufacturer() == "_TZ3000_1h2x4akh" or
+    ---device:get_manufacturer() == "_TZ3000_gvn91tmx" or
+    --device:get_manufacturer() == "_TZ3000_okaz9tjs" or 
+    --device:get_manufacturer() == "_TZ3000_g5xawfcq" then  
 
-    -- power and energy configure reporting
-    device:send(device_management.build_bind_request(device, zcl_clusters.OnOff.ID, self.environment_info.hub_zigbee_eui))
-    device:send(zcl_clusters.OnOff.attributes.OnOff:configure_reporting(device, 0, 300)) --0, 120
-    device:send(device_management.build_bind_request(device, zcl_clusters.ElectricalMeasurement.ID, self.environment_info.hub_zigbee_eui))
-    device:send(zcl_clusters.ElectricalMeasurement.attributes.ActivePower:configure_reporting(device, 1, 3600, 5))
-    device:send(device_management.build_bind_request(device, zcl_clusters.SimpleMetering.ID, self.environment_info.hub_zigbee_eui))
-    device:send(zcl_clusters.SimpleMetering.attributes.CurrentSummationDelivered:configure_reporting(device, 5, 3600, 1))
+      -- power and energy configure reporting
+      device:send(device_management.build_bind_request(device, zcl_clusters.OnOff.ID, self.environment_info.hub_zigbee_eui))
+      device:send(zcl_clusters.OnOff.attributes.OnOff:configure_reporting(device, 0, 300)) --0, 120
+
+      device:send(device_management.build_bind_request(device, zcl_clusters.ElectricalMeasurement.ID, self.environment_info.hub_zigbee_eui))
+      device:send(zcl_clusters.ElectricalMeasurement.attributes.ActivePower:configure_reporting(device, 1, 3600, 5))
+      device:send(device_management.build_bind_request(device, zcl_clusters.SimpleMetering.ID, self.environment_info.hub_zigbee_eui))
+      device:send(zcl_clusters.SimpleMetering.attributes.CurrentSummationDelivered:configure_reporting(device, 1, 3600, 5))
   
   else
-    device:configure()
-
+    --device:configure()
     if device:get_manufacturer() == "Develco Products A/S" and  device:get_model() == "SPLZB-131" then
       print("Configure Device Temperature Configuration >>>>>>>>")
 
@@ -81,10 +86,23 @@ local function do_configure(self, device)
       device:add_configured_attribute(config)
       device:add_monitored_attribute(config)
 
-      device.thread:call_with_delay(2, function() 
+      device.thread:call_with_delay(3, function() 
         device:send(zcl_clusters.DeviceTemperatureConfiguration.attributes.CurrentTemperature:read(device):to_endpoint (2))
       end)
     end
+
+    -- Configure OnOff interval report
+    local config ={
+      cluster = zcl_clusters.OnOff.ID,
+      attribute = zcl_clusters.OnOff.attributes.OnOff.ID,
+      minimum_interval = 0,
+      maximum_interval = device.preferences.onOffReports,
+      data_type = zcl_clusters.OnOff.attributes.OnOff.base_type
+    }
+    --device:send(zcl_clusters.OnOff.attributes.OnOff:configure_reporting(device, 0, device.preferences.onOffReports))
+    device:add_configured_attribute(config)
+    device:add_monitored_attribute(config)
+    device:configure()
 
     -- Additional one time configuration
       -- Divisor and multipler for ElectricalMeasurement
@@ -113,8 +131,10 @@ local function instantaneous_demand_handler(driver, device, value, zb_rx)
     divisor = 1
   end
   
-  print("multiplier >>>>",multiplier)
-  print("divisor >>>>>",divisor)
+  if device.preferences.logDebugPrint == true then
+    print("multiplier >>>>",multiplier)
+    print("divisor >>>>>",divisor)
+  end
   raw_value = raw_value * multiplier/divisor
 
   local raw_value_watts = raw_value * 1000
@@ -127,8 +147,10 @@ local function energy_meter_handler(driver, device, value, zb_rx)
   local multiplier = device:get_field(constants.SIMPLE_METERING_MULTIPLIER_KEY) or 1
   local divisor = device:get_field(constants.SIMPLE_METERING_DIVISOR_KEY) or 1
   raw_value = raw_value * multiplier/divisor
-  print("SIMPLE_METERING_DIVISOR_KEY >>>>", device:get_field(constants.SIMPLE_METERING_DIVISOR_KEY))
-  print("ELECTRICAL_MEASUREMENT_DIVISOR_KEY >>>>>", device:get_field(constants.ELECTRICAL_MEASUREMENT_DIVISOR_KEY))
+  if device.preferences.logDebugPrint == true then
+    print("SIMPLE_METERING_DIVISOR_KEY >>>>", device:get_field(constants.SIMPLE_METERING_DIVISOR_KEY))
+    print("ELECTRICAL_MEASUREMENT_DIVISOR_KEY >>>>>", device:get_field(constants.ELECTRICAL_MEASUREMENT_DIVISOR_KEY))
+  end
   local offset = device:get_field(constants.ENERGY_METER_OFFSET) or 0
   if raw_value < offset then
     --- somehow our value has gone below the offset, so we'll reset the offset, since the device seems to have
@@ -162,8 +184,10 @@ local function active_power_meter_handler(driver, device, value, zb_rx)
     divisor = 1
   end
   
-  print("multiplier >>>>",multiplier)
-  print("divisor >>>>>",divisor)
+  if device.preferences.logDebugPrint == true then
+    print("multiplier >>>>",multiplier)
+    print("divisor >>>>>",divisor)
+  end
   raw_value = raw_value * multiplier/divisor
 
   local raw_value_watts = raw_value
@@ -197,17 +221,21 @@ end
   local zb_message = value
   local group_list = zb_message.body.zcl_body.group_list_list
   --Print table group_lists with function utils.stringify_table(group_list)
-  print("group_list >>>>>>",utils.stringify_table(group_list))
-  
+  if device.preferences.logDebugPrint == true then
+    print("group_list >>>>>>",utils.stringify_table(group_list))
+  end
   local group_Names =""
   for i, value in pairs(group_list) do
-    print("Message >>>>>>>>>>>",group_list[i].value)
+    if device.preferences.logDebugPrint == true then
+      print("Message >>>>>>>>>>>",group_list[i].value)
+    end
     group_Names = group_Names..tostring(group_list[i].value).."-"
+
   end
   --local text_Groups = "Groups Added: "..group_Names
   local text_Groups = group_Names
   if text_Groups == "" then text_Groups = "All Deleted" end
-  print (text_Groups)
+  --print (text_Groups)
   device:emit_event(get_Groups.getGroups(text_Groups))
 end
 
@@ -227,15 +255,31 @@ end
 local function default_response_handler(driver, device, zb_rx)
   print("<<< GlobalCommand Handler >>>")
   local status = zb_rx.body.zcl_body.status.value
+  local cmd = zb_rx.body.zcl_body.cmd.value
 
   if status == Status.SUCCESS then
-    local cmd = zb_rx.body.zcl_body.cmd.value
+    --local cmd = zb_rx.body.zcl_body.cmd.value
     local event = nil
 
     if cmd == zcl_clusters.OnOff.server.commands.On.ID then
       event = capabilities.switch.switch.on()
     elseif cmd == zcl_clusters.OnOff.server.commands.Off.ID then
       event = capabilities.switch.switch.off()
+
+      -- read power due to residual power < 5w can appears in app after power off
+      if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) == "on" then
+        set_status_timer = device:get_field("read-power")
+        if set_status_timer then
+          device.thread:cancel_timer(set_status_timer)
+          device:set_field("read-power", nil)
+        end
+        local power_read = function(d)
+          device:send_to_component("main", zcl_clusters.ElectricalMeasurement.attributes.ActivePower:read(device))
+          device:send_to_component("main", zcl_clusters.SimpleMetering.attributes.CurrentSummationDelivered:read(device))
+        end
+        set_status_timer = device.thread:call_with_delay(5, power_read, "power-energy delayed read")
+        device:set_field("read-power", set_status_timer)
+      end
     end
 
     if event ~= nil then
@@ -254,20 +298,42 @@ local function default_response_handler(driver, device, zb_rx)
   device:emit_event(signal_Metrics.signalMetrics({value = metrics}, {visibility = {displayed = visible_satate }}))
 
   -- -- read attribute power & enrgy 
-  if device:get_manufacturer() == "_TZ3000_9vo5icau" or 
-   device:get_manufacturer() == "_TZ3000_1h2x4akh" or
-   device:get_manufacturer() == "_TZ3000_g5xawfcq" then
+  if device.preferences.powerEnergyRead ~= nil and cmd == zcl_clusters.OnOff.server.commands.On.ID then
+  --if device:get_manufacturer() == "_TZ3000_9vo5icau" or 
+   --device:get_manufacturer() == "_TZ3000_1h2x4akh" or
+   --device:get_manufacturer() == "lumi.plug.mmeu01" or
+   ---device:get_manufacturer() == "_TZ3000_gvn91tmx" or
+   --device:get_manufacturer() == "_TZ3000_okaz9tjs" or
+   --device:get_manufacturer() == "_TZ3000_g5xawfcq" then
+
+    if device.preferences.logDebugPrint == true then 
+      print("<<<<< Cancel read timers >>>>>")
+    end
+    set_status_timer = device:get_field("read-power")
+    if set_status_timer then
+      device.thread:cancel_timer(set_status_timer)
+      device:set_field("read-power", nil)
+    end
+    set_status_timer = device:get_field("read-on-off")
+    if set_status_timer then
+      device.thread:cancel_timer(set_status_timer)
+      device:set_field("read-on-off", nil)
+    end
 
     local power_read = function(d)
       device:send_to_component("main", zcl_clusters.ElectricalMeasurement.attributes.ActivePower:read(device))
       device:send_to_component("main", zcl_clusters.SimpleMetering.attributes.CurrentSummationDelivered:read(device))
     end
-      device.thread:call_with_delay(5, power_read, "power-energy delayed read")
+    set_status_timer = device.thread:call_with_delay(5, power_read, "power-energy delayed read")
+    device:set_field("read-power", set_status_timer)
 
-      local on_off_read = function(d)
-        device:send_to_component("main", zcl_clusters.OnOff.attributes.OnOff:read(device))
-      end
-        device.thread:call_with_delay(90, on_off_read, "on_off_read delayed read")
+    local on_off_read = function(d)
+      device:send_to_component("main", zcl_clusters.OnOff.attributes.OnOff:read(device))
+    end
+    local delay = device.preferences.powerEnergyRead
+    if delay == nil then delay = 90 end
+    set_status_timer = device.thread:call_with_delay(delay, on_off_read, "on_off_read delayed read")
+    device:set_field("read-on-off", set_status_timer)
   end
 end
 
@@ -286,25 +352,68 @@ local function on_off_attr_handler(self, device, value, zb_rx)
   device:emit_event(signal_Metrics.signalMetrics({value = metrics}, {visibility = {displayed = visible_satate }}))
 
   local attr = capabilities.switch.switch
-  device:emit_event_for_endpoint(zb_rx.address_header.src_endpoint.value, value.value and attr.on() or attr.off())
-  
-  -- -- read attribute power & enrgy 
-  if device:get_manufacturer() == "_TZ3000_9vo5icau" or 
-    device:get_manufacturer() == "_TZ3000_1h2x4akh" or
-    device:get_manufacturer() == "_TZ3000_g5xawfcq" then 
+  --device:emit_event_for_endpoint(zb_rx.address_header.src_endpoint.value, value.value and attr.on() or attr.off())
+  local event = attr.on()
+  if value.value == false or value.value == 0 then
+    event = attr.off()
 
-    local power_read = function(d)
-      device:send_to_component("main", zcl_clusters.ElectricalMeasurement.attributes.ActivePower:read(device))
-      device:send_to_component("main", zcl_clusters.SimpleMetering.attributes.CurrentSummationDelivered:read(device))
+    -- read power due to residual power < 5w can appears in app after power off
+    if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) == "on" then
+      set_status_timer = device:get_field("read-power")
+      if set_status_timer then
+        device.thread:cancel_timer(set_status_timer)
+        device:set_field("read-power", nil)
+      end
+      local power_read = function(d)
+        device:send_to_component("main", zcl_clusters.ElectricalMeasurement.attributes.ActivePower:read(device))
+        device:send_to_component("main", zcl_clusters.SimpleMetering.attributes.CurrentSummationDelivered:read(device))
+      end
+      set_status_timer = device.thread:call_with_delay(5, power_read, "power-energy delayed read")
+      device:set_field("read-power", set_status_timer)
     end
-      device.thread:call_with_delay(5, power_read, "power-energy delayed read")
-    
+  elseif value.value == true or value.value == 1 then
+
+  -- -- read attribute power & enrgy
+    if device.preferences.powerEnergyRead ~= nil then
+    --if device:get_manufacturer() == "_TZ3000_9vo5icau" or 
+      --device:get_manufacturer() == "_TZ3000_1h2x4akh" or
+      --device:get_manufacturer() == "lumi.plug.mmeu01" or
+      ---device:get_manufacturer() == "_TZ3000_gvn91tmx" or
+      --device:get_manufacturer() == "_TZ3000_okaz9tjs" or
+      --device:get_manufacturer() == "_TZ3000_g5xawfcq" then 
+
+      if device.preferences.logDebugPrint == true then 
+        print("<<<<< Cancel read timers >>>>>")
+      end
+      set_status_timer = device:get_field("read-power")
+      if set_status_timer then
+        device.thread:cancel_timer(set_status_timer)
+        device:set_field("read-power", nil)
+      end
+      set_status_timer = device:get_field("read-on-off")
+      if set_status_timer then
+        device.thread:cancel_timer(set_status_timer)
+        device:set_field("read-on-off", nil)     
+      end
+
+      local power_read = function(d)
+        device:send_to_component("main", zcl_clusters.ElectricalMeasurement.attributes.ActivePower:read(device))
+        device:send_to_component("main", zcl_clusters.SimpleMetering.attributes.CurrentSummationDelivered:read(device))
+      end
+      set_status_timer = device.thread:call_with_delay(5, power_read, "power-energy delayed read")
+      device:set_field("read-power", set_status_timer)
+      
       local on_off_read = function(d)
         device:send_to_component("main", zcl_clusters.OnOff.attributes.OnOff:read(device))
       end
-        device.thread:call_with_delay(90, on_off_read, "on_off_read delayed read")  
+      local delay = device.preferences.powerEnergyRead
+      if delay == nil then delay = 90 end
+      set_status_timer = device.thread:call_with_delay(delay, on_off_read, "on_off_read delayed read")
+      device:set_field("read-on-off", set_status_timer)
     end
- end
+  end
+  device:emit_event_for_endpoint(zb_rx.address_header.src_endpoint.value, event)
+end
 
   -- custom config
   local function custom_configure(self, device)
@@ -328,6 +437,19 @@ local function on_off_attr_handler(self, device, value, zb_rx)
       device:try_update_metadata({profile = "switch-power-energy-plug"})
     elseif device.preferences.changeProfileEner == "Light" then
       device:try_update_metadata({profile = "switch-power-energy-light"})
+    end
+
+    -- due to error in profile asign in hub firmware
+    if device:get_manufacturer() == "_TZ3000_9vo5icau" or 
+      device:get_manufacturer() == "_TZ3000_1h2x4akh" or
+      device:get_manufacturer() == "lumi.plug.mmeu01" or
+      ---device:get_manufacturer() == "_TZ3000_gvn91tmx" or
+      device:get_manufacturer() == "_TZ3000_okaz9tjs" or
+      --device:get_manufacturer() == "_TZ3000_kdi2o9m6" or -- ONLY FOR MY TEST
+      device:get_manufacturer() == "_TZ3000_g5xawfcq" then
+        device:try_update_metadata({profile = "switch-power-energy-plug-refresh"})
+    --elseif device:get_manufacturer() == "_TZ3000_kdi2o9m6" then -- for my test only
+      --device:try_update_metadata({profile = "switch-power-energy-plug"})
     end
 
     random.do_init(self,device)

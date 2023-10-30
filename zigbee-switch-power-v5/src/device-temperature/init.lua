@@ -30,7 +30,9 @@ end
 
 -- device temperature handler
 local function device_temperature_handler(driver, device, value, zb_rx)
-  print("<<<< value.value =", value.value)
+  if device.preferences.logDebugPrint == true then
+    print("<<<< value.value =", value.value)
+  end
   if value.value ~= 0xFFFF then
     local raw_temp = value.value
     local temp_scale = "C"
