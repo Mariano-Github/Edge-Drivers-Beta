@@ -388,7 +388,7 @@ zigbeeManufacturer:
     deviceLabel: Light Gledopto
     manufacturer: GLEDOPTO
     model: GL-C-006P
-    deviceProfileName: level-colortemp-2700-6500
+    deviceProfileName: level-colortemp-2000-6500
   - id: "Light/Gledopto"
     deviceLabel: Light Gledopto
     manufacturer: GLEDOPTO
@@ -563,7 +563,7 @@ zigbeeManufacturer:
     deviceLabel: Light Gledopto
     manufacturer: GLEDOPTO
     model: GL-C-006
-    deviceProfileName: level-colortemp-2700-6500
+    deviceProfileName: level-colortemp-2000-6500
   - id: "tint-ColorTemperature/MLI"
     deviceLabel: Light MLI
     manufacturer: MLI
@@ -1148,6 +1148,11 @@ zigbeeManufacturer:
     manufacturer: _TZ3210_onejz0gt
     model: TS0504B
     deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "TRADFRI bulb E26 CWS 806lm"
+    deviceLabel: IKEA E26 Bulb
+    manufacturer: IKEA of Sweden
+    model: TRADFRI bulb E26 CWS 806lm
+    deviceProfileName: rgbw-level-colortemp-2200-4000
 
   # Dimmers
   - id: "3A-Smart-Home/LXN56-DC27LX1.1"
