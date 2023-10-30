@@ -865,10 +865,10 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_vit9k2nb
     model: TS0004
     deviceProfileName: four-switch
-  - id: "TS0002/_TZ3000_4js9lo5d"
-    deviceLabel: TS0002 Two Switch
+  - id: "TS0012/_TZ3000_4js9lo5d"
+    deviceLabel: TS0012 Two Switch
     manufacturer: _TZ3000_4js9lo5d
-    model: TS0002
+    model: TS0012
     deviceProfileName: two-switch
   - id: "TS0002/_TZ3000_wuw8zv0t"
     deviceLabel: TS0002 Two Switch
@@ -903,6 +903,21 @@ zigbeeManufacturer:
   - id: "TS0002/_TZ3000_ywubfuvt"
     deviceLabel: TS0002 Two Switch
     manufacturer: _TZ3000_ywubfuvt
+    model: TS0002
+    deviceProfileName: two-switch
+  - id: "TS0002/_TZ3000_axmpdjjk"
+    deviceLabel: TS0002 Switch
+    manufacturer: _TZ3000_axmpdjjk
+    model: TS0002
+    deviceProfileName: two-switch
+  - id: "Aqara/switch.acn047"
+    deviceLabel: Aqara Double Relay
+    manufacturer: Aqara
+    model: lumi.switch.acn047
+    deviceProfileName: two-switch-power-1
+  - id: "TS0002/_TZ3000_k8kkhcik"
+    deviceLabel: TS0002 Two Switch
+    manufacturer: _TZ3000_k8kkhcik
     model: TS0002
     deviceProfileName: two-switch
 
