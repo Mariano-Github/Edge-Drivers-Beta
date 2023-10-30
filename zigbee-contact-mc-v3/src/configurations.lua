@@ -18,6 +18,7 @@ local IASZone = clusters.IASZone
 local PowerConfiguration = clusters.PowerConfiguration
 --local TemperatureMeasurement = clusters.TemperatureMeasurement
 local PollControl = clusters.PollControl
+local IAS_interval
 
 local devices = {
   EWELINK_HEIMAN = {
@@ -25,7 +26,7 @@ local devices = {
       { mfr = "eWeLink", model = "DS01" },
       { mfr = "_TZ3000_f1hmoyj4", model = "TS0203" },
       { mfr = "TUYATEC-rkqiqvcs", model = "RH3001" },
-      --{ mfr = "eWeLink", model = "SNZB-04P" },
+      { mfr = "eWeLink", model = "SNZB-04" },
       --{ mfr = "HEIMAN", model = "DoorSensor-N" }
     },
     CONFIGURATION = {
