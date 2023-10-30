@@ -225,11 +225,6 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_n2egfsli
     model: TS0203
     deviceProfileName: contact-battery-profile
-  - id: "_TZ3000_n2egfsli/Close Sensor"
-    deviceLabel: TS0203 Close Sensor
-    manufacturer: _TZ3000_n2egfsli
-    model: TS0203
-    deviceProfileName: contact-battery-profile
   - id: "Sercomm Corp./Tripper"
     deviceLabel: Sercomm Open/Closed Sensor
     manufacturer: Sercomm Corp.
@@ -304,12 +299,12 @@ zigbeeManufacturer:
     deviceLabel: Aqara Door and Window Sensor T1
     manufacturer: LUMI
     model: lumi.magnet.agl02
-    deviceProfileName: contact-battery-profile
+    deviceProfileName: contact-battery-profile-lumi
   - id: "LUMI/magnet.ac01"
     deviceLabel: Aqara Door and Window Sensor P1
     manufacturer: LUMI
     model: lumi.magnet.ac01
-    deviceProfileName: contact-battery-profile
+    deviceProfileName: contact-battery-profile-lumi
   - id: "_TZ3000_7d8yme6f/Contact Sensor"
     deviceLabel: TS0203 Contact Sensor
     manufacturer: _TZ3000_7d8yme6f
@@ -395,6 +390,21 @@ zigbeeManufacturer:
     deviceLabel: TS0203 Contact Sensor
     manufacturer: _TZ3000_bpkijo14
     model: TS0203
+    deviceProfileName: contact-battery-profile
+  - id: "Third Reality/3RDS17BZ"
+    deviceLabel: Third Reality Contact Sensor
+    manufacturer: Third Reality, Inc
+    model: 3RDS17BZ
+    deviceProfileName: contact-battery-profile
+  - id: "eWeLink/SNZB-04"
+    deviceLabel: eWeLink Open/Closed Sensor
+    manufacturer: eWeLink
+    model: SNZB-04
+    deviceProfileName: contact-battery-profile
+  - id: "sengled/E2D-G73"
+    deviceLabel: sengled Open/Closed Sensor
+    manufacturer: sengled
+    model: E2D-G73
     deviceProfileName: contact-battery-profile
 
   # ST multipurpose sensors
