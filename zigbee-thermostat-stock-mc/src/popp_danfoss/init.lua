@@ -7,7 +7,8 @@ local Thermostat = clusters.Thermostat
 
 local POPP_DANFOSS_THERMOSTAT_FINGERPRINTS = {
   { mfr = "D5X84YU", model = "eT093WRO" },
-  { mfr = "Danfoss", model = "eTRV0100" }
+  { mfr = "Danfoss", model = "eTRV0100" },
+  { mfr = "Danfoss", model = "eTRV0103" }
 }
 
 local is_popp_danfoss_thermostat = function(opts, driver, device)

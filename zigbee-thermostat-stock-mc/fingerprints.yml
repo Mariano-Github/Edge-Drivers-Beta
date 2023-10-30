@@ -1,4 +1,14 @@
 zigbeeManufacturer:
+  - id: "Vimar/02973-smart-wheel-thermostat"
+    deviceLabel: Vimar Smart Thermostat
+    manufacturer: Vimar
+    model: WheelThermostat_v1.0
+    deviceProfileName: thermostat-fanless-heating-no-fw
+  - id: "Vimar/02973-smart-wheel-thermostat-2"
+    deviceLabel: Vimar Smart Thermostat
+    manufacturer: Vimar
+    model: Thermostat_v1.0
+    deviceProfileName: thermostat-fanless-heating-no-fw
   - id: "LUX/KONOZ"
     deviceLabel: LUX Thermostat
     manufacturer: LUX
@@ -13,6 +23,12 @@ zigbeeManufacturer:
     deviceLabel: Danfoss Thermostat
     manufacturer: Danfoss
     model: eTRV0100
+    deviceProfileName: thermostat-popp-danfoss
+  # added 18-oct-23
+  - id: "Danfoss/eTRV0103"
+    deviceLabel: Danfoss Thermostat
+    manufacturer: Danfoss
+    model: eTRV0103
     deviceProfileName: thermostat-popp-danfoss
   - id: "D5X84YU/eT093WRO"
     deviceLabel: POPP Thermostat
@@ -121,6 +137,16 @@ zigbeeManufacturer:
     manufacturer: LUMI
     model: lumi.airrtc.agl001
     deviceProfileName: base-thermostat-battery-fanless
+  - id: "Centralite/3157100-eu"
+    deviceLabel: Centralite Thermostat
+    manufacturer: Centralite
+    model: 3157100-eu
+    deviceProfileName: base-thermostat-no-operating-state
+  - id: "NAMRON AS/4512737"
+    deviceLabel: NAMRON Thermostat
+    manufacturer: NAMRON AS
+    model: 4512737
+    deviceProfileName: namrom-thermostat
 zigbeeGeneric:
   - id: "genericThermostat"
     deviceLabel: Zigbee Thermostat

@@ -1,0 +1,41 @@
+name: namrom-thermostat
+components:
+- id: main
+  capabilities:
+  - id: temperatureMeasurement
+    version: 1
+  - id: thermostatHeatingSetpoint
+    version: 1
+    config:
+      values:
+        - key: "heatingSetpoint.value"
+          range: [ 0, 40 ]
+  - id: thermostatMode
+    version: 1
+  - id: thermostatOperatingState
+    version: 1
+    config:
+      values:
+        - key: "thermostatOperatingState.value"
+          enabledValues:
+            - heating
+            - idle
+  - id: firmwareUpdate
+    version: 1
+  - id: powerMeter
+    version: 1
+  - id: energyMeter
+    version: 1
+  - id: refresh
+    version: 1
+- id: floorTemperature
+  label: Floor Temperature
+  capabilities:
+  - id: temperatureMeasurement
+    version: 1
+  - id: refresh
+    version: 1
+  - id: firmwareUpdate
+    version: 1
+  categories:
+  - name: Thermostat

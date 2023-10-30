@@ -238,7 +238,9 @@ local zigbee_thermostat_driver = {
     ThermostatOperatingState,
     RelativeHumidity,
     Battery,
-    PowerSource
+    PowerSource,
+    capabilities.powerMeter,
+    capabilities.energyMeter
   },
   zigbee_handlers = {
     attr = {
@@ -299,7 +301,9 @@ local zigbee_thermostat_driver = {
     require("lux-konoz"),
     require("leviton"),
     require("popp_danfoss"),
-    require("eurotronic")
+    require("eurotronic"),
+    require("namrom-thermostat"),
+    require("vimar")
   },
 }
 
