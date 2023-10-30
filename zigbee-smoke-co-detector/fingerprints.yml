@@ -121,6 +121,11 @@ zigbeeManufacturer:
     manufacturer: Heiman
     model: SMOK_YDLV10
     deviceProfileName: smoke-battery
+  - id: "_TYZB01_wqcac7lo/TS0205"
+    deviceLabel: Nedis Smoke Detector
+    manufacturer: _TYZB01_wqcac7lo
+    model: TS0205
+    deviceProfileName: smoke-battery
   # CO Sensors
   - id: "feibit/FNB56-COS06FB1.7"
     deviceLabel: feibit CO Sensor

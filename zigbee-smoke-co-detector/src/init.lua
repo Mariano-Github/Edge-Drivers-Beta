@@ -36,6 +36,7 @@ local zigbee_smoke_driver_template = {
   },
   supported_capabilities = {
     capabilities.smokeDetector,
+    capabilities.carbonMonoxideDetector,
     capabilities.battery,
     capabilities.temperatureMeasurement
 

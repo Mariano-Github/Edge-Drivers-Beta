@@ -63,8 +63,8 @@ end
 local co_detector = {
   NAME = "Co Detector",
   supported_capabilities = {
-    capabilities.carbonMonoxideDetector,
-    capabilities.battery
+    --capabilities.carbonMonoxideDetector,
+    --capabilities.battery
   },
   zigbee_handlers = {
     cluster = {

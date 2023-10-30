@@ -21,6 +21,10 @@ local devices = {
   HEIMAN_SMOK_V16 = {
     FINGERPRINTS = {
       { mfr = "Heiman", model = "SMOK_V16" },
+      { mfr = "HEIMAN", model = "SmokeSensor-N-3.0"},
+      { mfr = "HEIMAN", model = "SmokeSensor-N"},
+      { mfr = "Heiman", model = "SMOK_YDLV10"},
+      { mfr = "_TYZB01_dsjszp0x", model = "TS0205"},
     },
     CONFIGURATION = {
       {
