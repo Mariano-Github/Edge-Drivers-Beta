@@ -30,8 +30,8 @@ components:
   - name: SmartPlug
 preferences:
   - name: "version"
-    title: "Version 6.5 (jun 2022)"
-    description: "Added signal metrics, state after power lost and battery profile"  
+    title: "Version 6.6 (Sep 2023)"
+    description: "Added: Device custom interval reports"  
     required: false
     preferenceType: string
     definition:
@@ -39,6 +39,15 @@ preferences:
       minLength: 0
       maxLength: 0
       default: ""
+  - name: "onOffReports"
+    title: "Device On-Off Interval Report(Sec)"
+    description: "IF YOUR DEVICE & NETWORK WORK FINE THEN DON'T TOUCH. Set Device Interval Report (300 to 1200 sec). Smartthings Default = 300. Longer intervals reduce zigbee network traffic and Hub work. If Offline states occur with high values, then reduce the interval. Restore default Value before Driver Change."
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 300
+      maximum: 1200
+      default:  300
   - name: "localTimeOffset"
     title: "Local Time Offset to UTC (-12 to 12)"
     description: "Select Your Local Time Offset to UTC Time Hours (-12 to 12)"

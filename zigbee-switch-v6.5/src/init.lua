@@ -86,6 +86,18 @@ end
 --do_configure
 local function do_configure(self, device)
   if device:get_manufacturer() ~= "_TZ3000_9hpxg80k" then
+    --device:configure()
+    -- Configure OnOff interval report
+    local config ={
+      cluster = zcl_clusters.OnOff.ID,
+      attribute = zcl_clusters.OnOff.attributes.OnOff.ID,
+      minimum_interval = 0,
+      maximum_interval = device.preferences.onOffReports,
+      data_type = zcl_clusters.OnOff.attributes.OnOff.base_type
+    }
+    --device:send(zcl_clusters.OnOff.attributes.OnOff:configure_reporting(device, 0, device.preferences.onOffReports))
+    device:add_configured_attribute(config)
+    device:add_monitored_attribute(config)
     device:configure()
   end
 end
@@ -120,6 +132,18 @@ local function driver_Switched(self,device)
    end 
   device:refresh()
   if device:get_manufacturer() ~= "_TZ3000_9hpxg80k" then
+    --device:configure()
+    -- Configure OnOff interval report
+    local config ={
+      cluster = zcl_clusters.OnOff.ID,
+      attribute = zcl_clusters.OnOff.attributes.OnOff.ID,
+      minimum_interval = 0,
+      maximum_interval = device.preferences.onOffReports,
+      data_type = zcl_clusters.OnOff.attributes.OnOff.base_type
+    }
+    --device:send(zcl_clusters.OnOff.attributes.OnOff:configure_reporting(device, 0, device.preferences.onOffReports))
+    device:add_configured_attribute(config)
+    device:add_monitored_attribute(config)
     device:configure()
   end
 end

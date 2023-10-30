@@ -1,7 +1,6 @@
 --- Smartthings library load ---
 local capabilities = require "st.capabilities"
 --local ZigbeeDriver = require "st.zigbee"
---local defaults = require "st.zigbee.defaults"
 local zcl_clusters = require "st.zigbee.zcl.clusters"
 local OnOff = zcl_clusters.OnOff
 local Groups = zcl_clusters.Groups
@@ -182,6 +181,7 @@ function driver_handler.do_init (self, device)
   --print ("field value on post init: " .. value)
 
   --print("function INIT: get_field(energy_Total_persist)",device:get_field("energy_Total_persist"))
+
   if device:get_field("energy_Total_persist") == nil then
     local energy_Total = device:get_latest_state("main", capabilities.energyMeter.ID, capabilities.energyMeter.energy.NAME)
     if energy_Total == nil then energy_Total = 0 end
@@ -246,6 +246,20 @@ function driver_handler.do_init (self, device)
   if device:get_field("random_state") ~= "Inactive" then  
     driver_handler.random_on_off_handler(self,device,"Active")
   end
+
+  -- Configure OnOff monitoring attribute
+  local interval =  device.preferences.onOffReports
+  if  device.preferences.onOffReports == nil then interval = 300 end
+  local config ={
+    cluster = zcl_clusters.OnOff.ID,
+    attribute = zcl_clusters.OnOff.attributes.OnOff.ID,
+    minimum_interval = 0,
+    maximum_interval = interval,
+    data_type = zcl_clusters.OnOff.attributes.OnOff.base_type
+  }
+  --device:send(zcl_clusters.OnOff.attributes.OnOff:configure_reporting(device, 0, device.preferences.onOffReports))
+  device:add_configured_attribute(config)
+  device:add_monitored_attribute(config)
 end
 
 ---- do_removed device procedure: delete all device data
@@ -341,7 +355,20 @@ function driver_handler.do_Preferences (self, device)
         elseif id == "randomMin" or id == "randomMax" or id == "onTime" or id == "offTime" then
           if device:get_field("random_state") ~= "Inactive" then  
             driver_handler.random_on_off_handler(self,device,"Active")
-          end 
+          end
+        elseif id == "onOffReports" then
+          -- Configure OnOff interval report
+          local interval =  device.preferences.onOffReports
+          if  device.preferences.onOffReports == nil then interval = 300 end
+          local config ={
+            cluster = zcl_clusters.OnOff.ID,
+            attribute = zcl_clusters.OnOff.attributes.OnOff.ID,
+            minimum_interval = 0,
+            maximum_interval = interval,
+            data_type = zcl_clusters.OnOff.attributes.OnOff.base_type
+          }
+          device:send(zcl_clusters.OnOff.attributes.OnOff:configure_reporting(device, 0, interval))
+          device:add_monitored_attribute(config)
         end
         --- Configure on-off cluster, attributte 0x8002 and 4003 to value restore state in preferences
         if id == "restoreState" then

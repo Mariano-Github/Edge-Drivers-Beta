@@ -520,7 +520,7 @@ zigbeeManufacturer:
     model: TS0001
     deviceProfileName: single-switch
   - id: "_TZ3210_dse8ogfy/Fingerboot"
-    deviceLabel: Fingerboot Plus
+    deviceLabel: Fingerbot Plus
     manufacturer: _TZ3210_dse8ogfy
     model: TS0001
     deviceProfileName: switch-battery
@@ -541,7 +541,7 @@ zigbeeManufacturer:
     model: TS0001
     deviceProfileName: single-switch
   - id: "_TZ3210_j4pdtz9v/Fingerboot"
-    deviceLabel: Fingerboot Plus
+    deviceLabel: Fingerbot Plus
     manufacturer: _TZ3210_j4pdtz9v
     model: TS0001
     deviceProfileName: switch-battery
