@@ -44,6 +44,7 @@ local XY_COLOR_BULB_FINGERPRINTS = {
     ["TRADFRI bulb GU10 CWS 345lm"] = true,
     ["TRADFRI bulb E26 CWS 800lm"] = true,
     ["TRADFRI bulb E12 CWS 450lm"] = true,
+    ["TRADFRI bulb E26 CWS 806lm"] = true,
   },
   ["_TZ3000_riwp3k79"] = {
     ["TS0505A"] = true
