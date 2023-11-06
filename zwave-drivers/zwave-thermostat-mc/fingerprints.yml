@@ -11,6 +11,12 @@ zwaveManufacturer:
     productId: 0x5436
     productType: 0x5442
     deviceProfileName: thermostat-no-humidity
+  - id: "namron-z-wave"
+    deviceLabel: Namron Thermostat
+    manufacturerId: 0x0438
+    productId: 0x0200
+    productType: 0xD013
+    deviceProfileName: thermostat
   - id: "linear"
     deviceLabel: Linear Thermostat
     manufacturerId: 0x014F
