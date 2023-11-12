@@ -851,3 +851,33 @@ zigbeeManufacturer:
     manufacturer: Interfree
     model: IDSW2O
     deviceProfileName: two-switch-level
+  - id: "fe950a29-d035-447a-96b0-f19197390036"
+    deviceLabel: Two Gang Switch
+    manufacturer: _TZ3000_cd73zxac
+    model: TS0002
+    deviceProfileName: two-switch
+  - id: "0b43b959-8773-4960-9921-cac836a17554"
+    deviceLabel: Two Gang Switch
+    manufacturer: _TZ3000_cd73zxac
+    model: TS0002
+    deviceProfileName: two-switch
+  - id: "013134b7-e382-4416-9c6a-92d844924a29"
+    deviceLabel: Two Gang Switch
+    manufacturer: _TZ3000_cd73zxac
+    model: TS0002
+    deviceProfileName: two-switch
+  - id: "73d97c7d-1eee-48b8-a912-96373cc0700c"
+    deviceLabel: Two Gang Switch
+    manufacturer: _TZ3000_cd73zxac
+    model: TS0002
+    deviceProfileName: two-switch
+  - id: "84a54eb9-06d3-43cc-a828-0a65a713f4d3"
+    deviceLabel: Two Gang Switch
+    manufacturer: _TZ3000_cd73zxac
+    model: TS0002
+    deviceProfileName: two-switch	
+  - id: "ad284351-02b3-4876-bffa-7118f9d1e817"
+    deviceLabel: Two Gang Switch
+    manufacturer: _TZ3000_cd73zxac
+    model: TS0002
+    deviceProfileName: two-switch    
