@@ -1,5 +1,5 @@
 name: 'Zigbee Multi Switch and Child Mc-immi'
 packageKey: 'Zigbee_Multi_Switch-v5-immi'
-description: 'Devices: https://github.com/Mariano-Github/Edge-Drivers-Beta/blob/main/zigbee-multi-switch-v4-childs-edge/fingerprints.yml'
+description: 'Devices: https://github.com/imranbaluja-Github/Edge-Drivers-Beta/blob/imranbaluja-patch-1/zigbee-multi-switch-v4-childs-edge/fingerprints.yml'
 permissions:
   zigbee: {}
