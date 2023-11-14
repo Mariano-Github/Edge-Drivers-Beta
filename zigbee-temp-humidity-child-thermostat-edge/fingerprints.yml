@@ -159,3 +159,13 @@ zigbeeManufacturer:
     manufacturer: _TYZB01_kvwjujy9
     model: TS0222
     deviceProfileName: temp-humid-illumin-battery
+  - id: "TUYATEC-gqhxixyk/RH3052"
+    deviceLabel: Moes RH3052
+    manufacturer: TUYATEC-gqhxixyk
+    model: RH3052
+    deviceProfileName: temp-humid-battery
+  - id: "_TZ3000_rdhukkmi/TS0201"
+    deviceLabel: Tuya TS0201
+    manufacturer: _TZ3000_rdhukkmi
+    model: TS0201
+    deviceProfileName: temp-humid-battery
