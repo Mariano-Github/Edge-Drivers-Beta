@@ -550,3 +550,8 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_mantufyr
     model: TS0001
     deviceProfileName: single-switch
+  - id: "TS0001/_TZ3000_agpdnnyd"
+    deviceLabel: TS0001 Switch
+    manufacturer: _TZ3000_agpdnnyd
+    model: TS0001
+    deviceProfileName: single-switch
