@@ -93,6 +93,25 @@ zwaveManufacturer:
     productType: 0x0005
     productId: 0x0051
     deviceProfileName: qubino-flush-thermostat
+  - id: Eurotronic Comet/Radiator
+    deviceLabel: Eurotronic Comet Radiator
+    manufacturerId: 0x0148
+    productType: 0x0004
+    productId: 0x0003
+    deviceProfileName: base-radiator-thermostat
+  # Agosto 2023
+  - id: "Devolo/thermostat/0005"
+    deviceLabel: Devolo Home Control
+    manufacturerId: 0x0002
+    productType: 0x0005
+    productId: 0x0175
+    deviceProfileName: popp-radiator-thermostat
+  - id: "Donexon/thermostat/0005"
+    deviceLabel: Donexon varmo TZ pro
+    manufacturerId: 0x0002
+    productType: 0x5FFF
+    productId: 0xA010
+    deviceProfileName: popp-radiator-thermostat
 zwaveGeneric:
   - id: "GenericBatteryThermostat"
     deviceLabel: Z-Wave Battery Thermostat
