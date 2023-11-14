@@ -406,6 +406,21 @@ zigbeeManufacturer:
     manufacturer: sengled
     model: E2D-G73
     deviceProfileName: contact-battery-profile
+  - id: "TUYATEC-ycbe5fbx/RH3001"
+    deviceLabel: Open/Close Sensor
+    manufacturer: TUYATEC-ycbe5fbx
+    model: RH3001
+    deviceProfileName: contact-battery-profile
+  - id: "zbeacon/DS01"
+    deviceLabel: Open/Closed Sensor
+    manufacturer: zbeacon
+    model: DS01
+    deviceProfileName: contact-battery-profile
+  - id: "Feibit/FB56-DOS06HM1.3"
+    deviceLabel: Open/Closed Sensor
+    manufacturer: Feibit,co.ltd
+    model: FB56-DOS06HM1.3
+    deviceProfileName: contact-battery-profile
 
   # ST multipurpose sensors
   - id: "Samjin/multi"
