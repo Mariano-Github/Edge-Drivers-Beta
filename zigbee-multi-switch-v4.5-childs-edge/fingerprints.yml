@@ -815,9 +815,9 @@ zigbeeManufacturer:
     manufacturer: LUMI
     model: lumi.switch.l3acn3
     deviceProfileName: three-switch
-  - id: "TS0012/ _TZ3000_zmlunnhy"
+  - id: "TS0012/_TZ3000_zmlunnhy"
     deviceLabel: Two Switch
-    manufacturer:  _TZ3000_zmlunnhy
+    manufacturer: _TZ3000_zmlunnhy
     model: TS0012
     deviceProfileName: two-switch
   - id: "TS0002/_TZ3000_b9vanmes"
@@ -919,6 +919,16 @@ zigbeeManufacturer:
     deviceLabel: TS0002 Two Switch
     manufacturer: _TZ3000_k8kkhcik
     model: TS0002
+    deviceProfileName: two-switch
+  - id: "TS0002/_TZ3000_lmlsduws"
+    deviceLabel: TS0002 Double Switch
+    manufacturer: _TZ3000_lmlsduws
+    model: TS0002
+    deviceProfileName: two-switch-power-energy-1
+  - id: "TS0012/_TZ3000_vnsi3q7o"
+    deviceLabel: Two Switch
+    manufacturer: _TZ3000_vnsi3q7o
+    model: TS0012
     deviceProfileName: two-switch
 
     # level devices
