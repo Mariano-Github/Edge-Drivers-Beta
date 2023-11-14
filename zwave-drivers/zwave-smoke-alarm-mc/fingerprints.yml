@@ -82,3 +82,10 @@ zwaveManufacturer:
     productType: 0x0002
     productId: 0x0003
     deviceProfileName: smoke-battery
+  # agosto 2023
+  - id: 0260/8003/1000
+    deviceLabel: Heiman HS1CG Gas
+    manufacturerId: 0x0260
+    productType: 0x8003
+    productId: 0x1000
+    deviceProfileName: gas-battery
