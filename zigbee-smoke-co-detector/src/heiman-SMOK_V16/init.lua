@@ -28,6 +28,8 @@ local is_heiman_SMOK_V16 = function(opts, driver, device)
     device:get_model() == "SmokeSensor-N-3.0" or
     device:get_model() == "SMOK_YDLV10" or
     device:get_model() == "COSensor-EM" or
+    (device:get_model() == "TS0205" and device:get_manufacturer() == "_TYZB01_wqcac7lo") or
+    --(device:get_model() == "TS0205" and device:get_manufacturer() == "_TZ3210_up3pngle") or
     (device:get_model() == "TS0205" and device:get_manufacturer() == "_TYZB01_dsjszp0x") then
     return true
   end
