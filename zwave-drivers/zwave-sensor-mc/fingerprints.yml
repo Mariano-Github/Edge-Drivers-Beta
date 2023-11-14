@@ -605,6 +605,18 @@ zwaveManufacturer:
     productType: 0x8007
     productId: 0x1000
     deviceProfileName: humidity-temperature-battery
+  - id: "0260/8004/1000"
+    deviceLabel: Nexa Water Sensor
+    manufacturerId: 0x0260
+    productType: 0x8004
+    productId: 0x1000
+    deviceProfileName: water-battery-tamper
+  - id: "0109/201C/1C03"
+    deviceLabel: Vision ZF5201EU-5 Water Sensor
+    manufacturerId: 0x0109
+    productType: 0x201C
+    productId: 0x1C03
+    deviceProfileName: water-battery-tamper
     
 zwaveGeneric:
   - id: "GenericSensorAlarm"
