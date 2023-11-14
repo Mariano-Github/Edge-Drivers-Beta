@@ -138,17 +138,29 @@ zwaveManufacturer:
     productId: 0x1000
     deviceProfileName: base-siren
   - id: 017F/0200/0001
-    deviceLabel: Renamed Zipato Siren
+    deviceLabel: Wink Siren
     manufacturerId: 0x017F
     productType: 0x0200
-    productId: 0x001
-    deviceProfileName: zipato-alarm-battery # Modified by M. Colmenarejo
+    productId: 0x0001
+    deviceProfileName: wink-alarm-battery # Modified from zipato by M. Colmenarejo
   - id: "Boundary Siren"
     deviceLabel: Boundary Siren
     manufacturerId: 0x044A
     productType: 0x0004
     productId: 0x0002
     deviceProfileName: alarm-battery-temp-tamper
+  - id: 018E/0002/0011
+    deviceLabel: Climax BX-32ZW Siren
+    manufacturerId: 0x018E
+    productType: 0x0002
+    productId: 0x0011
+    deviceProfileName: alarm-battery
+  - id: 014F/2009/0903
+    deviceLabel: WA105DBZ-1 Siren
+    manufacturerId: 0x014F
+    productType: 0x2009
+    #productId: 0x0903
+    deviceProfileName: alarm-battery
 zwaveGeneric:
   - id: "SmartAlert/Siren"
     deviceLabel: Siren
