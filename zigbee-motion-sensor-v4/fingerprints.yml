@@ -385,3 +385,13 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_tiwq83wk
     model: TS0202
     deviceProfileName: motion-battery
+  - id: "eWeLink/SNZB-03"
+    deviceLabel: eWeLink Motion Sensor
+    manufacturer: eWeLink
+    model: SNZB-03
+    deviceProfileName: motion-battery
+  - id: "_TZ3000_lf56vpxj/TS0202"
+    deviceLabel: TS0202 Motion Sensor
+    manufacturer: _TZ3000_lf56vpxj
+    model: TS0202
+    deviceProfileName: motion-battery
