@@ -127,3 +127,27 @@ zwaveManufacturer:
     productType: 0x5343
     productId: 0x4735
     deviceProfileName: multi-button-15
+  - id: Simon/S100 Switch IO
+    deviceLabel: Simon S100 Switch IO
+    manufacturerId: 0x0267
+    productType: 0x0002
+    productId: 0x0000
+    deviceProfileName: button-no-battery
+  - id: Simon/S100 Switch IO-2
+    deviceLabel: Simon S100 Switch IO
+    manufacturerId: 0x0267
+    productType: 0x0105
+    productId: 0x0000
+    deviceProfileName: button-no-battery
+  - id: VisionZT1101-5/4-buttons
+    deviceLabel: Vision ZT1101-5
+    manufacturerId: 0x0109
+    productType: 0x1002
+    productId: 0x0202
+    deviceProfileName: multi-button-4
+  - id: FutureHome/2Kanal
+    deviceLabel: FutureHome 2kanal
+    manufacturerId: 0x0305
+    productType: 0x0300
+    productId: 0x0075
+    deviceProfileName: multi-button-4
