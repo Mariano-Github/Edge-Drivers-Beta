@@ -236,13 +236,13 @@ zwaveManufacturer:
     productId: 0x0201
     deviceProfileName: switch-binary
   - id: 015F/3102/0202
-    deviceLabel: WYFY Switch 1
+    deviceLabel: WYFY Switch 2
     manufacturerId: 0x015F
     productType: 0x3102
     productId: 0x0202
     deviceProfileName: dual-switch
   - id: 015F/3102/0204
-    deviceLabel: WYFY Switch 1
+    deviceLabel: WYFY Switch 4
     manufacturerId: 0x015F
     productType: 0x3102
     productId: 0x0204
@@ -254,13 +254,13 @@ zwaveManufacturer:
     #productId: 0x5102 # 0x5103
     deviceProfileName: switch-binary
   - id: 015F/3121/5102
-    deviceLabel: WYFY Switch 1
+    deviceLabel: WYFY Switch 2
     manufacturerId: 0x015F
     productType: 0x3121
     #productId: 0x5102 # 0x5103
     deviceProfileName: dual-switch
   - id: 015F/3141/5102
-    deviceLabel: WYFY Switch 1
+    deviceLabel: WYFY Switch 4
     manufacturerId: 0x015F
     productType: 0x3141
     #productId: 0x5102 # 0x5103
@@ -919,8 +919,14 @@ zwaveManufacturer:
     deviceLabel: Fibaro Smart Module
     manufacturerId: 0x010F
     productType: 0x0404
-    productId: 0x1000
+    #productId: 0x1000 # 0x2000 & 0x3000
     deviceProfileName: fibaro-smart-relay-single
+  - id: 010F/0204 #/1000
+    deviceLabel: Fibaro Double Smart Module
+    manufacturerId: 0x010F
+    productType: 0x0204
+    #productId: 0x1000 # 0x2000 & 0x3000
+    deviceProfileName: fibaro-smart-relay-double
   - id: 0312/1F00/1F00
     deviceLabel: Inovelli Dimmer NZW31
     manufacturerId: 0x0312
@@ -1319,6 +1325,30 @@ zwaveManufacturer:
     productType: 0x4121
     productId: 0x5102
     deviceProfileName: dual-switch
+  - id: 0298/13F1/140F
+    deviceLabel: Three Switch
+    manufacturerId: 0x0298
+    productType: 0x13F1
+    productId: 0x140F
+    deviceProfileName: switch-multicomponent-3
+  - id: 011A/0101/5606
+    deviceLabel: Enerwave Double Relay
+    manufacturerId: 0x011A
+    productType: 0x0101
+    productId: 0x5606
+    deviceProfileName: dual-switch
+  - id: 0267/0007/0000
+    deviceLabel: Simon 100 dimmer iO
+    manufacturerId: 0x0267
+    productType: 0x0007
+    productId: 0x0000
+    deviceProfileName: metering-dimmer
+  - id: 0086/0003/0011
+    deviceLabel: AEOTEC Double
+    manufacturerId: 0x0086
+    productType: 0x0003
+    productId: 0x0011
+    deviceProfileName: dual-metering-switch
 zwaveGeneric:
   - id: "GenericSwitch/1"
     deviceLabel: Switch
