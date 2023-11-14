@@ -1,6 +1,6 @@
 name: 'Zigbee Thermostat Mc'
 defaultProfile: 'thermostat-battery-powerSource'
 packageKey: 'zigbee-thermostat-mc'
-description: 'Stock Driver Modified to Add New User devices.'
+description: 'Devices: https://github.com/Mariano-Github/Edge-Drivers-Beta/blob/main/zigbee-thermostat-stock-mc/fingerprints.yml'
 permissions:
   zigbee: {}

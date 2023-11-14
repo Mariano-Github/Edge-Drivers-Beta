@@ -1,0 +1,52 @@
+name: thermostat-sonoff
+components:
+- id: main
+  capabilities:
+  - id: temperatureMeasurement
+    version: 1
+  - id: thermostatOperatingState
+    version: 1
+    config:
+      values:
+        - key: "thermostatOperatingState.value"
+          enabledValues:
+            - heating
+            - idle
+  - id: thermostatMode
+    version: 1
+    config:
+      values:
+        - key: "thermostatMode.value"
+          enabledValues:
+            - heat
+            - off
+        - key: "setThermostatMode"
+          enabledValues:
+            - heat
+            - off
+  - id: thermostatHeatingSetpoint
+    version: 1
+    config:
+      values:
+        - key: "heatingSetpoint.value"
+          range: [4, 35]
+          step: 0.5
+  - id: battery
+    version: 1
+  - id: firmwareUpdate
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: Thermostat
+preferences:
+  - name: "changeProfileSonoff"
+    title: "Select Tile Type"
+    description: "Select Multi-Tile or Single-Tile Type:"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Multi" : "Multi-Tile Type"
+        "Single": "Single-Tile Type"
+      default: "Single"

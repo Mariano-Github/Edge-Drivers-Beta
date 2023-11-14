@@ -190,7 +190,7 @@ local set_setpoint_factory = function(setpoint_attribute)
     if (value >= 40) then -- assume this is a fahrenheit value
       value = utils.f_to_c(value)
     end
-    device:send_to_component(command.component, setpoint_attribute:write(device, value*100))
+    device:send_to_component(command.component, setpoint_attribute:write(device, math.floor(value * 100)))
 
     device.thread:call_with_delay(2, function(d)
       device:send_to_component(command.component, setpoint_attribute:read(device))
@@ -240,7 +240,8 @@ local zigbee_thermostat_driver = {
     Battery,
     PowerSource,
     capabilities.powerMeter,
-    capabilities.energyMeter
+    capabilities.energyMeter,
+    capabilities.switch
   },
   zigbee_handlers = {
     attr = {
@@ -290,7 +291,7 @@ local zigbee_thermostat_driver = {
   },
   lifecycle_handlers = {
     doConfigure = do_configure,
-    added = device_added
+    added = device_added,
   },
   sub_drivers = {
     require("zenwithin"),
@@ -303,7 +304,9 @@ local zigbee_thermostat_driver = {
     require("popp_danfoss"),
     require("eurotronic"),
     require("namrom-thermostat"),
-    require("vimar")
+    require("vimar"),
+    require("sonoff"),
+    require("iris-duraflame")
   },
 }
 

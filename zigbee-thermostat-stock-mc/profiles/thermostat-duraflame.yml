@@ -1,0 +1,54 @@
+name: thermostat-duraflame
+components:
+- id: main
+  capabilities:
+  - id: switch
+    version: 1
+  - id: temperatureMeasurement
+    version: 1
+  - id: thermostatMode
+    version: 1
+    config:
+      values:
+        - key: "thermostatMode.value"
+          enabledValues:
+            - heat
+            - off
+            - auto
+            - eco
+        - key: "setThermostatMode"
+          enabledValues:
+            - heat
+            - off
+            - auto
+            - eco
+  - id: thermostatHeatingSetpoint
+    version: 1
+    config:
+      values:
+        - key: "heatingSetpoint.value"
+          range: [10, 36]
+          step: 1
+  - id: powerMeter
+    version: 1
+  - id: firmwareUpdate
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: Thermostat
+preferences:
+  - name: "changeProfileIris"
+    title: "Select Tile Type"
+    description: "Select Multi-Tile or Single-Tile Type:"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Multi" : "Multi-Tile Type"
+        "Single": "Single-Tile Type"
+      default: "Single"
+metadata:
+  deviceType: Thermostat	
+  ocfDeviceType: oic.d.thermostat
+  deviceTypeId: Thermostat

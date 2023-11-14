@@ -120,6 +120,11 @@ zigbeeManufacturer:
     manufacturer: Centralite
     model: 3156105
     deviceProfileName: base-thermostat-no-operating-state
+  - id: "CentraLiteSystems/3156105"
+    deviceLabel: CentraLite Thermostat
+    manufacturer: CentraLite Systems
+    model: 3156105
+    deviceProfileName: base-thermostat-no-operating-state
 
   # added M. Colmenarejo
   - id: "Eurotronic/SPZB0001"
@@ -147,6 +152,16 @@ zigbeeManufacturer:
     manufacturer: NAMRON AS
     model: 4512737
     deviceProfileName: namrom-thermostat
+  - id: "SONOFF/TRVZB"
+    deviceLabel: SONOFF Thermostat
+    manufacturer: SONOFF
+    model: TRVZB
+    deviceProfileName: thermostat-sonoff
+  - id: "Duraflame/20QIO71ARA"
+    deviceLabel: Duraflame Thermostat
+    manufacturer: Twin-Star International
+    model: 20QI071ARA
+    deviceProfileName: thermostat-duraflame
 zigbeeGeneric:
   - id: "genericThermostat"
     deviceLabel: Zigbee Thermostat

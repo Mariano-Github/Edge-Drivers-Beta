@@ -142,7 +142,7 @@ local function do_configure(self, device)
   device:send(Thermostat.attributes.OccupiedHeatingSetpoint:configure_reporting(device, 1, 600, 50))
   device:send(Thermostat.attributes.UnoccupiedHeatingSetpoint:configure_reporting(device, 1, 600, 50))
   device:send(Thermostat.attributes.Occupancy:configure_reporting(device, 10, 300))
-  device:send(Thermostat.attributes.ControlSequenceOfOperation:configure_reporting(device, 10, 300))
+  device:send(Thermostat.attributes.ControlSequenceOfOperation:configure_reporting(device, 10, 600))
   device:send(Thermostat.attributes.SystemMode:configure_reporting(device, 10, 600))
   device:send(Thermostat.attributes.ThermostatRunningState:configure_reporting(device, 10, 300))
 end
@@ -177,13 +177,8 @@ local namrom_thermostat = {
   capability_handlers = {
     [ThermostatMode.ID] = {
       [ThermostatMode.commands.setThermostatMode.NAME] = set_thermostat_mode,
-      --[ThermostatMode.commands.off.NAME] = thermostat_mode_setter(ThermostatMode.thermostatMode.off.NAME),
-      --[ThermostatMode.commands.heat.NAME] = thermostat_mode_setter(ThermostatMode.thermostatMode.heat.NAME),
-      --[ThermostatMode.commands.auto.NAME] = thermostat_mode_setter(ThermostatMode.thermostatMode.auto.NAME),
-      --[ThermostatMode.commands.dryair.NAME] = thermostat_mode_setter(ThermostatMode.thermostatMode.dryair.NAME)
     },
     [capabilities.thermostatHeatingSetpoint.ID] = {
-      --[capabilities.thermostatHeatingSetpoint.commands.setHeatingSetpoint.NAME] = set_setpoint_factory(clusters.Thermostat.attributes.OccupiedHeatingSetpoint)
       [capabilities.thermostatHeatingSetpoint.commands.setHeatingSetpoint.NAME] = set_heating_setpoint,
     },
     [capabilities.refresh.ID] = {
@@ -198,6 +193,7 @@ local namrom_thermostat = {
         [Thermostat.attributes.OccupiedHeatingSetpoint.ID] = heating_setpoint_handler,
         [Thermostat.attributes.UnoccupiedHeatingSetpoint.ID] = away_heating_setpoint_handler,
         [Thermostat.attributes.OutdoorTemperature.ID] = floor_Temperature_handler,
+        [Thermostat.attributes.ControlSequenceOfOperation.ID] = do_init,
         [0x2002] = away_mode_handler
       }
     }
