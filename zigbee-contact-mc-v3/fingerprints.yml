@@ -421,6 +421,21 @@ zigbeeManufacturer:
     manufacturer: Feibit,co.ltd
     model: FB56-DOS06HM1.3
     deviceProfileName: contact-battery-profile
+  - id: "_TZ3000_bnai1qnw/TS0203"
+    deviceLabel: Samotech SM300Z Contact Sensor
+    manufacturer: _TZ3000_bnai1qnw
+    model: TS0203
+    deviceProfileName: contact-battery-profile
+  - id: "LUMI/sensor_magnet"
+    deviceLabel: Xiaomi Door Sensor MCCGQ01LM
+    manufacturer: LUMI
+    model: lumi.sensor_magnet
+    deviceProfileName: contact-battery-profile
+  - id: "Ikea/PARASOLL"
+    deviceLabel: Ikea Door Sensor
+    manufacturer: IKEA of Sweden
+    model: PARASOLL Door/Window Sensor
+    deviceProfileName: contact-battery-profile
 
   # ST multipurpose sensors
   - id: "Samjin/multi"
