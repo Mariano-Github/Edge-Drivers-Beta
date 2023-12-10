@@ -555,3 +555,13 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_agpdnnyd
     model: TS0001
     deviceProfileName: single-switch
+  - id: "innr/Plug OSP 210"
+    deviceLabel: innr Plug
+    manufacturer: innr
+    model: OSP 210
+    deviceProfileName: single-switch-plug
+  - id: "innr/Plug SP 220"
+    deviceLabel: innr Plug
+    manufacturer: innr
+    model: SP 220
+    deviceProfileName: single-switch-plug
