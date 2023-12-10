@@ -208,7 +208,7 @@ zigbeeManufacturer:
     deviceLabel: SPLZB-131 Plug
     manufacturer: frient A/S
     model: SPLZB-131
-    deviceProfileName: switch-power-energy-plug
+    deviceProfileName: switch-temp-power-energy-plug
   - id: "_TZ3000_mx3vgyea/TS0001"
     deviceLabel: TS0001 Plug
     manufacturer: _TZ3000_mx3vgyea
@@ -230,10 +230,10 @@ zigbeeManufacturer:
     model: SPLZB-131
     deviceProfileName: switch-temp-power-energy-plug
   - id: "SMRZB-332/Develco Products"
-    deviceLabel: SMRZB-332 Plug
+    deviceLabel: SMRZB-332  Relay Din
     manufacturer: Develco Products A/S
     model: SMRZB-332
-    deviceProfileName: switch-power-energy-plug
+    deviceProfileName: switch-temp-power-energy-plug
   - id: "Mains_Power_Outlet_v1.0/Vimar"
     deviceLabel: Vimar Plug
     manufacturer: Vimar
@@ -354,6 +354,16 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_zw7yf6yk
     model: TS0001
     deviceProfileName: switch-power-energy-plug
+  - id: "SMRZB-332/frient A/S"
+    deviceLabel: SMRZB-332 Relay Din
+    manufacturer: frient A/S
+    model: SMRZB-332
+    deviceProfileName: switch-temp-power-energy-plug
+  - id: "NAMRON AS/4512749-N"
+    deviceLabel: NAMRON Plug Thermostat
+    manufacturer: NAMRON AS
+    model: 4512749-N
+    deviceProfileName: switch-temp-voltage-power-energy-plug
 zigbeeGeneric:
   - id: "generic/switch/power"
     deviceLabel: Generic Switch Power
