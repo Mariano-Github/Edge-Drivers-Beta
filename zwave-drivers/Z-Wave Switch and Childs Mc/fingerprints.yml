@@ -1349,6 +1349,18 @@ zwaveManufacturer:
     productType: 0x0003
     productId: 0x0011
     deviceProfileName: dual-metering-switch
+  - id: 015F/7041/7103
+    deviceLabel: WYFY Switch 4
+    manufacturerId: 0x015F
+    productType: 0x7041
+    productId: 0x7103
+    deviceProfileName: switch-multicomponent-4
+  - id: 0159/0001/0001
+    deviceLabel: GOAP Qubino Dimmer
+    manufacturerId: 0x0159
+    productType: 0x0001
+    productId: 0x0001
+    deviceProfileName: metering-dimmer
 zwaveGeneric:
   - id: "GenericSwitch/1"
     deviceLabel: Switch
