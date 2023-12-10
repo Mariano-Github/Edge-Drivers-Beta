@@ -977,7 +977,7 @@ zigbeeManufacturer:
     deviceProfileName: level-colortemp-2000-6500
   - id: "FeeBit/FB56-ZCW20FB1.2"
     deviceLabel: FeeBit RGBW
-    #manufacturer: FeeBit RGBW
+    #manufacturer: FeeBit RGBW #quite el fabricante para que se empareje segun un usuario
     model: FB56-ZCW20FB1.2
     deviceProfileName: rgbw-level-colortemp-2000-6500
   - id: "TRADFRI bulb E14 WS opal 400lm"
@@ -1045,6 +1045,11 @@ zigbeeManufacturer:
     manufacturer: Eaton
     model: Halo_RL5601
     deviceProfileName: level-colortemp-2700-5000
+  - id: "_TZ3210_g0qr1fqo/TS0503B"
+    deviceLabel: RGBW TS0503B
+    manufacturer: _TZ3210_g0qr1fqo
+    model: TS0503B
+    deviceProfileName: rgbw-level-colortemp-2000-6500
   
   # XY Color
   - id: "IKEA/E27 CWS 806lm"
