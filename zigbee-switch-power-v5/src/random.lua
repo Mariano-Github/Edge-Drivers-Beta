@@ -6,6 +6,7 @@ local Groups = zcl_clusters.Groups
 local constants = require "st.zigbee.constants"
 local ElectricalMeasurement = zcl_clusters.ElectricalMeasurement
 local SimpleMetering = zcl_clusters.SimpleMetering
+local data_types = require "st.zigbee.data_types"
 
 local write = require "writeAttribute"
 local customDivisors = require "customDivisors"
@@ -201,6 +202,64 @@ function driver_handler.do_Preferences (self, device)
           --- save optionals device divisors
           device.thread:call_with_delay(2, function() customDivisors.set_custom_divisors(self, device) end)
         end
+      elseif id == "powerMaxTime" or id == "powerChangeReported" then
+        -- power reports configure
+        local divisor = device:get_field(constants.ELECTRICAL_MEASUREMENT_DIVISOR_KEY) or 1
+        local min = 1
+        local max = device.preferences.powerMaxTime
+        local change
+        if device.preferences.powerMaxTime == nil then
+          max = 3600
+        end
+        if device.preferences.powerChangeReported == nil then
+          change = 5
+        else
+          change = device.preferences.powerChangeReported * divisor
+        end
+
+        local config =
+        {
+          cluster = 0x0B04,
+          attribute = 0x050B,
+          minimum_interval = min,
+          maximum_interval = max,
+          reportable_change = change,
+          data_type = data_types.Int16,
+        }
+        device:send(zcl_clusters.ElectricalMeasurement.attributes.ActivePower:configure_reporting(device, min, max, change))
+        --device:add_configured_attribute(config)
+        device:add_monitored_attribute(config)
+
+      elseif id == "energyrMaxTime" or id == "energyChangeReported" then
+        -- energy reports configure
+        local divisor = device:get_field(constants.SIMPLE_METERING_DIVISOR_KEY) or 1
+        local min = 5
+        local max = device.preferences.energyMaxTime
+        if device.preferences.energyMaxTime == nil then 
+          max = 3600
+        end
+        local change
+        if device.preferences.energyChangeReported == nil then
+          change = 1
+        else
+          change = device.preferences.energyChangeReported * divisor
+        end
+        local config =
+        {
+          cluster = 0x0702,
+          attribute = 0x0000,
+          minimum_interval = min,
+          maximum_interval = max,
+          reportable_change = change,
+          data_type = data_types.Uint48,
+        }
+        device:send(zcl_clusters.SimpleMetering.attributes.CurrentSummationDelivered:configure_reporting(device, min, max, change))
+        --device:add_configured_attribute(config)
+        device:add_monitored_attribute(config)
+      elseif id == "voltageChangeRep" or id == "voltageMaxTime" then
+        device:send(zcl_clusters.ElectricalMeasurement.attributes.RMSVoltage:configure_reporting(device, 30, device.preferences.voltageMaxTime, device.preferences.voltageChangeRep * 100):to_endpoint (2))
+      elseif id == "tempChangeRep" or id == "tempMaxTime" then
+        device:send(zcl_clusters.DeviceTemperatureConfiguration.attributes.CurrentTemperature:configure_reporting(device, 30, device.preferences.tempChangeRep, device.preferences.tempChangeRep):to_endpoint (2))
       end  
 
       --- Configure on-off cluster, attributte 0x8002 and 4003 to value restore state in preferences

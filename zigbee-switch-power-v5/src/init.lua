@@ -45,9 +45,20 @@ local set_status_timer
 
 local function do_configure(self, device)
   print ("<<< do_configure >>>")
+
+  -- Additional one time configuration
+    -- Divisor and multipler for ElectricalMeasurement
+    device:send(ElectricalMeasurement.attributes.ACPowerDivisor:read(device))
+    device:send(ElectricalMeasurement.attributes.ACPowerMultiplier:read(device))
+    -- Divisor and multipler for SimpleMetering
+    device:send(SimpleMetering.attributes.Divisor:read(device))
+    device:send(SimpleMetering.attributes.Multiplier:read(device))
+
+  --- save optionals device divisors
+  device.thread:call_with_delay(3, function() customDivisors.set_custom_divisors(self, device) end)
   
   if device.preferences.powerEnergyRead ~= nil then
-  --if device:get_manufacturer() == "_TZ3000_9vo5icau" or -- this device does not send power and energy reports
+    --if device:get_manufacturer() == "_TZ3000_9vo5icau" or -- this device does not send power and energy reports
     --device:get_manufacturer() == "_TZ3000_1h2x4akh" or
     ---device:get_manufacturer() == "_TZ3000_gvn91tmx" or
     --device:get_manufacturer() == "_TZ3000_okaz9tjs" or 
@@ -60,19 +71,28 @@ local function do_configure(self, device)
       device:send(device_management.build_bind_request(device, zcl_clusters.ElectricalMeasurement.ID, self.environment_info.hub_zigbee_eui))
       device:send(zcl_clusters.ElectricalMeasurement.attributes.ActivePower:configure_reporting(device, 1, 3600, 5))
       device:send(device_management.build_bind_request(device, zcl_clusters.SimpleMetering.ID, self.environment_info.hub_zigbee_eui))
-      device:send(zcl_clusters.SimpleMetering.attributes.CurrentSummationDelivered:configure_reporting(device, 1, 3600, 5))
+      device:send(zcl_clusters.SimpleMetering.attributes.CurrentSummationDelivered:configure_reporting(device, 5, 3600, 1))
   
   else
-    --device:configure()
-    if device:get_manufacturer() == "Develco Products A/S" and  device:get_model() == "SPLZB-131" then
+
+    if device:get_model() == "SPLZB-131" or device:get_model() == "SMRZB-332" then
       print("Configure Device Temperature Configuration >>>>>>>>")
 
-      device:send(device_management.build_bind_request(device, zcl_clusters.DeviceTemperatureConfiguration.ID, self.environment_info.hub_zigbee_eui):to_endpoint (2))
+      device:send(device_management.build_bind_request(device, zcl_clusters.DeviceTemperatureConfiguration.ID, self.environment_info.hub_zigbee_eui, 2):to_endpoint (2))
       --device:send(zcl_clusters.DeviceTemperatureConfiguration.attributes.CurrentTemperature:configure_reporting(device, 60, 600, 1):to_endpoint (2))
+      local change = device.preferences.voltageChangeRep * 100
+      if change == nil then change = 100 end
+      local max = device.preferences.voltageMaxTime
+      if max == nil then max = 1800 end
+      device:send(zcl_clusters.ElectricalMeasurement.attributes.RMSVoltage:configure_reporting(device, 30, max, change):to_endpoint (2))
+      --device:send(zcl_clusters.SimpleMetering.attributes.InstantaneousDemand:configure_reporting(device, 5, 0xFFFF, 50000):to_endpoint (2))
 
+      -- configure Device Temperature, CurrentTemperature
       local min = 30
-      local max = 30
-      local change = 1
+      max = device.preferences.tempMaxTime
+      if max == nil then max = 1800 end
+      change = device.preferences.tempChangeRep
+      if change == nil then change = 1 end
 
       local config =
       {
@@ -81,14 +101,90 @@ local function do_configure(self, device)
         minimum_interval = min,
         maximum_interval = max,
         reportable_change = change,
-        data_type = data_types.Uint16,
+        data_type = data_types.Int16,
+      }
+      device:add_configured_attribute(config)
+      device:add_monitored_attribute(config)
+
+      -- power reports configure
+      local divisor = device:get_field(constants.ELECTRICAL_MEASUREMENT_DIVISOR_KEY) or 1
+      min = 1
+      if device.preferences.powerMaxTime == nil then
+        max = 3600
+      else
+        max = device.preferences.powerMaxTime
+      end
+      if device.preferences.powerChangeReported == nil then
+        change = 5
+      else
+        change = device.preferences.powerChangeReported * divisor
+      end
+
+      config =
+      {
+        cluster = 0x0B04,
+        attribute = 0x050B,
+        minimum_interval = min,
+        maximum_interval = max,
+        reportable_change = change,
+        data_type = data_types.Int16,
+      }
+      device:add_configured_attribute(config)
+      device:add_monitored_attribute(config)
+
+      -- energy reports configure
+      divisor = device:get_field(constants.SIMPLE_METERING_DIVISOR_KEY) or 1
+      min = 5
+      if device.preferences.energyMaxTime == nil then 
+        max = 3600
+      else
+        max = device.preferences.energyMaxTime
+      end
+      if device.preferences.energyChangeReported == nil then
+        change = 1
+      else
+        change = device.preferences.energyChangeReported * divisor
+      end
+      config =
+      {
+        cluster = 0x0702,
+        attribute = 0x0000,
+        minimum_interval = min,
+        maximum_interval = max,
+        reportable_change = change,
+        data_type = data_types.Uint48,
+      }
+      device:add_configured_attribute(config)
+      device:add_monitored_attribute(config)
+
+      -- configure InstantaneusDemand to no send reports
+      config =
+      {
+        cluster = 0x0702,
+        attribute = 0x0400,
+        minimum_interval = 5,
+        maximum_interval = 0xFFFF,
+        reportable_change = 50000,
+        data_type = data_types.Int24,
       }
       device:add_configured_attribute(config)
       device:add_monitored_attribute(config)
 
       device.thread:call_with_delay(3, function() 
         device:send(zcl_clusters.DeviceTemperatureConfiguration.attributes.CurrentTemperature:read(device):to_endpoint (2))
+        device:send(zcl_clusters.ElectricalMeasurement.attributes.RMSVoltage:read(device):to_endpoint (2))
       end)
+    end
+
+    if device:get_manufacturer() == "NAMRON AS" and device:get_model() == "4512749-N" then
+      device:send(zcl_clusters.ElectricalMeasurement.attributes.RMSVoltage:configure_reporting(device, 30, 1800, 10))
+      -- set operation thermostat function, value 0 = plug, value = 1 thermostat
+      --local value_send = 0
+      --local data_types = data_types.Enum8
+      --local cluster_id = {value = 0x0000}
+      --local attr_id = 0x1000
+      --mfg_code = 0x1224
+      device:send(write.custom_write_attribute(device, 0x0000, 0x1000, data_types.Enum8, 0, 0x1224))
     end
 
     -- Configure OnOff interval report
@@ -103,24 +199,13 @@ local function do_configure(self, device)
     device:add_configured_attribute(config)
     device:add_monitored_attribute(config)
     device:configure()
-
-    -- Additional one time configuration
-      -- Divisor and multipler for ElectricalMeasurement
-      device:send(ElectricalMeasurement.attributes.ACPowerDivisor:read(device))
-      device:send(ElectricalMeasurement.attributes.ACPowerMultiplier:read(device))
-      -- Divisor and multipler for SimpleMetering
-      device:send(SimpleMetering.attributes.Divisor:read(device))
-      device:send(SimpleMetering.attributes.Multiplier:read(device))
   end
-
-  --- save optionals device divisors
-  device.thread:call_with_delay(3, function() customDivisors.set_custom_divisors(self, device) end)
-
 end
 
 --- instantaneous_demand_handler
 local function instantaneous_demand_handler(driver, device, value, zb_rx)
   print(">>>> Instantaneous demand handler")
+  if device:get_model() == "SPLZB-131" or device:get_model() == "SMRZB-332" then return end
   local raw_value = value.value
   --- demand = demand received * Multipler/Divisor
   local multiplier = device:get_field(constants.SIMPLE_METERING_MULTIPLIER_KEY) or 1
@@ -420,42 +505,48 @@ end
     print("<<< custom configure >>>")
   end
 
- -- device_init
- local function device_init(self ,device)
-    print("<<< device_init >>>")
+-- device_init
+local function device_init(self ,device)
+  print("<<< device_init >>>")
 
-     ------ Change profile & Icon
-    if device.preferences.changeProfile == "Switch" then
-      device:try_update_metadata({profile = "switch-power"})
-    elseif device.preferences.changeProfile == "Plug" then
-      device:try_update_metadata({profile = "switch-power-plug"})
-    elseif device.preferences.changeProfile == "Light" then
-      device:try_update_metadata({profile = "switch-power-light"})
-    elseif device.preferences.changeProfileEner == "Switch" then
-      device:try_update_metadata({profile = "switch-power-energy"})
-    elseif device.preferences.changeProfileEner == "Plug" then
-      device:try_update_metadata({profile = "switch-power-energy-plug"})
-    elseif device.preferences.changeProfileEner == "Light" then
-      device:try_update_metadata({profile = "switch-power-energy-light"})
-    end
+    ------ Change profile & Icon
+  if device.preferences.changeProfile == "Switch" then
+    device:try_update_metadata({profile = "switch-power"})
+  elseif device.preferences.changeProfile == "Plug" then
+    device:try_update_metadata({profile = "switch-power-plug"})
+  elseif device.preferences.changeProfile == "Light" then
+    device:try_update_metadata({profile = "switch-power-light"})
+  elseif device.preferences.changeProfileEner == "Switch" then
+    device:try_update_metadata({profile = "switch-power-energy"})
+  elseif device.preferences.changeProfileEner == "Plug" then
+    device:try_update_metadata({profile = "switch-power-energy-plug"})
+  elseif device.preferences.changeProfileEner == "Light" then
+    device:try_update_metadata({profile = "switch-power-energy-light"})
+  end
 
-    -- due to error in profile asign in hub firmware
-    if device:get_manufacturer() == "_TZ3000_9vo5icau" or 
-      device:get_manufacturer() == "_TZ3000_1h2x4akh" or
-      device:get_manufacturer() == "lumi.plug.mmeu01" or
-      ---device:get_manufacturer() == "_TZ3000_gvn91tmx" or
-      device:get_manufacturer() == "_TZ3000_okaz9tjs" or
-      --device:get_manufacturer() == "_TZ3000_kdi2o9m6" or -- ONLY FOR MY TEST
-      device:get_manufacturer() == "_TZ3000_g5xawfcq" then
-        device:try_update_metadata({profile = "switch-power-energy-plug-refresh"})
-    --elseif device:get_manufacturer() == "_TZ3000_kdi2o9m6" then -- for my test only
-      --device:try_update_metadata({profile = "switch-power-energy-plug"})
-    end
+  -- due to error in profile asign in hub firmware
+  if device:get_manufacturer() == "_TZ3000_9vo5icau" or 
+    device:get_manufacturer() == "_TZ3000_1h2x4akh" or
+    device:get_manufacturer() == "lumi.plug.mmeu01" or
+    ---device:get_manufacturer() == "_TZ3000_gvn91tmx" or
+    device:get_manufacturer() == "_TZ3000_okaz9tjs" or
+    --device:get_manufacturer() == "_TZ3000_kdi2o9m6" or -- ONLY FOR MY TEST
+    device:get_manufacturer() == "_TZ3000_g5xawfcq" then
+      device:try_update_metadata({profile = "switch-power-energy-plug-refresh"})
+  --elseif device:get_manufacturer() == "_TZ3000_kdi2o9m6" then -- for my test only
+    --print("<< change profile >>")
+    --device:try_update_metadata({profile = "switch-temp-power-energy-plug"})
+  end
 
-    random.do_init(self,device)
+  random.do_init(self,device)
 
-    device.thread:call_with_delay(4, function() do_configure(self,device) end)
- end
+  --device.thread:call_with_delay(4, function() do_configure(self,device) end)
+end
+
+ -- do Added
+local function device_added(self ,device)
+  device.thread:call_with_delay(1, function() do_configure(self,device) end)
+end
 
 ---- Driver template config
 local zigbee_switch_driver_template = {
@@ -466,12 +557,13 @@ local zigbee_switch_driver_template = {
     capabilities.energyMeter,
     random_On_Off,
     random_Next_Step,
-    capabilities.refresh
+    capabilities.refresh,
+    capabilities.tempMeasurement
   },
   lifecycle_handlers = {
     infoChanged = random.do_Preferences,
     init = device_init,
-    --init = driver_switched,
+    added = device_added,
     removed = random.do_removed,
     doConfigure = custom_configure,
     --doConfigure = do_configure,
@@ -504,7 +596,7 @@ local zigbee_switch_driver_template = {
         [zcl_clusters.OnOff.attributes.OnOff.ID] = on_off_attr_handler
       },
       [zcl_clusters.SimpleMetering.ID] = {
-        --[zcl_clusters.SimpleMetering.attributes.InstantaneousDemand.ID] = instantaneous_demand_handler,
+        [zcl_clusters.SimpleMetering.attributes.InstantaneousDemand.ID] = instantaneous_demand_handler,
         [zcl_clusters.SimpleMetering.attributes.CurrentSummationDelivered.ID] = energy_meter_handler
       },
       --[zcl_clusters.ElectricalMeasurement.ID] = {

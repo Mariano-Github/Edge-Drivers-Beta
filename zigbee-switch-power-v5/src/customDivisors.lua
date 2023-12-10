@@ -8,7 +8,7 @@ local customDivisors ={}
   print("<<< Custom divisor handler >>>")
 
   if device.preferences.simpleMeteringDivisor1 == 0 or device.preferences.simpleMeteringDivisor1 == nil then -- use default divisor for energy
-    local energy_divisor = device:get_field(constants.SIMPLE_METERING_DIVISOR_KEY)
+    local energy_divisor = device:get_field(constants.SIMPLE_METERING_DIVISOR_KEY) or 1
     if device:get_manufacturer() == "sengled" then
       --energy_divisor = 10
     elseif device:get_model() == "TS011F" then
@@ -34,7 +34,7 @@ local customDivisors ={}
   end
 
   if device.preferences.electricalMeasureDiviso1 == 0 or device.preferences.electricalMeasureDiviso1 == nil then --use default divisor for Active Power
-    local power_divisor = device:get_field(constants.ELECTRICAL_MEASUREMENT_DIVISOR_KEY)
+    local power_divisor = device:get_field(constants.ELECTRICAL_MEASUREMENT_DIVISOR_KEY) or 1
     if device:get_manufacturer() == "sengled" then
       --power_divisor = 10000
     elseif device:get_manufacturer() == "Third Reality, Inc" and device:get_model() == "3RSP02028BZ" then
