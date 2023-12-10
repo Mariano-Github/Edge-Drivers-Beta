@@ -395,3 +395,8 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_lf56vpxj
     model: TS0202
     deviceProfileName: motion-battery
+  - id: "LUMI/lumi.sen_ill.mgl01"
+    deviceLabel: LUMI Light Sensor
+    manufacturer: LUMI
+    model: lumi.sen_ill.mgl01
+    deviceProfileName: lumi-illuminance
