@@ -930,6 +930,31 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_vnsi3q7o
     model: TS0012
     deviceProfileName: two-switch
+  - id: "TS0003/_TZ3000_rhkfbfcv"
+    deviceLabel: TS0003 Switch
+    manufacturer: _TZ3000_rhkfbfcv
+    model: TS0003
+    deviceProfileName: three-switch
+  - id: "FeiBit/FB56-ZSW1IKJ2.7"
+    deviceLabel: FeiBit 3 Switch
+    manufacturer: Feibit Inc co.
+    model: FB56+ZSW1IKJ2.7
+    deviceProfileName: three-switch
+  - id: "LUMI/switch.acn040"
+    deviceLabel: Aqara ZNQBKG31LM
+    manufacturer: LUMI
+    model: lumi.switch.acn040
+    deviceProfileName: three-switch
+  - id: "TS0003/_TZ3000_lubfc1t5v"
+    deviceLabel: Two Switch & One Plug 
+    manufacturer: _TZ3000_lubfc1t5
+    model: TS0003
+    deviceProfileName: three-outlet
+  - id: "TS0012/_TZ3000_e98krvvk"
+    deviceLabel: Two Switch
+    manufacturer: _TZ3000_e98krvvk
+    model: TS0012
+    deviceProfileName: two-switch
 
     # level devices
   - id: "TS110E/_TZ3210_pagajpog"
@@ -967,4 +992,9 @@ zigbeeManufacturer:
     deviceLabel: QS-Zigbee-D02-TRIAC-2C-L
     manufacturer: _TZ3000_92chsky7
     model: TS110F
+    deviceProfileName: two-switch-level
+  - id: Aurora/2GBatteryDimmer50AU
+    deviceLabel: AURORA 2G Dimmer
+    manufacturer: Aurora
+    model: 2GBatteryDimmer50AU
     deviceProfileName: two-switch-level
