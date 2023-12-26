@@ -32,8 +32,8 @@ components:
   - name: SmartPlug
 preferences:
   - name: "version"
-    title: "Version 2.0 (Feb 2022)"
-    description: "Add: Multitile profiles" 
+    title: "Version 4.6 (Sep 2023)"
+    description: "Added: Device custom interval reports" 
     required: false
     preferenceType: string
     definition:
@@ -41,6 +41,15 @@ preferences:
       minLength: 0
       maxLength: 0
       default: ""
+  - name: "onOffReports"
+    title: "Device On-Off Interval Report"
+    description: "IF YOUR DEVICE & NETWORK WORK FINE THEN DON'T TOUCH. Set Device Interval Report (300 to 1200 sec). Smartthings Default = 300. Longer intervals reduce zigbee network traffic and Hub work. If Offline states occur with high values, then reduce the interval. Restore default Value before Driver Change."
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 300
+      maximum: 1200
+      default:  300
   - name: "changeProfileTwoSwPw"
     title: "Select Tile Type"
     description: "Select Multi-Tile or Single-Tile Type:"

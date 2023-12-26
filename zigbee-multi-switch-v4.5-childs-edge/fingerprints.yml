@@ -760,9 +760,9 @@ zigbeeManufacturer:
     manufacturer: _TYZB01_xiuox57i
     model: TS0013
     deviceProfileName: three-switch
-  - id: "TS0002/_TZ3000_spoktolc"
+  - id: "TS0002/_TZ3000_spoktocl"
     deviceLabel: TS0002 Switch
-    manufacturer: _TZ3000_spoktolc
+    manufacturer: _TZ3000_spoktocl
     model: TS0002
     deviceProfileName: two-switch
   - id: "LUMI/switch.l2aeu1"
@@ -955,6 +955,26 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_e98krvvk
     model: TS0012
     deviceProfileName: two-switch
+  - id: "TS0003/_TZ3000_lvhy15ix"
+    deviceLabel: TS0003 Switch 
+    manufacturer: _TZ3000_lvhy15ix
+    model: TS0003
+    deviceProfileName: three-switch
+  - id: "TS011F/_TZ3210_7jnk7l3k"
+    deviceLabel: External 2 point GPO
+    manufacturer: _TZ3210_7jnk7l3k
+    model: TS011F
+    deviceProfileName: two-switch-power-energy-1
+  - id: "ROB_200-026-0/ROBB smarrt"
+    deviceLabel: ROB_200-026-0 Two Switch
+    manufacturer: ROBB smarrt
+    model: ROB_200-026-0
+    deviceProfileName: two-switch-power-energy
+  - id: "TS0003/_TZ3000_66fekqhh"
+    deviceLabel: Two Switch & One Plug 
+    manufacturer: _TZ3000_66fekqhh
+    model: TS0003
+    deviceProfileName: three-outlet
 
     # level devices
   - id: "TS110E/_TZ3210_pagajpog"

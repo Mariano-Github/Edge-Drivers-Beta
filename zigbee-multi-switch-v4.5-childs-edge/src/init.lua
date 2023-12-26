@@ -184,6 +184,24 @@ local function do_preferences (driver, device)
         else
           device:try_update_metadata({profile = "five-outlet"})
         end
+      elseif id == "onOffReports" then
+        if device:get_manufacturer() ~= "_TZ3000_fvh3pjaz" 
+        and device:get_manufacturer() ~= "_TZ3000_wyhuocal" then -- devices turn off after 2 minutes
+          -- Configure OnOff interval report
+          local interval =  device.preferences.onOffReports
+          if  device.preferences.onOffReports == nil then interval = 300 end
+          local config ={
+            cluster = zcl_clusters.OnOff.ID,
+            attribute = zcl_clusters.OnOff.attributes.OnOff.ID,
+            minimum_interval = 0,
+            maximum_interval = interval,
+            data_type = zcl_clusters.OnOff.attributes.OnOff.base_type
+          }
+          --device:send(zcl_clusters.OnOff.attributes.OnOff:configure_reporting(device, 0, interval))
+          device:add_configured_attribute(config)
+          device:add_monitored_attribute(config)
+          device:configure()
+        end
       end
 
       --- Configure on-off cluster, attributte 0x8002 and 4003 to value restore state in preferences
@@ -534,6 +552,20 @@ local function do_configure(driver, device)
   if device.network_type ~= "DEVICE_EDGE_CHILD" then  ---- device (is NO Child device)
     if device:get_manufacturer() ~= "_TZ3000_fvh3pjaz" 
     and device:get_manufacturer() ~= "_TZ3000_wyhuocal" then   -- devices tutn off after 2 minutes
+
+      -- Configure OnOff interval report
+      local interval =  device.preferences.onOffReports
+      if  device.preferences.onOffReports == nil then interval = 300 end
+      local config ={
+        cluster = zcl_clusters.OnOff.ID,
+        attribute = zcl_clusters.OnOff.attributes.OnOff.ID,
+        minimum_interval = 0,
+        maximum_interval = interval,
+        data_type = zcl_clusters.OnOff.attributes.OnOff.base_type
+      }
+      --device:send(zcl_clusters.OnOff.attributes.OnOff:configure_reporting(device, 0, device.preferences.onOffReports))
+      device:add_configured_attribute(config)
+      device:add_monitored_attribute(config)
     
       device:configure()
 
@@ -553,9 +585,12 @@ local function do_configure(driver, device)
       --device:send(device_management.build_bind_request(device, zcl_clusters.OnOff.ID, driver.environment_info.hub_zigbee_eui):to_endpoint (2))
       --device:send(zcl_clusters.OnOff.attributes.OnOff:configure_reporting(device, 0, 120):to_endpoint (2))
     end
+    print("doConfigure performed, transitioning device to PROVISIONED") --23/12/23
+    device:try_update_metadata({ provisioning_state = "PROVISIONED" })
   else
 
   end
+
 end
 
 ---device init ----
@@ -703,11 +738,51 @@ local function device_init (driver, device)
         end
       end,
       'Refresh schedule')
+    --end
+    else
+      -- Configure OnOff interval report
+      local interval =  device.preferences.onOffReports
+      if  device.preferences.onOffReports == nil then interval = 300 end
+      local config ={
+        cluster = zcl_clusters.OnOff.ID,
+        attribute = zcl_clusters.OnOff.attributes.OnOff.ID,
+        minimum_interval = 0,
+        maximum_interval = interval,
+        data_type = zcl_clusters.OnOff.attributes.OnOff.base_type
+      }
+      --device:send(zcl_clusters.OnOff.attributes.OnOff:configure_reporting(device, 0, device.preferences.onOffReports))
+      device:add_configured_attribute(config)
+      device:add_monitored_attribute(config)
     end
 
     if device:get_latest_state("main", signal_Metrics.ID, signal_Metrics.signalMetrics.NAME) == nil then
       device:emit_event(signal_Metrics.signalMetrics({value = "Waiting Zigbee Message"}, {visibility = {displayed = false }}))
     end
+
+    --config = {
+      --cluster = zcl_clusters.Basic.ID,
+      --attribute = zcl_clusters.Basic.attributes.ApplicationVersion.ID,
+      --minimum_interval = 0,
+      --maximum_interval = 300,
+      --data_type = data_types.Uint8,
+      --reportable_change = 1,
+    --}
+    --device:add_configured_attribute(config)
+    --config = {
+      --cluster = 0x0000,
+      --attribute = 0xFFE2,
+      --minimum_interval = 0xFFFF,
+      --maximum_interval = 0xFFFF,
+      --data_type = data_types.Uint8,
+      --reportable_change = 0xFF,
+    --}
+    --device:add_configured_attribute(config)
+    --device:send(zcl_clusters.Basic.attributes.ZCLVersion:configure_reporting(device, 0xFFFF, 0xFFFF ,0xFF, data_types.Uint8))
+    --device:send(zcl_clusters.Basic.attributes.ApplicationVersion:configure_reporting(device, 0xFFFF, 0xFFFF ,0xFF, data_types.Uint8))
+
+    --device.thread:call_with_delay(4, function(d)
+      --device:configure()
+    --end)
   end
 end
 
@@ -716,7 +791,7 @@ local function driver_Switched(driver,device)
 
   if device.network_type ~= "DEVICE_EDGE_CHILD" then  ---- device (is NO Child device)
 
-    device:refresh()
+    --device:refresh() --- removed 18-sep-23
     if device:get_manufacturer() ~= "_TZ3000_fvh3pjaz"  -- devices tutn off after 2 minutes
       and device:get_manufacturer() ~= "_TZ3000_wyhuocal"
       and device:get_manufacturer() ~= nil then
@@ -732,7 +807,28 @@ local function driver_Switched(driver,device)
           local attr_ids = {0x0004, 0x0000, 0x0001, 0x0005, 0x0007,0xFFFE} 
           device:send(read_attribute_function (device, data_types.ClusterId(0x0000), attr_ids))
       end
-      device:configure()
+
+      -- Configure OnOff interval report
+      local interval =  device.preferences.onOffReports
+      if  device.preferences.onOffReports == nil then interval = 300 end
+      local config ={
+        cluster = zcl_clusters.OnOff.ID,
+        attribute = zcl_clusters.OnOff.attributes.OnOff.ID,
+        minimum_interval = 0,
+        maximum_interval = interval,
+        data_type = zcl_clusters.OnOff.attributes.OnOff.base_type
+      }
+      --device:send(zcl_clusters.OnOff.attributes.OnOff:configure_reporting(device, 0, device.preferences.onOffReports))
+      device:add_configured_attribute(config)
+      device:add_monitored_attribute(config)
+
+      --device:configure()
+      device.thread:call_with_delay(2, function(d) --23/12/23
+        device:configure()
+        --print("doConfigure performed, transitioning device to PROVISIONED")
+        --device:try_update_metadata({ provisioning_state = "PROVISIONED" })
+      end, "configure")
+
       -- Additional one time configuration
       if device:supports_capability(capabilities.energyMeter) or device:supports_capability(capabilities.powerMeter) then
         -- Divisor and multipler for EnergyMeter
@@ -743,9 +839,6 @@ local function driver_Switched(driver,device)
         device:send(SimpleMetering.attributes.Multiplier:read(device))
       end
     end
-
-  else
-
   end
 end 
 
