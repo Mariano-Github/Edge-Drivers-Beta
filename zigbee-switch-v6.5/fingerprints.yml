@@ -565,3 +565,8 @@ zigbeeManufacturer:
     manufacturer: innr
     model: SP 220
     deviceProfileName: single-switch-plug
+  - id: "_TZ3000_hafsqare/Switch"
+    deviceLabel: BSEED Switch
+    manufacturer: _TZ3000_hafsqare
+    model: TS0011
+    deviceProfileName: single-switch
