@@ -1,12 +1,10 @@
-name: motion-contact-presence
+name: ikea-motion-illuminance
 components:
 - id: main
   capabilities:
   - id: motionSensor
     version: 1
-  - id: contactSensor
-    version: 1
-  - id: presenceSensor
+  - id: illuminanceMeasurement
     version: 1
   - id: battery
     version: 1
@@ -18,10 +16,10 @@ components:
     version: 1
   categories:
   - name: MotionSensor
-preferences:
+preferences: 
   - name: "version"
-    title: "Version 6.0 (Sep 2023)"
-    description: "Added: IASZone custom reports" 
+    title: "Version 6.1 (Dec 2023)"
+    description: "Added: IKEA VALLHORN" 
     required: false
     preferenceType: string
     definition:
@@ -29,15 +27,6 @@ preferences:
       minLength: 0
       maxLength: 0
       default: ""
-  - name: "iasZoneReports"
-    title: "Motion Sensor Interval Report"
-    description: "IF YOUR DEVICE & NETWORK WORK FINE THEN DON'T TOUCH. Set Device Interval Report (300 to 3600 sec). Smartthings Default=300. Longer intervals reduce zigbee Network traffic,Hub work and Battery consumption. NEED WAKE UP DEVICE WITH Motion event TO ACCEPT NEW VALUE. Restore default before Driver Change"
-    required: true
-    preferenceType: integer
-    definition:
-      minimum: 300
-      maximum: 3600
-      default:  300
   - name: "signalMetricsVisibles"
     title: "Signal Metrics Visible in History"
     description: "Signal Metrics Visible in App History (default: No Visible):"
@@ -48,3 +37,7 @@ preferences:
         "Yes" : "Signal Metrics Visible"
         "No": "Signal Metrics No Visible"
       default: "No"
+metadata:
+  deviceType: MotionSensor
+  ocfDeviceType: x.com.st.d.sensor.motion
+  deviceTypeId: MotionSensor

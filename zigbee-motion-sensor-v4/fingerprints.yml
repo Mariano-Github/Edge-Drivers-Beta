@@ -400,3 +400,18 @@ zigbeeManufacturer:
     manufacturer: LUMI
     model: lumi.sen_ill.mgl01
     deviceProfileName: lumi-illuminance
+  - id: "NAMRON/4512770"
+    deviceLabel: NAMRON Multi Sensor White
+    manufacturer: NAMRON AS
+    model: 4512770
+    deviceProfileName: namron-motion-illuminance-temp-humid
+  - id: "NAMRON/4512771"
+    deviceLabel: NAMRON Multi Sensor Black
+    manufacturer: NAMRON AS
+    model: 4512771
+    deviceProfileName: namron-motion-illuminance-temp-humid
+  - id: "IKEA of Sweden/VALLHORN"
+    deviceLabel: Ikea VALLHORN Motion Sensor
+    manufacturer: IKEA of Sweden
+    model: VALLHORN Wireless Motion Sensor
+    deviceProfileName: ikea-motion-illuminance

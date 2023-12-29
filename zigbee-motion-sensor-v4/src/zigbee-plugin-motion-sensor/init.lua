@@ -20,7 +20,8 @@ local OccupancySensing = zcl_clusters.OccupancySensing
 local signal = require "signal-metrics"
 
 local ZIGBEE_PLUGIN_MOTION_SENSOR_FINGERPRINTS = {
-  { mfr = "eZEX", model = "E280-KR0A0Z0-HA" }
+  { mfr = "eZEX", model = "E280-KR0A0Z0-HA" },
+  { mfr = "LUMI", model = "lumi.sensor_motion.aq2" }
 }
 
 local is_zigbee_plugin_motion_sensor = function(opts, driver, device)
@@ -37,6 +38,19 @@ local function occupancy_attr_handler(driver, device, occupancy, zb_rx)
   signal.metrics(device, zb_rx)
   
   device:emit_event(occupancy.value == 0x01 and capabilities.motionSensor.motion.active() or capabilities.motionSensor.motion.inactive())
+
+  -- Reset motion status 
+  if device:get_model() ==  "lumi.sensor_motion.aq2" then
+    ---- All Timers Cancel ------
+    for timer in pairs(device.thread.timers) do
+      print("<<<<< Cancel all timer >>>>>")
+      device.thread:cancel_timer(timer)
+    end
+
+    device.thread:call_with_delay(device.preferences.motionTimeOut, function(d)
+      device:emit_event(capabilities.motionSensor.motion.inactive())
+    end)
+  end
 end
 
 local do_refresh = function(self, device)
@@ -55,9 +69,9 @@ local zigbee_plugin_motion_sensor = {
     }
   },
   capability_handlers = {
-    [capabilities.refresh.ID] = {
-      [capabilities.refresh.commands.refresh.NAME] = do_refresh,
-    }
+    --[capabilities.refresh.ID] = {
+      --[capabilities.refresh.commands.refresh.NAME] = do_refresh,
+    --}
   },
   can_handle = is_zigbee_plugin_motion_sensor
 }

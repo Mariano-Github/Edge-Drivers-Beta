@@ -18,8 +18,8 @@ components:
   - name: MotionSensor
 preferences:
   - name: "version"
-    title: "Version 5.0 (Sep 2022)"
-    description: "Add: Motion Sensitivity Level and Signal Metrics"
+    title: "Version 6.0 (Sep 2023)"
+    description: "Added: IASZone custom reports" 
     required: false
     preferenceType: string
     definition:
@@ -27,6 +27,15 @@ preferences:
       minLength: 0
       maxLength: 0
       default: ""
+  - name: "iasZoneReports"
+    title: "Motion Sensor Interval Report"
+    description: "IF YOUR DEVICE & NETWORK WORK FINE THEN DON'T TOUCH. Set Device Interval Report (300 to 3600 sec). Smartthings Default=300. Longer intervals reduce zigbee Network traffic,Hub work and Battery consumption. NEED WAKE UP DEVICE WITH Motion event TO ACCEPT NEW VALUE. Restore default before Driver Change"
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 300
+      maximum: 3600
+      default:  300
   - name: "motionSensitivity"
     title: "Select Motion Sensitivity Level"
     description: "Select Motion Sensitivity Level (0 min to 3 max). Default : 2"

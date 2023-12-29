@@ -1,12 +1,14 @@
-name: motion-humidity-temp-battery
+name: motion-illuminance-battery
 components:
 - id: main
   capabilities:
   - id: motionSensor
     version: 1
-  - id: relativeHumidityMeasurement
+  - id: occupancySensor
     version: 1
   - id: temperatureMeasurement
+    version: 1
+  - id: illuminanceMeasurement
     version: 1
   - id: battery
     version: 1
@@ -19,10 +21,8 @@ components:
   categories:
   - name: MotionSensor
 preferences:
-  - preferenceId: humidityOffset
-    explicit: true
   - preferenceId: tempOffset
-    explicit: true
+    explicit: true  
   - name: "version"
     title: "Version 6.0 (Sep 2023)"
     description: "Added: IASZone custom reports" 

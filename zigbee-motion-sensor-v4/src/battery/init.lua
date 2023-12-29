@@ -20,7 +20,7 @@ local can_handle = function(opts, driver, device)
     return device:get_manufacturer() == "iMagic by GreatStar"
   elseif device:get_manufacturer() == "NYCE" then
     return device:get_manufacturer() == "NYCE"
-  elseif device:get_manufacturer() == "IKEA of Sweden" then
+  elseif device:get_manufacturer() == "IKEA of Sweden" and device:get_model() == "TRADFRI motion sensor" then
     return device:get_manufacturer() == "IKEA of Sweden"
   elseif device:get_manufacturer() == "Universal Electronics Inc" then
     return device:get_manufacturer() == "Universal Electronics Inc"
@@ -30,6 +30,8 @@ local can_handle = function(opts, driver, device)
     return device:get_manufacturer() == "TLC"
   elseif device:get_manufacturer() == "Develco Products A/S" then
     return device:get_manufacturer() == "Develco Products A/S"
+  elseif device:get_manufacturer() == "LUMI" then
+    return device:get_manufacturer() == "LUMI"
   end
 end
 
@@ -64,13 +66,16 @@ local battery_handler = function(driver, device, value, zb_rx)
     minVolts = 2.1
     maxVolts = 3.0
   elseif device:get_manufacturer() == "Bosch" then
-    if device:get_model() == "ISW-ZPR1-WP13" then
+    if device:get_model() == "ISW-ZPR1-WP13" or device:get_model() == "ISW-ZDL1-WP11G" then
       minVolts = 1.5
       maxVolts = 3.0
     else
       minVolts = 2.1
       maxVolts = 3.0
     end
+  elseif device:get_manufacturer() == "LUMI" then
+    minVolts = 2.6
+    maxVolts = 3.0
   end
 
     local battery_pct = math.floor(((((value.value / 10) - minVolts) + 0.001) / (maxVolts - minVolts)) * 100)

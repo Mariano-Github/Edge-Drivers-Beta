@@ -21,9 +21,11 @@ local constants = require "st.zigbee.constants"
 --local clusters = require "st.zigbee.zcl.clusters"
 local utils = require "st.utils"
 --local IlluminanceMeasurement = clusters.IlluminanceMeasurement
+local data_types = require "st.zigbee.data_types"
 
 --- Temperature Mesurement config Samjin
 local zcl_clusters = require "st.zigbee.zcl.clusters"
+local IASZone = zcl_clusters.IASZone
 local tempMeasurement = zcl_clusters.TemperatureMeasurement
 local device_management = require "st.zigbee.device_management"
 
@@ -66,16 +68,27 @@ local function do_preferences(self, device)
     --print("device.preferences[infoChanged]=", device.preferences[id], "preferences: ", id)
     local oldPreferenceValue = device:get_field(id)
     local newParameterValue = device.preferences[id]
-     if oldPreferenceValue ~= newParameterValue then
+    if oldPreferenceValue ~= newParameterValue then
       device:set_field(id, newParameterValue, {persist = true})
       print("<< Preference changed: name, old, new >>", id, oldPreferenceValue, newParameterValue)
       if  id == "maxTime" or id == "changeRep" then
         local maxTime = device.preferences.maxTime * 60
         local changeRep = device.preferences.changeRep
-         print ("maxTime y changeRep: ", maxTime, changeRep)
-          --device:send(device_management.build_bind_request(device, tempMeasurement.ID, self.environment_info.hub_zigbee_eui))
-          device:send(tempMeasurement.attributes.MeasuredValue:configure_reporting(device, 30, maxTime, changeRep))
+        print ("maxTime y changeRep: ", maxTime, changeRep)
+        device:send(tempMeasurement.attributes.MeasuredValue:configure_reporting(device, 30, maxTime, changeRep))
 
+      elseif id == "humMaxTime" or id == "humChangeRep" then
+        local max = device.preferences.humMaxTime * 60
+        local change = device.preferences.humChangeRep * 100
+        print ("Humidity maxTime & changeRep: ", max, change)
+        device:send(zcl_clusters.RelativeHumidity.attributes.MeasuredValue:configure_reporting(device, 30, max, change):to_endpoint (4))
+
+      elseif id == "illuMaxTime" or id == "illuChangeRep" then
+        local max = device.preferences.illuMaxTime * 60
+        local change = math.floor(10000 * (math.log((device.preferences.illuChangeRep), 10)))
+        print ("Illumin maxTime & changeRep: ", max, change)
+        device:send(zcl_clusters.IlluminanceMeasurement.attributes.MeasuredValue:configure_reporting(device, 30, max, change):to_endpoint (5))
+      
       --- Configure motionSensitivity IAS cluster 0x0500 and attribute 0013 
       elseif id == "motionSensitivity" then
         print("<<< Write Sensitivity Level >>>")
@@ -91,8 +104,50 @@ local function do_preferences(self, device)
           device:send_to_component("main", zcl_clusters.IASZone.attributes.CurrentZoneSensitivityLevel:read(device))
           device:send_to_component("main", zcl_clusters.IASZone.attributes.NumberOfZoneSensitivityLevelsSupported:read(device))
         end)
+
+      --- Configure motionSensitivity Namron cluster 0x0406 attribute 0x1000 manufacturer 0x1224
+      elseif id == "motionSensitivityNamron" then
+        local value_send = device.preferences.motionSensitivityNamron
+        if value_send == nil then value_send = 15 end
+        --local data_value = data_types.Enum8
+        --local cluster_id = 0x0406
+        --local attr_id = 0x1000
+        --mfg_code = 0x1224
+        device:send(write.custom_write_attribute(device, 0x0406, 0x1000, data_types.Enum8, value_send, 0x1224))
+
+      --- Configure motionBlindTime Namron cluster 0x0406 attribute 0x1001 manufacturer 0x1224
+      elseif id == "motionBlindTime" then
+        local value_send = device.preferences.motionBlindTime
+        if value_send == nil then value_send = 15 end
+        --local data_value = data_types.Uint8
+        --local cluster_id = 0x0406
+        --local attr_id = 0x1001
+        --mfg_code = 0x1224
+        device:send(write.custom_write_attribute(device, 0x0406, 0x1001, data_types.Uint8, value_send, 0x1224))
+
+      --- Configure unoccupiedDelay cluster 0x0406 attribute 0x0010 
+      elseif id == "unoccupiedDelay" then
+        local value_send = device.preferences.unoccupiedDelay
+        if value_send == nil then value_send = 30 end
+        device:send(zcl_clusters.OccupancySensing.attributes.PIROccupiedToUnoccupiedDelay:write(device, value_send))
+
+
+      elseif id == "iasZoneReports" and device:get_manufacturer() ~= "IKEA of Sweden" and device:get_model() ~= "lumi.sen_ill.mgl01" then
+        -- Configure iasZone interval report
+        local interval = device.preferences.iasZoneReports
+        if device.preferences.iasZoneReports == nil then interval = 300 end
+        local config ={
+          cluster = IASZone.ID,
+          attribute = IASZone.attributes.ZoneStatus.ID,
+          minimum_interval = 30,
+          maximum_interval = interval,
+          data_type = IASZone.attributes.ZoneStatus.base_type,
+          reportable_change = 1
+        }
+        device:send(IASZone.attributes.ZoneStatus:configure_reporting(device, 30, interval, 1))
+        device:add_monitored_attribute(config)
       end
-     end
+    end
   end
 
    --print manufacturer, model and leng of the strings
@@ -111,9 +166,30 @@ end
 
 -- do_configure
 local function do_configure(self,device)
+
+  if device:get_manufacturer() ~= "IKEA of Sweden" and
+  device:get_manufacturer() ~= "NAMRON AS" and
+  device:get_model() ~= "lumi.sen_ill.mgl01" then
+    -- Configure iasZone interval report and monitoring atrribute
+    local interval = device.preferences.iasZoneReports
+    if device.preferences.iasZoneReports == nil then interval = 300 end
+    local config ={
+      cluster = IASZone.ID,
+      attribute = IASZone.attributes.ZoneStatus.ID,
+      minimum_interval = 30,
+      maximum_interval = interval,
+      data_type = IASZone.attributes.ZoneStatus.base_type,
+      reportable_change = 1
+    }
+    --device:send(IASZone.attributes.ZoneStatus:configure_reporting(device, 30, interval, 1))
+    device:add_configured_attribute(config)
+    device:add_monitored_attribute(config)
+  end
+
   device:configure() -- mod (09/01/2023)
+
   if device:get_manufacturer() == "frient A/S" or 
-      device:get_manufacturer() == "IKEA of Sweden" or
+      (device:get_manufacturer() == "IKEA of Sweden" and device:get_model() == "TRADFRI motion sensor") or
       device:get_manufacturer() == "SmartThings" or
       device:get_manufacturer() == "Bosch" or
       device:get_manufacturer() == "Konke" or
@@ -123,6 +199,7 @@ local function do_configure(self,device)
       device:get_manufacturer() == "Visonic" or
       device:get_manufacturer() == "TLC" or
       device:get_manufacturer() == "Develco Products A/S" or
+      device:get_manufacturer() == "LUMI" or
       (device:get_manufacturer() == "iMagic by GreatStar" and device:get_model() == "1117-S") then
 
         device:send(device_management.build_bind_request(device, zcl_clusters.PowerConfiguration.ID, self.environment_info.hub_zigbee_eui))
@@ -136,27 +213,22 @@ local function do_configure(self,device)
     device:send(device_management.build_bind_request(device, tempMeasurement.ID, self.environment_info.hub_zigbee_eui))
     device:send(tempMeasurement.attributes.MeasuredValue:configure_reporting(device, 30, maxTime, changeRep))
   end
+  print("doConfigure performed, transitioning device to PROVISIONED") --23/12/23
+  device:try_update_metadata({ provisioning_state = "PROVISIONED" })
 
-    --- Configure motionSensitivity IAS cluster 0x0500 and attribute 0013
-    if device.preferences.motionSensitivity ~= nil then
-      print("<<< Write Sensitivity Level >>>")
-      local value_send = device.preferences.motionSensitivity
-      local data_value = {value = value_send, ID = 0x20}
-      local cluster_id = {value = 0x0500}
-      local attr_id = 0x0013
-      write.write_attribute_function(device, cluster_id, attr_id, data_value)
+  --- Configure motionSensitivity IAS cluster 0x0500 and attribute 0013
+  if device.preferences.motionSensitivity ~= nil then
+    print("<<< Write Sensitivity Level >>>")
+    local value_send = device.preferences.motionSensitivity
+    local data_value = {value = value_send, ID = 0x20}
+    local cluster_id = {value = 0x0500}
+    local attr_id = 0x0013
+    write.write_attribute_function(device, cluster_id, attr_id, data_value)
 
-      device.thread:call_with_delay(4, function(d)
-        device:send_to_component("main", zcl_clusters.IASZone.attributes.CurrentZoneSensitivityLevel:read(device))
-        --device:refresh()
-      end)
-    end
-
-  --device.thread:call_with_delay(4, function(d)
-    --device:send_to_component("main", zcl_clusters.Basic.attributes.ApplicationVersion:read(device))
-    --device:send_to_component("main", zcl_clusters.IASZone.attributes.CurrentZoneSensitivityLevel:read(device))
-    --device:refresh()
-  --end)
+    device.thread:call_with_delay(4, function(d)
+      device:send_to_component("main", zcl_clusters.IASZone.attributes.CurrentZoneSensitivityLevel:read(device))
+    end)
+  end
 end
 
 local function applicationVersion_handler(self, device, value, zb_rx)
@@ -195,12 +267,27 @@ local function do_init(self, device)
     device:emit_event(signal_Metrics.signalMetrics({value = "Waiting Zigbee Message"}, {visibility = {displayed = false }}))
   end
 
-  -- set timmer for offline devices issue
+  -- set timer for offline devices issue
   no_offline(self, device)
 
-  --device.thread:call_with_delay(2, function(d)
-    --do_configure(self, device)
-  --end, "configure") 
+  if device:get_manufacturer() ~= "IKEA of Sweden" and
+  device:get_manufacturer() ~= "NAMRON AS" and
+  device:get_model() ~= "lumi.sen_ill.mgl01" then
+    -- Configure iasZone monitoring atrribute
+    local interval = device.preferences.iasZoneReports
+    if device.preferences.iasZoneReports == nil then interval = 300 end
+    local config ={
+      cluster = IASZone.ID,
+      attribute = IASZone.attributes.ZoneStatus.ID,
+      minimum_interval = 30,
+      maximum_interval = interval,
+      data_type = IASZone.attributes.ZoneStatus.base_type,
+      reportable_change = 1
+    }
+    --device:send(IASZone.attributes.ZoneStatus:configure_reporting(device, 30, device.preferences.iasZoneReports, 1))
+    device:add_configured_attribute(config)
+    device:add_monitored_attribute(config)
+  end
 
 end
 
@@ -224,9 +311,14 @@ local function battery_percentage_handler(driver, device, raw_value, zb_rx)
 
   if device:get_manufacturer() == "Samjin" then
     local raw_percentage = raw_value.value - (200 - raw_value.value) / 2
-    print("raw_value >>>>",raw_value.value)
-    print("raw_percentage >>>>",raw_percentage)
+    --print("raw_value >>>>",raw_value.value)
+    --print("raw_percentage >>>>",raw_percentage)
     local percentage = utils.clamp_value(utils.round(raw_percentage / 2), 0, 100)
+    device:emit_event(capabilities.battery.battery(percentage))
+  --elseif device:get_manufacturer() == "IKEA of Sweden" then
+    -- not report percentage
+  elseif device:get_manufacturer() == "NAMRON AS" then
+    local percentage = utils.clamp_value(utils.round(raw_value.value), 0, 100)
     device:emit_event(capabilities.battery.battery(percentage))
   else
     local percentage = utils.clamp_value(utils.round(raw_value.value / 2), 0, 100)
@@ -236,19 +328,10 @@ end
 
 --- do_driverSwitched
 local function do_driverSwitched(self, device)
-  --device:configure() -- mod (09/01/2023)
-  --if device:supports_capability_by_id(capabilities.temperatureMeasurement.ID) then
-    --local maxTime = device.preferences.maxTime * 60
-    --local changeRep = device.preferences.changeRep
-    --print ("maxTime:", maxTime, "changeRep:", changeRep)
-    --device:send(device_management.build_bind_request(device, tempMeasurement.ID, self.environment_info.hub_zigbee_eui))
-    --device.thread:call_with_delay(2, function() device:send(tempMeasurement.attributes.MeasuredValue:configure_reporting(device, 30, maxTime, changeRep)) end)
-    --device:send(tempMeasurement.attributes.MeasuredValue:configure_reporting(device, 30, maxTime, changeRep))
-  --end
+ print("<<<< DriverSwitched >>>>")
   device.thread:call_with_delay(2, function(d)
     do_configure(self, device)
   end, "configure") 
- -- do_configure(self, device)
 end
 
 local zigbee_motion_driver = {
@@ -267,8 +350,8 @@ local zigbee_motion_driver = {
   lifecycle_handlers = {
     init = do_init,
     infoChanged = do_preferences,
-    --driverSwitched = do_driverSwitched,
-    driverSwitched = do_configure,
+    driverSwitched = do_driverSwitched, -- 23/12/23
+    --driverSwitched = do_configure,
     doConfigure = do_configure
 },
 capability_handlers = {
@@ -300,7 +383,9 @@ zigbee_handlers = {
                   require("zigbee-plugin-motion-sensor"),
                   require("battery"),
                   require("temperature"),
-                  require("frient")
+                  require("frient"),
+                  require("namron"),
+                  require("ikea-vallhorn")
   },
   ias_zone_configuration_method = constants.IAS_ZONE_CONFIGURE_TYPE.AUTO_ENROLL_RESPONSE
 }

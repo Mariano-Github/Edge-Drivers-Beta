@@ -1,12 +1,10 @@
-name: motion-humidity-temp-battery
+name: motion-illuminance
 components:
 - id: main
   capabilities:
   - id: motionSensor
     version: 1
-  - id: relativeHumidityMeasurement
-    version: 1
-  - id: temperatureMeasurement
+  - id: illuminanceMeasurement
     version: 1
   - id: battery
     version: 1
@@ -18,11 +16,7 @@ components:
     version: 1
   categories:
   - name: MotionSensor
-preferences:
-  - preferenceId: humidityOffset
-    explicit: true
-  - preferenceId: tempOffset
-    explicit: true
+preferences: 
   - name: "version"
     title: "Version 6.0 (Sep 2023)"
     description: "Added: IASZone custom reports" 
@@ -42,24 +36,6 @@ preferences:
       minimum: 300
       maximum: 3600
       default:  300
-  - name: "maxTime"
-    title: "Temperature Report Interval"
-    description: "Select Temp. Report Max. Interval (5 min to 240 min)"
-    required: false
-    preferenceType: integer
-    definition:
-      minimum: 5
-      maximum: 240
-      default: 5   
-  - name: "changeRep"
-    title: "Temperature Reportable Change"
-    description: "Select Temp. Reportable Change 0.1º to 6º (10 to 600)"
-    required: false
-    preferenceType: integer
-    definition:
-      minimum: 10
-      maximum: 600
-      default: 10
   - name: "signalMetricsVisibles"
     title: "Signal Metrics Visible in History"
     description: "Signal Metrics Visible in App History (default: No Visible):"

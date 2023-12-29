@@ -1,0 +1,132 @@
+name: namron-motion-illuminance-temp-humid
+components:
+- id: main
+  capabilities:
+  - id: motionSensor
+    version: 1
+  - id: occupancySensor
+    version: 1
+  - id: temperatureMeasurement
+    version: 1
+  - id: relativeHumidityMeasurement
+    version: 1
+  - id: illuminanceMeasurement
+    version: 1
+  - id: battery
+    version: 1
+  - id: legendabsolute60149.signalMetrics
+    version: 1
+  - id: refresh
+    version: 1
+  - id: firmwareUpdate
+    version: 1
+  categories:
+  - name: MotionSensor
+preferences:
+  - preferenceId: tempOffset
+    explicit: true  
+  - name: "version"
+    title: "Version 7.0 (Dec 2023)"
+    description: "Added: Namron multisensor" 
+    required: false
+    preferenceType: string
+    definition:
+      stringType: text
+      minLength: 0
+      maxLength: 0
+      default: ""
+  - name: "motionSensitivityNamron"
+    title: "Select Motion Sensitivity Level"
+    description: "Select Motion Sensitivity Level (8 minimum to 255 maximum). Default : 15"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 8
+      maximum: 255
+      default: 15  
+  - name: "motionBlindTime"
+    title: "Motion Inactive Sensitivity Time"
+    description: "Select Motion Inactive Sensitivity time value after last detection (0 to 15). 0 = 0.5 sec, 15 = 8 sec according formula (time = (0.5 x value) + 1). Default : 15"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 15
+      default: 15
+  - name: "unoccupiedDelay"
+    title: "Delay to emity Unoccupied event"
+    description: "Select Delay to emity Unoccupied event after PIR Occupied detection (3 sec to 28800 sec). Default : 30"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 3
+      maximum: 28800
+      default: 30
+  - name: "maxTime"
+    title: "Temperature Report Interval"
+    description: "Select Temp. Report Max. Interval (5 min to 240 min). Default: 30 min"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 5
+      maximum: 240
+      default: 30   
+  - name: "changeRep"
+    title: "Temperature Reportable Change"
+    description: "Select Temp. Reportable Change 0.1ºc to 6ºc (10 to 600). Default: 0.5ºc (50)"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 10
+      maximum: 600
+      default: 50
+  - name: "humMaxTime"
+    title: "Humidity Report Interval (min)"
+    description: "Select Humidity Report Max. Interval (5 min to 240 min). Default: 30 min"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 5
+      maximum: 240
+      default: 30   
+  - name: "humChangeRep"
+    title: "Humidity Reportable Change (%)"
+    description: "Select Humidity Reportable Change 1% to 10%. Default: 1%"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 1
+      maximum: 10
+      default: 1
+  - name: "illuMaxTime"
+    title: "Illuminance Report Interval (min)"
+    description: "Select Illuminance Report Max. Interval (5 min to 300 min). Default: 30 min"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 5
+      maximum: 300
+      default: 30   
+  - name: "illuChangeRep"
+    title: "Illuminance Reportable Change (lux)"
+    description: "Select Illuminance Reportable Change 1 Lux to 100 Lux. Default: 50 lux"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 1
+      maximum: 100
+      default: 50
+  - name: "signalMetricsVisibles"
+    title: "Signal Metrics Visible in History"
+    description: "Signal Metrics Visible in App History (default: No Visible):"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Yes" : "Signal Metrics Visible"
+        "No": "Signal Metrics No Visible"
+      default: "No"
+metadata:
+  deviceType: MotionSensor
+  ocfDeviceType: x.com.st.d.sensor.motion
+  deviceTypeId: MotionSensor
