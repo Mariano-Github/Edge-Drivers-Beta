@@ -174,3 +174,8 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_zl1kmjqx
     model: TY0201
     deviceProfileName: temp-humid-battery
+  - id: "_TZ3000_qaaysllp/TS0201"
+    deviceLabel: Tuya TS0201
+    manufacturer: _TZ3000_qaaysllp
+    model: TS0201
+    deviceProfileName: temp-humid-illumin-battery
