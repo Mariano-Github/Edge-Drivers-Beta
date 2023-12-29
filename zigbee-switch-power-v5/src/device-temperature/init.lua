@@ -22,7 +22,9 @@ local ZIGBEE_DEVELCO_FINGERPRINTS = {
   { mfr = "frient A/S", model = "SPLZB-131" },
   { mfr = "Develco Products A/S", model = "SMRZB-332" },
   { mfr = "frient A/S", model = "SMRZB-332" },
-  { mfr = "NAMRON AS", model = "4512749-N" }
+  { mfr = "NAMRON AS", model = "4512749-N" },
+  { mfr = "frient A/S", model = "SMRZB-143" },
+  { mfr = "Develco Products A/S", model = "SPLZB-153" },
 }
 
 local is_zigbee_develco = function(opts, driver, device)
