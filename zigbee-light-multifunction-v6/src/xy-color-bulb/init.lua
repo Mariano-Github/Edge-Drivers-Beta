@@ -253,11 +253,12 @@ end
 
 local function current_x_attr_handler(driver, device, value, zb_rx)
 
-  if device:get_field("colorChanging") =="Active" then return end
-
   if device.preferences.logDebugPrint == true then
     print("<<<< current_x_attr_handler XY >>>>")
   end
+
+  if device:get_field("colorChanging") =="Active" then return end
+
   local Y_tristimulus = device:get_field(Y_TRISTIMULUS_VALUE)
   local y = device:get_field(CURRENT_Y)
   local x = value.value
@@ -285,10 +286,12 @@ end
 
 local function current_y_attr_handler(driver, device, value, zb_rx)
 
-  if device:get_field("colorChanging") =="Active" then return end
   if device.preferences.logDebugPrint == true then
     print("<<<< current_y_attr_handler XY >>>>")
   end
+
+  if device:get_field("colorChanging") =="Active" then return end
+
   local Y_tristimulus = device:get_field(Y_TRISTIMULUS_VALUE)
   local x = device:get_field(CURRENT_X)
   local y = value.value
@@ -316,6 +319,7 @@ local function current_y_attr_handler(driver, device, value, zb_rx)
 end
 
 local function group_set_color_handler(driver, device, command)
+  print("<<<< group_set_color_handler in X,Y subriver >>>>")
   if device.network_type == "DEVICE_EDGE_CHILD" then  ---- device (is Child device)
     local hue = math.floor((command.args.color.hue))
     local sat = math.floor((command.args.color.saturation))
@@ -330,9 +334,10 @@ local function group_set_color_handler(driver, device, command)
             device.preferences.onOffGroup > 0 and
             dev.preferences.onOffGroup > 0 and
             dev.preferences.onOffGroup == device.preferences.onOffGroup then
+              print("dev:get_field(zll_xy)", dev:get_field("zll_xy"))
               if dev:get_field("zll_xy") == "no" then
                 mirror_groups.color_control_handler(driver,device,command)
-              else
+              elseif dev:get_field("zll_xy") == "yes" then
                 set_color_handler(driver,dev,command)
               end
           end 

@@ -336,6 +336,26 @@ local function forced_On_Level_handler(driver, device, command)
 
 end
 
+-- device do_configure
+local function do_Configure(driver, device)
+  -- Configure OnOff interval report
+  local interval =  device.preferences.onOffReports
+  if  device.preferences.onOffReports == nil then interval = 300 end
+  local config ={
+    cluster = zcl_clusters.OnOff.ID,
+    attribute = zcl_clusters.OnOff.attributes.OnOff.ID,
+    minimum_interval = 0,
+    maximum_interval = interval,
+    data_type = zcl_clusters.OnOff.attributes.OnOff.base_type
+  }
+  --device:send(zcl_clusters.OnOff.attributes.OnOff:configure_reporting(device, 0, device.preferences.onOffReports))
+  device:add_configured_attribute(config)
+  device:add_monitored_attribute(config)
+  device:configure()
+  print("doConfigure performed, transitioning device to PROVISIONED")
+  device:try_update_metadata({ provisioning_state = "PROVISIONED" })
+end
+
 --driver_Switched set profile selected
 local function driver_Switched(driver,device)
   ------ Change profile RGBW color temperature
@@ -352,7 +372,13 @@ local function driver_Switched(driver,device)
   end 
 
   --dimmer.do_init (driver, device)
-  dimmer.do_Preferences (driver, device)
+  --dimmer.do_Preferences(driver, device)
+  --do_Configure(driver, device)
+  device.thread:call_with_delay(2, function(d) -- 23/12/23
+    do_Configure(driver, device)
+    --print("doConfigure performed, transitioning device to PROVISIONED")
+    --device:try_update_metadata({ provisioning_state = "PROVISIONED" })
+  end, "configure")
 end
 
 -- do added
@@ -388,8 +414,10 @@ local function do_added(driver,device)
     if hue == nil then hue = 100 end
     device:emit_event(capabilities.colorControl.saturation(sat))
     device:emit_event(capabilities.colorControl.hue(hue))
+  else
+    dimmer.do_Preferences (driver, device)
   end
-  dimmer.do_Preferences (driver, device)
+  --dimmer.do_Preferences (driver, device)
 end
 
 local function group_switch_level_handler(driver, device, command)
@@ -444,6 +472,7 @@ local function group_set_color_Temperature_handler(driver, device, command)
 end
 
 local function group_color_control_handler(driver, device, command)
+  print("<<<< group_set_color_handler in Main driver >>>>")
   if device.network_type == "DEVICE_EDGE_CHILD" then  ---- device (is Child device)
     local hue = math.floor((command.args.color.hue))
     local sat = math.floor((command.args.color.saturation))
@@ -458,9 +487,10 @@ local function group_color_control_handler(driver, device, command)
             device.preferences.onOffGroup > 0 and
             dev.preferences.onOffGroup > 0 and
             dev.preferences.onOffGroup == device.preferences.onOffGroup then
+              --print("dev:get_field(zll_xy)", dev:get_field("zll_xy"))
               if dev:get_field("zll_xy") == "yes" then
                 mirror_groups.set_color_handler(driver, dev, command)
-              else
+              elseif dev:get_field("zll_xy") == "no" then
                 mirror_groups.color_control_handler(driver,dev,command)
               end
           end 
@@ -497,7 +527,8 @@ local zigbee_bulb_driver_template = {
     infoChanged = dimmer.do_Preferences,
     removed = dimmer.do_removed,
     driverSwitched = driver_Switched,
-    added = do_added
+    added = do_added,
+    doConfigure = do_Configure
   },
   capability_handlers = {
     [capabilities.switch.ID] = {

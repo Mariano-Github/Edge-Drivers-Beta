@@ -1050,6 +1050,11 @@ zigbeeManufacturer:
     manufacturer: _TZ3210_g0qr1fqo
     model: TS0503B
     deviceProfileName: rgbw-level-colortemp-2000-6500
+  - id: "_TZ3210_4zinq6io/TS0501B"
+    deviceLabel: Dimmer TS0501B
+    manufacturer: _TZ3210_4zinq6io
+    model: TS0501B
+    deviceProfileName: switch-level
   
   # XY Color
   - id: "IKEA/E27 CWS 806lm"

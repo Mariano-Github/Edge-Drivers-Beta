@@ -101,7 +101,7 @@ function driver_handler.do_init (self, device)
   print("<<<<< Device Init >>>>>>")
 
   -- set ZLL_xy device to "no" defaults
-  device:set_field("zll_xy", "no")
+  --device:set_field("zll_xy", "no") -- quitado por no necesario
 
   if device.network_type ~= "DEVICE_EDGE_CHILD" then  ---- device (is NOT Child device)
 
@@ -228,11 +228,11 @@ function driver_handler.do_init (self, device)
     device:set_field("last_Level", device:get_latest_state("main", capabilities.switchLevel.ID, capabilities.switchLevel.level.NAME), {persist = true})
   end
   if device:get_field("last_Level") == nil then
-    if device:get_field("forced_Level") > 0 then
+    --if device:get_field("forced_Level") > 0 then
       --device:set_field("last_Level", device:get_field("forced_Level"), {persist = true})
-    else
+    --else
       device:set_field("last_Level", 100, {persist = true})
-    end
+    --end
   end
 
   --- ReStart Timer color chanaging function 
@@ -247,13 +247,29 @@ function driver_handler.do_init (self, device)
       device:emit_event(color_Change_Mode.colorChangeMode("Random"))
     end
 
-    if device:get_field("colorChanging") == "Active" then 
-      device:set_field("colorChanging", "Continue", {persist = true})
+    if device:get_field("colorChanging") == nil then device:set_field("colorChanging", "Inactive", {persist = true}) end
+    if device:get_field("colorChanging_timer") == nil then device:set_field("colorChanging_timer", "stopped", {persist = true}) end
+    
+    if device:get_field("colorChanging") == "Active" and device:get_field("colorChanging_timer") == "running" then
+
       if device.network_type ~= "DEVICE_EDGE_CHILD" then  ---- device (is NOT Child device)
-        driver_handler.color_Changing_handler(self,device,"Continue")
+        local group = false
+        local child_device = device:get_child_by_parent_assigned_key("main")
+        if child_device ~= nil and child_device:get_field("colorChanging") == "Active" then
+          if child_device:get_field("colorChanging_timer") == "running" then
+            group = true
+            child_device:set_field("colorChanging_timer", "stopped", {persist = true})
+          end -- if virtual group change color is running
+        end
+        if device:get_field("colorChanging_timer") == "running" then
+          device:set_field("colorChanging_timer", "stopped", {persist = true})
+          driver_handler.color_Changing_timer_on(self, device, "Continue", group) -- false = is single device, not group
+        end
       end
-    else
+
+    elseif device:get_field("colorChanging") == "Inactive" then
       device:emit_event(color_Changing.colorChanging("Inactive"))
+        device:set_field("colorChanging_timer", "stopped", {persist = true})
     end
   end
 
@@ -288,7 +304,7 @@ function driver_handler.do_init (self, device)
     --- restart prog-On if is running
     --print("<< onStatus >>",device:get_field("onStatus"))
     if device:get_field("onStatus") == "running" then
-      onStartDim[device] = -1 -- this value will made continue the dimming On with last levll
+      onStartDim[device] = -1 -- this value will made continue the dimming On with last level
       driver_handler.on_handler (self, device, onStartDim[device])
     end
   
@@ -301,11 +317,25 @@ function driver_handler.do_init (self, device)
     -- restart effects timer command if on
     if device:get_field("effects_set_command") == nil  then
       device:set_field("effects_set_command", "Inactive", {persist = true})
-    elseif device:get_field("effects_set_command") == "BlinkON" then
-      driver_handler.effects_Set_handler(self, device, "BlinkON")
+    elseif device:get_field("effects_set_command") ~= "Inactive" and device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) == "on" then
+      driver_handler.effects_Set_handler(self, device, "Continue")
     end
 
   end
+
+  -- Configure OnOff monitoring attribute
+  local interval =  device.preferences.onOffReports
+  if  device.preferences.onOffReports == nil then interval = 300 end
+  local config ={
+    cluster = zcl_clusters.OnOff.ID,
+    attribute = zcl_clusters.OnOff.attributes.OnOff.ID,
+    minimum_interval = 0,
+    maximum_interval = interval,
+    data_type = zcl_clusters.OnOff.attributes.OnOff.base_type
+  }
+  --device:send(zcl_clusters.OnOff.attributes.OnOff:configure_reporting(device, 0, device.preferences.onOffReports))
+  device:add_configured_attribute(config)
+  device:add_monitored_attribute(config)
 end
 
 ---- do_removed device procedure: delete all device data
@@ -394,7 +424,6 @@ local function timers_Cancel(driver,device)
     set_status_timer = device:get_field("timer_random")
     if set_status_timer then
       if device.preferences.logDebugPrint == true then
-        --print("set_status_timer >>>",set_status_timer)
         print("<<<<< Cancelando Random timer >>>>>")
       end
       device.thread:cancel_timer(set_status_timer)
@@ -421,6 +450,8 @@ local function timers_Cancel(driver,device)
       end
       device.thread:cancel_timer(set_status_timer)
       device:set_field("timer_circadian", nil)
+      --circadian_Running[device] = "stopped"
+      --device:set_field("circadian_Running[device]", "stopped", {persist = true})
     end
     set_status_timer = device:get_field("timer_color")
     if set_status_timer then
@@ -429,6 +460,7 @@ local function timers_Cancel(driver,device)
       end
       device.thread:cancel_timer(set_status_timer)
       device:set_field("timer_color", nil)
+      device:set_field("colorChanging_timer", "stopped", {persist = true})
     end
   end
 end
@@ -457,9 +489,9 @@ function driver_handler.do_Preferences (self, device)
         else
           device:send(Groups.server.commands.GetGroupMembership(device, {}))
         end
-      end
+      --end
  
-      if id == "groupRemove" then
+      elseif id == "groupRemove" then
         print("Remove Groups >>>>>>>>>>>>>>>>>")
         if device.preferences[id] > 0 then
         device:send(Groups.server.commands.RemoveGroup(device, device.preferences[id]))
@@ -467,10 +499,10 @@ function driver_handler.do_Preferences (self, device)
         device:send(Groups.server.commands.RemoveAllGroups(device, {}))
         end
         device:send(Groups.server.commands.GetGroupMembership(device, {}))
-      end
+      --end
 
-     ------ Change profile RGBW color temperature
-      if id == "changeProfile" then
+        ------ Change profile RGBW color temperature
+      elseif id == "changeProfile" then
         if newParameterValue == "20006500" then
           print("<< rgbw-level-colortemp-2000-6500 >>")
           device:try_update_metadata({profile = "rgbw-level-colortemp-2000-6500"})
@@ -494,10 +526,25 @@ function driver_handler.do_Preferences (self, device)
           end
 
           device:try_update_metadata({profile = "level-rgb-rgbw"})
-        end 
-      end
-      --- Configure on-off cluster, attributte 0x8002 and 4003 to value restore state in preferences
-      if id == "restoreState" then
+        end
+      elseif id == "onOffReports" then
+        -- Configure OnOff interval report
+        local interval =  device.preferences.onOffReports
+        if  device.preferences.onOffReports == nil then interval = 300 end
+        local config ={
+          cluster = zcl_clusters.OnOff.ID,
+          attribute = zcl_clusters.OnOff.attributes.OnOff.ID,
+          minimum_interval = 0,
+          maximum_interval = interval,
+          data_type = zcl_clusters.OnOff.attributes.OnOff.base_type
+        }
+        device:send(zcl_clusters.OnOff.attributes.OnOff:configure_reporting(device, 0, interval))
+        --device:add_configured_attribute(config)
+        device:add_monitored_attribute(config)
+        --device:configure()
+      --end
+        --- Configure on-off cluster, attributte 0x8002 and 4003 to value restore state in preferences
+      elseif id == "restoreState" then
         if device.preferences.logDebugPrint == true then
           print("<<< Write restore state >>>")
         end
@@ -512,9 +559,9 @@ function driver_handler.do_Preferences (self, device)
         if newParameterValue == "255" then data_value = {value = 0x02, ID = 0x30} end
         attr_id = 0x8002
         write.write_attribute_function(device, cluster_id, attr_id, data_value)
-      end
+      --end
       -- Call to Create child device
-      if id == "groupChild" then
+      elseif id == "groupChild" then
         if oldPreferenceValue ~= nil and newParameterValue == true then
          child_devices.create_new_device(self, device, "main", "child-rgbw-2000-6500")
         end 
@@ -548,16 +595,26 @@ end
 ---------------------------------------------------------
 ------------- color_Changing_handler --------------------
 
-function driver_handler.color_Changing_handler(driver,device,command)
+function driver_handler.color_Changing_handler(driver, device, command)
+  --print("<< color_Changing_handler >>")
 
-  if command.args.value == device:get_field("colorChanging") then return end
+  if device.preferences.logDebugPrint == true then
+    print("colorChanging Value", command.args.value)
+  end
+  local colorChanging = command.args.value
 
     ---- Timers Cancel ------
     timers_Cancel(driver,device)
 
-  local colorChanging = device:get_field("colorChanging")
+  device:set_field("colorChanging_timer", "stopped", {persist = true})
 
-  if colorChanging ~= "Continue" then
+  --local colorChanging = device:get_field("colorChanging")
+
+  --if colorChanging ~= "Continue" then
+  if colorChanging == "Active" then
+    device:set_field("colorChanging", colorChanging, {persist = true})
+    device:emit_event(color_Changing.colorChanging("Active"))
+
       -----cancel progressive ON & OFF and Circadian
     if progOn[device] == "Active" then
       progOn[device] = "Inactive"
@@ -581,25 +638,86 @@ function driver_handler.color_Changing_handler(driver,device,command)
       device:set_field("random_state", "Inactive", {persist = true})
       device:emit_event(random_Next_Step.randomNext("Inactive"))
     end
-  end
 
-  if colorChanging == "Continue" then
-    colorChanging = "Active"
-  else
-    if device.preferences.logDebugPrint == true then
-      print("colorChanging Value", command.args.value)
-    end
-    colorChanging = command.args.value
-  end
-
-  if colorChanging == "Inactive" then
+  elseif colorChanging == "Inactive" then
     device:set_field("colorChanging", colorChanging, {persist = true})
     device:emit_event(color_Changing.colorChanging("Inactive"))
+  end
 
+end
+
+-- send zigbee On event for color change mode
+local function change_color_on_command(driver, device)
+  if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) ~= "on" then
+    if device:get_field("last_Level") == nil or device:get_field("last_Level") < 1 then device:set_field("last_Level", device.preferences.onLevelEnd, {persist = true}) end
+    local on_Level = device:get_field("last_Level")
+    if device.preferences.onTransTime == 0 then
+      local command1 = zcl_clusters.Level.commands.MoveToLevelWithOnOff(device,  math.floor(on_Level/100.0 * 254), 0xFFFF)
+      if device:get_manufacturer() == "TCPi" or device:get_manufacturer() == "DURAGREEN" or device:get_model() == "Classic A60 W clear - LIGHTIFY" then
+        command1.body.zcl_body.options_mask = nil
+        command1.body.zcl_body.options_override = nil
+      end
+      device:send(command1)
+      --device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(on_Level/100.0 * 254), 0xFFFF))
+    else
+      local command1 = zcl_clusters.Level.commands.MoveToLevelWithOnOff(device,  math.floor(on_Level/100.0 * 254), device.preferences.onTransTime * 10)
+      if device:get_manufacturer() == "TCPi" or device:get_manufacturer() == "DURAGREEN" or device:get_model() == "Classic A60 W clear - LIGHTIFY" then
+        command1.body.zcl_body.options_mask = nil
+        command1.body.zcl_body.options_override = nil
+      end
+      device:send(command1)
+    end
+    device:send(zcl_clusters.OnOff.server.commands.On(device)) 
+  end
+end
+
+ -- Emit command and color event for color chande mode
+local function emit_change_color_event(driver, device, newHue, newSaturation)
+  --print("ZLL device >>>>>>>",device:get_field("zll_xy"))
+  if device:get_field("zll_xy") == "no" then
+    --print("ZLL device No >>>>>>>",device:get_field("zll_xy"))
+    device:send_to_component("main", zcl_clusters.ColorControl.server.commands.MoveToHueAndSaturation(device, newHue, newSaturation, 0x0000))    
   else
-    device:set_field("colorChanging", colorChanging, {persist = true})
-    device:emit_event(color_Changing.colorChanging("Active"))
-    
+    --print("<<<< convert to x,y >>>>")
+    local hue = math.floor(newHue / 0xFE * 100) > 99 and 99 or math.floor(newHue / 0xFE * 100)
+    local sat = math.floor(newSaturation / 0xFE * 100)
+    local x, y, Y = 0,0,0
+    if device:get_manufacturer()=="IKEA of Sweden" then
+      x, y, Y = utils.safe_hsv_to_xy(hue, sat)
+    else
+      x, y, Y = utils_xy.safe_hsv_to_xy(hue, sat)
+    end
+    device:set_field(Y_TRISTIMULUS_VALUE, Y)
+    device:set_field(CURRENT_X, x)
+    device:set_field(CURRENT_Y, y)
+    if device.preferences.logDebugPrint == true then
+      print(">>>>> CURRENT_X=",x)
+      print(">>>>> CURRENT_Y=",y)
+      print(">>>>> Y_TRISTIMULUS_VALUE=",Y)
+    end
+
+    device:send(ColorControl.commands.MoveToColor(device, x, y, 0x0000))
+  end
+  
+  device:emit_event_for_endpoint("main",capabilities.colorControl.hue({value = math.floor(newHue / 0xFE * 100)}, {visibility = {displayed = false }}))
+  device:emit_event_for_endpoint("main",capabilities.colorControl.saturation({value = math.floor(newSaturation / 0xFE * 100)}, {visibility = {displayed = false }}))
+  --child device emit event
+  local child_device = device:get_child_by_parent_assigned_key("main")
+  if child_device ~= nil and device:get_field("mirror_group_function") == "Active" and child_device:get_field("mirror_group_function") == "Active" then
+    child_device:emit_event(capabilities.colorControl.hue({value = math.floor(newHue / 0xFE * 100)}, {visibility = {displayed = false }}))
+    child_device:emit_event(capabilities.colorControl.saturation({value = math.floor(newSaturation / 0xFE * 100)}, {visibility = {displayed = false }}))
+  end
+end
+
+-- start color changinng timer
+function driver_handler.color_Changing_timer_on(driver, device, command, group)
+
+  if device:get_field("colorChanging_timer") == "stopped" then
+
+    --if device_num == nil then device_num = 1 end
+    ---- Timers Cancel ------
+    timers_Cancel(driver,device)
+
     --- Set ColorChangeMode
     local colorChangeMode = device:get_field("colorChangeMode")
     if colorChangeMode == nil then colorChangeMode = 1 end
@@ -623,11 +741,11 @@ function driver_handler.color_Changing_handler(driver,device,command)
       colorChangeMode = 2
     elseif colorChangeModeList == "AllModes" then
       colorChangeMode = math.random(1, 2)
-      colorTimer = math.random(1, 2)
-      stepsNumberMax = math.random(50, 100)
+      --colorTimer = math.random(1, 2)
+      stepsNumberMax = math.random(30, 80)
       saturationStep = 0.5
       hueStep[device] = -2 * direction
-      device:emit_event(color_Change_Timer.colorChangeTimer(colorTimer))
+      --device:emit_event(color_Change_Timer.colorChangeTimer(colorTimer))
     else
       colorChangeMode = 1
       if colorChangeModeList == "Continuousallcolors" then
@@ -671,48 +789,41 @@ function driver_handler.color_Changing_handler(driver,device,command)
     --print("<<<<< newSaturation >>>>>",newSaturation )
     device:set_field("newSaturation",  newSaturation, {persist = false})
     local newHue = math.random(hueMin[device], hueMax[device])
-    --print("<<<<< newHue >>>>>",newHue)
+    -- print("<<<<< newHue >>>>>",newHue)
     device:set_field("newHue", newHue, {persist = false})
 
-    -- send zigbee On event
-    if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) ~= "on" then
-      device:send(zcl_clusters.OnOff.server.commands.On(device))
+    --local child_device = device:get_child_by_parent_assigned_key("main")
+    if group == true then
+
+      for uuid, dev in pairs(device.driver:get_devices()) do
+        if dev.network_type ~= "DEVICE_EDGE_CHILD" then  ---- device (is NO Child device)
+          if dev:get_field("mirror_group_function") == "Active" and
+            dev:supports_capability_by_id(capabilities.colorControl.ID) and
+            device.preferences.onOffGroup > 0 and
+            dev.preferences.onOffGroup > 0 and
+            dev.preferences.onOffGroup == device.preferences.onOffGroup then
+             
+            -- send zigbee On event
+            change_color_on_command(driver, dev)
+            -- Emit first command and color event
+            emit_change_color_event(driver, dev, newHue, newSaturation)
+
+            -- set timer = "running" for group of this child device mirror controller
+            local child_device = device:get_child_by_parent_assigned_key("main")
+            if child_device ~= nil and dev.id == device.id then
+              child_device:set_field("colorChanging_timer", "running", {persist = true})
+            end
+          end
+        end
+      end
+    elseif group == false then
+      -- send zigbee On event
+      change_color_on_command(driver, device)
+      -- Emit first command and color event
+      emit_change_color_event(driver, device, newHue, newSaturation)
     end
 
-    -- Emit first command and color event
-    --print("ZLL device >>>>>>>",device:get_field("zll_xy"))
-    if device:get_field("zll_xy") == "no" then
-      --print("ZLL device No >>>>>>>",device:get_field("zll_xy"))
-      device:send_to_component("main", zcl_clusters.ColorControl.server.commands.MoveToHueAndSaturation(device, newHue, newSaturation, 0x0000))    
-    else
-      --print("<<<< convert to x,y >>>>")
-      local hue = math.floor(newHue / 0xFE * 100) > 99 and 99 or math.floor(newHue / 0xFE * 100)
-      local sat = math.floor(newSaturation / 0xFE * 100)
-      local x, y, Y = 0,0,0
-      if device:get_manufacturer()=="IKEA of Sweden" then
-       x, y, Y = utils.safe_hsv_to_xy(hue, sat)
-      else
-        x, y, Y = utils_xy.safe_hsv_to_xy(hue, sat)
-      end
-      device:set_field(Y_TRISTIMULUS_VALUE, Y)
-      device:set_field(CURRENT_X, x)
-      device:set_field(CURRENT_Y, y)
-      if device.preferences.logDebugPrint == true then
-        print(">>>>> CURRENT_X=",x)
-        print(">>>>> CURRENT_Y=",y)
-        print(">>>>> Y_TRISTIMULUS_VALUE=",Y)
-      end
-
-      device:send(ColorControl.commands.MoveToColor(device, x, y, 0x0000))
-    end
-    device:emit_event_for_endpoint("main",capabilities.colorControl.hue({value = math.floor(newHue / 0xFE * 100)}, {visibility = {displayed = false }}))
-    device:emit_event_for_endpoint("main",capabilities.colorControl.saturation({value = math.floor(newSaturation / 0xFE * 100)}, {visibility = {displayed = false }}))
-    --child device emit event
-    local child_device = device:get_child_by_parent_assigned_key("main")
-    if child_device ~= nil and device:get_field("mirror_group_function") == "Active" and child_device:get_field("mirror_group_function") == "Active" then
-      child_device:emit_event(capabilities.colorControl.hue({value = math.floor(newHue / 0xFE * 100)}, {visibility = {displayed = false }}))
-      child_device:emit_event(capabilities.colorControl.saturation({value = math.floor(newSaturation / 0xFE * 100)}, {visibility = {displayed = false }}))
-    end
+    device:set_field("colorChanging_timer", "running", {persist = true})
 
     ------ Timer Color Changing activation
     set_status_timer = device.thread:call_on_schedule(colorTimer,
@@ -720,25 +831,33 @@ function driver_handler.color_Changing_handler(driver,device,command)
       
       -- Incremet steps for AllModes Ramdom Mode
       if colorChangeModeList == "AllModes" then
-       stepsNumber = device:get_field("stepsNumber")
-       stepsNumber = stepsNumber + 1
-       if stepsNumber >= device:get_field("stepsNumberMax") and colorChangeModeList == "AllModes" then
-        device:set_field("colorChanging", "Continue", {persist = true})
-        driver_handler.color_Changing_handler(driver,device,"Continue")
-        stepsNumber = 0
-       end
-       device:set_field("stepsNumber",  stepsNumber, {persist = false})
+        stepsNumber = device:get_field("stepsNumber")
+        stepsNumber = stepsNumber + 1
+        if stepsNumber >= device:get_field("stepsNumberMax") and colorChangeModeList == "AllModes" then
+          colorChangeMode = math.random(1, 2)
+          stepsNumberMax = math.random(30, 80)
+          saturationStep = 0.5
+          hueStep[device] = -2 * direction
+          hueMin[device] = 1
+          hueMax[device] = 255
+          stepsNumber = 0
+        end
+        device:set_field("stepsNumber",  stepsNumber, {persist = false})
+        device:set_field("stepsNumberMax",  stepsNumberMax, {persist = false})
+        device:set_field("colorChangeMode", colorChangeMode, {persist = true})
 
-       if device.preferences.logDebugPrint == true then
-        print("<< stepsNumber, stepsNumberMax >>", stepsNumber, stepsNumberMax)
-       end
 
-       colorChangeMode = device:get_field("colorChangeMode")
-       if colorChangeMode == nil then colorChangeMode = 2 end
+        if device.preferences.logDebugPrint == true then
+          print("<< stepsNumber, stepsNumberMax >>", stepsNumber, stepsNumberMax)
+        end
+
+        colorChangeMode = device:get_field("colorChangeMode")
+        if colorChangeMode == nil then colorChangeMode = 2 end
       end
 
       if device.preferences.logDebugPrint == true then
-        print("<<<<<<<< Color Changing Mode >>>>>>>", colorChangeMode)
+        print("<<< colorChangeModeList", colorChangeModeList)
+        print("<<< Color Changing Mode >>>>>>>", colorChangeMode)
         print("*** color Timer ***", colorTimer)
       end
 
@@ -778,39 +897,21 @@ function driver_handler.color_Changing_handler(driver,device,command)
       end
     
       -- Emit command and color event
-      --print("ZLL device >>>>>>>",device:get_field("zll_xy"))
-      if device:get_field("zll_xy") == "no" then
-        --print("ZLL device No >>>>>>>",device:get_field("zll_xy"))
-        device:send_to_component("main", zcl_clusters.ColorControl.server.commands.MoveToHueAndSaturation(device, newHue, newSaturation, 0x0000))    
-      else
-        --print("<<<< convert to x,y >>>>")
-        local hue = math.floor(newHue / 0xFE * 100) > 99 and 99 or math.floor(newHue / 0xFE * 100)
-        local sat = math.floor(newSaturation / 0xFE * 100)
-        local x, y, Y = 0,0,0
-        if device:get_manufacturer()=="IKEA of Sweden" then
-         x, y, Y = utils.safe_hsv_to_xy(hue, sat)
-        else
-          x, y, Y = utils_xy.safe_hsv_to_xy(hue, sat)
+      if group == true then -- emit commands and events for all group devices
+        for uuid, dev in pairs(device.driver:get_devices()) do
+          if dev.network_type ~= "DEVICE_EDGE_CHILD" then  ---- device (is NO Child device)
+            if dev:get_field("mirror_group_function") == "Active" and
+              dev:supports_capability_by_id(capabilities.colorControl.ID) and
+              device.preferences.onOffGroup > 0 and
+              dev.preferences.onOffGroup > 0 and
+              dev.preferences.onOffGroup == device.preferences.onOffGroup then
+              -- Emit command and color event
+              emit_change_color_event(driver, dev, newHue, newSaturation)
+            end
+          end
         end
-        device:set_field(Y_TRISTIMULUS_VALUE, Y)
-        device:set_field(CURRENT_X, x)
-        device:set_field(CURRENT_Y, y)
-        if device.preferences.logDebugPrint == true then
-          print(">>>>> CURRENT_X=",x)
-          print(">>>>> CURRENT_Y=",y)
-          print(">>>>> Y_TRISTIMULUS_VALUE=",Y)
-        end
-
-        device:send(ColorControl.commands.MoveToColor(device, x, y, 0x0000))
-      end
-      
-      device:emit_event_for_endpoint("main",capabilities.colorControl.hue({value = math.floor(newHue / 0xFE * 100)}, {visibility = {displayed = false }}))
-      device:emit_event_for_endpoint("main",capabilities.colorControl.saturation({value = math.floor(newSaturation / 0xFE * 100)}, {visibility = {displayed = false }}))
-      --child device emit event
-      child_device = device:get_child_by_parent_assigned_key("main")
-      if child_device ~= nil and device:get_field("mirror_group_function") == "Active" and child_device:get_field("mirror_group_function") == "Active" then
-        child_device:emit_event(capabilities.colorControl.hue({value = math.floor(newHue / 0xFE * 100)}, {visibility = {displayed = false }}))
-        child_device:emit_event(capabilities.colorControl.saturation({value = math.floor(newSaturation / 0xFE * 100)}, {visibility = {displayed = false }}))
+      elseif group == false then
+        emit_change_color_event(driver, device, newHue, newSaturation)
       end
     end
      ,'ColorChanging')
@@ -821,7 +922,7 @@ end
 ---------------------------------------------------------
 --------------- color_Change_Timer_handler --------------
 
-function driver_handler.color_Change_Timer_handler(driver, device, command)
+function driver_handler.color_Change_Timer_handler(driver, device, command, group)
   if command.args.value == device:get_field("colorTimer") then return end
   if device.preferences.logDebugPrint == true then
     print("colorChangeTimer Value >>>", command.args.value)
@@ -831,16 +932,29 @@ function driver_handler.color_Change_Timer_handler(driver, device, command)
   device:emit_event(color_Change_Timer.colorChangeTimer(colorTimer))
 
   --- goto color chanaging function
-  if device:get_field("colorChanging") == "Active" then 
-    device:set_field("colorChanging", "Continue", {persist = true})
-    driver_handler.color_Changing_handler(driver,device,"Continue")
+  local child_device = device:get_child_by_parent_assigned_key("main")
+  if device:get_field("colorChanging") == "Active" and device:get_field("colorChanging_timer") == "running" then   
+    if group == true then
+      if child_device ~= nil then
+        if child_device:get_field("colorChanging_timer") == "running" then
+          child_device:set_field("colorChanging_timer", "stopped", {persist = true})
+          device:set_field("colorChanging_timer", "stopped", {persist = true})
+          driver_handler.color_Changing_timer_on(driver, device, command, group)
+        end
+      end
+    else
+      if child_device ~= nil and child_device:get_field("colorChanging_timer") ~= "running" then -- if group of device is running then not change mode
+        device:set_field("colorChanging_timer", "stopped", {persist = true})
+        driver_handler.color_Changing_timer_on(driver, device, command, group)
+      end
+    end
   end
 end
 
 --------------------------------------------------------
 ------------- color_Change_Mode_handler ----------------
 
-function driver_handler.color_Change_Mode_handler(driver,device,command)
+function driver_handler.color_Change_Mode_handler(driver, device, command, group)
   if command.args.value == device:get_field("colorChangeModeList") then return end
   if device.preferences.logDebugPrint == true then
     print("colorChangeMode Value >>>", command.args.value)
@@ -850,9 +964,22 @@ function driver_handler.color_Change_Mode_handler(driver,device,command)
   device:emit_event(color_Change_Mode.colorChangeMode(colorChangeModeList))
 
   --- goto color chanaging function
-  if device:get_field("colorChanging") == "Active" then 
-    device:set_field("colorChanging", "Continue", {persist = true})
-    driver_handler.color_Changing_handler(driver,device,"Continue")
+  if device:get_field("colorChanging") == "Active" and device:get_field("colorChanging_timer") == "running" then   
+    local child_device = device:get_child_by_parent_assigned_key("main")
+    if group == true then
+      if child_device ~= nil then
+        if child_device:get_field("colorChanging_timer") == "running" then
+          child_device:set_field("colorChanging_timer", "stopped", {persist = true}) 
+          device:set_field("colorChanging_timer", "stopped", {persist = true})
+          driver_handler.color_Changing_timer_on(driver, device, command, group)
+        end
+      end
+    else
+      if child_device ~= nil and child_device:get_field("colorChanging_timer") ~= "running" then -- if group of device is running then not change mode
+        device:set_field("colorChanging_timer", "stopped", {persist = true})
+        driver_handler.color_Changing_timer_on(driver, device, command, group)
+      end
+    end
   end
 end
 
@@ -917,6 +1044,7 @@ function driver_handler.random_on_off_handler(driver,device,command)
     if device:supports_capability_by_id(capabilities.colorControl.ID) and device:get_field("colorChanging") == "Active" then
       device:emit_event(color_Changing.colorChanging("Inactive"))
       device:set_field("colorChanging", "Inactive", {persist = true})
+      device:set_field("colorChanging_timer", "stopped", {persist = true})
     end
 
     ---- All Timers Cancel ------
@@ -1002,7 +1130,7 @@ function driver_handler.prog_On_handler(driver, device, command)
     elseif device:get_field("colorChanging") == "Active" then
       device:emit_event(color_Changing.colorChanging("Inactive"))
       device:set_field("colorChanging", "Inactive", {persist = true})
-
+      device:set_field("colorChanging_timer", "stopped", {persist = true})
     end
     ---- Timers Cancel ------
     timers_Cancel(driver,device)
@@ -1045,6 +1173,7 @@ function driver_handler.prog_Off_handler(driver, device, command)
     elseif device:get_field("colorChanging") == "Active" then
       device:emit_event(color_Changing.colorChanging("Inactive"))
       device:set_field("colorChanging", "Inactive", {persist = true})
+      device:set_field("colorChanging_timer", "stopped", {persist = true})
     end
     ---- Timers Cancel ------
     timers_Cancel(driver,device)
@@ -1069,6 +1198,7 @@ function driver_handler.level_Steps_handler(driver, device, command)
   if device:supports_capability_by_id(capabilities.colorControl.ID) and device:get_field("colorChanging") == "Active" then
     device:emit_event(color_Changing.colorChanging("Inactive"))
     device:set_field("colorChanging", "Inactive", {persist = true})
+    device:set_field("colorChanging_timer", "stopped", {persist = true})
   end
 
   ---- Timers Cancel ------
@@ -1140,6 +1270,7 @@ function driver_handler.color_Temperature_Steps_handler(driver, device, command)
     if device:supports_capability_by_id(capabilities.colorControl.ID) and device:get_field("colorChanging") == "Active" then
       device:emit_event(color_Changing.colorChanging("Inactive"))
       device:set_field("colorChanging", "Inactive", {persist = true})
+      device:set_field("colorChanging_timer", "stopped", {persist = true})
     end
   
     ---- Timers Cancel ------
@@ -1188,8 +1319,6 @@ function driver_handler.circadian_Light_handler(driver, device, command)
     ---- Timers status ------
     circadian_Running[device] = "stopped"
     device:set_field("circadian_Running[device]", circadian_Running[device], {persist = true})
-    ---- Timers Cancel ------
-    --timers_Cancel(driver,device)
 
   else
     device:emit_event(circadian_Light.circadian("Active"))
@@ -1215,6 +1344,7 @@ function driver_handler.circadian_Light_handler(driver, device, command)
     elseif device:supports_capability_by_id(capabilities.colorControl.ID) and device:get_field("colorChanging") == "Active" then
       device:emit_event(color_Changing.colorChanging("Inactive"))
       device:set_field("colorChanging", "Inactive", {persist = true})
+      device:set_field("colorChanging_timer", "stopped", {persist = true})
     end
   end
   ---- Timers Cancel ------
@@ -1254,7 +1384,7 @@ function driver_handler.circadian_handler(self, device)
     newLevel = math.ceil(device.preferences.circadLevelMin + (((colorTemp - device.preferences.colorTempMinim) / (device.preferences.colorTempMaxim - device.preferences.colorTempMinim)) * (device.preferences.circadLevelMax - device.preferences.circadLevelMin)))
     --print("New Level=", newLevel)
 
-    -- detect if forced Level actived
+    -- detect if forced Level active
     if device:get_field("forced_Level") > 0 then
       if newLevel >= device:get_field("forced_Level") then
         newLevel = device:get_field("forced_Level")
@@ -1284,6 +1414,9 @@ function driver_handler.circadian_handler(self, device)
     end
     device.thread:call_with_delay(2, color_temp_read, "setColorTemp delayed read")
 
+    
+    set_status_timer = device:get_field("timer_circadian")
+    if set_status_timer ~= nil then return end
     ---- Set timer for circadian cycle
     set_status_timer = device.thread:call_on_schedule(300, 
     function ()
@@ -1408,28 +1541,10 @@ end
 -----------------------------------------------
 ---------------- TURN ON handler --------------
 
-function driver_handler.on_handler (driver, device, command)
+function driver_handler.on_handler (driver, device, command, group)
   print("Turn On handler >>>>>>>>>>>")
       -- capability reference
   local attr = capabilities.switch.switch
-    
-  --if device.preferences.onTransTime == 0 then
-    ----print(" <<<<< Turn On transition Time = = 0 >>>>>")
-    --if device:get_field("last_Level") == nil or device:get_field("last_Level") < 1 then device:set_field("last_Level", device.preferences.onLevelEnd, {persist = true}) end
-
-    ---- detect if forced Level actived
-    --if device:get_field("forced_Level") > 0 then
-      --device:set_field("last_Level", device:get_field("forced_Level"), {persist = true})
-    --end
-    ---- set level from preferences if current level < 1 ----
-    --if device:get_latest_state("main", capabilities.switchLevel.ID, capabilities.switchLevel.level.NAME) == nil then
-      --device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(device:get_field("last_Level")/100.0 * 254), 0xFFFF))
-      --device:emit_event(capabilities.switchLevel.level(math.floor((device:get_field("last_Level")/ 254.0 * 100) + 0.5)))
-    --elseif (device:get_latest_state("main", capabilities.switchLevel.ID, capabilities.switchLevel.level.NAME)) < 1 then
-      --device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(device:get_field("last_Level")/100.0 * 254), 0xFFFF))
-      --device:emit_event(capabilities.switchLevel.level(math.floor((device:get_field("last_Level")/ 254.0 * 100) + 0.5)))
-    --end
-  --end
 
    ----- detect progressive turn On activated--
     if progOn[device]  ==  "Active" and circadian[device] == "Inactive" then
@@ -1570,7 +1685,7 @@ function driver_handler.on_handler (driver, device, command)
             end
           end
 
-          local command1 = zcl_clusters.Level.commands.MoveToLevelWithOnOff(device,  math.floor(onNewLevel[device]/100.0 * 254), 0xFFFF)
+          command1 = zcl_clusters.Level.commands.MoveToLevelWithOnOff(device,  math.floor(onNewLevel[device]/100.0 * 254), 0xFFFF)
           if device:get_manufacturer() == "TCPi" or device:get_manufacturer() == "DURAGREEN" or device:get_model() == "Classic A60 W clear - LIGHTIFY" then
             command1.body.zcl_body.options_mask = nil
             command1.body.zcl_body.options_override = nil
@@ -1594,10 +1709,24 @@ function driver_handler.on_handler (driver, device, command)
     end
 
     --- send status ON without dimming---
-    if progOn[device]  ==  "Inactive" and circadian[device] == "Inactive" and onStatus[device] =="stopped" then
+    if device.preferences.logDebugPrint == true then
+      print("<<<<<<<<<< device", device)
+      print("<<<<<<<<<< circadian[device]",circadian[device])
+    end
+    if device:get_field("colorChanging") == "Active" and device:get_field("colorChanging_timer") == "stopped" then
+
+      if group == true then
+        local child_device = device:get_child_by_parent_assigned_key("main")
+        if child_device ~= nil then
+          driver_handler.color_Changing_timer_on(driver, device, command, group)
+        end
+      else 
+        driver_handler.color_Changing_timer_on(driver, device, command, group)
+      end
+
+    elseif progOn[device]  ==  "Inactive" and circadian[device] == "Inactive" and onStatus[device] =="stopped" then
       if device:get_field("last_Level") == nil or device:get_field("last_Level") < 1 then device:set_field("last_Level", device.preferences.onLevelEnd, {persist = true}) end
       local on_Level = device:get_field("last_Level")
-      --if on_Level == nil then on_Level = device.preferences.onLevelEnd end
 
       -- detect if forced Level actived
       if device:get_field("forced_Level") > 0 then
@@ -1630,14 +1759,18 @@ function driver_handler.on_handler (driver, device, command)
           device:refresh()
         end)
       end
-    end
-
-    if device.preferences.logDebugPrint == true then
-      print("<<<<<<<<<< device", device)
-      print("<<<<<<<<<< circadian[device]",circadian[device])
-    end
-    if device:get_field("circadian_Running[device]") == "stopped" and circadian[device] == "Active" then
-      circadian_Running[device] = "stopped"
+    --end
+    elseif circadian[device] == "Active" then
+        set_status_timer = device:get_field("timer_circadian")
+        if set_status_timer then
+          if device.preferences.logDebugPrint == true then
+            print("<<<<< Cancelando Circadian timer >>>>>")
+          end
+          device.thread:cancel_timer(set_status_timer)
+          device:set_field("timer_circadian", nil)
+          circadian_Running[device] = "stopped"
+          device:set_field("circadian_Running[device]", "stopped", {persist = true})
+        end
       driver_handler.circadian_handler(driver, device)
     end
   end
@@ -1659,8 +1792,11 @@ function driver_handler.off_handler (driver, device, command)
   
    ---deactivate color Continous Change
   if device:supports_capability_by_id(capabilities.colorControl.ID) and device:get_field("colorChanging") == "Active" then
-    device:emit_event(color_Changing.colorChanging("Inactive"))
-    device:set_field("colorChanging", "Inactive", {persist = true})
+    device:set_field("colorChanging_timer", "stopped", {persist = true})
+    local child_device = device:get_child_by_parent_assigned_key("main")
+    if child_device ~= nil then
+      child_device:set_field("colorChanging_timer", "stopped", {persist = true})
+    end
 
     set_status_timer = device:get_field("timer_color")
     if set_status_timer then
@@ -1832,7 +1968,7 @@ function driver_handler.off_handler (driver, device, command)
             if device.preferences.logDebugPrint == true then
               print ("turnOff.offNewLevel=",offNewLevel[device])
             end
-            local command1 = zcl_clusters.Level.commands.MoveToLevelWithOnOff(device,  math.floor(offNewLevel[device]/100.0 * 254), 0xFFFF)
+            command1 = zcl_clusters.Level.commands.MoveToLevelWithOnOff(device,  math.floor(offNewLevel[device]/100.0 * 254), 0xFFFF)
             if device:get_manufacturer() == "TCPi" or device:get_manufacturer() == "DURAGREEN" or device:get_model() == "Classic A60 W clear - LIGHTIFY" then
               command1.body.zcl_body.options_mask = nil
               command1.body.zcl_body.options_override = nil
@@ -1861,7 +1997,7 @@ function driver_handler.off_handler (driver, device, command)
       if progOff[device]  ==  "Inactive" or device.preferences.ifPushSwitch == "Off" or offJump[device] == "no" then
         print("Turn OFF >>>>>>>>>>>>>>>>")
           -- send zigbee event
-        if device.preferences.onTransTime == 0 then
+        if device.preferences.onTransTime == 0 or device:get_field("effects_set_command") ~= "Inactive" then
           device:send(OnOff.server.commands.Off(device))
           device:emit_event(attr.off())
         else
@@ -1873,12 +2009,8 @@ function driver_handler.off_handler (driver, device, command)
           device:send(command1)
           --device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(0.1/100.0 * 254), math.floor(device.preferences.onTransTime * 10)))
         end
-        --device:emit_event(attr.off())
 
        ---- Cancel Timers
-       --circadian_Running[device] = "stopped"
-       --device:set_field("circadian_Running[device]", circadian_Running[device], {persist = true})
-       --timers_Cancel(driver, device)
         set_status_timer = device:get_field("timer_color")
         if set_status_timer then
           if device.preferences.logDebugPrint == true then
@@ -1886,6 +2018,11 @@ function driver_handler.off_handler (driver, device, command)
           end
           device.thread:cancel_timer(set_status_timer)
           device:set_field("timer_color", nil)
+          device:set_field("colorChanging_timer", "stopped", {persist = true})
+          local child_device = device:get_child_by_parent_assigned_key("main")
+          if child_device ~= nil then
+            child_device:set_field("colorChanging_timer", "stopped", {persist = true})
+          end
         end
         set_status_timer = device:get_field("timer_progOn")
         if set_status_timer then
@@ -1943,14 +2080,18 @@ function driver_handler.on_off_attr_handler(driver, device, value, zb_rx)
    ---deactivate color Continous Change  
   if value.value == false then
     if device:supports_capability_by_id(capabilities.colorControl.ID) and device:get_field("colorChanging") == "Active" then
-      device:emit_event(color_Changing.colorChanging("Inactive"))
-      device:set_field("colorChanging", "Inactive", {persist = true})
-    end
-    set_status_timer = device:get_field("timer_color")
-    if set_status_timer then
-      --print("<<<<< Cancel Color Changing timer >>>>>")
-      device.thread:cancel_timer(set_status_timer)
-      device:set_field("timer_color", nil)
+      device:set_field("colorChanging_timer", "stopped", {persist = true})
+      local child_device = device:get_child_by_parent_assigned_key("main")
+      if child_device ~= nil then
+        child_device:set_field("colorChanging_timer", "stopped", {persist = true})
+      end
+
+      set_status_timer = device:get_field("timer_color")
+      if set_status_timer then
+        --print("<<<<< Cancel Color Changing timer >>>>>")
+        device.thread:cancel_timer(set_status_timer)
+        device:set_field("timer_color", nil)
+      end
     end
     set_status_timer = device:get_field("timer_progOn")
     if set_status_timer then
@@ -2001,51 +2142,113 @@ function driver_handler.on_off_attr_handler(driver, device, value, zb_rx)
   local attr = capabilities.switch.switch
   device:emit_event_for_endpoint(zb_rx.address_header.src_endpoint.value, value.value and attr.on() or attr.off())
 
-  -- emit event in child device
+  --emit event in child device
   local child_device = device:get_child_by_parent_assigned_key("main")
   if child_device ~= nil and device:get_field("mirror_group_function") == "Active" and child_device:get_field("mirror_group_function") == "Active" then
     child_device:emit_event(value.value and attr.on() or attr.off())
   end
 end
-  -----------------------------------------------
+-----------------------------------------------
 --------- effects_Set_Command_handler ---------
 
-function driver_handler.effects_Set_handler(driver, device, command)
+function driver_handler.effects_Set_handler(driver, device, command, group)
 
   local effects_set_command = "Inactive"
-  if command == "BlinkON" then 
-    effects_set_command = "BlinkON"
+  if command == "Continue" then 
+    effects_set_command = device:get_field("effects_set_command")
     --print("<<< command:", command)
   else
     effects_set_command = command.args.value
     --print("<<< command.args.value:", command.args.value)
   end
 
-  --device:send(zcl_clusters.OnOff.server.commands.On(device))
+  ---- Blink Timers Cancel ------
+  set_status_timer = device:get_field("timer_blink")
+  if set_status_timer then
+    --print("<<<<< Cancel Blink timer >>>>>")
+    device.thread:cancel_timer(set_status_timer)
+    device:set_field("timer_blink", nil)
+  end
+
   device:emit_event(effects_Set_Command.effectsSetCommand(effects_set_command))
   device:set_field("effects_set_command", effects_set_command, {persist = true})
 
-  if effects_set_command == "BlinkON" then
-    --device:emit_event(effects_Set_Command.effectsSetCommand("Blink ON"))
-    device:send(zcl_clusters.OnOff.server.commands.On(device))
-    if device:get_manufacturer() == "OSRAM" then
-      device:send(zcl_clusters.Identify.commands.Identify(device, 3600)) -- command blink with time 15 sec
-    else
-      device:send(zcl_clusters.Identify.commands.TriggerEffect(device, 0x01,0x00))
-      set_status_timer = device.thread:call_on_schedule(3,
-      function ()
-        device:send(zcl_clusters.Identify.commands.TriggerEffect(device, 0x01,0x00))
-      end,
-      "blink")
-      device:set_field("timer_blink", set_status_timer)
+  local blink_time
+  if effects_set_command ~= "Inactive" then
+
+    if device:supports_capability_by_id(capabilities.colorControl.ID) and device:get_field("colorChanging") == "Active" then
+      device:set_field("colorChanging_timer", "stopped", {persist = true})
+      local child_device = device:get_child_by_parent_assigned_key("main")
+      if child_device ~= nil then
+        child_device:set_field("colorChanging_timer", "stopped", {persist = true})
+      end
+
+      set_status_timer = device:get_field("timer_color")
+      if set_status_timer then
+        --print("<<<<< Cancel Color Changing timer >>>>>")
+        device.thread:cancel_timer(set_status_timer)
+        device:set_field("timer_color", nil)
+      end
     end
-    
-  elseif effects_set_command == "BlinkOFF" or  effects_set_command == "Inactive" then
-    --device:emit_event(effects_Set_Command.effectsSetCommand(effects_set_command))
+
+    if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) ~= "on" then
+      if device:get_field("last_Level") == nil or device:get_field("last_Level") < 1 then device:set_field("last_Level", device.preferences.onLevelEnd, {persist = true}) end
+      local on_Level = device:get_field("last_Level")
+
+      -- detect if forced Level actived
+      if device:get_field("forced_Level") > 0 then
+          on_Level = device:get_field("forced_Level")
+          device:set_field("last_Level", on_Level, {persist = true})
+      end
+      print("Blink Turn On >>>>>>>>>>>>>>>>")
+        local command1 = zcl_clusters.Level.commands.MoveToLevelWithOnOff(device,  math.floor(on_Level/100.0 * 254), 0xFFFF)
+        if device:get_manufacturer() == "TCPi" or device:get_manufacturer() == "DURAGREEN" or device:get_model() == "Classic A60 W clear - LIGHTIFY" then
+          command1.body.zcl_body.options_mask = nil
+          command1.body.zcl_body.options_override = nil
+        end
+        device:send(command1)
+      device:send(zcl_clusters.OnOff.server.commands.On(device))
+    end
+
+    -- initialize timer_blink function
+    if device:get_manufacturer() == "OSRAM" then
+      device:send(zcl_clusters.Identify.commands.Identify(device, 1)) -- command blink with time 1 sec
+    else 
+      device:send(zcl_clusters.Identify.commands.TriggerEffect(device, 0x00,0x00)) -- 0x00 start effect -- effect BREATHE = 0x01, BLINK = 0x00
+    end
+
+    if effects_set_command == "BlinkON" then -- is Blink Fast
+      blink_time = 2
+
+    elseif effects_set_command == "BlinkSlow" then
+      blink_time = 5
+
+    elseif effects_set_command == "BlinkCustom" then
+      blink_time = device.preferences.blinkTimer
+      if blink_time == nil then blink_time = 3 end
+    end
+
+  -- initialize timer_blink function
+    --device:send(zcl_clusters.Identify.commands.TriggerEffect(device, 0x00,0x00))
+
+    set_status_timer = device.thread:call_on_schedule(blink_time,
+    function ()
+      --device:send(zcl_clusters.Identify.commands.TriggerEffect(device, 0x00,0x00)) -- BREATHE = 0x01, BLINK = 0x00
+      if device:get_manufacturer() == "OSRAM" then
+        device:send(zcl_clusters.Identify.commands.Identify(device, 1)) -- command blink with time 1 sec
+      else
+        device:send(zcl_clusters.Identify.commands.TriggerEffect(device, 0x00,0x00)) -- start effect
+      end
+    end,
+    "blink")
+    device:set_field("timer_blink", set_status_timer)
+
+  elseif effects_set_command == "Inactive" then
+
     if device:get_manufacturer() == "OSRAM" then
       device:send(zcl_clusters.Identify.commands.Identify(device, 0)) -- command blink with time 0 sec
     else 
-      device:send(zcl_clusters.Identify.commands.TriggerEffect(device, 0xFF,0x00))
+      device:send(zcl_clusters.Identify.commands.TriggerEffect(device, 0xFF,0x00)) -- 0xFF stop effect
     end
 
     ---- Blink Timers Cancel ------
@@ -2086,9 +2289,17 @@ function driver_handler.effects_Set_handler(driver, device, command)
         device:emit_event(color_Change_Mode.colorChangeMode("Random"))
       end
   
-      if device:get_field("colorChanging") == "Active" then 
-        device:set_field("colorChanging", "Continue", {persist = true})
-        driver_handler.color_Changing_handler(driver,device,"Continue")
+      if device:get_field("colorChanging") == "Active" then
+        device:set_field("colorChanging_timer", "stopped", {persist = true})
+        if group == true then
+          local child_device = device:get_child_by_parent_assigned_key("main")
+          if child_device ~= nil then
+            driver_handler.color_Changing_timer_on(driver, device, command, group)
+          end
+        else 
+          driver_handler.color_Changing_timer_on(driver, device, command, group)
+        end
+        -- driver_handler.color_Changing_timer_on(driver, device, "Continue", group)
       else
         device:emit_event(color_Changing.colorChanging("Inactive"))
       end
@@ -2099,7 +2310,7 @@ function driver_handler.effects_Set_handler(driver, device, command)
       print("random_state >>>>>",device:get_field("random_state"))
     end
     if device:get_field("random_state") == "Active" then  
-      driver_handler.random_on_off_handler(driver,device,"Active")  
+      driver_handler.random_on_off_handler(driver,device,"Active")
     end
   end
   --device:send(zcl_clusters.ColorControl.commands.ColorLoopSet(device, 0xFF,0x01,0x01,0xFFFF, 0x01, 0x00, 0x00)) -- command Colorloop

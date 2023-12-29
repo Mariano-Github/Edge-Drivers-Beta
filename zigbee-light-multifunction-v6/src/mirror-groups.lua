@@ -68,13 +68,25 @@ function mirror_groups.on_handler(driver, device, command)
               if device.preferences.logDebugPrint == true then
                 print("<<<<<<<< mirror_groups.on_handler")
               end
-              dimmer.on_handler (driver, dev, command)
+              local group = true
+              if dev:get_field("effects_set_command") ~= "Inactive" then
+                command.args.value = dev:get_field("effects_set_command")
+                dimmer.effects_Set_handler(driver, dev, command, group)
+              else
+                dimmer.on_handler (driver, dev, command, group)
+              end
           end 
         end
       end
     end
   else
-    dimmer.on_handler (driver, device, command)
+    local group = false
+    if device:get_field("effects_set_command") ~= "Inactive" and device:get_field("effects_set_command") ~= "BlinkOFF" then
+      command.args.value = device:get_field("effects_set_command")
+      dimmer.effects_Set_handler(driver, device, command, group)
+    else
+      dimmer.on_handler (driver, device, command, group) -- from a single device
+    end
   end
 end
 
@@ -319,13 +331,15 @@ function mirror_groups.effects_Set_Command_handler(driver, device, command)
               device.preferences.onOffGroup > 0 and
               dev.preferences.onOffGroup > 0 and
               dev.preferences.onOffGroup == device.preferences.onOffGroup then
-                dimmer.effects_Set_handler(driver, dev, command)
+                local group = true
+                dimmer.effects_Set_handler(driver, dev, command, group)
             end 
           end
         end
       end
   else
-    dimmer.effects_Set_handler(driver, device, command)
+    local group = false
+    dimmer.effects_Set_handler(driver, device, command, group)
   end
 end
 
@@ -477,7 +491,9 @@ end
 function mirror_groups.color_Changing_handler(driver, device, command)
   if device.preferences.logDebugPrint == true then
     print("<<< color_Changing_handler:", command.args.value)
+    print("device:get_field(colorChanging)",device:get_field("colorChanging"))
   end
+  --if command.args.value == device:get_field("colorChanging") then return end
   if device.network_type == "DEVICE_EDGE_CHILD" then  ---- device (is Child device)
     device:set_field("colorChanging", command.args.value, {persist = true})
     device:emit_event(color_Changing.colorChanging(command.args.value))
@@ -504,9 +520,35 @@ function mirror_groups.color_Changing_handler(driver, device, command)
             end
           end
         end
+        if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) == "on" and device:get_field("colorChanging") == "Active" then
+          local parent_device = device:get_parent_device()
+          local group = true
+          dimmer.color_Changing_timer_on(driver, parent_device, command, group)
+        end
+      else
+        device:set_field("colorChanging_timer", "stopped", {persist = true})
       end
   else
-    dimmer.color_Changing_handler(driver, device, command)
+    dimmer.color_Changing_handler(driver, device, command)  -- is single device, not group
+    local init_new_timer_on = true
+    if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) == "on" and device:get_field("colorChanging") == "Active" then
+      for uuid, dev in pairs(device.driver:get_devices()) do -- detect if this device group is running a color change timer
+        if dev.network_type == "DEVICE_EDGE_CHILD" and  ---- device (is control mirror Child device )
+          dev:get_field("mirror_group_function") == "Active" and 
+          dev:get_field("colorChanging_timer") == "running" and
+          dev:supports_capability_by_id(capabilities.colorControl.ID) and
+          device.preferences.onOffGroup > 0 and
+          dev.preferences.onOffGroup > 0 and
+          dev.preferences.onOffGroup == device.preferences.onOffGroup then
+            init_new_timer_on = false
+            break
+        end
+      end
+      if init_new_timer_on == true then
+        local group = false
+        dimmer.color_Changing_timer_on(driver, device, command, group) -- false = is single device, not group
+      end
+    end
   end
 end
 
@@ -527,13 +569,15 @@ function mirror_groups.color_Change_Timer_handler(driver, device, command)
               device.preferences.onOffGroup > 0 and
               dev.preferences.onOffGroup > 0 and
               dev.preferences.onOffGroup == device.preferences.onOffGroup then
-                dimmer.color_Change_Timer_handler(driver, dev, command)
+                local group = true
+                dimmer.color_Change_Timer_handler(driver, dev, command, group)
             end
           end
         end
       end
   else
-    dimmer.color_Change_Timer_handler(driver, device, command)
+    local group = false
+    dimmer.color_Change_Timer_handler(driver, device, command, group) -- from a single device
   end
 end
 
@@ -554,13 +598,15 @@ function mirror_groups.color_Change_Mode_handler(driver, device, command)
               device.preferences.onOffGroup > 0 and
               dev.preferences.onOffGroup > 0 and
               dev.preferences.onOffGroup == device.preferences.onOffGroup then
-                dimmer.color_Change_Mode_handler(driver, dev, command)
+                local group = true
+                dimmer.color_Change_Mode_handler(driver, dev, command, group)
             end
           end
         end
       end
   else
-    dimmer.color_Change_Mode_handler(driver, device, command)
+    local group = false
+    dimmer.color_Change_Mode_handler(driver, device, command, group) -- from a single device
   end
 end
 
