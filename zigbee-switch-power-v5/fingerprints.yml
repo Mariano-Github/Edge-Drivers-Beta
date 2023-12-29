@@ -340,7 +340,7 @@ zigbeeManufacturer:
     model: TS011F
     deviceProfileName: switch-power-energy-plug
   - id: "_TZ3000_2putqrmw/TS011F"
-    deviceLabel: TS011F Lidl Plug
+    deviceLabel: TS011F Plug
     manufacturer: _TZ3000_2putqrmw
     model: TS011F
     deviceProfileName: switch-power-energy-plug
@@ -364,6 +364,21 @@ zigbeeManufacturer:
     manufacturer: NAMRON AS
     model: 4512749-N
     deviceProfileName: switch-temp-voltage-power-energy-plug
+  - id: "SMRZB-143/frient A/S"
+    deviceLabel: SMRZB-143 Smart Cable
+    manufacturer: frient A/S
+    model: SMRZB-143
+    deviceProfileName: switch-temp-power-energy-plug
+  - id: "SPLZB-153/Develco Products A/S"
+    deviceLabel: SPLZB-153 Smart Cable 2
+    manufacturer: Develco Products A/S
+    model: SPLZB-153
+    deviceProfileName: switch-temp-power-energy-plug
+  - id: "_TZ3000_fukaa7nc/TS011F"
+    deviceLabel: TS011F Plug
+    manufacturer: _TZ3000_fukaa7nc
+    model: TS011F
+    deviceProfileName: switch-power-energy-plug
 zigbeeGeneric:
   - id: "generic/switch/power"
     deviceLabel: Generic Switch Power
