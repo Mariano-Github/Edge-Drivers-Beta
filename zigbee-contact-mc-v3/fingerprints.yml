@@ -436,6 +436,16 @@ zigbeeManufacturer:
     manufacturer: IKEA of Sweden
     model: PARASOLL Door/Window Sensor
     deviceProfileName: contact-battery-profile
+  - id: "_TZ3000_hufxidjp/TS0203"
+    deviceLabel: TS0203 Contact Sensor
+    manufacturer: _TZ3000_hufxidjp
+    model: TS0203
+    deviceProfileName: contact-battery-profile
+  - id: "_TZ3000_8yhypbo7/TS0203"
+    deviceLabel: MOES Contact Sensor
+    manufacturer: _TZ3000_8yhypbo7
+    model: TS0203
+    deviceProfileName: contact-battery-profile
 
   # ST multipurpose sensors
   - id: "Samjin/multi"
