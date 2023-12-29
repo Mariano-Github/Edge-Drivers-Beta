@@ -1,0 +1,78 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{sensorSensitivity.value}}"
+            }
+        ],
+        "actions": []
+    },
+    "detailView": [
+        {
+            "label": "Sensor Sensitivity Level",
+            "displayType": "list",
+            "list": {
+                "command": {
+                    "name": "setSensorSensitivity",
+                    "alternatives": [
+                        {
+                            "key": "Read",
+                            "value": "Read Value",
+                            "type": "active"
+                        }
+                    ],
+                    "argumentType": "string"
+                },
+                "state": {
+                    "value": "sensorSensitivity.value",
+                    "valueType": "string",
+                    "alternatives": [
+                        {
+                            "key": "Read",
+                            "value": "Read Value",
+                            "type": "active"
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "automation": {
+        "conditions": [
+            {
+                "label": "Sensor Sensitivity Level",
+                "displayType": "list",
+                "list": {
+                    "alternatives": [
+                        {
+                            "key": "Read",
+                            "value": "Read Value",
+                            "type": "active"
+                        }
+                    ],
+                    "value": "sensorSensitivity.value",
+                    "valueType": "string"
+                }
+            }
+        ],
+        "actions": [
+            {
+                "label": "Sensor Sensitivity Level",
+                "displayType": "list",
+                "list": {
+                    "alternatives": [
+                        {
+                            "key": "Read",
+                            "value": "Read Value",
+                            "type": "active"
+                        }
+                    ],
+                    "command": "setSensorSensitivity",
+                    "argumentType": "string"
+                }
+            }
+        ]
+    },
+    "id": "legendabsolute60149.sensorSensitivity",
+    "version": 1
+}
