@@ -229,3 +229,8 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_zl1kmjqx
     model: TY0201
     deviceProfileName: temp-humid-therm-battery-05
+  - id: "CentraLite-3325-S-Motion"
+    deviceLabel: CentraLite Motion Sensor
+    manufacturer: CentraLite
+    model: 3325-S
+    deviceProfileName: motion-temp-therm-battery-05
