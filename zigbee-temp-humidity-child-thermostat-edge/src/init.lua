@@ -330,7 +330,7 @@ end
 
 --- temperature handler
 local function temp_attr_handler(self, device, tempvalue, zb_rx)
-  if device:get_manufacturer() == "LUMI" and (device:get_manufacturer()== "lumi.weather") then -- ramdomly send value 0º or -100º
+  if device:get_manufacturer() == "LUMI" and (device:get_model()== "lumi.weather") then -- ramdomly send value 0º or -100º
     if tempvalue.value == -10000 then return end
     if tempvalue.value == 0 then
       if device:get_field("last_tempvalue") == nil then
