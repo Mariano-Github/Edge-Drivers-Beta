@@ -1193,12 +1193,7 @@ local function device_init(self, device)
     end
 
     rgbwl[device.id] = device:get_field("rgbwl".. device.id)
-    print("<<< rgbwl[device.id]", rgbwl[device.id])
-    print("<<< rgbwl[device.id].r", rgbwl[device.id].r)
-    print("<<< rgbwl[device.id].g", rgbwl[device.id].g)
-    print("<<< rgbwl[device.id].b", rgbwl[device.id].b)
-    print("<<< rgbwl[device.id].w", rgbwl[device.id].w)
-    print("<<< rgbwl[device.id].l", rgbwl[device.id].l)
+   
     if rgbwl[device.id] == nil then
       rgbwl[device.id] = {r = 100, g = 100, b = 100, w = 0, l = 100}
       print("<<< rgbwl[device.id].r", rgbwl[device.id].r)
@@ -1207,6 +1202,13 @@ local function device_init(self, device)
       print("<<< rgbwl[device.id].w", rgbwl[device.id].w)
       print("<<< rgbwl[device.id].l", rgbwl[device.id].l)
       device:set_field("rgbwl".. device.id,rgbwl[device.id], {persist = true})
+    end
+      print("<<< rgbwl[device.id]", rgbwl[device.id])
+      print("<<< rgbwl[device.id].r", rgbwl[device.id].r)
+      print("<<< rgbwl[device.id].g", rgbwl[device.id].g)
+      print("<<< rgbwl[device.id].b", rgbwl[device.id].b)
+      print("<<< rgbwl[device.id].w", rgbwl[device.id].w)
+      print("<<< rgbwl[device.id].l", rgbwl[device.id].l)
     end
 
     if device:get_field("Minimum_Delay") == nil or device:get_field("Calculated_Delay") == nil then
