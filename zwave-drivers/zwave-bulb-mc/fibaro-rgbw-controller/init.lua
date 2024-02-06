@@ -857,7 +857,7 @@ local function set_switch_on(driver, device, command)
   if device.network_type ~= "DEVICE_EDGE_CHILD" then  ---- device (is NO Child device)
     local value = 255
     device:set_field(LAST_COLOR_SWITCH_CMD_FIELD, 255)
-    RGBWL[device.id] = device:get_field("rgbwl".. device.id) -- added this
+    rgbwl[device.id] = device:get_field("rgbwl".. device.id) -- added this
     if command.component == "white" then
       device:set_field("LastWhite", 255, {persist = true})
       value = rgbwl[device.id].w
