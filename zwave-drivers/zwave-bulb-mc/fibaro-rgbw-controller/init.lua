@@ -1,5 +1,6 @@
 -- Copyright 2021 SmartThings
 --
+-- M.Colmenarejo 2023
 -- Licensed under the Apache License, Version 2.0 (the "License");
 -- you may not use this file except in compliance with the License.
 -- You may obtain a copy of the License at
@@ -31,14 +32,14 @@ local Configuration = (require "st.zwave.CommandClass.Configuration")({ version=
 local Basic = (require "st.zwave.CommandClass.Basic")({version=1,strict=true})
 local utils = require "st.utils"
 
-local ColorControlDefaults = require "st.zwave.defaults.colorControl"
+--local ColorControlDefaults = require "st.zwave.defaults.colorControl"
 local SwitchLevelDefaults = require "st.zwave.defaults.switchLevel"
 
 local child_devices = require "child-devices"
 
 local CAP_CACHE_KEY = "st.capabilities." .. capabilities.colorControl.ID
 local LAST_COLOR_SWITCH_CMD_FIELD = "lastColorSwitchCmd"
-local FAKE_RGB_ENDPOINT = 10
+--local FAKE_RGB_ENDPOINT = 10
 local WHITE_ENDPOINT = 9
 local R_ENDPOINT = 6
 local G_ENDPOINT = 7
@@ -105,13 +106,12 @@ local function child_emit_event(driver, device, command, value)
 end
 
 --- rgbw_level handler
-local function rgbwl_handler(driver, device, rgbwl)
-  print("<<<< rgbwl_handler-0")
+local function rgbwl_handler(driver, device)--, rgbwl)
+  print("<<<< rgbwl_handler")
   if device.network_type ~= "DEVICE_EDGE_CHILD" then  ---- device (is NO Child device)
     --initialize variables to emit components state
     red[device.id], green[device.id], blue[device.id], white[device.id] = -1, -1, -1, -1
-
-    print("<<<<< rgbwl_handler >>>>>>>")
+    
     local set = SwitchColor:Set({
       color_components = {
         { color_component_id=SwitchColor.color_component_id.RED, value= rgbwl[device.id].r },
@@ -200,7 +200,6 @@ local function set_color(driver, device, command)
       device:send(SwitchColor:Get({ color_component_id=SwitchColor.color_component_id.GREEN }))
       device:send(SwitchColor:Get({ color_component_id=SwitchColor.color_component_id.BLUE }))
       device:send(SwitchColor:Get({ color_component_id=SwitchColor.color_component_id.WARM_WHITE }))
-      --device:send_to_component(SwitchMultilevel:Get({}), "main")
       device:send(SwitchMultilevel:Get({}))
     end
     device.thread:call_with_delay(device:get_field("Minimum_Delay"), query_color)
@@ -248,14 +247,19 @@ end
 local function switch_color_report(driver, device, command)
   if device.network_type ~= "DEVICE_EDGE_CHILD" then  ---- device (is NO Child device)
       print("<<<<< switch_color_report >>>>>>>")
+
       local value = command.args.value
       --if command.args.color_component_id ~= SwitchColor.color_component_id.WARM_WHITE then
         --command.src_channel = FAKE_RGB_ENDPOINT --- main component
         --ColorControlDefaults.zwave_handlers[cc.SWITCH_COLOR][SwitchColor.REPORT](driver, device, command)
       --end
 
+      if rgbwl[device.id] == nil then
+        rgbwl[device.id] = device:get_field("rgbwl".. device.id) -- added for lazy loading feature
+      end
+
       if command.args.color_component_id == SwitchColor.color_component_id.WARM_WHITE then
-        value = command.args.value
+        --value = command.args.value
         --print("<<<<< white value:",command.args.value)
         if value > 0 then
           white[device.id] = 1
@@ -359,7 +363,7 @@ local function switch_color_report(driver, device, command)
           --save last hue and sat
             --local sat = device:get_latest_state("main",capabilities.colorControl.ID,capabilities.colorControl.saturation.NAME)
             --local hue = device:get_latest_state("main",capabilities.colorControl.ID,capabilities.colorControl.hue.NAME)
-          print("<<<<< hue, sat",hue, sat)
+          --print("<<<<< hue, sat",hue, sat)
           local mockCommand = {args = {color = {hue = hue, saturation = sat}}}
           device:set_field(CAP_CACHE_KEY, mockCommand)
 
@@ -374,9 +378,14 @@ local function switch_color_report(driver, device, command)
 end
 
 --- switch_multilevel_report
-local function switch_multilevel_report(self, device, command)
+local function switch_multilevel_report(driver, device, command)
   if device.network_type ~= "DEVICE_EDGE_CHILD" then  ---- device (is NO Child device)
     print("<<<<< switch_multilevel_report >>>>>>>")
+
+    if rgbwl[device.id] == nil then
+      rgbwl[device.id] = device:get_field("rgbwl".. device.id) -- added for lazy loading feature
+    end
+
     local endpoint = command.src_channel
     -- ignore multilevel reports from endpoints [1, 2, 3, 4] which mirror SwitchColor values
     -- and in addition cause wrong SwitchLevel events
@@ -398,15 +407,11 @@ local function switch_multilevel_report(self, device, command)
         if device:get_field(LAST_COLOR_SWITCH_CMD_FIELD) > 0 then
           rgbwl[device.id].l = value
         end
-        SwitchLevelDefaults.zwave_handlers[cc.SWITCH_MULTILEVEL][SwitchMultilevel.REPORT](self, device, command)
+        SwitchLevelDefaults.zwave_handlers[cc.SWITCH_MULTILEVEL][SwitchMultilevel.REPORT](driver, device, command)
       end
-    --end
     else
-      --if command.args.value == SwitchMultilevel.value.OFF_DISABLE then
       if device:get_field("Calculated_Delay") > device:get_field("Minimum_Delay") then
         local query_level = function()
-          --device:send_to_component(get, command.component)
-          --device:send(get)
           device:send(SwitchColor:Get({ color_component_id=SwitchColor.color_component_id.WARM_WHITE }))
           device:send(SwitchColor:Get({ color_component_id=SwitchColor.color_component_id.RED }))
           device:send(SwitchColor:Get({ color_component_id=SwitchColor.color_component_id.GREEN }))
@@ -423,6 +428,11 @@ local function set_switch_level_handler(driver, device, command)
 
   if device.network_type ~= "DEVICE_EDGE_CHILD" then  ---- device (is NO Child device)
     print("<<<< set_switch_level_handler >>>>")
+
+    if rgbwl[device.id] == nil then
+      rgbwl[device.id] = device:get_field("rgbwl".. device.id) -- added for lazy loading feature
+    end
+
     --initialize variables to emit components state
     red[device.id], green[device.id], blue[device.id], white[device.id] = -1, -1, -1, -1
 
@@ -434,7 +444,7 @@ local function set_switch_level_handler(driver, device, command)
       local delay = device:get_field("Minimum_Delay") -- delay in seconds
       if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) == "off" then
         local last_level = rgbwl[device.id].l
-        print("<<<<< last_level",last_level)
+        --print("<<<<< last_level",last_level)
         local inc_level = level - last_level
         rgbwl[device.id].l = level
         rgbwl[device.id].r = rgbwl[device.id].r  + math.floor(inc_level * 254 / 100 + 0.5)
@@ -452,7 +462,7 @@ local function set_switch_level_handler(driver, device, command)
         if rgbwl[device.id].r > 0 and rgbwl[device.id].g > 0 and rgbwl[device.id].b > 0 then
           device:set_field("rgbwl".. device.id,rgbwl[device.id], {persist = true})
         end
-        rgbwl_handler(driver, device,rgbwl)
+        rgbwl_handler(driver, device)--,rgbwl)
         return
       end
       if device:is_cc_supported(cc.SWITCH_MULTILEVEL) then
@@ -572,6 +582,13 @@ local function set_switch_level_handler(driver, device, command)
   else ------ Is child device --------------
     local component = device.parent_assigned_child_key
     local parent_device = device:get_parent_device()
+    --print("<<< rgbwl-previo get_field", rgbwl)
+    --print("rgbwl table-previo get_field >>>>>>",utils.stringify_table(rgbwl))
+    if rgbwl[device.parent_device_id] == nil then
+      rgbwl[device.parent_device_id] = parent_device:get_field("rgbwl".. device.parent_device_id) -- added for lazy loading feature
+    end
+    --print("<<< rgbwl", rgbwl)
+    --print("rgbwl table >>>>>>",utils.stringify_table(rgbwl))
     local level = utils.round(command.args.level)
     level = utils.clamp_value(level, 0, 99)
     local set
@@ -700,8 +717,7 @@ end
 local function set_switch(driver, device, command, value)
   if device.network_type ~= "DEVICE_EDGE_CHILD" then  ---- device (is NO Child device)
     print("<<<< set_switch >>>>")
-    print("<<<< command.component",command.component)
-    print("<<<< value",value)
+
     --initialize variables to emit components state
     red[device.id], green[device.id], blue[device.id], white[device.id] = -1, -1, -1, -1
 
@@ -724,7 +740,7 @@ local function set_switch(driver, device, command, value)
           })
         end
         rgbwl[device.id].w = value
-        print("<<<WHITE_ENDPOINT",WHITE_ENDPOINT)
+
         device:emit_event_for_endpoint(WHITE_ENDPOINT, capabilities.switch.switch.on())
       end
       child_emit_event(driver, device, command, value)
@@ -813,7 +829,7 @@ local function set_switch(driver, device, command, value)
             set_color(driver, device, mockCommand)
           end
         else
-            rgbwl_handler(driver, device,rgbwl)
+            rgbwl_handler(driver, device)--,rgbwl)
         end
         device:emit_component_event(device.profile.components["main"], capabilities.switch.switch.on())
 
@@ -851,13 +867,18 @@ end
 --- set_switch_on
 local function set_switch_on(driver, device, command)
   print("<<< set_switch_on >>>")
-  print("<<< device.id",device.id)
-  print("<<< device.network_type",device.network_type)
-  --print("<<< rgbwl[device.id].w",rgbwl[device.id].w)
+ 
   if device.network_type ~= "DEVICE_EDGE_CHILD" then  ---- device (is NO Child device)
+    --print("<<< rgbwl-previo a get_field", rgbwl)
+    --print("rgbwl table-previo a get_field >>>>>>",utils.stringify_table(rgbwl))
     local value = 255
     device:set_field(LAST_COLOR_SWITCH_CMD_FIELD, 255)
-    rgbwl[device.id] = device:get_field("rgbwl".. device.id) -- added this
+    if rgbwl[device.id] == nil then
+      rgbwl[device.id] = device:get_field("rgbwl".. device.id) -- added for lazy loading feature
+    end
+    device:set_field("rgbwl".. device.id,rgbwl[device.id], {persist = true})
+    --print("<<< rgbwl", rgbwl)
+    --print("rgbwl table >>>>>>",utils.stringify_table(rgbwl))
     if command.component == "white" then
       device:set_field("LastWhite", 255, {persist = true})
       value = rgbwl[device.id].w
@@ -873,10 +894,17 @@ local function set_switch_on(driver, device, command)
       if value == nil or value == 0 then  value = 255 end
     end
     set_switch(driver, device, command, value)
-  else
+  else -- is a child device
     local value = 255
     local component = device.parent_assigned_child_key
     local parent_device = device:get_parent_device()
+    --print("<<< rgbwl-previo get_field", rgbwl)
+    --print("rgbwl table-previo get_field >>>>>>",utils.stringify_table(rgbwl))
+    if rgbwl[device.parent_device_id] == nil then
+      rgbwl[device.parent_device_id] = parent_device:get_field("rgbwl".. device.parent_device_id) -- added for lazy loading feature
+    end
+    --print("<<< rgbwl", rgbwl)
+    --print("rgbwl table >>>>>>",utils.stringify_table(rgbwl))
     if component == "white" then
       device:emit_event(capabilities.switch.switch.on())
       parent_device:set_field("LastWhite", 255, {persist = true})
@@ -974,6 +1002,12 @@ end
 local function set_switch_off(driver, device, command)
 
   if device.network_type ~= "DEVICE_EDGE_CHILD" then  ---- device (is NO Child device)
+
+    if rgbwl[device.id] == nil then
+      print("<<<<<<< nil")
+      rgbwl[device.id] = device:get_field("rgbwl".. device.id) -- added for lazy loading feature
+    end
+
     -- final refresh to turn off
     if device:get_field("Calculated_Delay") > device:get_field("Minimum_Delay") then
       print("<<<<< set final refresh >>>>>")
@@ -1008,9 +1042,16 @@ local function set_switch_off(driver, device, command)
       end
     end
     set_switch(driver, device, command, 0)
-  else
+  else -- is child device
     local component = device.parent_assigned_child_key
     local parent_device = device:get_parent_device()
+    --print("<<< rgbwl-previo get_field", rgbwl)
+    --print("rgbwl table-previo get_field >>>>>>",utils.stringify_table(rgbwl))
+    if rgbwl[device.parent_device_id] == nil then
+      rgbwl[device.parent_device_id] = parent_device:get_field("rgbwl".. device.parent_device_id) -- added for lazy loading feature
+    end
+    --print("<<< rgbwl", rgbwl)
+    --print("rgbwl table >>>>>>",utils.stringify_table(rgbwl))
     if component == "white" then
       --device:emit_event(capabilities.switch.switch.off())
       --device:emit_event(capabilities.switchLevel.level(0))
@@ -1079,6 +1120,9 @@ end
 local function switch_basic_report(driver,device,command)
   if device.network_type ~= "DEVICE_EDGE_CHILD" then  ---- device (is NO Child device)
     print("<<<< switch_basic_report >>>>")
+    if rgbwl[device.id] == nil then
+      rgbwl[device.id] = device:get_field("rgbwl".. device.id) -- added for lazy loading feature
+    end
     local endpoint = command.src_channel
     local value = command.args.value
     if  (endpoint == 0) then
@@ -1133,12 +1177,12 @@ local function set_color_Temperature_handler(driver,device,command)
 
 end
 
-local function device_added(self, device)
+local function device_added(driver, device)
   if device.network_type ~= "DEVICE_EDGE_CHILD" then  ---- device (is NO Child device)
-    device:send(Association:Set({grouping_identifier = 5, node_ids = {self.environment_info.hub_zwave_id}}))
+    device:send(Association:Set({grouping_identifier = 5, node_ids = {driver.environment_info.hub_zwave_id}}))
     device:refresh()
   else
-    child_devices.device_added(self, device)
+    child_devices.device_added(driver, device)
   end
 end
 
@@ -1156,24 +1200,10 @@ local function endpoint_to_component(device, ep)
   end
 end
 
-local function component_to_endpoint(device, component_id)
-  if component_id == "white" then --WHITE_ENDPOINT= 9
-    return 9
-  elseif component_id == "red" then --R_ENDPOINT = 6
-    return 6
-  elseif component_id == "green" then --G_ENDPOINT= 7
-    return 7
-  elseif component_id == "blue" then --B_ENDPOINT= 8
-      return 8
-  else
-    return {}
-  end
-end
-
-local function device_init(self, device)
+-- device init
+local function device_init(driver, device)
 
   if device.network_type ~= "DEVICE_EDGE_CHILD" then  ---- device (is NO Child device)
-    --device:set_component_to_endpoint_fn(component_to_endpoint)
     device:set_endpoint_to_component_fn(endpoint_to_component)
     if device.preferences.changeProfile1 == "Single" then
       device:try_update_metadata({profile = "fibaro-rgbw-controller"})
@@ -1181,12 +1211,7 @@ local function device_init(self, device)
       device:try_update_metadata({profile = "fibaro-rgbw-controller-multi"})
     end
 
-    print("WHITE_ENDPOINT",WHITE_ENDPOINT)
-    print("R_ENDPOINT",R_ENDPOINT)
-    print("G_ENDPOINT",G_ENDPOINT)
-    print("B_ENDPOINT",B_ENDPOINT)
-
-    -- get forcedOnLevel parameter 157 value programmedSequence
+    -- get parameter 157 value programmedSequence
     device:send(Configuration:Get({ parameter_number = 72 }))
 
     if device:get_field("LastWhite") == nil then
@@ -1194,8 +1219,7 @@ local function device_init(self, device)
     end
 
     rgbwl[device.id] = device:get_field("rgbwl".. device.id)
-   
-    if rgbwl[device.id] == nil then
+    if rgbwl[device.id] == nil or rgbwl[device.id] == {} then
       rgbwl[device.id] = {r = 100, g = 100, b = 100, w = 0, l = 100}
       print("<<< rgbwl[device.id].r", rgbwl[device.id].r)
       print("<<< rgbwl[device.id].g", rgbwl[device.id].g)
@@ -1203,7 +1227,7 @@ local function device_init(self, device)
       print("<<< rgbwl[device.id].w", rgbwl[device.id].w)
       print("<<< rgbwl[device.id].l", rgbwl[device.id].l)
       device:set_field("rgbwl".. device.id,rgbwl[device.id], {persist = true})
-    end
+    else
       print("<<< rgbwl[device.id]", rgbwl[device.id])
       print("<<< rgbwl[device.id].r", rgbwl[device.id].r)
       print("<<< rgbwl[device.id].g", rgbwl[device.id].g)
@@ -1211,9 +1235,10 @@ local function device_init(self, device)
       print("<<< rgbwl[device.id].w", rgbwl[device.id].w)
       print("<<< rgbwl[device.id].l", rgbwl[device.id].l)
     end
+    print("rgbwl table >>>>>>",utils.stringify_table(rgbwl))
 
     if device:get_field("Minimum_Delay") == nil or device:get_field("Calculated_Delay") == nil then
-      set_delay(self, device)
+      set_delay(driver, device)
       print("<<<< Minimum_Delay",device:get_field("Minimum_Delay"))
     end
 
@@ -1223,14 +1248,14 @@ local function device_init(self, device)
 
     --initialize variables to emit components state
     red[device.id], green[device.id], blue[device.id], white[device.id] = -1, -1, -1, -1
-    
   end
+
   --This will print in the log the total memory in use by Lua in Kbytes
   print("Memory, count >>>>>>>",collectgarbage("count"), " Kbytes")
 end
 
 --programmed_Sequence_handler
-local function programmed_Sequence_handler(self, device, command)
+local function programmed_Sequence_handler(driver, device, command)
   if device.network_type ~= "DEVICE_EDGE_CHILD" then  ---- device (is NO Child device)
     print("programmed_Sequence Value", command.args.value)
     local programmed_Sequence_set = command.args.value
@@ -1269,7 +1294,7 @@ local function programmed_Sequence_handler(self, device, command)
       device:set_field(LAST_COLOR_SWITCH_CMD_FIELD, 0)
       --initialize variables to emit components state
       red[device.id], green[device.id], blue[device.id], white[device.id] = -1, -1, -1, -1
-      set_switch(self, device, command, 0)
+      set_switch(driver, device, command, 0)
       device:emit_component_event(device.profile.components["main"], capabilities.switch.switch.off())
     end
     if parameter_value == 1 then
