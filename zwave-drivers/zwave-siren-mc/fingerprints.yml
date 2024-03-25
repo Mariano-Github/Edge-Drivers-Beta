@@ -29,6 +29,12 @@ zwaveManufacturer:
     productType: 0x0004
     productId: 0x000A
     deviceProfileName: philio-sound-siren
+  - id: 013C/0004/0084
+    deviceLabel: Philio Siren
+    manufacturerId: 0x013C
+    productType: 0x0004
+    productId: 0x0084
+    deviceProfileName: philio-sound-siren
   - id: 0371/00A2/0x0003 # Aeotec Doorbell 6, productType: 0x0003 (EU), 0x0103 (US), 0x0203 (AU)
     deviceLabel: Aeotec Doorbell
     manufacturerId: 0x0371
@@ -160,6 +166,12 @@ zwaveManufacturer:
     manufacturerId: 0x014F
     productType: 0x2009
     #productId: 0x0903
+    deviceProfileName: alarm-battery
+  - id: 014F/2005/0503
+    deviceLabel: ZM1601US-5 Siren
+    manufacturerId: 0x014F
+    productType: 0x2005
+    productId: 0x0503
     deviceProfileName: alarm-battery
 zwaveGeneric:
   - id: "SmartAlert/Siren"
