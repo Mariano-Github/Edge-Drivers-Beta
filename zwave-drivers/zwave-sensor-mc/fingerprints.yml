@@ -103,7 +103,7 @@ zwaveManufacturer:
     deviceLabel: Vision Motion Detector ZP3102
     manufacturerId: 0x0109
     productType: 0x2002
-    productId: 0x0205
+    # productId: 0x0205 -Modified for others location
     deviceProfileName: motion-temp-sensor
   - id: "fibaro/flood/zw5"
     deviceLabel: Fibaro Flood Sensor ZW5
@@ -617,6 +617,54 @@ zwaveManufacturer:
     productType: 0x201C
     productId: 0x1C03
     deviceProfileName: water-battery-tamper
+  - id: 0116/0002/0001
+    deviceLabel: Clon Everspring Open/Closed HSM02
+    manufacturerId: 0x0116 #clon Everspring HSM02
+    productType: 0x0002
+    productId: 0x0001
+    deviceProfileName: contact-battery-tamperalert
+  - id: D-link/DCH-Z110
+    deviceLabel: D-link DCH-Z110
+    manufacturerId: 0x0108
+    productType: 0x0002
+    productId: 0x000E
+    deviceProfileName: contact-battery-temperature-illuminance-tamper
+  - id: D-link/DCH-Z120
+    deviceLabel: D-link DCH-Z120
+    manufacturerId: 0x0108
+    productType: 0x0002
+    productId: 0x000D
+    deviceProfileName: motion-battery-illuminance-temperature-tamper
+  - id: 0315/0202/0001
+    deviceLabel: Z-link LD-100 Water Sensor
+    manufacturerId: 0x0315
+    productType: 0x0202
+    productId: 0x0001
+    deviceProfileName: water-battery-tamper
+  - id: 0086/0002/002D
+    deviceLabel: Water Leak Sensor
+    manufacturerId: 0x0086
+    productType: 0x0002
+    productId: 0x002D
+    deviceProfileName: water-battery-tamper
+  - id: 013C/0002/0002
+    deviceLabel: Philio Multisensor
+    manufacturerId: 0x013C
+    productType: 0x0002
+    productId: 0x0002
+    deviceProfileName: motion-battery-illuminance-temperature
+  - id: 0059/000D/0003
+    deviceLabel: Secure SES303
+    manufacturerId: 0x0059
+    productType: 0x000D
+    productId: 0x0003
+    deviceProfileName: secure-humidity-temperature-battery-1
+  - id: 014A/0005/04AA
+    deviceLabel: Ecolink TILT-ZWAVE5 Sensor
+    manufacturerId: 0x014A
+    productType: 0x0005
+    productId: 0x04AA
+    deviceProfileName: contact-battery-tamperalert
     
 zwaveGeneric:
   - id: "GenericSensorAlarm"
