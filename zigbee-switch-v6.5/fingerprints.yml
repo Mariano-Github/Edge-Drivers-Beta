@@ -570,3 +570,18 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_hafsqare
     model: TS0011
     deviceProfileName: single-switch
+  - id: "_TZ3000_zw7yf6yk/TS0001"
+    deviceLabel: TS0001 Switch
+    manufacturer: _TZ3000_zw7yf6yk
+    model: TS0001
+    deviceProfileName: single-switch
+  - id: "eWeLink/SWITCH-ZR03-1"
+    deviceLabel: eWeLink Switch
+    manufacturer: eWeLink
+    model: SWITCH-ZR03-1
+    deviceProfileName: single-switch
+  - id: "_TZ3000_wijoqjk1/TS0001"
+    deviceLabel: TS0001 Switch
+    manufacturer: _TZ3000_wijoqjk1
+    model: TS0001
+    deviceProfileName: single-switch
