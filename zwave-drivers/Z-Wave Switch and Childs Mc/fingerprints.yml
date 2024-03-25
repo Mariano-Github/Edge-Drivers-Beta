@@ -1361,6 +1361,18 @@ zwaveManufacturer:
     productType: 0x0001
     productId: 0x0001
     deviceProfileName: metering-dimmer
+  - id: 045A/0004/0322
+    deviceLabel: Double Switch
+    manufacturerId: 0x045A
+    productType: 0x0004
+    productId: 0x0322
+    deviceProfileName: dual-metering-switch
+  - id: 0460/0002/0081
+    deviceLabel: Shelly Qubino Wave 2PM
+    manufacturerId: 0x0460
+    productType: 0x0002
+    productId: 0x0081
+    deviceProfileName: dual-metering-switch
 zwaveGeneric:
   - id: "GenericSwitch/1"
     deviceLabel: Switch
