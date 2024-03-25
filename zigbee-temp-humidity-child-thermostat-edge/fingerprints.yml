@@ -179,3 +179,13 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_qaaysllp
     model: TS0201
     deviceProfileName: temp-humid-illumin-battery
+  - id: "_TZ3000_kky16aay/TS0222"
+    deviceLabel: YIERYI Soil Sensor
+    manufacturer: _TZ3000_kky16aay
+    model: TS0222
+    deviceProfileName: temp-humid-illumin-battery
+  - id: "_TZ3000_zl1kmjqx"
+    deviceLabel: Tuya Temp Sensor
+    manufacturer: _TZ3000_zl1kmjqx
+    # model: TY0201
+    deviceProfileName: temp-humid-battery
