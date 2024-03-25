@@ -143,7 +143,7 @@ zigbeeManufacturer:
     deviceLabel: TS0210 Motion Sensor
     manufacturer: _TYZB01_3zv6oleo
     model: TS0210
-    deviceProfileName: motion-battery
+    deviceProfileName: motion-battery-sens
   - id: "CentraLite-3305-S-Motion"
     deviceLabel: CentraLite Motion Sensor
     manufacturer: CentraLite
@@ -415,3 +415,48 @@ zigbeeManufacturer:
     manufacturer: IKEA of Sweden
     model: VALLHORN Wireless Motion Sensor
     deviceProfileName: ikea-motion-illuminance
+  - id: "_TZ3040_wqmtjsyk/TS0202"
+    deviceLabel: TS0202 Motion Sensor
+    manufacturer: _TZ3040_wqmtjsyk
+    model: TS0202
+    deviceProfileName: motion-battery
+  - id: "_TZ3000_jqge2fjx/Vibration"
+    deviceLabel: TS0210 Vibration Sensor
+    manufacturer: _TZ3000_jqge2fjx
+    model: TS0210
+    deviceProfileName: motion-battery-sens
+  - id: "_TZ3000_y56pgpgs/TS0202"
+    deviceLabel: TS0202 Motion Sensor
+    manufacturer: _TZ3000_y56pgpgs
+    model: TS0202
+    deviceProfileName: motion-battery
+  - id: "_TZ3000_lzdjjfss/Vibration"
+    deviceLabel: TS0210 Vibration Sensor
+    manufacturer: _TZ3000_lzdjjfss
+    model: TS0210
+    deviceProfileName: motion-battery-sens
+  - id: "_TZ3000_lqpt3mvr/Vibration"
+    deviceLabel: TS0210 Vibration Sensor
+    manufacturer: _TZ3000_lqpt3mvr
+    model: TS0210
+    deviceProfileName: motion-battery-sens
+  - id: "SONOFF/SNZB-06P"
+    deviceLabel: SONOFF SNZB-06P Sensor
+    manufacturer: SONOFF
+    model: SNZB-06P
+    deviceProfileName: sonoff-motion-occupancy
+  - id: "_TZ3210_cwamkvua/TS0202"
+    deviceLabel: TS0202 Motion Sensor
+    manufacturer: _TZ3210_cwamkvua
+    model: TS0202
+    deviceProfileName: motion-battery
+  - id: "_TZ3210_zmy9hjay/TS0202" #from multisensor driver
+    deviceLabel: Fantem 4 in 1 Multi Sensor
+    manufacturer: _TZ3210_zmy9hjay
+    model: TS0202
+    deviceProfileName: motion-temp-humidity-illumin-battery
+  - id: "_TZ3210_wuhzzfqg/TS0202" #from multisensor driver
+    deviceLabel: Fantem 4 in 1 Multi Sensor
+    manufacturer: _TZ3210_wuhzzfqg
+    model: TS0202
+    deviceProfileName: motion-temp-humidity-illumin-battery
