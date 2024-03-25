@@ -185,3 +185,23 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_kstbkt6a
     model: TS0207
     deviceProfileName: moisture-battery
+  - id: "_TZ3000_wuep9zng/TS0207"
+    deviceLabel: TS0207 Water Sensor
+    manufacturer: _TZ3000_wuep9zng
+    model: TS0207
+    deviceProfileName: moisture-battery
+  - id: "_TZ3000_vbznqafr/TS0207"
+    deviceLabel: TS0207 Water Sensor
+    manufacturer: _TZ3000_vbznqafr
+    model: TS0207
+    deviceProfileName: moisture-battery
+  - id: "_TZ3000_jjua3lql/TS0207"
+    deviceLabel: TS0207 Water Sensor
+    manufacturer: _TZ3000_jjua3lql
+    model: TS0207
+    deviceProfileName: moisture-battery
+  - id: "IKEA/BADRING Water"
+    deviceLabel: IKEA BADRING Water
+    manufacturer: IKEA of Sweden
+    model: BADRING Water Leakage Sensor
+    deviceProfileName: moisture-battery
