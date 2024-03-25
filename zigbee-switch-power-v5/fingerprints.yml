@@ -48,7 +48,7 @@ zigbeeManufacturer:
     deviceLabel: CentraLite Plug
     manufacturer: CentraLite
     model: 4257050-RZHAC
-    deviceProfileName: switch-power-energy-plug
+    deviceProfileName: switch-power-plug
   - id: "_TZ3000_5f43h46b/Plug"
     deviceLabel: TS011F Plug
     manufacturer: _TZ3000_5f43h46b
@@ -350,7 +350,7 @@ zigbeeManufacturer:
     model: lumi.switch.n0acn2
     deviceProfileName: switch-power-energy-plug
   - id: "_TZ3000_zw7yf6yk/TS0001"
-    deviceLabel: TS0001 Lidl Plug
+    deviceLabel: TS0001 Switch
     manufacturer: _TZ3000_zw7yf6yk
     model: TS0001
     deviceProfileName: switch-power-energy-plug
@@ -378,6 +378,21 @@ zigbeeManufacturer:
     deviceLabel: TS011F Plug
     manufacturer: _TZ3000_fukaa7nc
     model: TS011F
+    deviceProfileName: switch-power-energy-plug
+  - id: "SPLZB-141/frient A/S"
+    deviceLabel: SPLZB-141 Smart Plug
+    manufacturer: frient A/S
+    model: SPLZB-141
+    deviceProfileName: switch-temp-power-energy-plug
+  - id: "_TZ3000_idrffznf/TS011F"
+    deviceLabel: TS011F Plug
+    manufacturer: _TZ3000_idrffznf
+    model: TS011F
+    deviceProfileName: switch-power-energy-plug
+  - id: "innr/SP 242"
+    deviceLabel: SP 242 Outlet
+    manufacturer: innr
+    model: SP 242
     deviceProfileName: switch-power-energy-plug
 zigbeeGeneric:
   - id: "generic/switch/power"
