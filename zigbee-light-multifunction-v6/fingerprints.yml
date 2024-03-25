@@ -1055,6 +1055,31 @@ zigbeeManufacturer:
     manufacturer: _TZ3210_4zinq6io
     model: TS0501B
     deviceProfileName: switch-level
+  - id: "_TZ3210_S9lumfhn/TS0505B"
+    deviceLabel: RGBW TS0505B
+    manufacturer: _TZ3210_S9lumfhn
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2000-6500
+  - id: "Paulmann/CCT"
+    deviceLabel: Paulmann Light CCT
+    manufacturer: Paulmann Licht GmbH
+    model: CCT
+    deviceProfileName: level-colortemp-2200-5500
+  - id: "GLEDOPTO/GL-C-009P"
+    deviceLabel: GLEDOPTO GL-C-009P
+    manufacturer: GLEDOPTO
+    model: GL-C-009P
+    deviceProfileName: switch-level
+  - id: "GLEDOPTO/GL-SD-003P"
+    deviceLabel: GLEDOPTO GL-SD-003P
+    manufacturer: GLEDOPTO
+    model: GL-SD-003P
+    deviceProfileName: switch-level
+  - id: "IKEA/Bulb LED2103G5"
+    deviceLabel: Ikea Bulb LED2103G5
+    manufacturer: IKEA of Sweden
+    model: TRADFRI bulb E27 WW globe 806lm
+    deviceProfileName: switch-level
   
   # XY Color
   - id: "IKEA/E27 CWS 806lm"
