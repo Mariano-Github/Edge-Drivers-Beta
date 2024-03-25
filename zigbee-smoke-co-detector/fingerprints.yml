@@ -131,6 +131,11 @@ zigbeeManufacturer:
     manufacturer: _TZ3210_up3pngle
     model: TS0205
     deviceProfileName: smoke-battery
+  - id: "_TZ3000_hl7yraue/TS0205"
+    deviceLabel: Smoke Detector
+    manufacturer: _TZ3000_hl7yraue
+    model: TS0205
+    deviceProfileName: smoke-battery
   # CO Sensors
   - id: "feibit/FNB56-COS06FB1.7"
     deviceLabel: feibit CO Sensor
@@ -160,6 +165,11 @@ zigbeeManufacturer:
   - id: "TS0212/_TYZB01_o7m83470"
     deviceLabel: Nedis CO Sensor
     manufacturer: _TYZB01_o7m83470
+    model: TS0212
+    deviceProfileName: co-battery
+  - id: "TS0212/_TYZB01_wpmo3ja3"
+    deviceLabel: Heiman CO Sensor
+    manufacturer: _TYZB01_wpmo3ja3
     model: TS0212
     deviceProfileName: co-battery
   # Gas Sensors
