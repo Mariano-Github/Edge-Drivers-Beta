@@ -45,3 +45,18 @@ zigbeeManufacturer :
     manufacturer : Develco Products A/S
     model : SIRZB-110
     deviceProfileName : switch-alarm
+  - id : TS0219/_TYZB01_ynsiasng
+    deviceLabel : Woox R7051 Siren
+    manufacturer : _TYZB01_ynsiasng
+    model : TS0219
+    deviceProfileName : switch-alarm-battery
+  - id : AduroSmart/Siren
+    deviceLabel : AduroSmart Eria Siren
+    manufacturer : AduroSmart Eria
+    model : Smart Siren
+    deviceProfileName : switch-alarm
+  - id : TS0216/_TYZB01_m0dhmvfo
+    deviceLabel : Zigbee Siren
+    manufacturer : _TYZB01_m0dhmvfo
+    model : TS0216
+    deviceProfileName : switch-alarm
