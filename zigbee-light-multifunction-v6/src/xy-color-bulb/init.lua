@@ -1,5 +1,5 @@
 -- Copyright 2022 SmartThings
---
+-- Modified by M.Colmenarejo
 -- Licensed under the Apache License, Version 2.0 (the "License");
 -- you may not use this file except in compliance with the License.
 -- You may obtain a copy of the License at
@@ -14,7 +14,6 @@
 
 local capabilities = require "st.capabilities"
 local clusters = require "st.zigbee.zcl.clusters"
---local switch_defaults = require "st.zigbee.defaults.switch_defaults"
 local configurationMap = require "configurations"
 local utils = require "st.utils"
 local utils_xy = require "utils-xy-lidl"
@@ -23,11 +22,6 @@ local mirror_groups = require "mirror-groups"
 local mirror_Group_Function = capabilities["legendabsolute60149.mirrorGroupFunction"]
 
 local zcl_clusters = require "st.zigbee.zcl.clusters"
---local LevelControlCluster = zcl_clusters.Level
-
---local LAST_KELVIN_SET = "last_kelvin_set"
---local CONVERSION_CONSTANT = 1000000
-
 local ColorControl = clusters.ColorControl
 
 local CURRENT_X = "current_x_value" -- y value from xyY color space
@@ -92,6 +86,7 @@ local XY_COLOR_BULB_FINGERPRINTS = {
 }
 
 local function can_handle_xy_color_bulb(opts, driver, device)
+  if device.network_type == "DEVICE_EDGE_CHILD" then return false end -- is child device
   local zll_xy = (XY_COLOR_BULB_FINGERPRINTS[device:get_manufacturer()] or {})[device:get_model()] or false
   if zll_xy == true then
     device:set_field("zll_xy", "yes")
@@ -109,7 +104,7 @@ local device_init = function(self, device)
     print("Adding EDGE:CHILD device...")
 
     if device:get_field("mirror_group_function") == nil then
-      device:set_field("mirror_group_function", "Inactive", {persist = true})
+      device:set_field("mirror_group_function", "Inactive", {persist = false})
     end
 
     device:emit_event(mirror_Group_Function.mirrorGroupFunction(device:get_field("mirror_group_function")))
@@ -137,9 +132,7 @@ local device_init = function(self, device)
     device:emit_event(capabilities.colorControl.saturation(sat))
     device:emit_event(capabilities.colorControl.hue(hue))
 
-  --end
   else
-    --device:configure()
     device:remove_configured_attribute(ColorControl.ID, ColorControl.attributes.CurrentHue.ID)
     device:remove_configured_attribute(ColorControl.ID, ColorControl.attributes.CurrentSaturation.ID)
     device:remove_monitored_attribute(ColorControl.ID, ColorControl.attributes.CurrentHue.ID)
@@ -171,16 +164,19 @@ end
 
 -- move to last level stored
 local function move_to_last_level(device)
-  local last_Level = device:get_latest_state("main", capabilities.switchLevel.ID, capabilities.switchLevel.level.NAME)
-  if last_Level == nil then 
-    last_Level = 100
-    device:set_field("last_Level", 100, {persist = true})
-  end
-  if last_Level < 1 then last_Level = device:get_field("last_Level") end
-  if device.preferences.levelTransTime == 0 then
-    device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(last_Level/100.0 * 254), 0xFFFF))
-  else
-    device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(last_Level/100.0 * 254), (device.preferences.levelTransTime * 10)))
+  if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) ~= "on" then
+    local last_Level = device:get_latest_state("main", capabilities.switchLevel.ID, capabilities.switchLevel.level.NAME)
+    if last_Level == nil then 
+      last_Level = 100
+      device:set_field("last_Level", 100, {persist = false})
+    end
+    if last_Level < 1 then last_Level = device:get_field("last_Level") end
+    if device.preferences.levelTransTime == 0 then
+      device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(last_Level/100.0 * 254), 0xFFFF))
+    else
+      device:send(zcl_clusters.Level.commands.MoveToLevelWithOnOff(device, math.floor(last_Level/100.0 * 254), (device.preferences.levelTransTime * 10)))
+    end
+    device:send(zcl_clusters.OnOff.server.commands.On(device))
   end
 end
 
@@ -207,7 +203,21 @@ local function set_color_handler(driver, device, cmd)
   move_to_last_level(device)
   device:send(ColorControl.commands.MoveToColor(device, x, y, device.preferences.colorTransTime *10))
 
-  device.thread:call_with_delay(2, query_device(device))
+
+  local color_refresh = function(d)
+    local current_hue = device:get_latest_state("main", capabilities.colorControl.ID, capabilities.colorControl.hue.NAME)
+    local current_sat = device:get_latest_state("main",capabilities.colorControl.ID,capabilities.colorControl.saturation.NAME)
+    --print("<<< hue", hue)
+    --print("<<< curret_hue", current_hue)
+    --print("<<< sat", sat)
+    --print("<<< current_sat", current_sat)
+    if math.abs(current_hue - hue ) > 2 or math.abs(current_sat - sat ) > 2 then
+      device:send(ColorControl.attributes.CurrentX:read(device))
+      device:send(ColorControl.attributes.CurrentY:read(device))
+    end
+  end
+  device.thread:call_with_delay(3 + device.preferences.colorTransTime, color_refresh)
+  --device.thread:call_with_delay(2, query_device(device))
 end
 
 local function set_hue_handler(driver, device, cmd)
@@ -227,7 +237,16 @@ local function set_hue_handler(driver, device, cmd)
   move_to_last_level(device)
   device:send(ColorControl.commands.MoveToColor(device, x, y, device.preferences.colorTransTime *10))
 
-  device.thread:call_with_delay(2, query_device(device))
+  local color_refresh = function(d)
+    local current_hue = device:get_latest_state("main", capabilities.colorControl.ID, capabilities.colorControl.hue.NAME)
+    local current_sat = device:get_latest_state("main",capabilities.colorControl.ID,capabilities.colorControl.saturation.NAME)
+    if math.abs(current_hue - hue ) > 2 or math.abs(current_sat - sat ) > 2 then
+      device:send(ColorControl.attributes.CurrentX:read(device))
+      device:send(ColorControl.attributes.CurrentY:read(device))
+    end
+  end
+  device.thread:call_with_delay(3 + device.preferences.colorTransTime, color_refresh)
+  --device.thread:call_with_delay(2, query_device(device))
 end
 
 local function set_saturation_handler(driver, device, cmd)
@@ -248,7 +267,16 @@ local function set_saturation_handler(driver, device, cmd)
   move_to_last_level(device)
   device:send(ColorControl.commands.MoveToColor(device, x, y, device.preferences.colorTransTime *10))
 
-  device.thread:call_with_delay(2, query_device(device))
+  local color_refresh = function(d)
+    local current_hue = device:get_latest_state("main", capabilities.colorControl.ID, capabilities.colorControl.hue.NAME)
+    local current_sat = device:get_latest_state("main",capabilities.colorControl.ID,capabilities.colorControl.saturation.NAME)
+    if math.abs(current_hue - hue ) > 2 or math.abs(current_sat - cmd.args.saturation ) > 2 then
+      device:send(ColorControl.attributes.CurrentX:read(device))
+      device:send(ColorControl.attributes.CurrentY:read(device))
+    end
+  end
+  device.thread:call_with_delay(3 + device.preferences.colorTransTime, color_refresh)
+  --device.thread:call_with_delay(2, query_device(device))
 end
 
 local function current_x_attr_handler(driver, device, value, zb_rx)

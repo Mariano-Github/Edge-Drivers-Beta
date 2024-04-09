@@ -18,6 +18,8 @@ components:
     version: 1
   - id: colorControl
     version: 1
+  - id: legendabsolute60149.hueSteps
+    version: 1
   - id: legendabsolute60149.randomOnOff1
     version: 1
   - id: legendabsolute60149.progressiveOn1
@@ -45,7 +47,7 @@ components:
 preferences:
   - name: "version"
     title: "Version 6.5 (Feb 2023)"
-    description: "Add: Child device to Mirror Group Control"
+    description: "Add: Child device to Mirror Group Control."
     required: false
     preferenceType: string
     definition:
@@ -55,7 +57,7 @@ preferences:
       default: ""
   - name: "onOffGroup"
     title: "Assign to one Mirror Group"
-    description: "Assign Device to one Mirror Group. 0 = Not Group Assigned (defualt: 0)"
+    description: "Assign Device to one Mirror Group. 0 = Not Group Assigned (defualt: 0)."
     required: false
     preferenceType: integer
     definition:

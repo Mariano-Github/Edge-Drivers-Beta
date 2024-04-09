@@ -20,7 +20,6 @@ local ZigbeeDriver = require "st.zigbee"
 local defaults = require "st.zigbee.defaults"
 local zcl_clusters = require "st.zigbee.zcl.clusters"
 local LevelControlCluster = zcl_clusters.Level
---local OnOff = zcl_clusters.OnOff
 local utils = require "st.utils"
 local Groups = zcl_clusters.Groups
 
@@ -31,7 +30,6 @@ local CONVERSION_CONSTANT = 1000000
 -- driver local modules load
 local dimmer = require "dimmer"
 local mirror_groups = require "mirror-groups"
---local write =require "writeAttribute"
 
 --- Custom Capabilities
 local random_On_Off = capabilities["legendabsolute60149.randomOnOff1"]
@@ -49,30 +47,7 @@ local get_Groups = capabilities["legendabsolute60149.getGroups"]
 local forced_On_Level = capabilities["legendabsolute60149.forcedOnLevel"]
 local mirror_Group_Function = capabilities["legendabsolute60149.mirrorGroupFunction"]
 local effects_Set_Command = capabilities["legendabsolute60149.effectsSetCommand"]
-
--- read atributtes for level colot Temp and color
-local function attributes_read(self,device,command)
-  local color_read = function(d)
-    device:send_to_component(command.component, zcl_clusters.ColorControl.attributes.CurrentHue:read(device))
-    device:send_to_component(command.component, zcl_clusters.ColorControl.attributes.CurrentSaturation:read(device))
-  end
-  local color_temp_read = function(d)
-    device:send_to_component(command.component, zcl_clusters.ColorControl.attributes.ColorTemperatureMireds:read(device))
-  end
-  local level_read = function(d)
-    device:send_to_component(command.component, zcl_clusters.Level.attributes.CurrentLevel:read(device))
-        device:send_to_component(command.component,zcl_clusters.OnOff.attributes.OnOff:read(device))
-  end
-  if device.preferences.levelTransTime ~= nil then
-    device.thread:call_with_delay(device.preferences.levelTransTime + 2, level_read, "setLevel delayed read")
-  end
-  if device.preferences.tempTransTime ~= nil and command.args.temperature ~= nil then
-    device.thread:call_with_delay(device.preferences.tempTransTime + 1.5, color_temp_read, "setColorTemp delayed read")
-  end
-  --if device.preferences.colorTransTime ~= nil then
-    --device.thread:call_with_delay(device.preferences.colorTransTime + 2, color_read, "setColor delayed read")
-  --end
-end
+local hue_Steps = capabilities["legendabsolute60149.hueSteps"]
 
 --- switch_level_handler
 local function switch_level_handler(self,device,command)
@@ -82,9 +57,9 @@ local function switch_level_handler(self,device,command)
   local on_Level = command.args.level
   if on_Level < device.preferences.setLevelMin then on_Level = device.preferences.setLevelMin end
   if on_Level == 0 then 
-   device:set_field("last_Level", 1, {persist = true})
+   device:set_field("last_Level", 1, {persist = false})
   else
-    device:set_field("last_Level", on_Level, {persist = true})
+    device:set_field("last_Level", on_Level, {persist = false})
   end
 
     if device.preferences.levelTransTime == 0 then
@@ -114,15 +89,20 @@ local function switch_level_handler(self,device,command)
   if on_Level > 0 and device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) ~= "on" then
     device:send(zcl_clusters.OnOff.server.commands.On(device))
     local on_off_read = function(d)
-      device:send_to_component(command.component,zcl_clusters.OnOff.attributes.OnOff:read(device))
+      if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) ~= "on" then
+        device:send_to_component(command.component,zcl_clusters.OnOff.attributes.OnOff:read(device))
+      end
     end
-    device.thread:call_with_delay(device.preferences.onTransTime + 1, on_off_read, "on-off delayed read")
+    device.thread:call_with_delay(device.preferences.onTransTime + 2, on_off_read, "on-off delayed read")
   end
   
   local level_read = function(d)
-    device:send_to_component(command.component, zcl_clusters.Level.attributes.CurrentLevel:read(device))
+    local level = device:get_latest_state("main", capabilities.switchLevel.ID, capabilities.switchLevel.level.NAME)
+    if math.abs(level - on_Level) > 1 then
+      device:send_to_component(command.component, zcl_clusters.Level.attributes.CurrentLevel:read(device))
+    end
   end
-  device.thread:call_with_delay(device.preferences.levelTransTime + 1.5, level_read, "setLevel delayed read")
+  device.thread:call_with_delay(device.preferences.levelTransTime + 2, level_read, "setLevel delayed read")
 end
 
 ---color_Temperature_handler
@@ -148,7 +128,7 @@ local function set_color_Temperature_handler(self,device,command)
     local last_Level = device:get_field("last_Level")
     if last_Level == nil then 
       last_Level = 100
-      device:set_field("last_Level", 100, {persist = true})
+      device:set_field("last_Level", 100, {persist = false})
     end
 
     if device.preferences.levelTransTime == 0 then
@@ -170,33 +150,43 @@ local function set_color_Temperature_handler(self,device,command)
     end
     if last_Level > 0 then
       device:send(zcl_clusters.OnOff.server.commands.On(device))
+      local on_off_read = function(d)
+        if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) ~= "on" then
+          device:send_to_component(command.component,zcl_clusters.OnOff.attributes.OnOff:read(device))
+          device:send_to_component(command.component, zcl_clusters.Level.attributes.CurrentLevel:read(device))
+        end
+      end
+      device.thread:call_with_delay(device.preferences.onTransTime + 2, on_off_read, "on-off delayed read")
     end
     --device:send_to_component("main", zcl_clusters.ColorControl.server.commands.MoveToColorTemperature(device, colorTemp_Mireds,math.floor((device.preferences.tempTransTime * 10))))
-    attributes_read(self,device,command)
-  else
-    local color_temp_read = function(d)
+  end
+  local color_temp_read = function(d)
+    local current_colorTemp = device:get_latest_state("main", capabilities.colorTemperature.ID, capabilities.colorTemperature.colorTemperature.NAME)
+    if math.abs(current_colorTemp - colorTemp) > 20 then
       device:send_to_component(command.component, zcl_clusters.ColorControl.attributes.ColorTemperatureMireds:read(device))
     end
-    device.thread:call_with_delay(device.preferences.tempTransTime + 1, color_temp_read, "setColorTemp delayed read")
   end
-  --device:send(zcl_clusters.ColorControl.server.commands.MoveToColorTemperature(device, colorTemp_Mireds,math.floor((device.preferences.tempTransTime * 10))))
+  device.thread:call_with_delay(device.preferences.tempTransTime + 2, color_temp_read, "setColorTemp delayed read")
+
 end
 
  ----Level emit event
- local function level_attr_handler(driver, device, value, zb_rx)
+local function level_attr_handler(driver, device, value, zb_rx)
   if device.preferences.logDebugPrint == true then
     print("<<<< emit Level >>>>")
   end
 
-   device:emit_event_for_endpoint(zb_rx.address_header.src_endpoint.value, capabilities.switchLevel.level(math.floor((value.value / 254.0 * 100) + 0.5)))
+  local level = math.floor((value.value / 254.0 * 100) + 0.5)
+  --device:set_field("last_Level", level, {persist = false}) --no volver a poner esto
 
-   -- emit event in child device
-   local child_device = device:get_child_by_parent_assigned_key("main")
-   if child_device ~= nil and device:get_field("mirror_group_function") == "Active" and child_device:get_field("mirror_group_function") == "Active" then
-     child_device:emit_event(capabilities.switchLevel.level(math.floor((value.value / 254.0 * 100) + 0.5)))
-   end
+  device:emit_event_for_endpoint(zb_rx.address_header.src_endpoint.value, capabilities.switchLevel.level(level))
 
- end
+  -- emit event in child device
+  local child_device = device:get_child_by_parent_assigned_key("main")
+  if child_device ~= nil and device:get_field("mirror_group_function") == "Active" and child_device:get_field("mirror_group_function") == "Active" then
+    child_device:emit_event(capabilities.switchLevel.level(level))
+  end
+end
 
  ----- Groups_handler
 local function Groups_handler(driver, device, value, zb_rx)
@@ -213,9 +203,9 @@ local function Groups_handler(driver, device, value, zb_rx)
     end
     group_Names = group_Names..tostring(group_list[i].value).."-"
   end
-  --local text_Groups = "Groups Added: "..group_Names
+  -- local text_Groups = "Groups Added: "..group_Names
   local text_Groups = group_Names
-  if text_Groups == "" then text_Groups = "All Deleted" end
+  if text_Groups == "" then text_Groups = "DeleteAllGroups" end
   if device.preferences.logDebugPrint == true then
     print (text_Groups)
   end
@@ -309,7 +299,7 @@ local function forced_On_Level_handler(driver, device, command)
     print("<<< forced_On_Level_handler:", command.args.value)
   end
   local forced_Level = command.args.value
-  device:set_field("forced_Level", forced_Level, {persist = true})
+  device:set_field("forced_Level", forced_Level, {persist = false})
   device:emit_event(forced_On_Level.forcedOnLevel(forced_Level))
     
   if device.network_type == "DEVICE_EDGE_CHILD" then  ---- device (is Child device)
@@ -320,13 +310,13 @@ local function forced_On_Level_handler(driver, device, command)
             device.preferences.onOffGroup > 0 and
             dev.preferences.onOffGroup > 0 and
             dev.preferences.onOffGroup == device.preferences.onOffGroup then
-              dev:set_field("forced_Level", forced_Level, {persist = true})
+              dev:set_field("forced_Level", forced_Level, {persist = false})
               dev:emit_event(forced_On_Level.forcedOnLevel(forced_Level))
           end
         else
           if dev.preferences.onOffGroup > 0 and
             dev.preferences.onOffGroup == device.preferences.onOffGroup then
-              dev:set_field("forced_Level", forced_Level, {persist = true})
+              dev:set_field("forced_Level", forced_Level, {persist = false})
               dev:emit_event(forced_On_Level.forcedOnLevel(forced_Level))
           end
         end
@@ -387,7 +377,7 @@ local function do_added(driver,device)
     print("Adding EDGE:CHILD device...")
 
     if device:get_field("mirror_group_function") == nil then
-      device:set_field("mirror_group_function", "Inactive", {persist = true})
+      device:set_field("mirror_group_function", "Inactive", {persist = false})
     end
 
     device:emit_event(mirror_Group_Function.mirrorGroupFunction(device:get_field("mirror_group_function")))
@@ -414,6 +404,7 @@ local function do_added(driver,device)
     if hue == nil then hue = 100 end
     device:emit_event(capabilities.colorControl.saturation(sat))
     device:emit_event(capabilities.colorControl.hue(hue))
+
   else
     dimmer.do_Preferences (driver, device)
   end
@@ -584,6 +575,9 @@ local zigbee_bulb_driver_template = {
     },
     [effects_Set_Command.ID] = {
       [effects_Set_Command.commands.setEffectsSetCommand.NAME] = mirror_groups.effects_Set_Command_handler,
+    },
+    [hue_Steps.ID] = {
+      [hue_Steps.commands.setHueSteps.NAME] = mirror_groups.hue_Steps_handler,
     },
   },
   zigbee_handlers = {
