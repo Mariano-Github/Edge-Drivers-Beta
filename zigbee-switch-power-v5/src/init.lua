@@ -365,9 +365,10 @@ local function default_response_handler(driver, device, zb_rx)
 
     if cmd == zcl_clusters.OnOff.server.commands.On.ID then
       event = capabilities.switch.switch.on()
+      device:set_field("last_state", "on", {persist = false})
     elseif cmd == zcl_clusters.OnOff.server.commands.Off.ID then
       event = capabilities.switch.switch.off()
-
+      device:set_field("last_state", "off", {persist = false})
       -- read power due to residual power < 5w can appears in app after power off
       if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) == "on" then
         set_status_timer = device:get_field("read-power")
@@ -459,6 +460,7 @@ local function on_off_attr_handler(self, device, value, zb_rx)
   --device:emit_event_for_endpoint(zb_rx.address_header.src_endpoint.value, value.value and attr.on() or attr.off())
   local event = attr.on()
   if value.value == false or value.value == 0 then
+    device:set_field("last_state", "off", {persist = false})
     event = attr.off()
 
     -- read power due to residual power < 5w can appears in app after power off
@@ -476,7 +478,7 @@ local function on_off_attr_handler(self, device, value, zb_rx)
       device:set_field("read-power", set_status_timer)
     end
   elseif value.value == true or value.value == 1 then
-
+    device:set_field("last_state", "on", {persist = false})
   -- -- read attribute power & enrgy
     if device.preferences.powerEnergyRead ~= nil then
     --if device:get_manufacturer() == "_TZ3000_9vo5icau" or 

@@ -80,7 +80,12 @@ function driver_handler.do_init (self, device)
   if device.preferences.logDebugPrint == true then
     print("random_state >>>>>",device:get_field("random_state"))
   end
-  if device:get_field("random_state") ~= "Inactive" and device:get_field("random_state") ~= nil then  
+  if device:get_field("random_state") ~= "Inactive" and device:get_field("random_state") ~= nil then
+    if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) == "on" then
+      device:set_field("last_state", "on")
+    else
+      device:set_field("last_state", "off")
+    end
     driver_handler.random_on_off_handler(self,device,"Active")
   end
 
@@ -340,7 +345,7 @@ function driver_handler.random_on_off_handler(self,device,command)
     nextChange = "Inactive"
     device:emit_event(random_Next_Step.randomNext(nextChange))
     device:set_field("time_nextChange", nil, {persist = false})
-
+    device:set_field("last_state", "off", {persist = false})
  elseif random_state == "Random" or random_state == "Program" then
     device:emit_event(random_On_Off.randomOnOff(random_state))
     device:set_field("random_state", random_state, {persist = false})
@@ -349,20 +354,21 @@ function driver_handler.random_on_off_handler(self,device,command)
       --Random timer calculation
       random_timer[device] = math.random(device.preferences.randomMin * 60, device.preferences.randomMax * 60)
     else
-      if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) == "on" then
+      --if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) == "on" then
+      if device:get_field("last_state") == "on" then
         --Program timer calculation
-        random_timer[device] = device.preferences.offTime * 60
-        print("<< random_timer[device] off",random_timer[device])
-      else
         random_timer[device] = device.preferences.onTime * 60
-        print("<< random_timer[device] on",random_timer[device])
+       --print("<< random_timer[device] on",random_timer[device])
+      else
+        random_timer[device] = device.preferences.offTime * 60
+        --print("<< random_timer[device] off",random_timer[device])
       end
     end
 
     -- calculate next time to change and timer delay
     if device:get_field("time_nextChange") == nil then
-      nextChange= os.date("%H:%M:%S",os.time() + random_timer[device] + device.preferences.localTimeOffset * 3600)
-      local time_nextChange = os.time() + random_timer[device] + device.preferences.localTimeOffset * 3600
+      nextChange= os.date("%H:%M:%S",os.time() + random_timer[device] + (device.preferences.localTimeOffset * 3600))
+      local time_nextChange = os.time() + random_timer[device] + (device.preferences.localTimeOffset * 3600)
       device:set_field("time_nextChange", time_nextChange, {persist = false})
       delay[device] = (os.time() + random_timer[device] + device.preferences.localTimeOffset * 3600) - (os.time() + device.preferences.localTimeOffset * 3600)
     else
@@ -384,9 +390,11 @@ function driver_handler.random_on_off_handler(self,device,command)
       if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) == "on" then
         --random_timer[device] = device.preferences.onTime * 60
         device:send(OnOff.server.commands.Off(device))
+        device:set_field("last_state", "off", {persist = false})
       else
         --random_timer[device] = device.preferences.offTime * 60
         device:send(OnOff.server.commands.On(device))
+        device:set_field("last_state", "on", {persist = false})
       end
       
       device:set_field("time_nextChange", nil, {persist = false})
