@@ -18,7 +18,7 @@ local capabilities = require "st.capabilities"
 local ZigbeeDriver = require "st.zigbee"
 local defaults = require "st.zigbee.defaults"
 local zcl_clusters = require "st.zigbee.zcl.clusters"
-local OnOff = zcl_clusters.OnOff
+--local OnOff = zcl_clusters.OnOff
 local ElectricalMeasurement = zcl_clusters.ElectricalMeasurement
 local SimpleMetering = zcl_clusters.SimpleMetering
 local utils = require "st.utils"
@@ -75,7 +75,11 @@ local function do_configure(self, device)
   
   else
 
-    if device:get_model() == "SPLZB-131" or device:get_model() == "SMRZB-332" then
+    if device:get_model() == "SPLZB-131" or
+      device:get_model() == "SPLZB-153" or
+      device:get_model() == "SMRZB-143" or
+      device:get_model() == "SPLZB-141" or
+      device:get_model() == "SMRZB-332" then
       print("Configure Device Temperature Configuration >>>>>>>>")
 
       device:send(device_management.build_bind_request(device, zcl_clusters.DeviceTemperatureConfiguration.ID, self.environment_info.hub_zigbee_eui, 2):to_endpoint (2))
@@ -174,6 +178,10 @@ local function do_configure(self, device)
         device:send(zcl_clusters.DeviceTemperatureConfiguration.attributes.CurrentTemperature:read(device):to_endpoint (2))
         device:send(zcl_clusters.ElectricalMeasurement.attributes.RMSVoltage:read(device):to_endpoint (2))
       end)
+      
+      -- configure attributtes of 0B04 cluster not used, due to send 4 attributtes report in the same message and are many messages
+      device:send(zcl_clusters.ElectricalMeasurement.attributes.ACFrequency:configure_reporting(device, 30, 0xFFFF, 1000):to_endpoint (2))
+      device:send(zcl_clusters.ElectricalMeasurement.attributes.RMSCurrent:configure_reporting(device, 30, 0xFFFF, 1000):to_endpoint (2))
     end
 
     if device:get_manufacturer() == "NAMRON AS" and device:get_model() == "4512749-N" then
@@ -200,12 +208,21 @@ local function do_configure(self, device)
     device:add_monitored_attribute(config)
     device:configure()
   end
+  print("doConfigure performed, transitioning device to PROVISIONED") --23/12/23
+  device:try_update_metadata({ provisioning_state = "PROVISIONED" })
 end
 
 --- instantaneous_demand_handler
 local function instantaneous_demand_handler(driver, device, value, zb_rx)
   print(">>>> Instantaneous demand handler")
-  if device:get_model() == "SPLZB-131" or device:get_model() == "SMRZB-332" then return end
+  if device:get_model() == "SPLZB-131" or
+    device:get_model() == "SPLZB-153" or
+    device:get_model() == "SMRZB-143" or
+    device:get_model() == "SPLZB-141" or
+    device:get_model() == "SMRZB-332" then 
+      return 
+  end
+
   local raw_value = value.value
   --- demand = demand received * Multipler/Divisor
   local multiplier = device:get_field(constants.SIMPLE_METERING_MULTIPLIER_KEY) or 1
@@ -319,7 +336,7 @@ end
   end
   --local text_Groups = "Groups Added: "..group_Names
   local text_Groups = group_Names
-  if text_Groups == "" then text_Groups = "All Deleted" end
+  if text_Groups == "" then text_Groups = "DeleteAllGroups" end
   --print (text_Groups)
   device:emit_event(get_Groups.getGroups(text_Groups))
 end
@@ -376,10 +393,11 @@ local function default_response_handler(driver, device, zb_rx)
   if device.preferences.signalMetricsVisibles == "Yes" then
     visible_satate = true
   end
-  local gmt = os.date("%Y/%m/%d Time: %H:%M",os.time())
-  local dni = string.format("0x%04X", zb_rx.address_header.src_addr.value)
-  local metrics = "<em table style='font-size:70%';'font-weight: bold'</em>".. "<b>GMT: </b>".. gmt .."<BR>"
-  metrics = metrics .. "<b>DNI: </b>".. dni .. "  ".."<b> LQI: </b>" .. zb_rx.lqi.value .."  ".."<b>RSSI: </b>".. zb_rx.rssi.value .. "dbm".."</em>".."<BR>"
+  local gmt = os.date("%Y/%m/%d Time: %H:%M",os.time() + device.preferences.localTimeOffset * 3600)
+  --local dni = string.format("0x%04X", zb_rx.address_header.src_addr.value)
+  --local metrics = "<em table style='font-size:70%';'font-weight: bold'</em>".. "<b>GMT: </b>".. gmt .."<BR>"
+  --metrics = metrics .. "<b>DNI: </b>".. dni .. "  ".."<b> LQI: </b>" .. zb_rx.lqi.value .."  ".."<b>RSSI: </b>".. zb_rx.rssi.value .. "dbm".."</em>".."<BR>"
+  local metrics = gmt .. ", LQI: ".. zb_rx.lqi.value .." ... rssi: ".. zb_rx.rssi.value
   device:emit_event(signal_Metrics.signalMetrics({value = metrics}, {visibility = {displayed = visible_satate }}))
 
   -- -- read attribute power & enrgy 
@@ -430,10 +448,11 @@ local function on_off_attr_handler(self, device, value, zb_rx)
   if device.preferences.signalMetricsVisibles == "Yes" then
     visible_satate = true
   end
-  local gmt = os.date("%Y/%m/%d Time: %H:%M",os.time())
-  local dni = string.format("0x%04X", zb_rx.address_header.src_addr.value)
-  local metrics = "<em table style='font-size:70%';'font-weight: bold'</em>".. "<b>GMT: </b>".. gmt .."<BR>"
-  metrics = metrics .. "<b>DNI: </b>".. dni .. "  ".."<b> LQI: </b>" .. zb_rx.lqi.value .."  ".."<b>RSSI: </b>".. zb_rx.rssi.value .. "dbm".."</em>".."<BR>"
+  local gmt = os.date("%Y/%m/%d Time: %H:%M",os.time() + device.preferences.localTimeOffset * 3600)
+  --local dni = string.format("0x%04X", zb_rx.address_header.src_addr.value)
+  --local metrics = "<em table style='font-size:70%';'font-weight: bold'</em>".. "<b>GMT: </b>".. gmt .."<BR>"
+  --metrics = metrics .. "<b>DNI: </b>".. dni .. "  ".."<b> LQI: </b>" .. zb_rx.lqi.value .."  ".."<b>RSSI: </b>".. zb_rx.rssi.value .. "dbm".."</em>".."<BR>"
+  local metrics = gmt .. ", LQI: ".. zb_rx.lqi.value .." ... rssi: ".. zb_rx.rssi.value
   device:emit_event(signal_Metrics.signalMetrics({value = metrics}, {visibility = {displayed = visible_satate }}))
 
   local attr = capabilities.switch.switch
@@ -522,6 +541,10 @@ local function device_init(self ,device)
     device:try_update_metadata({profile = "switch-power-energy-plug"})
   elseif device.preferences.changeProfileEner == "Light" then
     device:try_update_metadata({profile = "switch-power-energy-light"})
+  elseif device.preferences.useAsSwitchOnly == true then
+    device:try_update_metadata({profile = "switch-power-energy-light"})
+  elseif device.preferences.useAsSwitchOnly == false then          
+    device:try_update_metadata({profile = "level-power-energy-light"})
   end
 
   -- due to error in profile asign in hub firmware
@@ -533,19 +556,19 @@ local function device_init(self ,device)
     --device:get_manufacturer() == "_TZ3000_kdi2o9m6" or -- ONLY FOR MY TEST
     device:get_manufacturer() == "_TZ3000_g5xawfcq" then
       device:try_update_metadata({profile = "switch-power-energy-plug-refresh"})
-  --elseif device:get_manufacturer() == "_TZ3000_kdi2o9m6" then -- for my test only
+  elseif device:get_model() == "4257050-RZHAC" then -- for fix and error, can delete 
     --print("<< change profile >>")
-    --device:try_update_metadata({profile = "switch-temp-power-energy-plug"})
+    device:try_update_metadata({profile = "switch-power-plug"})
   end
 
   random.do_init(self,device)
-
-  --device.thread:call_with_delay(4, function() do_configure(self,device) end)
 end
 
  -- do Added
 local function device_added(self ,device)
-  device.thread:call_with_delay(1, function() do_configure(self,device) end)
+  device.thread:call_with_delay(2, function() 
+    do_configure(self,device)
+  end)
 end
 
 ---- Driver template config
@@ -566,8 +589,6 @@ local zigbee_switch_driver_template = {
     added = device_added,
     removed = random.do_removed,
     doConfigure = custom_configure,
-    --doConfigure = do_configure,
-    --driverSwitched = driver_switched,
   },
   capability_handlers = {
     [random_On_Off.ID] = {

@@ -138,6 +138,12 @@ preferences:
       minimum: 0
       maximum: 65535
       default: 1
+  - name: "useAsSwitchOnly"
+    title: "Use device as Switch Only"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
   - name: "signalMetricsVisibles"
     title: "Signal Metrics Visible in History"
     description: "Signal Metrics Visible in App History:"
