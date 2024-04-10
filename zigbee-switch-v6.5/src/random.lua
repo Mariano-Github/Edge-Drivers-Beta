@@ -244,7 +244,12 @@ function driver_handler.do_init (self, device)
   if device.preferences.logDebugPrint == true then
     print("random_state >>>>>",device:get_field("random_state"))
   end
-  if device:get_field("random_state") ~= "Inactive" then  
+  if device:get_field("random_state") ~= "Inactive" then
+    if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) == "on" then
+      device:set_field("last_state", "on")
+    else
+      device:set_field("last_state", "off")
+    end
     driver_handler.random_on_off_handler(self,device,"Active")
   end
 
@@ -596,16 +601,15 @@ function driver_handler.random_on_off_handler(self,device,command)
       --Random timer calculation
       random_timer[device] = math.random(device.preferences.randomMin * 60, device.preferences.randomMax * 60)
     else
-      if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) == "on" then
-        --device:send(OnOff.server.commands.On(device))
-        device:set_field("last_state", "on", {persist = false})
-        --Program timer calculation
-        random_timer[device] = device.preferences.offTime * 60
-      else
-        --device:send(OnOff.server.commands.Off(device))
-        device:set_field("last_state", "off", {persist = false})
+      --if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) == "on" then
+      if device:get_field("last_state") == "on" then
+        --device:set_field("last_state", "on", {persist = false})
         --Program timer calculation
         random_timer[device] = device.preferences.onTime * 60
+      else
+        --device:set_field("last_state", "off", {persist = false})
+        --Program timer calculation
+        random_timer[device] = device.preferences.offTime * 60
       end
     end
 
@@ -641,17 +645,6 @@ function driver_handler.random_on_off_handler(self,device,command)
           device:send(OnOff.server.commands.On(device))
           device:set_field("power_time_ini", os.time(), {persist = false})
           device:set_field("last_state", "on", {persist = false})
-        end    
-        
-        if random_state == "Random" then
-          random_timer[device] = math.random(device.preferences.randomMin * 60, device.preferences.randomMax * 60)
-        else
-        --Program timer calculation
-          if device:get_field("last_state") == "on" then
-            random_timer[device] = device.preferences.onTime * 60
-          else
-            random_timer[device] = device.preferences.offTime * 60
-          end 
         end
 
         device:set_field("time_nextChange", nil, {persist = false})
