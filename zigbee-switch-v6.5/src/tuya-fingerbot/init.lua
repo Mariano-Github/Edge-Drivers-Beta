@@ -23,7 +23,7 @@
 -- 107 (0x6B): On/off       Bool(1)      On-Off                            0x06 DP NO USADO, SE USA CLUSTER 0006 ATTRIBUTE 0000
 
 local constants = require "st.zigbee.constants"
-local clusters = require "st.zigbee.zcl.clusters"
+--local clusters = require "st.zigbee.zcl.clusters"
 local capabilities = require "st.capabilities"
 local device_management = require "st.zigbee.device_management"
 local messages = require "st.zigbee.messages"
@@ -334,6 +334,14 @@ local function setFingerbotReverse_handler(self, device, command)
   SendCommand(device, "\x68", DP_TYPE_ENUM, dp_value)
 end
 
+--- do_driverSwitched
+local function do_driverSwitched(self, device) --23/12/23
+  print("<<<< DriverSwitched >>>>")
+   device.thread:call_with_delay(3, function(d)
+     do_configure(self, device)
+   end, "configure") 
+ end
+
 local tuya_fingerbot = {
   NAME = "tuya fingerbot",
   capability_handlers = {
@@ -366,7 +374,8 @@ local tuya_fingerbot = {
   },
   lifecycle_handlers = {
     added = device_added,
-    driverSwitched = do_configure,
+    --driverSwitched = do_configure,
+    driverSwitched = do_driverSwitched,
     doConfigure = do_configure
   },
   can_handle = is_tuya_fingerbot
