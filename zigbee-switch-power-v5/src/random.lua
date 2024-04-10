@@ -349,8 +349,14 @@ function driver_handler.random_on_off_handler(self,device,command)
       --Random timer calculation
       random_timer[device] = math.random(device.preferences.randomMin * 60, device.preferences.randomMax * 60)
     else
-      --Program timer calculation
-      random_timer[device] = device.preferences.onTime * 60
+      if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) == "on" then
+        --Program timer calculation
+        random_timer[device] = device.preferences.offTime * 60
+        print("<< random_timer[device] off",random_timer[device])
+      else
+        random_timer[device] = device.preferences.onTime * 60
+        print("<< random_timer[device] on",random_timer[device])
+      end
     end
 
     -- calculate next time to change and timer delay
@@ -376,10 +382,10 @@ function driver_handler.random_on_off_handler(self,device,command)
     delay[device],
     function ()
       if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) == "on" then
-        random_timer[device] = device.preferences.onTime * 60
+        --random_timer[device] = device.preferences.onTime * 60
         device:send(OnOff.server.commands.Off(device))
       else
-        random_timer[device] = device.preferences.offTime * 60
+        --random_timer[device] = device.preferences.offTime * 60
         device:send(OnOff.server.commands.On(device))
       end
       
