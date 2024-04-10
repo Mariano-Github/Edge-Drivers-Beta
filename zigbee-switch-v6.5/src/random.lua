@@ -600,12 +600,12 @@ function driver_handler.random_on_off_handler(self,device,command)
         --device:send(OnOff.server.commands.On(device))
         device:set_field("last_state", "on", {persist = false})
         --Program timer calculation
-        random_timer[device] = device.preferences.onTime * 60
+        random_timer[device] = device.preferences.offTime * 60
       else
         --device:send(OnOff.server.commands.Off(device))
         device:set_field("last_state", "off", {persist = false})
         --Program timer calculation
-        random_timer[device] = device.preferences.offTime * 60
+        random_timer[device] = device.preferences.onTime * 60
       end
     end
 
