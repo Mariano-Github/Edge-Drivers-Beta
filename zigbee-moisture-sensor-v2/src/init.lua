@@ -25,6 +25,7 @@ local cluster_base = require "st.zigbee.cluster_base"
 local xiaomi_utils = require "xiaomi_utils"
 --module emit signal metrics
 local signal = require "signal-metrics"
+local child_devices = require "child-devices"
 
 --custom capabilities
 local signal_Metrics = capabilities["legendabsolute60149.signalMetrics"]
@@ -36,6 +37,8 @@ local device_management = require "st.zigbee.device_management"
 
 -- preferences update
 local function do_preferences(self, device)
+  
+  if device.network_type == "DEVICE_EDGE_CHILD" then return end-- is CHILD DEVICE
   for id, value in pairs(device.preferences) do
     print("device.preferences[infoChanged]=", device.preferences[id], "preferences: ", id)
     local oldPreferenceValue = device:get_field(id)
@@ -49,7 +52,10 @@ local function do_preferences(self, device)
          print ("maxTime y changeRep: ", maxTime, changeRep)
           device:send(device_management.build_bind_request(device, tempMeasurement.ID, self.environment_info.hub_zigbee_eui))
           device:send(tempMeasurement.attributes.MeasuredValue:configure_reporting(device, 30, maxTime, changeRep))
-          --device:configure()
+        elseif id == "childBatteries" then
+          if oldPreferenceValue ~= nil and newParameterValue == true then
+            child_devices.create_new(self, device, "main", "child-batteries-status")
+          end
       end
      end
   end
@@ -77,18 +83,66 @@ end
 
 -- do added
 local function do_added(driver, device)
+  if device.network_type == "DEVICE_EDGE_CHILD" then return end-- is CHILD DEVICE
   if device:get_latest_state("main", signal_Metrics.ID, signal_Metrics.signalMetrics.NAME) == nil then
     device:emit_event(signal_Metrics.signalMetrics({value = "Waiting Zigbee Message"}, {visibility = {displayed = false }}))
   end
+  device:refresh()
 end
 
 local function device_refresh(driver, device, command)
+  if device.network_type == "DEVICE_EDGE_CHILD" then return end-- is CHILD DEVICE
   device:refresh()
   if device:get_manufacturer() == "LUMI" then
     device:send(cluster_base.read_attribute(device, data_types.ClusterId(0x0000), data_types.AttributeId(0xFF01)))
     device:send(cluster_base.read_attribute(device, data_types.ClusterId(0x0000), data_types.AttributeId(0xFF02)))
   end
 end
+
+-- this new function in libraries version 9 allow load only subdrivers with devices paired
+  local function lazy_load_if_possible(sub_driver_name)
+    -- gets the current lua libs api version
+    local version = require "version"
+  
+    --print("<<<<< Library Version:", version.api)
+    -- version 9 will include the lazy loading functions
+    if version.api >= 9 then
+      return ZigbeeDriver.lazy_load_sub_driver(require(sub_driver_name))
+    else
+      return require(sub_driver_name)
+    end
+  end
+
+  -- do_configure
+  local function do_configure(driver, device)
+    if device:get_model() == "TS0207" then
+      local config ={
+        cluster = zcl_clusters.PowerConfiguration.ID,
+        attribute = zcl_clusters.PowerConfiguration.attributes.BatteryPercentageRemaining.ID,
+        minimum_interval = 30,
+        maximum_interval = 3600,
+        data_type = zcl_clusters.PowerConfiguration.attributes.BatteryPercentageRemaining.base_type,
+        reportable_change = 1
+      }
+      device:add_configured_attribute(config)
+      device:add_monitored_attribute(config)
+
+      config ={
+        cluster = zcl_clusters.IASZone.ID,
+        attribute = zcl_clusters.IASZone.attributes.ZoneStatus.ID,
+        minimum_interval = 30,
+        maximum_interval = 2100,
+        data_type = zcl_clusters.IASZone.attributes.ZoneStatus.base_type,
+        reportable_change = 1
+      }
+      device:add_configured_attribute(config)
+
+      device:configure() -- mod (19/04/2024)
+      device:remove_monitored_attribute(0x0500, 0x0002)
+    else
+      device:configure() -- mod (19/04/2024)
+    end
+  end
 
 ----- driver template ----------
 local zigbee_moisture_driver = {
@@ -99,7 +153,8 @@ local zigbee_moisture_driver = {
   },
   lifecycle_handlers = {
     infoChanged = do_preferences,
-    added = do_added
+    added = do_added,
+    doConfigure = do_configure
 },
 capability_handlers = {
   [capabilities.refresh.ID] = {
@@ -115,9 +170,14 @@ zigbee_handlers = {
       [0xFF02] = xiaomi_utils.battery_handler,
       [0xFF01] = xiaomi_utils.battery_handler
     },
- }
+  }
 },
-  sub_drivers = {require("samjin"), require("smartthings")},
+sub_drivers = {
+  lazy_load_if_possible("samjin"), 
+  lazy_load_if_possible("smartthings"), 
+  lazy_load_if_possible("thirdreality"),
+  lazy_load_if_possible("battery-virtual-status")
+},
   ias_zone_configuration_method = constants.IAS_ZONE_CONFIGURE_TYPE.AUTO_ENROLL_RESPONSE
 }
 

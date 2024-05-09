@@ -7,15 +7,20 @@ local utils = require "st.utils"
 local signal = require "signal-metrics"
 
 local can_handle = function(opts, driver, device)
+  if device.network_type ~= "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE
+    local subdriver = require("smartthings")
     if device:get_manufacturer() == "Nortek Security and Control" then
-      return device:get_manufacturer() == "Nortek Security and Control"
+      return true, subdriver
     elseif device:get_manufacturer() == "CentraLite" then
-      return device:get_manufacturer() == "CentraLite"
+      return true, subdriver
     elseif device:get_manufacturer() == "SmartThings" then
-      return device:get_manufacturer() == "SmartThings"
+      return true, subdriver
     elseif device:get_manufacturer() == "LUMI" then
-      return device:get_manufacturer() == "LUMI"
+      return true, subdriver
     end
+    subdriver = nil
+  end
+    return false
 end
 
 local battery_handler = function(driver, device, value, zb_rx)
