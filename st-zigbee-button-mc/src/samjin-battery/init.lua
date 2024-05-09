@@ -5,10 +5,10 @@ local battery_defaults = require "st.zigbee.defaults.battery_defaults"
 local utils = require "st.utils"
 
 local can_handle = function(opts, driver, device)
-    if device:get_manufacturer() == "Samjin" then 
-        return device:get_manufacturer() == "Samjin"
-    elseif device:get_manufacturer() == "EZVIZ" then
-        return device:get_manufacturer() == "EZVIZ"
+    if device.network_type == "DEVICE_EDGE_CHILD" then return false end -- is CHILD DEVICE
+    if device:get_manufacturer() == "Samjin" or device:get_manufacturer() == "EZVIZ" then
+        local subdriver = require("samjin-battery")
+        return true, subdriver
     end
 end
 

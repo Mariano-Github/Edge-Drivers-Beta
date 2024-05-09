@@ -4,7 +4,11 @@
 local capabilities = require "st.capabilities"
 
 local can_handle = function(opts, driver, device)
-    return device:get_manufacturer() == "EZVIZ"
+    if device.network_type == "DEVICE_EDGE_CHILD" then return false end -- is CHILD DEVICE
+    if device:get_manufacturer() == "EZVIZ" then
+        local subdriver = require("ezviz")
+        return true, subdriver
+    end
 end
 
 local button_handler = function(driver, device, value, zb_rx)

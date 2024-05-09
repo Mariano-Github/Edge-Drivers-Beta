@@ -25,7 +25,16 @@ local tempMeasurement = zcl_clusters.TemperatureMeasurement
 local device_management = require "st.zigbee.device_management"
 local tempMeasurement_defaults = require "st.zigbee.defaults.temperatureMeasurement_defaults"
 
+--module emit signal metrics
+local signal = require "signal-metrics"
+local child_devices = require "child-devices"
+
+local signal_Metrics = capabilities["legendabsolute60149.signalMetrics"]
+
 local generate_event_from_zone_status = function(driver, device, zone_status, zb_rx)
+   -- emit signal metrics
+   signal.metrics(device, zb_rx)
+
   print("zone_status >>>>>>>>>",zone_status)
   local event
   local additional_fields = {
@@ -77,7 +86,7 @@ end
 
 --- Update preferences after infoChanged recived---
 local function do_preferences (self, device)
-  if device:get_manufacturer() == "Samjin" then
+  --if device:get_manufacturer() == "Samjin" then
     for id, value in pairs(device.preferences) do
       print("device.preferences[infoChanged]=", device.preferences[id])
       local oldPreferenceValue = device:get_field(id)
@@ -86,14 +95,20 @@ local function do_preferences (self, device)
         device:set_field(id, newParameterValue, {persist = true})
         print("<< Preference changed: name, old, new >>", id, oldPreferenceValue, newParameterValue)
         --- Configure new preferences values
-        local maxTime = device.preferences.maxTime * 60
-        local changeRep = device.preferences.changeRep
-        print ("maxTime y changeRep: ", maxTime, changeRep)
-        --device:send(device_management.build_bind_request(device, tempMeasurement.ID, self.environment_info.hub_zigbee_eui))
-        device:send(tempMeasurement.attributes.MeasuredValue:configure_reporting(device, 30, maxTime, changeRep))
+        if id == "maxTime" or id == "changeRep" then  
+          local maxTime = device.preferences.maxTime * 60
+          local changeRep = device.preferences.changeRep
+          print ("maxTime y changeRep: ", maxTime, changeRep)
+          --device:send(device_management.build_bind_request(device, tempMeasurement.ID, self.environment_info.hub_zigbee_eui))
+          device:send(tempMeasurement.attributes.MeasuredValue:configure_reporting(device, 30, maxTime, changeRep))
+        elseif id == "childBatteries" then
+          if newParameterValue == true then
+            child_devices.create_new(self, device, "main", "child-batteries-status")
+          end
+        end
       end
     end
-  end
+  --end
   --print manufacturer, model and leng of the strings
   local manufacturer = device:get_manufacturer()
   local model = device:get_model()
@@ -109,6 +124,7 @@ end
 
 -- do configure for temperature reports
   local function do_configure(self,device)
+    if device.network_type == "DEVICE_EDGE_CHILD" then return end -- is CHILD DEVICE
     if device:get_manufacturer() == "Samjin" then
       local maxTime = device.preferences.maxTime * 60
       local changeRep = device.preferences.changeRep
@@ -121,7 +137,31 @@ end
 
   ---- temperature handler
 local function temp_attr_handler(self, device, tempvalue, zb_rx)
+   -- emit signal metrics
+   signal.metrics(device, zb_rx)
+
   tempMeasurement_defaults.temp_attr_handler(self, device, tempvalue, zb_rx)
+end
+
+local function do_init(self,device)
+  if device.network_type == "DEVICE_EDGE_CHILD" then return end -- is CHILD DEVICE
+  if device:get_latest_state("main", signal_Metrics.ID, signal_Metrics.signalMetrics.NAME) == nil then
+    device:emit_event(signal_Metrics.signalMetrics({value = "Waiting Zigbee Message"}, {visibility = {displayed = false }}))
+  end
+end
+
+-- this new function in libraries version 9 allow load only subdrivers with devices paired
+local function lazy_load_if_possible(sub_driver_name)
+  -- gets the current lua libs api version
+  local version = require "version"
+
+  --print("<<<<< Library Version:", version.api)
+  -- version 9 will include the lazy loading functions
+  if version.api >= 9 then
+    return ZigbeeDriver.lazy_load_sub_driver(require(sub_driver_name))
+  else
+    return require(sub_driver_name)
+  end
 end
 
 local zigbee_button_driver_template = {
@@ -149,9 +189,14 @@ local zigbee_button_driver_template = {
     added = added_handler,
     infoChanged = do_preferences,
     doConfigure = do_configure,
+    init = do_init
   },
   ias_zone_configuration_method = constants.IAS_ZONE_CONFIGURE_TYPE.AUTO_ENROLL_RESPONSE,
-  sub_drivers = {require("samjin-battery"), require("ezviz")}
+  sub_drivers = {
+    lazy_load_if_possible("samjin-battery"), 
+    lazy_load_if_possible("ezviz"), 
+    lazy_load_if_possible("battery-virtual-status")
+  }
 }
 
 defaults.register_for_default_handlers(zigbee_button_driver_template, zigbee_button_driver_template.supported_capabilities)

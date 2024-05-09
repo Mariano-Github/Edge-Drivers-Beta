@@ -8,10 +8,20 @@ components:
     version: 1
   - id: battery
     version: 1
+  - id: legendabsolute60149.signalMetrics
+    version: 1
   - id: refresh
     version: 1
   categories:
   - name: RemoteController
+preferences:
+  - name: "childBatteries"
+    title: "Create devices batt status Virtual"
+    description: "Create devices batt status Virtual"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
 metadata:
   deviceType: RemoteController
   ocfDeviceType: x.com.st.d.remotecontroller

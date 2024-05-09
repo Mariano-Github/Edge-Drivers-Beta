@@ -10,6 +10,8 @@ components:
     version: 1
   - id: battery
     version: 1
+  - id: legendabsolute60149.signalMetrics
+    version: 1
   - id: refresh
     version: 1
   categories:
@@ -18,7 +20,7 @@ preferences:
   - preferenceId: tempOffset
     explicit: true  
   - name: "version"
-    title: "Version 1.0 (Dic 2021)"
+    title: "Version 1.1 (Jan 2024)"
     description: "Added SmartThings Button (Samjin) with Settings Temp. Reports" 
     required: false
     preferenceType: string
@@ -27,6 +29,13 @@ preferences:
       minLength: 0
       maxLength: 0
       default: ""
+  - name: "childBatteries"
+    title: "Create devices batt status Virtual"
+    description: "Create devices batt status Virtual"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
   - name: "maxTime"
     title: "Temperature Report Interval"
     description: "Select Temp. Report Max. Interval (5 min to 240 min)"
