@@ -1,12 +1,15 @@
-
-local common = require("common")
+-- M.Colmenarejo 2023
+local common = require("multi-contact/common")
 
 local can_handle = function(opts, driver, device)
-  if device:get_manufacturer() == "SmartThings" and device:get_model() ~="PGC313" and device:get_model() ~="PGC313EU" then
-    return device:get_manufacturer() == "SmartThings"
-  elseif device:get_manufacturer() == "CentraLite" then
-    return device:get_manufacturer() == "CentraLite"
+  if device.network_type ~= "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE
+    if device:get_manufacturer() == "SmartThings" and device:get_model() ~="PGC313" and device:get_model() ~="PGC313EU" then
+      return device:get_manufacturer() == "SmartThings"
+    elseif device:get_manufacturer() == "CentraLite" then
+      return device:get_manufacturer() == "CentraLite"
+    end
   end
+  return false
 end
 
 local smartthings_multi_sensor = {

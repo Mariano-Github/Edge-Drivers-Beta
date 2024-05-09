@@ -22,8 +22,8 @@ preferences:
   - preferenceId: tempOffset
     explicit: true
   - name: "version"
-    title: "Version 3.2 (Oct 2022)"
-    description: "Added Signal Metrics capability" 
+    title: "Version 3.4 (Jan 2024)"
+    description: "Added: Create virtual device for Batteries status" 
     required: false
     preferenceType: string
     definition:
@@ -31,14 +31,37 @@ preferences:
       minLength: 0
       maxLength: 0
       default: ""
+  - name: "childVibration"
+    title: "Create Vibration-Contact Virtual"
+    description: "Create Virtual Contact device, activated by Acceleration events to use in STHM:"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "childBatteries"
+    title: "Create devices batt status Virtual"
+    description: "Create devices batt status Virtual"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "iasZoneReports"
+    title: "Set Contact Sensor Interval Report"
+    description: "IF YOUR DEVICE & NETWORK WORK FINE THEN DON'T TOUCH. Set Device Interval Report (300 to 3600 sec). Smartthings Default=300. Longer intervals reduce zigbee Network traffic, Hub work and Battery consumption. NEED WAKE UP DEVICE WITH Open-Close TO ACCEPT NEW VALUE. Restore default before Driver Change"
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 300
+      maximum: 3600
+      default:  300
   - name: "maxTime"
     title: "Temperature Report Interval"
-    description: "Select Temp. Report Max. Interval (5 min to 240 min, Default = 5)"
+    description: "Select Temp. Report Max. Interval (5 min to 1080 min, Default = 5)"
     required: false
     preferenceType: integer
     definition:
       minimum: 5
-      maximum: 240
+      maximum: 1080
       default: 5   
   - name: "changeRep"
     title: "Temperature Reportable Change"

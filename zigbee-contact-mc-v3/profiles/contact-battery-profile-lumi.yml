@@ -1,8 +1,10 @@
-name: contact-general
+name: contact-battery-profile-lumi
 components:
 - id: main
   capabilities:
   - id: contactSensor
+    version: 1
+  - id: battery
     version: 1
   - id: legendabsolute60149.signalMetrics
     version: 1
@@ -14,8 +16,8 @@ components:
   - name: ContactSensor
 preferences:
   - name: "version"
-    title: "Version 3.2 (Sep 2023)"
-    description: "Added: Device custom interval reports" 
+    title: "Version 3.4 (Jan 2024)"
+    description: "Added: Create virtual device for Batteries status" 
     required: false
     preferenceType: string
     definition:
@@ -23,15 +25,13 @@ preferences:
       minLength: 0
       maxLength: 0
       default: ""
-  - name: "iasZoneReports"
-    title: "Set Contact Sensor Interval Report"
-    description: "IF YOUR DEVICE & NETWORK WORK FINE THEN DON'T TOUCH. Set Device Interval Report (300 to 3600 sec). Smartthings Default=300. Longer intervals reduce zigbee Network traffic, Hub work and Battery consumption. NEED WAKE UP DEVICE WITH Open-Close TO ACCEPT NEW VALUE. Restore default before Driver Change"
-    required: true
-    preferenceType: integer
+  - name: "childBatteries"
+    title: "Create devices batt status Virtual"
+    description: "Create devices batt status Virtual"
+    required: false
+    preferenceType: boolean
     definition:
-      minimum: 300
-      maximum: 3600
-      default:  300
+      default: false
   - name: "signalMetricsVisibles"
     title: "Signal Metrics Visible in History"
     description: "Signal Metrics Visible in App History (default: No Visible):"

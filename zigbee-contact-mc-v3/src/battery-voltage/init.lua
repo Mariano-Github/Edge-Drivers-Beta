@@ -7,25 +7,33 @@ local utils = require "st.utils"
 local signal = require "signal-metrics"
 
 local can_handle = function(opts, driver, device)
-  if device:get_manufacturer() == "Ecolink" then
-    return device:get_manufacturer() == "Ecolink"
-  elseif device:get_manufacturer() == "frient A/S" then
-    return device:get_manufacturer() == "frient A/S"
-  elseif device:get_manufacturer() == "Sercomm Corp." then
-    return device:get_manufacturer() == "Sercomm Corp."
-  elseif device:get_manufacturer() == "Universal Electronics Inc" then
-    return device:get_manufacturer() == "Universal Electronics Inc"
-  elseif device:get_manufacturer() == "SmartThings" and device:get_model() ~="PGC313" and device:get_model() ~="PGC313EU" then
-    return device:get_manufacturer() == "SmartThings"
-  elseif device:get_manufacturer() == "CentraLite" then
-    return device:get_manufacturer() == "CentraLite"
-  elseif device:get_manufacturer() == "Visonic" then
-    return device:get_manufacturer() == "Visonic"
-  elseif device:get_manufacturer() == "Leedarson" then
-    return device:get_manufacturer() == "Leedarson"
-  elseif (device:get_manufacturer() == "LUMI" and device:get_model() ~= "lumi.sensor_magnet.aq2") then
-    return device:get_manufacturer() == "LUMI"
+
+  if device.network_type ~= "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE
+    local subdriver = require("battery-voltage")
+    if device:get_manufacturer() == "Ecolink" then
+      return true, subdriver
+    elseif device:get_manufacturer() == "frient A/S" then
+      return true, subdriver
+    elseif device:get_manufacturer() == "Sercomm Corp." then
+      return true, subdriver
+    elseif device:get_manufacturer() == "Universal Electronics Inc" then
+      return true, subdriver
+    elseif device:get_manufacturer() == "SmartThings" and device:get_model() ~="PGC313" and device:get_model() ~="PGC313EU" then
+      return true, subdriver
+    elseif device:get_manufacturer() == "CentraLite" then
+      return true, subdriver
+    elseif device:get_manufacturer() == "Visonic" then
+      return true, subdriver
+    elseif device:get_manufacturer() == "Leedarson" then
+      return true, subdriver
+    elseif (device:get_manufacturer() == "LUMI" and device:get_model() ~= "lumi.sensor_magnet.aq2") then
+      return true, subdriver
+    elseif device:get_manufacturer() == "IKEA of Sweden" then
+      return true, subdriver
+    end
+    subdriver = nil
   end
+  return false
 end
 
 local battery_handler = function(driver, device, value, zb_rx)
@@ -50,7 +58,7 @@ local battery_handler = function(driver, device, value, zb_rx)
     device:emit_event(battery.battery(batteryMap[value]))
 
   else
-    if device:get_manufacturer() == "Universal Electronics Inc" or device:get_manufacturer() == "Visonic" then
+    if device:get_manufacturer() == "Universal Electronics Inc" or device:get_manufacturer() == "Visonic" or device:get_manufacturer() == "IKEA of Sweden" then
       minVolts = 2.1
       maxVolts = 3.0
     elseif device:get_manufacturer() == "LUMI" then
@@ -77,7 +85,6 @@ local battery_voltage = {
         }
     },
     lifecycle_handlers = {
-        --added = battery_defaults.build_linear_voltage_init(2.3, 3.0)
     },
 	can_handle = can_handle
 }

@@ -10,10 +10,14 @@ local xiaomi_utils = require "xiaomi_utils"
 local signal = require "signal-metrics"
 
 local can_handle = function(opts, driver, device)
-    if device:get_manufacturer() == "LUMI" and device:get_model() == "lumi.sensor_magnet.aq2" then
-      return true
+  if device.network_type ~= "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE
+    if device:get_manufacturer() == "LUMI" and 
+    (device:get_model() == "lumi.sensor_magnet.aq2" or device:get_model() == "lumi.sensor_magnet") then
+      local subdriver = require("lumi-switch-cluster")
+      return true, subdriver
     end
-    return false
+  end
+  return false
 end
 
 -- on-off handle to open close events

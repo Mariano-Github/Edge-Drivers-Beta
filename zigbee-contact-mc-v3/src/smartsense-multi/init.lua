@@ -32,14 +32,19 @@ local SMARTSENSE_MULTI_FINGERPRINTS = {
 }
 
 local function can_handle(opts, driver, device, ...)
-  for _, fingerprint in ipairs(SMARTSENSE_MULTI_FINGERPRINTS) do
-    if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-      print("<< SmartSense-multi subdriver >>")
-      return true
+  if device.network_type ~= "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE
+    for _, fingerprint in ipairs(SMARTSENSE_MULTI_FINGERPRINTS) do
+      if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
+        --print("<< SmartSense-multi subdriver >>")
+        local subdriver = require("smartsense-multi")
+      return true, subdriver
+      end
     end
+    --print("device.zigbee_endpoints[1].profileId",device.zigbee_endpoints[1].profileId)
+    --if device.zigbee_endpoints[1].profileId ~= nil then
+      --if device.zigbee_endpoints[1].profileId == SMARTSENSE_PROFILE_ID then return true end
+    --end
   end
-  print("device.zigbee_endpoints[1].profileId",device.zigbee_endpoints[1].profileId)
-  if device.zigbee_endpoints[1].profileId == SMARTSENSE_PROFILE_ID then return true end
   return false
 end
 
@@ -92,6 +97,11 @@ local function temperature_handler(device, temperature)
   -- Value is in tenths of a degree so divide by 10.
   -- tempEventVal = ((float)attrVal.int16Val) / 10.0 + tempOffsetVal
   -- tempOffset is handled outside of the driver
+  --if_temperature value > 32767 then apply '2 complement'
+  --new_parameter_value = new_parameter_value - 65536
+  if temperature > 32767 then
+    temperature = temperature - 65536
+  end
   local tempDivisor = 10.0
   local tempCelsius = temperature / tempDivisor
   device:emit_event(capabilities.temperatureMeasurement.temperature({value = tempCelsius, unit = "C"}))

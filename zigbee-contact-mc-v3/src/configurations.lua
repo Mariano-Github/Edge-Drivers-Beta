@@ -17,8 +17,8 @@ local clusters = require "st.zigbee.zcl.clusters"
 local IASZone = clusters.IASZone
 local PowerConfiguration = clusters.PowerConfiguration
 --local TemperatureMeasurement = clusters.TemperatureMeasurement
-local PollControl = clusters.PollControl
-local IAS_interval
+--local PollControl = clusters.PollControl
+--local IAS_interval
 
 local devices = {
   EWELINK_HEIMAN = {
@@ -34,7 +34,7 @@ local devices = {
         cluster = PowerConfiguration.ID,
         attribute = PowerConfiguration.attributes.BatteryPercentageRemaining.ID,
         minimum_interval = 30,
-        maximum_interval = 600,
+        maximum_interval = 900,
         data_type = PowerConfiguration.attributes.BatteryPercentageRemaining.base_type,
         reportable_change = 1
       },

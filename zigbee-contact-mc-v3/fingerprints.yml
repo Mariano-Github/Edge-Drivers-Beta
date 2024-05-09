@@ -456,6 +456,11 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_rcuyhwe3
     model: TS0203
     deviceProfileName: contact-battery-profile
+  - id: "_TZ3000_gntwytxo/Close Sensor"
+    deviceLabel: TS0203 Close Sensor
+    manufacturer: _TZ3000_gntwytxo
+    model: TS0203
+    deviceProfileName: contact-battery-profile
 
   # ST multipurpose sensors
   - id: "Samjin/multi"

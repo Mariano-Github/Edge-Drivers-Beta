@@ -63,9 +63,11 @@ multi_utils.axis_z_config_base = axis_z_config_base
 
 local handle_garage_event = function(device, value)
   local event
-  if value > 900 then
+  local value_open = 900
+  if device:get_model() == "PGC313" or device:get_model() == "PGC313EU" then value_open = 825 end
+  if value > value_open then
     event = capabilities.contactSensor.contact.closed()
-  elseif value < 100 then
+  elseif value < 200 then  -- from < 100
     event = capabilities.contactSensor.contact.open()
   end
   if event ~= nil then
@@ -97,6 +99,18 @@ multi_utils.handle_acceleration_report = function(device, value)
   end
   if event ~= nil then
     device:emit_event(event)
+  end
+
+  -- emit event to vibration child device if created 
+  local component = "main"
+  local child_device = device:get_child_by_parent_assigned_key(component)
+  if child_device ~= nil and child_device.preferences.profileType == "contact" then
+      child_device:emit_event(capabilities.accelerationSensor.acceleration(value == 0x01 and "active" or "inactive"))
+      if value == 0x01 then
+          child_device:emit_event(capabilities.contactSensor.contact.open())
+      else
+          child_device:emit_event(capabilities.contactSensor.contact.closed())
+      end
   end
 end
 
