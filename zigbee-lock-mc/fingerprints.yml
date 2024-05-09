@@ -116,6 +116,11 @@ zigbeeManufacturer:
     manufacturer: Kwikset
     model: SMARTCODE_DEADBOLT_10_W3 # added 11 mar 2023
     deviceProfileName: base-lock
+  - id: "Kwikset/SMARTCODE_DEADBOLT_10T_W3"
+    deviceLabel: "Kwikset Door Lock"
+    manufacturer: Kwikset
+    model: SMARTCODE_DEADBOLT_10T_W3 # added 24 oct 2023
+    deviceProfileName: base-lock  
   # SCHLAGE
   - id: "Schlage/BE468"
     deviceLabel: "Schlage Door Lock"
@@ -164,6 +169,11 @@ zigbeeManufacturer:
     deviceLabel: "Datek ID Lock 150"
     manufacturer: Datek
     model: ID Lock 150
+    deviceProfileName: base-lock
+  - id: Papaiz/SL205
+    deviceLabel: Papaiz SL205
+    manufacturer: Papaiz # same Yale
+    model: PSL200
     deviceProfileName: base-lock
 zigbeeGeneric:
   - id: "genericLock"
