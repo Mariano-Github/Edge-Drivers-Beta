@@ -911,10 +911,10 @@ zigbeeManufacturer:
     model: TS0002
     deviceProfileName: two-switch
   - id: "Aqara/switch.acn047"
-    deviceLabel: Aqara Double Relay
+    deviceLabel: Aqara Double Relay T2 (LLKZMK12LM)
     manufacturer: Aqara
     model: lumi.switch.acn047
-    deviceProfileName: two-switch-power-1
+    deviceProfileName: lumi-two-switch-power-energy-1
   - id: "TS0002/_TZ3000_k8kkhcik"
     deviceLabel: TS0002 Two Switch
     manufacturer: _TZ3000_k8kkhcik
@@ -1015,6 +1015,36 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_2xlvlnez
     model: TS011F
     deviceProfileName: two-outlet
+  - id: "_TZ3000_mrduubod/TS0014"
+    deviceLabel: TS0014 Switch
+    manufacturer: _TZ3000_mrduubod
+    model: TS0014
+    deviceProfileName: four-switch
+  - id: "TS0003/_TZ3000_avky2mvc"
+    deviceLabel: TS0003 AVATTO Switch
+    manufacturer: _TZ3000_avky2mvc
+    model: TS0003
+    deviceProfileName: three-switch
+  - id: "TS0004/_TZ3000_imaccztn"
+    deviceLabel: ZG-005Rf Four Switch
+    manufacturer: _TZ3000_imaccztn
+    model: TS0004
+    deviceProfileName: four-switch
+  - id: "TS0003/_TZ3000_wuodqwel"
+    deviceLabel: TS0003 Switch
+    manufacturer: _TZ3000_wuodqwel
+    model: TS0003
+    deviceProfileName: three-switch
+  - id: "TS0002/_TZ3000_ogpla3lh"
+    deviceLabel: TS0002 Two Switch
+    manufacturer: _TZ3000_ogpla3lh
+    model: TS0002
+    deviceProfileName: two-switch
+  - id: "4512735/NAMRON"
+    deviceLabel: NAMRON Five Plugs
+    manufacturer: NAMRON AS
+    model: 4512735
+    deviceProfileName: five-outlet
 
     # level devices
   - id: "TS110E/_TZ3210_pagajpog"
@@ -1057,4 +1087,4 @@ zigbeeManufacturer:
     deviceLabel: AURORA 2G Dimmer
     manufacturer: Aurora
     model: 2GBatteryDimmer50AU
-    deviceProfileName: two-switch-level
+    deviceProfileName: two-switch-level-battery

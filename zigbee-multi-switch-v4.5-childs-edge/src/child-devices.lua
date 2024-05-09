@@ -15,7 +15,7 @@ function child_devices.create_new_device(driver, device, component, profile_type
             profile = profile_type,                     -- Profile assigned to Child device created
             parent_device_id = device.id,               -- used to save parent device ID
             parent_assigned_child_key = component,      -- used as libraries parent_assigned_child_key
-            vendor_provided_label = profile_type        -- used to save profile_type to easy recovery with device.vendor_provided_label
+            vendor_provided_label = profile_type        -- used to save profile name to easy recovery with device.vendor_provided_label
         }
         
         -- Create new device

@@ -36,36 +36,11 @@ local ep_ini = 1
 
 local child_devices = require "child-devices"
 local signal = require "signal-metrics"
+local write = require "writeAttribute"
 
 -- Custom Capabilities Declaration
 local switch_All_On_Off = capabilities["legendabsolute60149.switchAllOnOff1"]
 local signal_Metrics = capabilities["legendabsolute60149.signalMetrics"]
-
-------- Write attribute ----
-local function write_attribute_function(device, cluster_id, attr_id, data_value, endpoint)
-  local write_body = write_attribute.WriteAttribute({
-   write_attribute.WriteAttribute.AttributeRecord(attr_id, data_types.ZigbeeDataType(data_value.ID), data_value.value)})
-
-   local zclh = zcl_messages.ZclHeader({
-     cmd = data_types.ZCLCommandId(write_attribute.WriteAttribute.ID)
-   })
-   local addrh = messages.AddressHeader(
-       zb_const.HUB.ADDR,
-       zb_const.HUB.ENDPOINT,
-       device:get_short_address(),
-       device:get_endpoint(cluster_id.value),
-       zb_const.HA_PROFILE_ID,
-       cluster_id.value
-   )
-   local message_body = zcl_messages.ZclMessageBody({
-     zcl_header = zclh,
-     zcl_body = write_body
-   })
-   device:send(messages.ZigbeeMessageTx({
-     address_header = addrh,
-     body = message_body
-   }):to_endpoint (endpoint))
-  end
 
   --tuyaBlackMagic() {return zigbee.readAttribute(0x0000, [0x0004, 0x000, 0x0001, 0x0005, 0x0007, 0xfffe], [:], delay=200)}
   local function read_attribute_function(device, cluster_id, attr_id)
@@ -184,6 +159,12 @@ local function do_preferences (driver, device)
         else
           device:try_update_metadata({profile = "five-outlet"})
         end
+      elseif id == "changeProfileLumi" then
+        if newParameterValue == "Multi" then
+          device:try_update_metadata({profile = "lumi-two-switch-power-energy-1-multi"})
+        else
+          device:try_update_metadata({profile = "lumi-two-switch-power-energy-1"})
+        end
       elseif id == "onOffReports" then
         if device:get_manufacturer() ~= "_TZ3000_fvh3pjaz" 
         and device:get_manufacturer() ~= "_TZ3000_wyhuocal" then -- devices turn off after 2 minutes
@@ -221,14 +202,48 @@ local function do_preferences (driver, device)
             local cluster_id = {value = 0x0006}
             --write atribute for standard devices
             local attr_id = 0x4003
-            write_attribute_function(device, cluster_id, attr_id, data_value, endpoint)
+            write.write_attribute_function(device, cluster_id, attr_id, data_value, endpoint)
 
             --write atribute for Tuya devices (Restore previous state = 0x02)
             if newParameterValue == "255" then data_value = {value = 0x02, ID = 0x30} end
             attr_id = 0x8002
-            write_attribute_function(device, cluster_id, attr_id, data_value, endpoint)
+            write.write_attribute_function(device, cluster_id, attr_id, data_value, endpoint)
           end
         end
+      elseif id == "restoreStateLumi" then
+        local value_send = tonumber(newParameterValue)
+        local data_type = data_types.Uint8
+        local cluster_id = 0xFCC0
+        local attr_id = 0x0517
+        local mfg_code = 0x115F
+        device:send(write.custom_write_attribute(device, cluster_id, attr_id, data_type, value_send, mfg_code):to_endpoint (1))
+        device:send(write.custom_write_attribute(device, cluster_id, attr_id, data_type, value_send, mfg_code):to_endpoint (2))
+      elseif id == "interlockMode" then
+        local value_send = tonumber(newParameterValue)
+        value = false
+        if value_send == 1 then value = true end
+        local data_type = data_types.Boolean
+        local cluster_id = 0xFCC0
+        local attr_id = 0x02D0
+        local mfg_code = 0x115F
+        device:send(write.custom_write_attribute(device, cluster_id, attr_id, data_type, value, mfg_code):to_endpoint (1))
+        device:send(write.custom_write_attribute(device, cluster_id, attr_id, data_type, value, mfg_code):to_endpoint (2))
+      elseif id == "mode" then
+        local value_send = tonumber(newParameterValue)
+        local data_type = data_types.Uint8
+        local cluster_id = 0xFCC0
+        local attr_id = 0x0289
+        local mfg_code = 0x115F
+        device:send(write.custom_write_attribute(device, cluster_id, attr_id, data_type, value_send, mfg_code):to_endpoint (1))
+        device:send(write.custom_write_attribute(device, cluster_id, attr_id, data_type, value_send, mfg_code):to_endpoint (2))
+      elseif id == "dryPulseTime" then
+        local value_send = newParameterValue
+        local data_type = data_types.Uint16
+        local cluster_id = 0xFCC0
+        local attr_id = 0x00EB
+        local mfg_code = 0x115F
+        device:send(write.custom_write_attribute(device, cluster_id, attr_id, data_type, value_send, mfg_code):to_endpoint (1))
+        device:send(write.custom_write_attribute(device, cluster_id, attr_id, data_type, value_send, mfg_code):to_endpoint (2))
       end
       -- Call to Create child device
       local profile_type = "child-switch"
@@ -587,10 +602,52 @@ local function do_configure(driver, device)
     end
     print("doConfigure performed, transitioning device to PROVISIONED") --23/12/23
     device:try_update_metadata({ provisioning_state = "PROVISIONED" })
-  else
+    
+    if device:get_model() == "lumi.switch.acn047" then
+      print("<< Send preferences for Aqara T2 >>")
+      if device.preferences.restoreStateLumi ~= nil then
+        local value_send = tonumber(device.preferences.restoreStateLumi)
+        local data_type = data_types.Uint8
+        local cluster_id = 0xFCC0
+        local attr_id = 0x0517
+        local mfg_code = 0x115F
+        device:send(write.custom_write_attribute(device, cluster_id, attr_id, data_type, value_send, mfg_code):to_endpoint (1))
+        device:send(write.custom_write_attribute(device, cluster_id, attr_id, data_type, value_send, mfg_code):to_endpoint (2))
+      elseif device.preferences.interlockMode ~= nil then
+        local value_send = tonumber(device.preferences.interlockMode)
+        local value = false
+        if value_send == 1 then value = true end
+        local data_type = data_types.Boolean
+        local cluster_id = 0xFCC0
+        local attr_id = 0x02D0
+        local mfg_code = 0x115F
+        device:send(write.custom_write_attribute(device, cluster_id, attr_id, data_type, value, mfg_code):to_endpoint (1))
+        device:send(write.custom_write_attribute(device, cluster_id, attr_id, data_type, value, mfg_code):to_endpoint (2))
+      elseif device.preferences.mode ~= nil then
+        local value_send = tonumber(device.preferences.mode)
+        local data_type = data_types.Uint8
+        local cluster_id = 0xFCC0
+        local attr_id = 0x0289
+        local mfg_code = 0x115F
+        device:send(write.custom_write_attribute(device, cluster_id, attr_id, data_type, value_send, mfg_code):to_endpoint (1))
+        device:send(write.custom_write_attribute(device, cluster_id, attr_id, data_type, value_send, mfg_code):to_endpoint (2))
+      elseif device.preferences.dryPulseTime ~= nil then
+        local value_send = device.preferences.dryPulseTime
+        local data_type = data_types.Uint16
+        local cluster_id = 0xFCC0
+        local attr_id = 0x00EB
+        local mfg_code = 0x115F
+        device:send(write.custom_write_attribute(device, cluster_id, attr_id, data_type, value_send, mfg_code):to_endpoint (1))
+        device:send(write.custom_write_attribute(device, cluster_id, attr_id, data_type, value_send, mfg_code):to_endpoint (2))
+      end
 
+      device.thread:call_with_delay(3, function(d)
+        print("<<< Read Aqara T2 custom Preference attributes >>>")
+        local attr_ids = {0x02D0, 0x0289, 0x00EB, 0x0517} 
+        device:send(read_attribute_function (device, data_types.ClusterId(0xFCC0), attr_ids))
+      end)
+    end
   end
-
 end
 
 ---device init ----
@@ -612,7 +669,7 @@ local function device_init (driver, device)
         end
         if id == "changeProfileThreePlug" then
           if device.preferences[id] == "Single" then
-          device:try_update_metadata({profile = "three-outlet"})
+            device:try_update_metadata({profile = "three-outlet"})
           else
           device:try_update_metadata({profile = "three-outlet-multi"})
           end
@@ -682,6 +739,12 @@ local function device_init (driver, device)
           else
             device:try_update_metadata({profile = "six-outlet"})
           end
+        elseif id == "changeProfileLumi" then
+          if device.preferences[id] == "multi" then
+            device:try_update_metadata({profile = "lumi-two-switch-power-energy-1-multi"})
+          else
+            device:try_update_metadata({profile = "lumi-two-switch-power-energy-1"})
+          end
         end
     end
 
@@ -694,7 +757,7 @@ local function device_init (driver, device)
       device:get_model()~= "FB56+ZSW1HKJ2.7" then
         print("<<< Read Basic clusters attributes >>>")
         local attr_ids = {0x0004, 0x0000, 0x0001, 0x0005, 0x0007,0xFFFE} 
-       device:send(read_attribute_function (device, data_types.ClusterId(0x0000), attr_ids))
+        device:send(read_attribute_function (device, data_types.ClusterId(0x0000), attr_ids))
     end
 
     --- special cofigure for this device, read attribute on-off every 120 sec and not configure reports
@@ -705,7 +768,7 @@ local function device_init (driver, device)
       local data_value = {value = 0x01, ID = 0x20}
       local cluster_id = {value = 0x0000}
       local attr_id = 0x0099
-      write_attribute_function(device, cluster_id, attr_id, data_value, 1)
+      write.write_attribute_function(device, cluster_id, attr_id, data_value, 1)
 
       print("<<<<<<<<<<< read attribute 0xFF, 1 & 2 >>>>>>>>>>>>>")
       device:send(zcl_clusters.OnOff.attributes.OnOff:read(device):to_endpoint (0xFF))
@@ -759,35 +822,55 @@ local function device_init (driver, device)
       device:emit_event(signal_Metrics.signalMetrics({value = "Waiting Zigbee Message"}, {visibility = {displayed = false }}))
     end
 
+    if device:get_model() ~= "2GBatteryDimmer50AU" then
+      local last_level_1 = device:get_latest_state("main", capabilities.switchLevel.ID, capabilities.switchLevel.level.NAME)
+      if last_level_1 == nil then last_level_1 = 0 end
+      last_level_1 = math.floor(last_level_1 * 254 / 100)
+      device:set_field("last_level_1", last_level_1)
+      local last_level_2 = device:get_latest_state("switch2", capabilities.switchLevel.ID, capabilities.switchLevel.level.NAME)
+      if last_level_2 == nil then last_level_2 = 0 end
+      last_level_2 = math.floor(last_level_2 * 254 / 100)
+      device:set_field("last_level_2", last_level_2)
+    end
+
     --config = {
       --cluster = zcl_clusters.Basic.ID,
       --attribute = zcl_clusters.Basic.attributes.ApplicationVersion.ID,
-      --minimum_interval = 0,
-      --maximum_interval = 300,
-      --data_type = data_types.Uint8,
-      --reportable_change = 1,
-    --}
-    --device:add_configured_attribute(config)
-    --config = {
-      --cluster = 0x0000,
-      --attribute = 0xFFE2,
       --minimum_interval = 0xFFFF,
       --maximum_interval = 0xFFFF,
       --data_type = data_types.Uint8,
       --reportable_change = 0xFF,
     --}
     --device:add_configured_attribute(config)
-    --device:send(zcl_clusters.Basic.attributes.ZCLVersion:configure_reporting(device, 0xFFFF, 0xFFFF ,0xFF, data_types.Uint8))
-    --device:send(zcl_clusters.Basic.attributes.ApplicationVersion:configure_reporting(device, 0xFFFF, 0xFFFF ,0xFF, data_types.Uint8))
+   
+    --[[ local config = {
+      cluster = 0x0000,
+      attribute = 0xFFE2,
+      minimum_interval = 0x0,
+      maximum_interval = 0x0,
+      data_type = data_types.Uint8,
+      reportable_change = 0xFF,
+    }
+    device:add_configured_attribute(config)
+    device:send(zcl_clusters.Basic.attributes.ZCLVersion:configure_reporting(device, 0xFFFE, 0xFFFE ,0xFF, data_types.Uint8))
+    device:send(zcl_clusters.Basic.attributes.ApplicationVersion:configure_reporting(device, 0xFFFE, 0xFFFE ,0xFF, data_types.Uint8))
 
-    --device.thread:call_with_delay(4, function(d)
-      --device:configure()
-    --end)
+    device.thread:call_with_delay(4, function(d)
+      device:configure()
+    end)]]
+  end
+end
+
+local function driver_Switched(driver,device)
+  if device.network_type ~= "DEVICE_EDGE_CHILD" then  ---- device (is NO Child device)
+    device.thread:call_with_delay(3, function(d) --30/03/24
+      do_configure(driver, device)
+    end, "configure")
   end
 end
 
 ------ do_configure device
-local function driver_Switched(driver,device)
+local function driver_Switched_old(driver,device)
 
   if device.network_type ~= "DEVICE_EDGE_CHILD" then  ---- device (is NO Child device)
 
@@ -949,8 +1032,17 @@ local function on_handler(driver, device, command)
     print("<<<< On command Handler >>>>")
   end
   if device.network_type ~= "DEVICE_EDGE_CHILD" then  ---- device (is NO Child device)
+    if device:get_model() ~= "2GBatteryDimmer50AU" then
+      device:send_to_component(command.component, zcl_clusters.OnOff.server.commands.On(device))
+    else
+      local endpoint = device:get_endpoint_for_component_id(command.component)
+      device:emit_event_for_endpoint(endpoint, capabilities.switch.switch.on())
 
-    device:send_to_component(command.component, zcl_clusters.OnOff.server.commands.On(device))
+      --- Set all_switches_status capability status
+      device.thread:call_with_delay(2, function(d)
+        all_switches_status(driver, device)
+      end)
+    end
   else
     local parent_device = device:get_parent_device()
     if parent_device.preferences.logDebugPrint == true then
@@ -962,8 +1054,13 @@ local function on_handler(driver, device, command)
     if component == "main" then
       switch_All_On_Off_handler(driver, parent_device, "All On")
     else
-      -- send comamd On to parent device
-      parent_device:send_to_component(component, OnOff.server.commands.On(parent_device))
+      if parent_device:get_model() ~= "2GBatteryDimmer50AU" then
+        -- send comamd On to parent device
+        parent_device:send_to_component(component, OnOff.server.commands.On(parent_device))
+      else
+        local endpoint = parent_device:get_endpoint_for_component_id(command.component)
+        parent_device:emit_event_for_endpoint(endpoint, capabilities.switch.switch.on())
+      end
     end
   end
 end
@@ -974,9 +1071,17 @@ local function off_handler(driver, device, command)
     print("<<<< Off command Handler >>>>")
   end
   if device.network_type ~= "DEVICE_EDGE_CHILD" then  ---- device (is NO Child device)
-    
-    device:send_to_component(command.component, zcl_clusters.OnOff.server.commands.Off(device))
-    
+    if device:get_model() ~= "2GBatteryDimmer50AU" then
+      device:send_to_component(command.component, zcl_clusters.OnOff.server.commands.Off(device))
+    else
+      local endpoint = device:get_endpoint_for_component_id(command.component)
+      device:emit_event_for_endpoint(endpoint, capabilities.switch.switch.off())
+
+      --- Set all_switches_status capability status
+      device.thread:call_with_delay(2, function(d)
+        all_switches_status(driver, device)
+      end)
+    end
   else
     local parent_device = device:get_parent_device()
     if parent_device.preferences.logDebugPrint == true then
@@ -988,8 +1093,13 @@ local function off_handler(driver, device, command)
     if component == "main" then
       switch_All_On_Off_handler(driver, parent_device, "All Off")
     else
-      -- send comamd Off to parent device
-      parent_device:send_to_component(component, OnOff.server.commands.Off(parent_device))
+      if parent_device:get_model() ~= "2GBatteryDimmer50AU" then
+        -- send comamd Off to parent device
+        parent_device:send_to_component(component, OnOff.server.commands.Off(parent_device))
+      else
+        local endpoint = parent_device:get_endpoint_for_component_id(command.component)
+        parent_device:emit_event_for_endpoint(endpoint, capabilities.switch.switch.off())
+      end
     end
   end
 end
@@ -1022,9 +1132,17 @@ local function on_off_attr_handler(driver, device, value, zb_rx)
 
     --- Emit event from zigbee message recived
     if attr_value == false or attr_value == 0 then
-      device:emit_event_for_endpoint(src_endpoint, capabilities.switch.switch.off())
+      if device:get_model() ~= "2GBatteryDimmer50AU" then
+        device:emit_event_for_endpoint(src_endpoint, capabilities.switch.switch.off())
+      else
+        device:emit_event_for_endpoint(src_endpoint, capabilities.switch.switch.on())
+      end
     elseif attr_value == true or attr_value == 1 then
-      device:emit_event_for_endpoint(src_endpoint, capabilities.switch.switch.on())
+      if device:get_model() ~= "2GBatteryDimmer50AU" then
+        device:emit_event_for_endpoint(src_endpoint, capabilities.switch.switch.on())
+      else
+        device:emit_event_for_endpoint(src_endpoint, capabilities.switch.switch.off())
+      end
     end
 
     -- emit event for child devices
@@ -1139,21 +1257,27 @@ end
     local on_Level = command.args.level
 
     if device.network_type ~= "DEVICE_EDGE_CHILD" then  ---- device (is NO Child device)
-      -- this device uses level cluster to set led indicators level 
-      -- and need does not update the on-off attribute handler state
-      if device:get_model() == "DoubleSocket50AU" then 
-        device:set_field("set-led", "yes")
-      end
-      device:send_to_component(command.component, zcl_clusters.Level.server.commands.MoveToLevelWithOnOff(device, math.floor(on_Level/100.0 * 254), 0xFFFF))
-
-    
-      -- emit event for child devices
-      local component = command.component
-      local child_device = device:get_child_by_parent_assigned_key(component)
-      if child_device ~= nil and component ~= "main" then
-        if child_device.preferences.profileType == "level" then
-          child_device:emit_event(capabilities.switchLevel.level(on_Level))
+      if device:get_model() ~= "2GBatteryDimmer50AU" then
+        -- this device uses level cluster to set led indicators level 
+        -- and need does not update the on-off attribute handler state
+        if device:get_model() == "DoubleSocket50AU" then 
+          device:set_field("set-led", "yes")
         end
+        device:send_to_component(command.component, zcl_clusters.Level.server.commands.MoveToLevelWithOnOff(device, math.floor(on_Level/100.0 * 254), 0xFFFF))
+
+      
+        -- emit event for child devices
+        local component = command.component
+        local child_device = device:get_child_by_parent_assigned_key(component)
+        if child_device ~= nil and component ~= "main" then
+          if child_device.preferences.profileType == "level" then
+            child_device:emit_event(capabilities.switchLevel.level(on_Level))
+          end
+        end
+      else
+        local endpoint = device:get_endpoint_for_component_id(command.component)
+        --device:emit_event_for_endpoint(endpoint, capabilities.switch.switch.on())
+        device:emit_event_for_endpoint(endpoint, capabilities.switchLevel.level(on_Level))
       end
     else
       device:emit_event(capabilities.switchLevel.level(on_Level))
@@ -1163,7 +1287,13 @@ end
 
       -- send comamd level to parent device
       if component ~= "main" then
-        parent_device:send_to_component(component, zcl_clusters.Level.commands.MoveToLevelWithOnOff(parent_device, math.floor(on_Level/100.0 * 254), 0xFFFF))
+        if parent_device:get_model() ~= "2GBatteryDimmer50AU" then
+          parent_device:send_to_component(component, zcl_clusters.Level.commands.MoveToLevelWithOnOff(parent_device, math.floor(on_Level/100.0 * 254), 0xFFFF))
+        else
+          local endpoint = parent_device:get_endpoint_for_component_id(command.component)
+          --parent_device:emit_event_for_endpoint(endpoint, capabilities.switch.switch.on())
+          parent_device:emit_event_for_endpoint(endpoint, capabilities.switchLevel.level(on_Level))
+        end
       end
     end
   end
@@ -1190,6 +1320,57 @@ local function level_attr_handler(driver, device, value, zb_rx)
   end
 end
 
+-- step_command_handler for aurora 2GBatteryDimmer50AU battery dimmer
+local function step_command_handler (driver, device, zb_rx)
+    local endpoint = zb_rx.address_header.src_endpoint.value
+
+    local zb_message = zb_rx
+    local step_command = zb_message.body.zcl_body
+    --Print message command with function utils.stringify_table(step_command)
+    --print("step message >>>>>>",utils.stringify_table(step_command))
+
+    local component = device:get_component_id_for_endpoint(endpoint)
+
+    local level = device:get_field("last_level_1")
+    if component == "switch2" then
+      level = device:get_field("last_level_2")
+    end
+    if level == nil then level = 0 end
+    --level = math.floor(level * 254 / 100)
+    local direction = step_command.step_mode.value
+    local step_level = step_command.step_size.value
+    if device.preferences.logDebugPrint == true then
+      print("<<< src Endpoint", endpoint)
+      print("<<< direction", direction)
+      print("<<< step_level", step_level)
+    end
+
+    if direction == 1 then
+      step_level = step_level * -1
+    end
+
+    level = level + step_level
+    if level > 254 then
+      level = 254
+    elseif level < 0 then
+      level = 0
+    end
+    if component == "main" then
+      device:set_field("last_level_1", level)
+    elseif component == "switch2" then
+      device:set_field("last_level_2", level)
+    end
+    device:emit_event_for_endpoint(endpoint, capabilities.switchLevel.level(math.floor((level / 254.0 * 100) + 0.5)))
+
+    -- emit event for child devices
+    local child_device = device:get_child_by_parent_assigned_key(component)
+    if child_device ~= nil and component ~= "main" then
+      if child_device.preferences.profileType == "level" then
+        child_device:emit_event(capabilities.switchLevel.level(math.floor((level / 254.0 * 100) + 0.5)))
+      end
+    end
+end
+
 ---- Driver configure ---------
 local zigbee_outlet_driver_template = {
   supported_capabilities = {
@@ -1197,7 +1378,8 @@ local zigbee_outlet_driver_template = {
     capabilities.switchLevel,
     capabilities.powerMeter,
     capabilities.energyMeter,
-    capabilities.refresh
+    capabilities.refresh,
+    capabilities.battery
   },
   lifecycle_handlers = {
     init = device_init,
@@ -1207,6 +1389,11 @@ local zigbee_outlet_driver_template = {
     added = do_added,
   },
   zigbee_handlers = {
+    cluster = {
+      [zcl_clusters.Level.ID] = {
+        [zcl_clusters.Level.server.commands.Step.ID] = step_command_handler
+      },
+    },
     global = {
      [zcl_clusters.OnOff.ID] = {
         [zcl_global_commands.DEFAULT_RESPONSE_ID] = default_response_handler

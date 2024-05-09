@@ -43,6 +43,41 @@
                         "key": "S1:On S3:On ",
                         "value": "S1:On S3:On ",
                         "type": "inactive"
+                    },
+                    {
+                        "key": "S1:On S4:On ",
+                        "value": "S1:On S4:On ",
+                        "type": "inactive"
+                    },
+                    {
+                        "key": "S2:On S4:On ",
+                        "value": "S2:On S4:On ",
+                        "type": "inactive"
+                    },
+                    {
+                        "key": "S3:On S4:On ",
+                        "value": "S3:On S4:On ",
+                        "type": "inactive"
+                    },
+                    {
+                        "key": "S1:On S2:On S3:On",
+                        "value": "S1:On S2:On S3:On ",
+                        "type": "inactive"
+                    },
+                    {
+                        "key": "S1:On S2:On S4:On",
+                        "value": "S1:On S2:On S4:On ",
+                        "type": "inactive"
+                    },
+                    {
+                        "key": "S1:On S3:On S4:On",
+                        "value": "S1:On S3:On S4:On ",
+                        "type": "inactive"
+                    },
+                    {
+                        "key": "S2:On S3:On S4:On",
+                        "value": "S2:On S3:On S4:On ",
+                        "type": "inactive"
                     }
                 ]
             }
@@ -122,6 +157,41 @@
                         {
                             "key": "S1:On S3:On ",
                             "value": "S1:On S3:On ",
+                            "type": "inactive"
+                        },
+                        {
+                            "key": "S1:On S4:On ",
+                            "value": "S1:On S4:On ",
+                            "type": "inactive"
+                        },
+                        {
+                            "key": "S2:On S4:On ",
+                            "value": "S2:On S4:On ",
+                            "type": "inactive"
+                        },
+                        {
+                            "key": "S3:On S4:On ",
+                            "value": "S3:On S4:On ",
+                            "type": "inactive"
+                        },
+                        {
+                            "key": "S1:On S2:On S3:On",
+                            "value": "S1:On S2:On S3:On ",
+                            "type": "inactive"
+                        },
+                        {
+                            "key": "S1:On S2:On S4:On",
+                            "value": "S1:On S2:On S4:On ",
+                            "type": "inactive"
+                        },
+                        {
+                            "key": "S1:On S3:On S4:On",
+                            "value": "S1:On S3:On S4:On ",
+                            "type": "inactive"
+                        },
+                        {
+                            "key": "S2:On S3:On S4:On",
+                            "value": "S2:On S3:On S4:On ",
                             "type": "inactive"
                         }
                     ]
