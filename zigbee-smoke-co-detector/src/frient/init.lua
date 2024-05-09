@@ -16,13 +16,16 @@ local battery_defaults = require "st.zigbee.defaults.battery_defaults"
 local zcl_clusters = require "st.zigbee.zcl.clusters"
 local capabilities = require "st.capabilities"
 local battery = capabilities.battery
---local utils = require "st.utils"
+
 -- required module
 local signal = require "signal-metrics"
 
 local is_frient_smoke_detector = function(opts, driver, device)
-  if device:get_manufacturer() == "frient A/S" or device:get_manufacturer() == "LUMI" or device:get_manufacturer() == "Develco Products A/S" then
-    return true
+  if device.network_type ~= "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE
+    if device:get_manufacturer() == "frient A/S" or device:get_manufacturer() == "LUMI" or device:get_manufacturer() == "Develco Products A/S" then
+      local subdriver = require("frient")
+      return true, subdriver
+    end
   end
   return false
 end

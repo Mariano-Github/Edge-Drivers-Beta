@@ -12,24 +12,26 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 
-local battery_defaults = require "st.zigbee.defaults.battery_defaults"
+--local battery_defaults = require "st.zigbee.defaults.battery_defaults"
 local zcl_clusters = require "st.zigbee.zcl.clusters"
 local capabilities = require "st.capabilities"
---local battery = capabilities.battery
---local utils = require "st.utils"
 local constants = require "st.zigbee.constants"
 -- required module
 local signal = require "signal-metrics"
 
 
 local is_co_detector = function(opts, driver, device)
-  if (device:get_manufacturer() == "feibit" and device:get_model() == "FNB56-COS06FB1.7")
-    or (device:get_manufacturer() == "HEIMAN" and device:get_model() == "COSensor-EF-3.0")
-    or (device:get_manufacturer() == "Heiman" and device:get_model() == "CO_V16")
-    or (device:get_manufacturer() == "Trust" and device:get_model() == "COSensor-EM")
-    or (device:get_manufacturer() == "_TYZB01_18pkine6" and device:get_model() == "TS0204")
-    or (device:get_manufacturer() == "_TYZB01_o7m83470" and device:get_model() == "TS0212") then
-    return true
+  if device.network_type ~= "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE
+    if (device:get_manufacturer() == "feibit" and device:get_model() == "FNB56-COS06FB1.7")
+      or (device:get_manufacturer() == "HEIMAN" and device:get_model() == "COSensor-EF-3.0")
+      or (device:get_manufacturer() == "Heiman" and device:get_model() == "CO_V16")
+      or (device:get_manufacturer() == "Trust" and device:get_model() == "COSensor-EM")
+      or (device:get_manufacturer() == "_TYZB01_18pkine6" and device:get_model() == "TS0204")
+      or (device:get_manufacturer() == "_TYZB01_wpmo3ja3" and device:get_model() == "TS0212")
+      or (device:get_manufacturer() == "_TYZB01_o7m83470" and device:get_model() == "TS0212") then
+        local subdriver = require("co-handler")
+        return true, subdriver
+    end
   end
   return false
 end
@@ -62,10 +64,6 @@ end
 
 local co_detector = {
   NAME = "Co Detector",
-  supported_capabilities = {
-    --capabilities.carbonMonoxideDetector,
-    --capabilities.battery
-  },
   zigbee_handlers = {
     cluster = {
       [zcl_clusters.IASZone.ID] = {

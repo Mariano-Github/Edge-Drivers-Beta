@@ -12,11 +12,9 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 
-local battery_defaults = require "st.zigbee.defaults.battery_defaults"
+--local battery_defaults = require "st.zigbee.defaults.battery_defaults"
 local zcl_clusters = require "st.zigbee.zcl.clusters"
 local capabilities = require "st.capabilities"
---local battery = capabilities.battery
---local utils = require "st.utils"
 local constants = require "st.zigbee.constants"
 -- required module
 local signal = require "signal-metrics"
@@ -24,10 +22,13 @@ local configurationMap = require "configurations"
 
 
 local is_gas_detector = function(opts, driver, device)
-  if (device:get_manufacturer() == "LUMI" and device:get_model() == "lumi.sensor_gas.acn02") or
-    (device:get_manufacturer() == "_TYZB01_mfccmeio" and device:get_model() == "TS0204") then -- gas detector
-    --or (device:get_manufacturer() == "_TYZB01_18pkine6" and device:get_model() == "TS0204")
-    return true
+  if device.network_type ~= "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE
+    if (device:get_manufacturer() == "LUMI" and device:get_model() == "lumi.sensor_gas.acn02") or
+      (device:get_manufacturer() == "_TYZB01_mfccmeio" and device:get_model() == "TS0204") then -- gas detector
+      --or (device:get_manufacturer() == "_TYZB01_18pkine6" and device:get_model() == "TS0204")
+      local subdriver = require("gas-handler")
+      return true, subdriver
+    end
   end
   return false
 end

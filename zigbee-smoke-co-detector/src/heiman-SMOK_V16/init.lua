@@ -23,15 +23,19 @@ local device_management = require "st.zigbee.device_management"
 
 
 local is_heiman_SMOK_V16 = function(opts, driver, device)
-  if device:get_model() == "SMOK_V16" or 
-    device:get_model() == "SmokeSensor-N" or
-    device:get_model() == "SmokeSensor-N-3.0" or
-    device:get_model() == "SMOK_YDLV10" or
-    device:get_model() == "COSensor-EM" or
-    (device:get_model() == "TS0205" and device:get_manufacturer() == "_TYZB01_wqcac7lo") or
-    --(device:get_model() == "TS0205" and device:get_manufacturer() == "_TZ3210_up3pngle") or
-    (device:get_model() == "TS0205" and device:get_manufacturer() == "_TYZB01_dsjszp0x") then
-    return true
+  if device.network_type ~= "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE
+    if device:get_model() == "SMOK_V16" or 
+      device:get_model() == "SmokeSensor-N" or
+      device:get_model() == "SmokeSensor-N-3.0" or
+      device:get_model() == "SMOK_YDLV10" or
+      device:get_model() == "COSensor-EM" or
+      (device:get_model() == "TS0205" and device:get_manufacturer() == "_TYZB01_wqcac7lo") or
+      (device:get_model() == "TS0205" and device:get_manufacturer() == "_TZ3210_up3pngle") or
+      --(device:get_model() == "TS0205" and device:get_manufacturer() == "_TZ3000_hl7yraue") or
+      (device:get_model() == "TS0205" and device:get_manufacturer() == "_TYZB01_dsjszp0x") then
+        local subdriver = require("heiman-SMOK_V16")
+        return true, subdriver
+    end
   end
   return false
 end
@@ -49,6 +53,9 @@ end
     end
     device:send(device_management.build_bind_request(device, PowerConfiguration.ID, self.environment_info.hub_zigbee_eui))
     device:send(PowerConfiguration.attributes.BatteryPercentageRemaining:configure_reporting(device, 30, 300, 1))
+    if (device:get_model() == "TS0205" and device:get_manufacturer() == "_TYZB01_wqcac7lo") then -- nedis device tht not respond to any command
+      device:send(PowerConfiguration.attributes.BatteryVoltage:configure_reporting(device, 30, 300, 1))
+    end
     local configuration = configurationMap.get_device_configuration(device)
     if configuration ~= nil then
       for _, attribute in ipairs(configuration) do
@@ -56,13 +63,26 @@ end
         device:add_monitored_attribute(attribute)
       end
     end
+    print("doConfigure performed, transitioning device to PROVISIONED") --23/12/23
+    device:try_update_metadata({ provisioning_state = "PROVISIONED" })
   end
+
+  --- do_driverSwitched
+local function do_driverSwitched(self, device) --23/12/23
+  print("<<<< DriverSwitched >>>>")
+  device.thread:call_with_delay(3, function(d)
+    do_configure(self, device)
+    --print("doConfigure performed, transitioning device to PROVISIONED")
+    --device:try_update_metadata({ provisioning_state = "PROVISIONED" })
+  end, "configure") 
+ end
 
 local heiman_SMOK_V16 = {
   NAME = "heiman_SMOK_V16",
   lifecycle_handlers = {
     doConfigure = do_configure,
-    driverSwitched = do_configure
+    --driverSwitched = do_configure,
+    driverSwitched = do_driverSwitched --23/12/23
   },
   ias_zone_configuration_method = constants.IAS_ZONE_CONFIGURE_TYPE.AUTO_ENROLL_RESPONSE,
 

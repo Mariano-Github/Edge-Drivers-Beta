@@ -24,7 +24,9 @@ local devices = {
       { mfr = "HEIMAN", model = "SmokeSensor-N-3.0"},
       { mfr = "HEIMAN", model = "SmokeSensor-N"},
       { mfr = "Heiman", model = "SMOK_YDLV10"},
+      { mfr = "Trust", model = "COSensor-EM"},
       { mfr = "_TYZB01_dsjszp0x", model = "TS0205"},
+      { mfr = "_TZ3000_hl7yraue", model = "TS0205"},
     },
     CONFIGURATION = {
       {

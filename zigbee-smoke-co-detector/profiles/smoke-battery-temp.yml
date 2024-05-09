@@ -19,9 +19,14 @@ components:
 preferences:
   - preferenceId: tempOffset
     explicit: true
+  - name: "childBatteries"
+    title: "Create devices batt status Virtual"
+    description: "Create devices batt status Virtual"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
 metadata:
   deviceType: SmokeDetector
   ocfDeviceType: x.com.st.d.sensor.smoke
   deviceTypeId: SmokeDetector
-  # mnmn: SmartThingsCommunity
-  # vid: f2fadb07-0100-3971-b871-8fac0305906d
