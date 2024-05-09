@@ -14,10 +14,8 @@
 
 local capabilities = require "st.capabilities"
 local zcl_clusters = require "st.zigbee.zcl.clusters"
---local battery_defaults = require "st.zigbee.defaults.battery_defaults"
 local device_management = require "st.zigbee.device_management"
-local data_types = require "st.zigbee.data_types"
---local OccupancySensing = zcl_clusters.OccupancySensing
+--local data_types = require "st.zigbee.data_types"
 
 --module emit signal metrics
 local signal = require "signal-metrics"
@@ -29,18 +27,17 @@ local ZIGBEE_FRIENT_MOTION_SENSOR_FINGERPRINTS = {
 }
 
 local is_zigbee_frient_motion_sensor = function(opts, driver, device)
-  for _, fingerprint in ipairs(ZIGBEE_FRIENT_MOTION_SENSOR_FINGERPRINTS) do
-      if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-          return true
-      end
+  if device.network_type ~= "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE
+    for _, fingerprint in ipairs(ZIGBEE_FRIENT_MOTION_SENSOR_FINGERPRINTS) do
+        if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
+          local subdriver = require("frient")
+          return true, subdriver
+        end
+    end
   end
   return false
 end
 
-local function occupancy_attr_handler(driver, device, occupancy, zb_rx)
-  device:emit_event(
-      occupancy.value == 1 and capabilities.motionSensor.motion.active() or capabilities.motionSensor.motion.inactive())
-end
 
 local function add_illuminance(self,device)
   local maxTime = 1800
@@ -80,9 +77,6 @@ local frient_motion_handler = {
   },
   zigbee_handlers = {
     attr = {
-      --[OccupancySensing.ID] = {
-        --[OccupancySensing.attributes.Occupancy.ID] = occupancy_attr_handler
-      --},
       [zcl_clusters.IlluminanceMeasurement.ID] = {
         [zcl_clusters.IlluminanceMeasurement.attributes.MeasuredValue.ID] = illuminance_measurement_defaults
     }

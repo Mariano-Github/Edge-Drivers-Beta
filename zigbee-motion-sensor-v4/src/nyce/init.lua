@@ -14,7 +14,6 @@
 
 local capabilities = require "st.capabilities"
 local zcl_clusters = require "st.zigbee.zcl.clusters"
-local battery_defaults = require "st.zigbee.defaults.battery_defaults"
 local OccupancySensing = zcl_clusters.OccupancySensing
 
 --module emit signal metrics
@@ -27,10 +26,13 @@ local ZIGBEE_NYCE_MOTION_SENSOR_FINGERPRINTS = {
 }
 
 local is_zigbee_nyce_motion_sensor = function(opts, driver, device)
-  for _, fingerprint in ipairs(ZIGBEE_NYCE_MOTION_SENSOR_FINGERPRINTS) do
-      if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-          return true
-      end
+  if device.network_type ~= "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE
+    for _, fingerprint in ipairs(ZIGBEE_NYCE_MOTION_SENSOR_FINGERPRINTS) do
+        if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
+          local subdriver = require("nyce")
+          return true, subdriver
+        end
+    end
   end
   return false
 end

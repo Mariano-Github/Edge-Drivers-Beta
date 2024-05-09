@@ -356,7 +356,7 @@ zigbeeManufacturer:
     model: TS0202
     deviceProfileName: motion-illuminance
   - id: "LUMI/sensor_motion.aq2"
-    deviceLabel: Aqara Motion Sensor
+    deviceLabel: Aqara Motion Sensor RTCGQ11LM
     manufacturer: LUMI
     model: lumi.sensor_motion.aq2
     deviceProfileName: lumi-motion-illuminance
@@ -409,6 +409,11 @@ zigbeeManufacturer:
     deviceLabel: NAMRON Multi Sensor Black
     manufacturer: NAMRON AS
     model: 4512771
+    deviceProfileName: namron-motion-illuminance-temp-humid
+  - id: "Sunricher/HK-SENSOR-4IN1-A" # same as Namron
+    deviceLabel: Sunricher Multi Sensor 4 in 1
+    manufacturer: Sunricher
+    model: HK-SENSOR-4IN1-A
     deviceProfileName: namron-motion-illuminance-temp-humid
   - id: "IKEA of Sweden/VALLHORN"
     deviceLabel: Ikea VALLHORN Motion Sensor

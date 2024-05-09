@@ -18,26 +18,30 @@ local capabilities = require "st.capabilities"
 local ZigbeeDriver = require "st.zigbee"
 local defaults = require "st.zigbee.defaults"
 local constants = require "st.zigbee.constants"
---local clusters = require "st.zigbee.zcl.clusters"
 local utils = require "st.utils"
---local IlluminanceMeasurement = clusters.IlluminanceMeasurement
 local data_types = require "st.zigbee.data_types"
+local zcl_clusters = require "st.zigbee.zcl.clusters"
+local PowerConfiguration = zcl_clusters.PowerConfiguration
 
 --- Temperature Mesurement config Samjin
-local zcl_clusters = require "st.zigbee.zcl.clusters"
 local IASZone = zcl_clusters.IASZone
 local tempMeasurement = zcl_clusters.TemperatureMeasurement
 local device_management = require "st.zigbee.device_management"
 
 local signal = require "signal-metrics"
 local write = require "writeAttribute"
+local child_devices = require "child-devices"
 
 -- custom capabilities
 local sensor_Sensitivity = capabilities["legendabsolute60149.sensorSensitivity"]
 local signal_Metrics = capabilities["legendabsolute60149.signalMetrics"]
+local MONITORED_ATTRIBUTES_KEY = "__monitored_attributes"
 
 -- no offline function
 local function no_offline(self,device)
+
+  if device.network_type == "DEVICE_EDGE_CHILD" then return end-- is CHILD DEVICE
+
   print("***** function no_offline *********")
 
   if device:get_model() == "MS01" or 
@@ -46,7 +50,7 @@ local function no_offline(self,device)
     device:get_manufacturer() == "TUYATEC-zn9wyqtr" then
 
       ------ Timer activation
-      device.thread:call_on_schedule( 300,
+      device.thread:call_on_schedule( 1200,
       function ()
         local last_state = device:get_latest_state("main", capabilities.motionSensor.ID, capabilities.motionSensor.motion.NAME)
         print("<<<<< TIMER Last status >>>>>> ", last_state)
@@ -70,7 +74,7 @@ local function do_preferences(self, device)
     local newParameterValue = device.preferences[id]
     if oldPreferenceValue ~= newParameterValue then
       device:set_field(id, newParameterValue, {persist = true})
-      print("<< Preference changed: name, old, new >>", id, oldPreferenceValue, newParameterValue)
+      print("<< Preference changed name:", id, "old:", oldPreferenceValue, "new:", newParameterValue)
       if  id == "maxTime" or id == "changeRep" then
         local maxTime = device.preferences.maxTime * 60
         local changeRep = device.preferences.changeRep
@@ -145,27 +149,49 @@ local function do_preferences(self, device)
           reportable_change = 1
         }
         device:send(IASZone.attributes.ZoneStatus:configure_reporting(device, 30, interval, 1))
-        device:add_monitored_attribute(config)
+        --device:add_monitored_attribute(config)
+        --local monitored_attrs = device:get_field(MONITORED_ATTRIBUTES_KEY) or {}
+        --print("monitored_attrs-Before remove att 0x0002 >>>>>>",utils.stringify_table(monitored_attrs))
+        device:remove_monitored_attribute(0x0500, 0x0002)
+        --print("monitored_attrs-After remove att 0x0002 >>>>>>",utils.stringify_table(monitored_attrs))
+
+      elseif id == "childBatteries" then
+        if oldPreferenceValue ~= nil and newParameterValue == true then
+          child_devices.create_new(self, device, "main", "child-batteries-status")
+        end
+      elseif id == "motionSensitivitySonoff" then
+        print("<<< Write Sensitivity Level sonoff>>>")
+        local value_send = tonumber(device.preferences.motionSensitivitySonoff)
+        device:send(zcl_clusters.OccupancySensing.attributes.UltrasonicUnoccupiedToOccupiedThreshold:write(device, value_send))
+      elseif id == "unoccupiedDelaySonoff" then
+        print("<<< Write unoccupied Delay sonoff>>>")
+        local value_send = device.preferences.unoccupiedDelaySonoff
+        device:send(zcl_clusters.OccupancySensing.attributes.UltrasonicOccupiedToUnoccupiedDelay:write(device, value_send))
       end
     end
   end
 
-   --print manufacturer, model and leng of the strings
-   local manufacturer = device:get_manufacturer()
-   local model = device:get_model()
-   local manufacturer_len = string.len(manufacturer)
-   local model_len = string.len(model)
- 
-   print("Device ID >>>", device)
-   print("Manufacturer >>>", manufacturer, "Manufacturer_Len >>>",manufacturer_len)
-   print("Model >>>", model,"Model_len >>>",model_len)
-   --print("Firmware >>>",firmware)
-   -- This will print in the log the total memory in use by Lua in Kbytes
-   print("Memory >>>>>>>",collectgarbage("count"), " Kbytes")
+  --print manufacturer, model and leng of the strings
+  local manufacturer = device:get_manufacturer()
+  local model = device:get_model()
+  local manufacturer_len = string.len(manufacturer)
+  local model_len = string.len(model)
+
+  print("Device ID >>>", device)
+  print("Manufacturer >>>", manufacturer, "Manufacturer_Len >>>",manufacturer_len)
+  print("Model >>>", model,"Model_len >>>",model_len)
+
+  -- This will print in the log the total memory in use by Lua in Kbytes
+  print("Memory >>>>>>>",collectgarbage("count"), " Kbytes")
+
+  local firmware_full_version = device.data.firmwareFullVersion
+  if firmware_full_version == nil then firmware_full_version = "Unknown" end
+  print("<<<<< Firmware Version >>>>>",firmware_full_version)
 end
 
 -- do_configure
 local function do_configure(self,device)
+  if device.network_type == "DEVICE_EDGE_CHILD" then return end-- is CHILD DEVICE
 
   if device:get_manufacturer() ~= "IKEA of Sweden" and
   device:get_manufacturer() ~= "NAMRON AS" and
@@ -183,10 +209,31 @@ local function do_configure(self,device)
     }
     --device:send(IASZone.attributes.ZoneStatus:configure_reporting(device, 30, interval, 1))
     device:add_configured_attribute(config)
-    device:add_monitored_attribute(config)
+    --device:add_monitored_attribute(config)
+
+    --local monitored_attrs = device:get_field(MONITORED_ATTRIBUTES_KEY) or {}
+    --print("monitored_attrs-Before remove att 0x0002 >>>>>>",utils.stringify_table(monitored_attrs))
+    --device:remove_monitored_attribute(0x0500, 0x0002)
+   -- print("monitored_attrs-After remove att 0x0002 >>>>>>",utils.stringify_table(monitored_attrs))
+    if device:get_model() == "MS01" or 
+    device:get_model() == "ms01" or
+    device:get_manufacturer() == "TUYATEC-smmlguju" or
+    device:get_manufacturer() == "TUYATEC-zn9wyqtr" then
+      config ={
+        cluster = PowerConfiguration.ID,
+        attribute = PowerConfiguration.attributes.BatteryPercentageRemaining.ID,
+        minimum_interval = 30,
+        maximum_interval = 1800,
+        data_type = PowerConfiguration.attributes.BatteryPercentageRemaining.base_type,
+        reportable_change = 1
+      }
+      device:add_configured_attribute(config)
+      device:add_monitored_attribute(config)
+    end
   end
 
   device:configure() -- mod (09/01/2023)
+  device:remove_monitored_attribute(0x0500, 0x0002)
 
   if device:get_manufacturer() == "frient A/S" or 
       (device:get_manufacturer() == "IKEA of Sweden" and device:get_model() == "TRADFRI motion sensor") or
@@ -204,6 +251,9 @@ local function do_configure(self,device)
 
         device:send(device_management.build_bind_request(device, zcl_clusters.PowerConfiguration.ID, self.environment_info.hub_zigbee_eui))
         device:send(zcl_clusters.PowerConfiguration.attributes.BatteryVoltage:configure_reporting(device, 30, 21600, 1))
+  elseif device:get_model() == "SNZB-06P" then
+    device:send(device_management.build_bind_request(device, zcl_clusters.OccupancySensing.ID, self.environment_info.hub_zigbee_eui))
+    device:send(zcl_clusters.OccupancySensing.attributes.Occupancy:configure_reporting(device, 0, 600))
   end
 
   if device:supports_capability_by_id(capabilities.temperatureMeasurement.ID) then
@@ -228,6 +278,15 @@ local function do_configure(self,device)
     device.thread:call_with_delay(4, function(d)
       device:send_to_component("main", zcl_clusters.IASZone.attributes.CurrentZoneSensitivityLevel:read(device))
     end)
+  elseif device.preferences.motionSensitivitySonoff ~= nil then
+    --if device:get_manufacturer() == "SONOFF" then
+    print("<<< Write Sensitivity Level sonoff>>>")
+    local value_send = tonumber(device.preferences.motionSensitivitySonoff)
+    device:send(zcl_clusters.OccupancySensing.attributes.UltrasonicUnoccupiedToOccupiedThreshold:write(device, value_send))
+  elseif device.preferences.unoccupiedDelaySonoff ~= nil then
+    print("<<< Write unoccupied Delay sonoff>>>")
+    local value_send = device.preferences.unoccupiedDelaySonoff
+    device:send(zcl_clusters.OccupancySensing.attributes.UltrasonicOccupiedToUnoccupiedDelay:write(device, value_send))
   end
 end
 
@@ -261,6 +320,9 @@ local function NumberOfZoneSensitivityLevelsSupported_handler(self, device, valu
 end
 
 local function do_init(self, device)
+
+  if device.network_type == "DEVICE_EDGE_CHILD" then return end-- is CHILD DEVICE
+
   print("<<<<< do_init for Main int.lua >>>>>>")
 
   if device:get_latest_state("main", signal_Metrics.ID, signal_Metrics.signalMetrics.NAME) == nil then
@@ -286,9 +348,34 @@ local function do_init(self, device)
     }
     --device:send(IASZone.attributes.ZoneStatus:configure_reporting(device, 30, device.preferences.iasZoneReports, 1))
     device:add_configured_attribute(config)
-    device:add_monitored_attribute(config)
-  end
+    --device:add_monitored_attribute(config)
 
+    --local monitored_attrs = device:get_field(MONITORED_ATTRIBUTES_KEY) or {}
+    --print("monitored_attrs-Before remove att 0x0002 >>>>>>",utils.stringify_table(monitored_attrs))
+    device:remove_monitored_attribute(0x0500, 0x0002)
+    --print("monitored_attrs-After remove att 0x0002 >>>>>>",utils.stringify_table(monitored_attrs))
+
+    local firmware_full_version = device.data.firmwareFullVersion
+    if device:get_model() == "SNZB-06P" and firmware_full_version ~= nil then
+      firmware_full_version = tonumber(device.data.firmwareFullVersion)
+      print("<<< firmware_full_version:",firmware_full_version)
+      if firmware_full_version >= 1005 then
+        device.thread:call_with_delay(5, function(d)
+          device:try_update_metadata({profile = "sonoff-motion-occupancy-105"})
+        end)
+      end
+      config ={
+        cluster = zcl_clusters.OccupancySensing.ID,
+        attribute = 0x0000,
+        minimum_interval = 0,
+        maximum_interval = 600,
+        data_type = zcl_clusters.OccupancySensing.attributes.Occupancy.base_type,
+      }
+      device:add_configured_attribute(config)
+      device:add_monitored_attribute(config)
+    end
+  end
+  device:refresh()
 end
 
 --- sensor_Sensitivity_handler
@@ -315,8 +402,6 @@ local function battery_percentage_handler(driver, device, raw_value, zb_rx)
     --print("raw_percentage >>>>",raw_percentage)
     local percentage = utils.clamp_value(utils.round(raw_percentage / 2), 0, 100)
     device:emit_event(capabilities.battery.battery(percentage))
-  --elseif device:get_manufacturer() == "IKEA of Sweden" then
-    -- not report percentage
   elseif device:get_manufacturer() == "NAMRON AS" then
     local percentage = utils.clamp_value(utils.round(raw_value.value), 0, 100)
     device:emit_event(capabilities.battery.battery(percentage))
@@ -328,11 +413,41 @@ end
 
 --- do_driverSwitched
 local function do_driverSwitched(self, device)
- print("<<<< DriverSwitched >>>>")
+  if device.network_type == "DEVICE_EDGE_CHILD" then return end-- is CHILD DEVICE
+  print("<<<< DriverSwitched >>>>")
   device.thread:call_with_delay(2, function(d)
     do_configure(self, device)
   end, "configure") 
 end
+
+-- this new function in libraries version 9 allow load only subdrivers with devices paired
+  local function lazy_load_if_possible(sub_driver_name)
+    -- gets the current lua libs api version
+    local version = require "version"
+  
+    --print("<<<<< Library Version:", version.api)
+    -- version 9 will include the lazy loading functions
+    if version.api >= 9 then
+      return ZigbeeDriver.lazy_load_sub_driver(require(sub_driver_name))
+    else
+      return require(sub_driver_name)
+    end
+  end
+
+  local function illuminance_state_handler(driver, device, value, zb_rx)
+    print("<<< Illuminance handler >>>")
+    -- emit signal metrics
+    signal.metrics(device, zb_rx)
+  
+    device:emit_event_for_endpoint(zb_rx.address_header.src_endpoint.value, capabilities.illuminanceMeasurement.illuminance(value.value))
+  end
+
+  local function do_refresh(driver, device)
+    if device:supports_capability_by_id(capabilities.temperatureMeasurement.ID) then
+      device:send(tempMeasurement.attributes.MeasuredValue:read(device))
+    end
+    device:refresh()
+  end
 
 local zigbee_motion_driver = {
   supported_capabilities = {
@@ -357,6 +472,9 @@ local zigbee_motion_driver = {
 capability_handlers = {
   [sensor_Sensitivity.ID] = {
     [sensor_Sensitivity.commands.setSensorSensitivity.NAME] = sensor_Sensitivity_handler,
+  },
+  [capabilities.refresh.ID] = {
+    [capabilities.refresh.commands.refresh.NAME] = do_refresh,
   }
 },
 zigbee_handlers = {
@@ -364,6 +482,9 @@ zigbee_handlers = {
     --[zcl_clusters.Basic.ID] = {
        --[zcl_clusters.Basic.attributes.ApplicationVersion.ID] = applicationVersion_handler
     --},
+    [0xFC11] = {
+      [0x2001] = illuminance_state_handler -- for sonoff SNZB-06P
+    },
     [zcl_clusters.IASZone.ID] = {
       [zcl_clusters.IASZone.attributes.CurrentZoneSensitivityLevel.ID] = currentZoneSensitivityLevel_handler,
       [zcl_clusters.IASZone.attributes.NumberOfZoneSensitivityLevelsSupported.ID] = NumberOfZoneSensitivityLevelsSupported_handler
@@ -373,19 +494,19 @@ zigbee_handlers = {
     }
  }
 },
-  sub_drivers = { require("aurora"),
-                  require("ikea"),
-                  --require("iris"),
-                  require("tuya"),
-                  require("gatorsystem"),
-                  require("motion_timeout"),
-                  require("nyce"),
-                  require("zigbee-plugin-motion-sensor"),
-                  require("battery"),
-                  require("temperature"),
-                  require("frient"),
-                  require("namron"),
-                  require("ikea-vallhorn")
+  sub_drivers = { lazy_load_if_possible("aurora"),
+                  lazy_load_if_possible("ikea"),
+                  lazy_load_if_possible("tuya"),
+                  lazy_load_if_possible("gatorsystem"),
+                  lazy_load_if_possible("motion_timeout"),
+                  lazy_load_if_possible("nyce"),
+                  lazy_load_if_possible("zigbee-plugin-motion-sensor"),
+                  lazy_load_if_possible("battery"),
+                  lazy_load_if_possible("temperature"),
+                  lazy_load_if_possible("frient"),
+                  lazy_load_if_possible("namron"),
+                  lazy_load_if_possible("ikea-vallhorn"),
+                  lazy_load_if_possible("battery-virtual-status")
   },
   ias_zone_configuration_method = constants.IAS_ZONE_CONFIGURE_TYPE.AUTO_ENROLL_RESPONSE
 }

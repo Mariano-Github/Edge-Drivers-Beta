@@ -20,7 +20,6 @@ local messages = require "st.zigbee.messages"
 local mgmt_bind_resp = require "st.zigbee.zdo.mgmt_bind_response"
 local mgmt_bind_req = require "st.zigbee.zdo.mgmt_bind_request"
 local zdo_messages = require "st.zigbee.zdo"
---local battery_defaults = require "st.zigbee.defaults.battery_defaults"
 
 local OnOff = clusters.OnOff
 local PowerConfiguration = clusters.PowerConfiguration
@@ -54,12 +53,15 @@ local function on_with_timed_off_command_handler(driver, device, zb_rx)
 end
 
 local is_ikea_motion = function(opts, driver, device)
+  if device.network_type ~= "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE
     for _, fingerprint in ipairs(IKEA_MOTION_SENSOR_FINGERPRINTS) do
         if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-            return true
+          local subdriver = require("ikea")
+          return true, subdriver
         end
     end
-    return false
+  end
+  return false
 end
 
 local function zdo_binding_table_handler(driver, device, zb_rx)
@@ -86,9 +88,7 @@ end
 local do_configure = function(self, device)
   device:send(device_management.build_bind_request(device, PowerConfiguration.ID, self.environment_info.hub_zigbee_eui))
   device:send(PowerConfiguration.attributes.BatteryVoltage:configure_reporting(device, 30, 21600, 1))
-  --device:send(PowerConfiguration.attributes.BatteryPercentageRemaining:configure_reporting(device, 30, 21600, 1))
   device:send(device_management.build_bind_request(device, OnOff.ID, self.environment_info.hub_zigbee_eui))
-  --device:send(OnOff.attributes.OnOff:configure_reporting(device, 0, 300))
   -- Read binding table
   local addr_header = messages.AddressHeader(
     constants.HUB.ADDR,
@@ -108,8 +108,6 @@ local do_configure = function(self, device)
                                                    })
   device:send(binding_table_cmd)
 
-  --device:send(device_management.build_bind_request(device, OnOff.ID, self.environment_info.hub_zigbee_eui))
-  --device:send(OnOff.attributes.OnOff:configure_reporting(device, 0, 300))
 end
 
 local ikea_motion_sensor = {

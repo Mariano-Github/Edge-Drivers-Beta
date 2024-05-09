@@ -6,33 +6,38 @@ local utils = require "st.utils"
 local signal = require "signal-metrics"
 
 local can_handle = function(opts, driver, device)
-  if device:get_manufacturer() == "SmartThings" then
-    return device:get_manufacturer() == "SmartThings"
-  elseif device:get_manufacturer() == "CentraLite" then
-    return device:get_manufacturer() == "CentraLite"
-  elseif device:get_manufacturer() == "Bosch" then
-    return device:get_manufacturer() == "Bosch"
-  elseif device:get_manufacturer() == "frient A/S" then
-    return device:get_manufacturer() == "frient A/S"
-  elseif device:get_manufacturer() == "Konke" then
-    return device:get_manufacturer() == "Konke"
-  elseif device:get_manufacturer() == "iMagic by GreatStar" and device:get_model() == "1117-S" then
-    return device:get_manufacturer() == "iMagic by GreatStar"
-  elseif device:get_manufacturer() == "NYCE" then
-    return device:get_manufacturer() == "NYCE"
-  elseif device:get_manufacturer() == "IKEA of Sweden" and device:get_model() == "TRADFRI motion sensor" then
-    return device:get_manufacturer() == "IKEA of Sweden"
-  elseif device:get_manufacturer() == "Universal Electronics Inc" then
-    return device:get_manufacturer() == "Universal Electronics Inc"
-  elseif device:get_manufacturer() == "Visonic" then
-    return device:get_manufacturer() == "Visonic"
-  elseif device:get_manufacturer() == "TLC" then
-    return device:get_manufacturer() == "TLC"
-  elseif device:get_manufacturer() == "Develco Products A/S" then
-    return device:get_manufacturer() == "Develco Products A/S"
-  elseif device:get_manufacturer() == "LUMI" then
-    return device:get_manufacturer() == "LUMI"
+  if device.network_type ~= "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE
+    local subdriver = require("battery")
+    if device:get_manufacturer() == "SmartThings" then
+      return true, subdriver
+    elseif device:get_manufacturer() == "CentraLite" then
+      return true, subdriver
+    elseif device:get_manufacturer() == "Bosch" then
+      return true, subdriver
+    elseif device:get_manufacturer() == "frient A/S" then
+      return true, subdriver
+    elseif device:get_manufacturer() == "Konke" then
+      return true, subdriver
+    elseif device:get_manufacturer() == "iMagic by GreatStar" and device:get_model() == "1117-S" then
+      return true, subdriver
+    elseif device:get_manufacturer() == "NYCE" then
+      return true, subdriver
+    elseif device:get_manufacturer() == "IKEA of Sweden" and device:get_model() == "TRADFRI motion sensor" then
+      return true, subdriver
+    elseif device:get_manufacturer() == "Universal Electronics Inc" then
+      return true, subdriver
+    elseif device:get_manufacturer() == "Visonic" then
+      return device:get_manufacturer() == "Visonic", subdriver
+    elseif device:get_manufacturer() == "TLC" then
+      return true, subdriver
+    elseif device:get_manufacturer() == "Develco Products A/S" then
+      return true, subdriver
+    elseif device:get_manufacturer() == "LUMI" then
+      return true, subdriver
+    end
+    subdriver = nil
   end
+  return false
 end
 
 

@@ -13,10 +13,11 @@ local signal ={}
       visible_satate = true
     end
 
-    local gmt = os.date("%Y/%m/%d Time: %H:%M",os.time())
-    local dni = string.format("0x%04X", zb_rx.address_header.src_addr.value)
-    local metrics = "<em table style='font-size:70%';'font-weight: bold'</em>".. "<b>GMT: </b>".. gmt .."<BR>"
-    metrics = metrics .. "<b>DNI: </b>".. dni .. "  ".."<b> LQI: </b>" .. zb_rx.lqi.value .."  ".."<b>RSSI: </b>".. zb_rx.rssi.value .. "dbm".."</em>".."<BR>"
+    local gmt = os.date("%Y/%m/%d GMT: %H:%M",os.time())
+    --local dni = string.format("0x%04X", zb_rx.address_header.src_addr.value)
+    --local metrics = "<em table style='font-size:70%';'font-weight: bold'</em>".. "<b>GMT: </b>".. gmt .."<BR>"
+    --metrics = metrics .. "<b>DNI: </b>".. dni .. "  ".."<b> LQI: </b>" .. zb_rx.lqi.value .."  ".."<b>RSSI: </b>".. zb_rx.rssi.value .. "dbm".."</em>".."<BR>"
+    local metrics = gmt .. ", LQI: ".. zb_rx.lqi.value .." ... rssi: ".. zb_rx.rssi.value
     
     device:emit_event(signal_Metrics.signalMetrics({value = metrics}, {visibility = {displayed = visible_satate }}))
   end

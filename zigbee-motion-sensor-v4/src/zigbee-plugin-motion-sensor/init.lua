@@ -25,9 +25,12 @@ local ZIGBEE_PLUGIN_MOTION_SENSOR_FINGERPRINTS = {
 }
 
 local is_zigbee_plugin_motion_sensor = function(opts, driver, device)
-  for _, fingerprint in ipairs(ZIGBEE_PLUGIN_MOTION_SENSOR_FINGERPRINTS) do
-    if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-      return true
+  if device.network_type ~= "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE
+    for _, fingerprint in ipairs(ZIGBEE_PLUGIN_MOTION_SENSOR_FINGERPRINTS) do
+      if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
+        local subdriver = require("zigbee-plugin-motion-sensor")
+          return true, subdriver
+      end
     end
   end
   return false
@@ -37,7 +40,8 @@ local function occupancy_attr_handler(driver, device, occupancy, zb_rx)
   -- emit signal metrics
   signal.metrics(device, zb_rx)
   
-  device:emit_event(occupancy.value == 0x01 and capabilities.motionSensor.motion.active() or capabilities.motionSensor.motion.inactive())
+  device:emit_event(((occupancy.value & 0x01) ~= 0) and capabilities.motionSensor.motion.active() or capabilities.motionSensor.motion.inactive())
+  --device:emit_event(occupancy.value == 0x01 and capabilities.motionSensor.motion.active() or capabilities.motionSensor.motion.inactive())
 
   -- Reset motion status 
   if device:get_model() ==  "lumi.sensor_motion.aq2" then
@@ -53,10 +57,6 @@ local function occupancy_attr_handler(driver, device, occupancy, zb_rx)
   end
 end
 
-local do_refresh = function(self, device)
-  device:send(OccupancySensing.attributes.Occupancy:read(device))
-end
-
 local zigbee_plugin_motion_sensor = {
   NAME = "zigbee plugin motion sensor",
   lifecycle_handlers = {
@@ -69,9 +69,7 @@ local zigbee_plugin_motion_sensor = {
     }
   },
   capability_handlers = {
-    --[capabilities.refresh.ID] = {
-      --[capabilities.refresh.commands.refresh.NAME] = do_refresh,
-    --}
+    
   },
   can_handle = is_zigbee_plugin_motion_sensor
 }

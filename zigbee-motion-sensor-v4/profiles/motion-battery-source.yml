@@ -18,8 +18,8 @@ components:
   - name: MotionSensor
 preferences:
   - name: "version"
-    title: "Version 6.0 (Sep 2023)"
-    description: "Added: IASZone custom reports" 
+    title: "Version 6.1 (Jan 2024)"
+    description: "Added: Create virtual device for Batteries status" 
     required: false
     preferenceType: string
     definition:
@@ -27,6 +27,13 @@ preferences:
       minLength: 0
       maxLength: 0
       default: ""
+  - name: "childBatteries"
+    title: "Create devices batt status Virtual"
+    description: "Create devices batt status Virtual"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
   - name: "iasZoneReports"
     title: "Motion Sensor Interval Report"
     description: "IF YOUR DEVICE & NETWORK WORK FINE THEN DON'T TOUCH. Set Device Interval Report (300 to 3600 sec). Smartthings Default=300. Longer intervals reduce zigbee Network traffic,Hub work and Battery consumption. NEED WAKE UP DEVICE WITH Motion event TO ACCEPT NEW VALUE. Restore default before Driver Change"

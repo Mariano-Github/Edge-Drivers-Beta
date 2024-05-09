@@ -14,10 +14,8 @@
 
 local capabilities = require "st.capabilities"
 local zcl_clusters = require "st.zigbee.zcl.clusters"
---local battery_defaults = require "st.zigbee.defaults.battery_defaults"
 local device_management = require "st.zigbee.device_management"
-local data_types = require "st.zigbee.data_types"
---local OccupancySensing = zcl_clusters.OccupancySensing
+--local data_types = require "st.zigbee.data_types"
 
 --module emit signal metrics
 local signal = require "signal-metrics"
@@ -27,10 +25,13 @@ local ZIGBEE_IKEA_VALLHORN_MOTION_SENSOR_FINGERPRINTS = {
 }
 
 local is_zigbee_ikea_vallhorn_motion_sensor = function(opts, driver, device)
-  for _, fingerprint in ipairs(ZIGBEE_IKEA_VALLHORN_MOTION_SENSOR_FINGERPRINTS) do
-      if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-          return true
-      end
+  if device.network_type ~= "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE
+    for _, fingerprint in ipairs(ZIGBEE_IKEA_VALLHORN_MOTION_SENSOR_FINGERPRINTS) do
+        if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
+          local subdriver = require("ikea-vallhorn")
+          return true, subdriver
+        end
+    end
   end
   return false
 end
@@ -64,8 +65,9 @@ local function illuminance_measurement_defaults(driver, device, value, zb_rx)
 
   -- emit signal metrics
   signal.metrics(device, zb_rx)
-  
-  local lux_value = math.floor(10 ^ ((value.value - 1) / 10000))
+
+  -- Modified to multiply by 10
+  local lux_value = math.floor((10 ^ ((value.value - 1) / 10000)) * 10)
   if lux_value < 0 then lux_value = 0 end
   device:emit_event_for_endpoint(zb_rx.address_header.src_endpoint.value, capabilities.illuminanceMeasurement.illuminance(lux_value))
 end

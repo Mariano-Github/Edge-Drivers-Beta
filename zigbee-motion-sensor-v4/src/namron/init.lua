@@ -14,10 +14,7 @@
 
 local capabilities = require "st.capabilities"
 local zcl_clusters = require "st.zigbee.zcl.clusters"
---local battery_defaults = require "st.zigbee.defaults.battery_defaults"
 local device_management = require "st.zigbee.device_management"
-local data_types = require "st.zigbee.data_types"
---local OccupancySensing = zcl_clusters.OccupancySensing
 
 --module emit signal metrics
 local signal = require "signal-metrics"
@@ -25,13 +22,17 @@ local signal = require "signal-metrics"
 local ZIGBEE_NAMRON_MOTION_SENSOR_FINGERPRINTS = {
   { mfr = "NAMRON AS", model = "4512770" },
   { mfr = "NAMRON AS", model = "4512771" },
+  { mfr = "Sunricher", model = "HK-SENSOR-4IN1-A" },
 }
 
 local is_zigbee_namron_motion_sensor = function(opts, driver, device)
-  for _, fingerprint in ipairs(ZIGBEE_NAMRON_MOTION_SENSOR_FINGERPRINTS) do
-      if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-          return true
-      end
+  if device.network_type ~= "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE
+    for _, fingerprint in ipairs(ZIGBEE_NAMRON_MOTION_SENSOR_FINGERPRINTS) do
+        if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
+          local subdriver = require("namron")
+          return true, subdriver
+        end
+    end
   end
   return false
 end
@@ -110,7 +111,7 @@ local namron_motion_handler = {
     attr = {
       [zcl_clusters.IlluminanceMeasurement.ID] = {
         [zcl_clusters.IlluminanceMeasurement.attributes.MeasuredValue.ID] = illuminance_measurement_defaults
-    }
+      }
     }
   },
   can_handle = is_zigbee_namron_motion_sensor

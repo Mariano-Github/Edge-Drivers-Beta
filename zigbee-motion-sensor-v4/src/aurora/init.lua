@@ -26,7 +26,14 @@ local aurora_motion_driver = {
     added = added_handler,
   },
   can_handle = function(opts, driver, device, ...)
-    return device:get_manufacturer() == "Aurora" and device:get_model() == "MotionSensor51AU"
+    if device.network_type ~= "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE
+      --return device:get_manufacturer() == "Aurora" and device:get_model() == "MotionSensor51AU"
+      if device:get_manufacturer() == "Aurora" and device:get_model() == "MotionSensor51AU" then
+        local subdriver = require("aurora")
+        return true, subdriver
+      end
+    end
+    return false
   end
 }
 
