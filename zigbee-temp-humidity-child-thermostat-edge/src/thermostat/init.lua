@@ -15,9 +15,9 @@
 ------ Author Mariano Colmenarejo (Oct 2022) --------
 
 local capabilities = require "st.capabilities"
-local refresh_thermostat = require "refresh-thermostat"
+local refresh_thermostat = require "thermostat/refresh-thermostat"
 
-local st_device = require "st.device"
+--local st_device = require "st.device"
 
 
 --- Custom Capabilities
@@ -33,9 +33,9 @@ local thermostatFan_Mode = "auto"
 local thermostatOperatingState = "idle"
 
 local can_handle = function(opts, driver, device)
-  --if device.manufacturer ~= nil then
-  if device.network_type == "DEVICE_EDGE_CHILD" then
-    return true
+  if device.network_type == "DEVICE_EDGE_CHILD" and device.preferences.profileType ~= "Batteries" then
+    local subdriver = require("thermostat")
+    return true, subdriver
   else
     return false
   end
@@ -395,19 +395,23 @@ local function do_init (self, device)
  
   -- initialize thermostatMode
   thermostat_Mode = device:get_field("thermostat_Mode")
-  if thermostat_Mode == nil then thermostat_Mode = "off" end
-  device:emit_event(capabilities.thermostatMode.thermostatMode(thermostat_Mode))
-  --Save thermostatMode
-  device:set_field("thermostat_Mode", thermostat_Mode, {persist = true}) 
+  if thermostat_Mode == nil then 
+    thermostat_Mode = "off"
+    device:emit_event(capabilities.thermostatMode.thermostatMode(thermostat_Mode))
+    --Save thermostatMode
+    device:set_field("thermostat_Mode", thermostat_Mode, {persist = true})
+  end
 
   -- initialize thermostatOperatingState
   thermostatOperatingState = device:get_latest_state("main", capabilities.thermostatOperatingState.ID, capabilities.thermostatOperatingState.thermostatOperatingState.NAME)
   if thermostatOperatingState == nil then 
     thermostatOperatingState ="idle"
-  elseif thermostatOperatingState == "fan only" or thermostatOperatingState == "vent economizer" then
-    device:emit_event(fan_Cyclic_Mode.fanCyclicMode("On"))
+    device:emit_event(capabilities.thermostatOperatingState.thermostatOperatingState(thermostatOperatingState))
+    --device:set_field("thermostatOperatingState", thermostatOperatingState, {persist = false})
+  --elseif thermostatOperatingState == "fan only" or thermostatOperatingState == "vent economizer" then
+    --device:emit_event(fan_Cyclic_Mode.fanCyclicMode("On"))
   end
-  device:emit_event(capabilities.thermostatOperatingState.thermostatOperatingState(thermostatOperatingState))
+  --device:emit_event(capabilities.thermostatOperatingState.thermostatOperatingState(thermostatOperatingState))
   device:set_field("thermostatOperatingState", thermostatOperatingState, {persist = false})
 
   -- initialize thermostatFan_Mode
@@ -420,42 +424,53 @@ local function do_init (self, device)
     device:set_field ("cycleCurrent", "stop", {persist = false})
     device:emit_event(fan_Cyclic_Mode.fanCyclicMode("Off"))
     device:emit_event(fan_Next_Change.fanNextChange("Inactive"))
+    device:emit_event(capabilities.thermostatFanMode.thermostatFanMode(thermostatFan_Mode))
   elseif thermostatFan_Mode == "followschedule" then
     if device:get_latest_state("main", fan_Cyclic_Mode.ID, fan_Cyclic_Mode.fanCyclicMode.NAME) == "On" then
       device:set_field ("cycleCurrent", "on", {persist = false})
-      device:emit_event(fan_Cyclic_Mode.fanCyclicMode("On"))
-      device:emit_event(fan_Next_Change.fanNextChange("Active"))
+      --device:emit_event(fan_Cyclic_Mode.fanCyclicMode("On"))
+      --device:emit_event(fan_Next_Change.fanNextChange("Active"))
     else
       device:set_field ("cycleCurrent", "off", {persist = false})
-      device:emit_event(fan_Cyclic_Mode.fanCyclicMode("Off"))
-      device:emit_event(fan_Next_Change.fanNextChange("Inactive"))
+      --device:emit_event(fan_Cyclic_Mode.fanCyclicMode("Off"))
+      --device:emit_event(fan_Next_Change.fanNextChange("Inactive"))
     end
   else 
     device:set_field ("cycleCurrent", "stop", {persist = false})
     if thermostatOperatingState == "fan only" or thermostatOperatingState == "vent economizer" then
-      device:emit_event(fan_Cyclic_Mode.fanCyclicMode("On"))
+      --device:emit_event(fan_Cyclic_Mode.fanCyclicMode("On"))
     else
-      device:emit_event(fan_Cyclic_Mode.fanCyclicMode("Off"))
+      --device:emit_event(fan_Cyclic_Mode.fanCyclicMode("Off"))
     end
-    device:emit_event(fan_Next_Change.fanNextChange("Inactive"))
+    --device:emit_event(fan_Next_Change.fanNextChange("Inactive"))
   end
-  device:emit_event(capabilities.thermostatFanMode.thermostatFanMode(thermostatFan_Mode))
+  --device:emit_event(capabilities.thermostatFanMode.thermostatFanMode(thermostatFan_Mode))
 
   --Save thermostatFanMode
   device:set_field("thermostatFan_Mode", thermostatFan_Mode, {persist = true})
 
   -- initialize Temp set points
-  if device:get_field("heating_Setpoint") == nil then device:set_field("heating_Setpoint", device.preferences.heatTempAuto, {persist = true}) end
-  if device:get_field("cooling_Setpoint") == nil then device:set_field("cooling_Setpoint", device.preferences.heatTempAuto, {persist = true}) end
-
   local temp_scale = "C"
   if device.preferences.thermTempUnits == "Fahrenheit" then temp_scale = "F" end
-  device:emit_event(capabilities.thermostatHeatingSetpoint.heatingSetpoint({value = device:get_field("heating_Setpoint"), unit = temp_scale }))
-  device:emit_event(capabilities.thermostatCoolingSetpoint.coolingSetpoint({value = device:get_field("cooling_Setpoint"), unit = temp_scale }))
+  if device:get_field("heating_Setpoint") == nil then 
+    device:set_field("heating_Setpoint", device.preferences.heatTempAuto, {persist = true})
+    device:emit_event(capabilities.thermostatHeatingSetpoint.heatingSetpoint({value = device:get_field("heating_Setpoint"), unit = temp_scale }))
+  end
+  if device:get_field("cooling_Setpoint") == nil then 
+    device:set_field("cooling_Setpoint", device.preferences.coolTempAuto, {persist = true})
+    device:emit_event(capabilities.thermostatCoolingSetpoint.coolingSetpoint({value = device:get_field("cooling_Setpoint"), unit = temp_scale }))
+  end
+
+  --local temp_scale = "C"
+  --if device.preferences.thermTempUnits == "Fahrenheit" then temp_scale = "F" end
+  --device:emit_event(capabilities.thermostatHeatingSetpoint.heatingSetpoint({value = device:get_field("heating_Setpoint"), unit = temp_scale }))
+  --device:emit_event(capabilities.thermostatCoolingSetpoint.coolingSetpoint({value = device:get_field("cooling_Setpoint"), unit = temp_scale }))
 
   --- thermostat lock state initialize
-  if device:get_field("thermostat_Lock") == nil then device:set_field("thermostat_Lock", "Unlocked", {persist = true}) end
-  device:emit_event(thermostat_Locked.thermostatLocked(device:get_field("thermostat_Lock")))
+  if device:get_field("thermostat_Lock") == nil then 
+    device:set_field("thermostat_Lock", "Unlocked", {persist = true})
+    device:emit_event(thermostat_Locked.thermostatLocked(device:get_field("thermostat_Lock")))
+  end
 
  --- if thermostat initialized or hub reboot
  if thermostat_Mode ~= "off" or thermostatFan_Mode == "followschedule" then

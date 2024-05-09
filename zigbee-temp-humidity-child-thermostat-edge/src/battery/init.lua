@@ -5,12 +5,15 @@ local battery_defaults = require "st.zigbee.defaults.battery_defaults"
 local utils = require "st.utils"
 
 local can_handle = function(opts, driver, device)
-  if device.manufacturer ~= nil then return false end
+  if device.network_type ~= "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE
+  --if device.manufacturer ~= nil then return false end
     if device:get_manufacturer() == "_TZ2000_a476raq2" then
       --(device:get_manufacturer() == "SONOFF" and device:get_model() == "SNZB-02D") then
-      return true
-    else return false
+      local subdriver = require("battery")
+      return true, subdriver
     end
+  end
+  return false
 end
 
 local battery_handler = function(driver, device, value, zb_rx)

@@ -33,7 +33,7 @@ local utils = require "st.utils"
 
 local child_devices = require "child-devices"
 local signal = require "signal-metrics"
-local refresh_thermostat = require "refresh-thermostat"
+local refresh_thermostat = require "thermostat/refresh-thermostat"
 
 local read_attribute = require "st.zigbee.zcl.global_commands.read_attribute"
 local zcl_messages = require "st.zigbee.zcl"
@@ -173,7 +173,11 @@ if device.network_type == "DEVICE_EDGE_CHILD" then return end
   -- configure Illuminance reports
  if device.preferences.illuMaxTime ~= nil and device.preferences.illuChangeRep  ~= nil then
   maxTime = device.preferences.illuMaxTime * 60
-  changeRep = math.floor(10000 * (math.log((device.preferences.illuChangeRep + 1), 10)))
+  if device:get_manufacturer() == "_TZ3000_kky16aay" and device:get_model() == "TS0222" then
+    changeRep = device.preferences.illuChangeRep
+  else
+    changeRep = math.floor(10000 * (math.log((device.preferences.illuChangeRep + 1), 10)))
+  end
   print ("Illuminance maxTime y changeRep: ",maxTime, changeRep )
   device:send(device_management.build_bind_request(device, zcl_clusters.IlluminanceMeasurement.ID, self.environment_info.hub_zigbee_eui))
   device:send(zcl_clusters.IlluminanceMeasurement.attributes.MeasuredValue:configure_reporting(device, 60, maxTime, changeRep))
@@ -268,39 +272,67 @@ local function do_preferences(self, device)
       elseif id == "illuMaxTime" or id == "illuChangeRep" then
         local maxTime = device.preferences.illuMaxTime * 60
         local changeRep = math.floor(10000 * (math.log((device.preferences.illuChangeRep + 1), 10)))
+        if device:get_manufacturer() == "_TZ3000_kky16aay" and device:get_model() == "TS0222" then
+          changeRep = device.preferences.illuChangeRep
+        end
         print ("Illumin maxTime & changeRep: ", maxTime, changeRep)
         --device:send(device_management.build_bind_request(device, zcl_clusters.IlluminanceMeasurement.ID, self.environment_info.hub_zigbee_eui))
         device:send(zcl_clusters.IlluminanceMeasurement.attributes.MeasuredValue:configure_reporting(device, 60, maxTime, changeRep))
       elseif id == "changeProfileTHB" then
-        if newParameterValue == "Single" then
-           device:try_update_metadata({profile = "temp-humid-battery"})
-        else
+        if newParameterValue == "Multi" then
            device:try_update_metadata({profile = "temp-humid-battery-multi"})
+        elseif newParameterValue == "Single" then
+           device:try_update_metadata({profile = "temp-humid-battery"})
+        elseif newParameterValue == "SingleHumidity" then
+          device:try_update_metadata({profile = "humid-temp-battery"})
         end
       elseif id == "changeProfileTHPB" then
-        if newParameterValue == "Single" then
-          device:try_update_metadata({profile = "temp-humid-press-battery"})
-        else
+        if newParameterValue == "Multi" then
           device:try_update_metadata({profile = "temp-humid-press-battery-multi"})
+        elseif newParameterValue == "Single" then
+          device:try_update_metadata({profile = "temp-humid-press-battery"})
+        elseif newParameterValue == "SingleHumidity" then
+          device:try_update_metadata({profile = "humid-temp-press-battery"})
+        elseif newParameterValue == "SinglePressure" then
+          device:try_update_metadata({profile = "press-temp-humid-battery"})
+        elseif newParameterValue == "SinglePressChange" then
+          device:try_update_metadata({profile = "press-change-temp-humid-battery"})
         end
       elseif id == "changeProfileTHPI" then
-        if newParameterValue == "Single" then
-          device:try_update_metadata({profile = "temp-humid-press-illumin"})
-        else
+        if newParameterValue == "Multi" then
           device:try_update_metadata({profile = "temp-humid-press-illumin-multi"})
+        elseif newParameterValue == "Single" then
+          device:try_update_metadata({profile = "temp-humid-press-illumin"})
+        elseif newParameterValue == "SingleHumidity" then
+          device:try_update_metadata({profile = "humid-temp-press-illumin"})
+        elseif newParameterValue == "SinglePressure" then
+          device:try_update_metadata({profile = "press-temp-humid-illumin"})
+        elseif newParameterValue == "SinglePressChange" then
+          device:try_update_metadata({profile = "press-change-temp-humid-illumin"})
+        elseif newParameterValue == "SingleIlluminance" then
+          device:try_update_metadata({profile = "illumin-temp-humid-press"})
         end
+      
       elseif id == "changeProfileTHIB" then
-        if newParameterValue == "Single" then
-          device:try_update_metadata({profile = "temp-humid-illumin-battery"})
-        else
+        if newParameterValue == "Multi" then
           device:try_update_metadata({profile = "temp-humid-illumin-battery-multi"})
+        elseif newParameterValue == "Single" then
+          device:try_update_metadata({profile = "temp-humid-illumin-battery"})
+        elseif newParameterValue == "SingleHumidity" then
+          device:try_update_metadata({profile = "humid-temp-illumin-battery"})
+        elseif newParameterValue == "SingleIlluminance" then
+          device:try_update_metadata({profile = "illumin-temp-humid-battery"})
         end
       end
 
       if id == "childThermostat" then
         if oldPreferenceValue ~= nil and newParameterValue == true then
-         child_devices.create_new(self, device, "main")
-        end 
+         child_devices.create_new(self, device, "main", "child-thermostat")
+        end
+      elseif id == "childBatteries" then
+        if newParameterValue == true then
+          child_devices.create_new(self, device, "battery", "child-batteries-status")
+        end
       end
 
       --configure basicinput cluster
@@ -311,13 +343,13 @@ local function do_preferences(self, device)
     end
   end
 
-  --print manufacturer, model and leng of the strings
-  local manufacturer = device:get_manufacturer()
-  local model = device:get_model()
-  local manufacturer_len = string.len(manufacturer)
-  local model_len = string.len(model)
+  --if device.preferences.logDebugPrint == true then
+    --print manufacturer, model and leng of the strings
+    local manufacturer = device:get_manufacturer()
+    local model = device:get_model()
+    local manufacturer_len = string.len(manufacturer)
+    local model_len = string.len(model)
 
-  if device.preferences.logDebugPrint == true then
     print("Device ID", device)
     print("Manufacturer >>>", manufacturer, "Manufacturer_Len >>>",manufacturer_len)
     print("Model >>>", model,"Model_len >>>",model_len)
@@ -325,20 +357,28 @@ local function do_preferences(self, device)
     print("<<<<< Firmware Version >>>>>",firmware_full_version)
     -- This will print in the log the total memory in use by Lua in Kbytes
     print("Memory >>>>>>>",collectgarbage("count"), " Kbytes")
-  end
+  --end
 end
 
 --- temperature handler
 local function temp_attr_handler(self, device, tempvalue, zb_rx)
-  if device:get_manufacturer() == "LUMI" and (device:get_model()== "lumi.weather") then -- ramdomly send value 0º or -100º
-    if tempvalue.value == -10000 then return end
+  if device:get_manufacturer() == "LUMI" and device:get_model()== "lumi.weather" -- ramdomly send value 0º or -100º
+  or device:get_manufacturer() == "_TZ3000_kky16aay" and device:get_model() == "TS0222" then -- ramdomly send value 0º or -100º
+    if tempvalue.value <= -9900 then return end
     if tempvalue.value == 0 then
       if device:get_field("last_tempvalue") == nil then
         return
       else
-        if (math.abs((tempvalue.value / 100) - device:get_field("last_tempvalue"))) > 3 then
-          device:set_field("last_tempvalue", tempvalue.value / 100, {persist = false})
+        local difference = (math.abs((tempvalue.value / 100) - device:get_field("last_tempvalue")))
+        if difference >= 3 then
+          if device:get_manufacturer() == "_TZ3000_kky16aay" and device:get_model() == "TS0222" then
+            device:set_field("last_tempvalue", math.abs(difference - 1), {persist = false})
+          else
+            device:set_field("last_tempvalue", tempvalue.value / 100, {persist = false})
+          end
           return
+        else
+          device:set_field("last_tempvalue", tempvalue.value / 100, {persist = false})
         end
       end
     else
@@ -420,7 +460,8 @@ local pressure_value_attr_handler = function (driver, device, value, zb_rx)
   last_hour_press_values = device:get_field("last_hour_press_values")
   last_hour_press_time = device:get_field("last_hour_press_time")
   
-  local kPa = math.floor ((value.value + device.preferences.atmPressureOffset) / 10)
+  --local kPa = math.floor ((value.value + device.preferences.atmPressureOffset) / 10)
+  local kPa = (value.value + device.preferences.atmPressureOffset) / 10
 
   --- Rate Change calculations
 
@@ -504,10 +545,29 @@ local function humidity_attr_handler(driver, device, value, zb_rx)
   -- emit signal metrics
   signal.metrics(device, zb_rx)
 
-  if device:get_manufacturer() == "_TZ3000_ywagc4rj" then
+  if device:get_manufacturer() == "_TZ3000_kky16aay" and device:get_model() == "TS0222" then -- ramdomly send value 0%
+    if value.value == 0 then
+      if device:get_field("last_humidvalue") == nil then
+        return
+      else
+        local difference = (math.abs((value.value / 100) - device:get_field("last_humidvalue")))
+        if difference  >= 3 then
+          --device:set_field("last_humidvalue", math.abs(difference - 1), {persist = false})
+          return
+        else
+          device:set_field("last_humidvalue", value.value / 100, {persist = false})
+        end
+      end
+    else
+      device:set_field("last_humidvalue", value.value / 100, {persist = false})
+    end
+  end
+
+  if device:get_manufacturer() == "_TZ3000_ywagc4rj" 
+  or device:get_manufacturer() == "_TZ3000_kky16aay" then
     value.value = value.value * 10
     if device.preferences.logDebugPrint == true then
-      print("_TZ3000_ywagc4rj-value.value=", value.value)
+      print("value.value x 10 =", value.value)
     end
   end
 
@@ -534,7 +594,27 @@ end
 --- illuminance_measurement_defaults
 local function illuminance_measurement_defaults(driver, device, value, zb_rx)
   --print("luxOffset >>>>>",device.preferences.luxOffset)
+  if device:get_manufacturer() == "_TZ3000_kky16aay" and device:get_model() == "TS0222" then -- ramdomly send value 0 lux
+    if value.value == 0 then
+      if device:get_field("last_illumvalue") == nil then
+        return
+      else
+        local difference = (math.abs((value.value / 10) - device:get_field("last_illumvalue")))
+        if difference >= 3 then
+          device:set_field("last_illumvalue", math.abs(difference - 1), {persist = false})
+          return
+        else
+          device:set_field("last_illumvalue", value.value / 10, {persist = false})
+        end
+      end
+    else
+      device:set_field("last_humidvalue", value.value / 10, {persist = false})
+    end
+  end
   local lux_value = math.floor(10 ^ ((value.value - 1) / 10000)) + device.preferences.luxOffset
+  if device:get_manufacturer() == "_TZ3000_kky16aay" and device:get_model() == "TS0222" then
+    lux_value = (value.value / 10) + device.preferences.luxOffset
+  end
   if lux_value < 0 then lux_value = 0 end
 
   if lux_value < illumin_Condition_set then
@@ -629,6 +709,8 @@ end
 
 local function do_init(self,device)
 
+  if device.network_type == "DEVICE_EDGE_CHILD" then return end-- is CHILD DEVICE
+
     --tuyaBlackMagic() {return zigbee.readAttribute(0x0000, [0x0004, 0x000, 0x0001, 0x0005, 0x0007, 0xfffe], [:], delay=200)}
     --if device:get_model() == "TS0601" and device:get_manufacturer()== "_TZE200_znbl8dj5" then
     --if device:get_model() == "TS0222" and device:get_manufacturer()== "_TYZB01_ftdkanlj" then
@@ -639,18 +721,41 @@ local function do_init(self,device)
       -- initialice device profiles
     if device.preferences.changeProfileTHB == "Single" then
         device:try_update_metadata({profile = "temp-humid-battery"})
+    elseif device.preferences.changeProfileTHB == "SingleHumidity" then
+      device:try_update_metadata({profile = "humid-temp-battery"})
     elseif device.preferences.changeProfileTHB == "Multi" then
         device:try_update_metadata({profile = "temp-humid-battery-multi"})
+
     elseif device.preferences.changeProfileTHPB == "Single" then
         device:try_update_metadata({profile = "temp-humid-press-battery"})
+    elseif device.preferences.changeProfileTHPB == "SingleHumidity" then
+      device:try_update_metadata({profile = "humid-temp-illumin-battery"})
+    elseif device.preferences.changeProfileTHPB == "SinglePressure" then
+      device:try_update_metadata({profile = "press-temp-humid-battery"})
+    elseif device.preferences.changeProfileTHPB == "SinglePressChange" then
+      device:try_update_metadata({profile = "press-change-temp-humid-battery"})    
     elseif device.preferences.changeProfileTHPB == "Multi" then
         device:try_update_metadata({profile = "temp-humid-press-battery-multi"})
+        
     elseif device.preferences.changeProfileTHPI == "Single" then 
         device:try_update_metadata({profile = "temp-humid-press-illumin"})
+    elseif device.preferences.changeProfileTHPI == "SingleHumidity" then 
+      device:try_update_metadata({profile = "humid-temp-press-illumin"})    
+    elseif device.preferences.changeProfileTHPI == "SinglePressure" then 
+      device:try_update_metadata({profile = "press-temp-humid-illumin"})
+    elseif device.preferences.changeProfileTHPI == "SinglePressChange" then 
+      device:try_update_metadata({profile = "press-change-temp-humid-illumin"})
+    elseif device.preferences.changeProfileTHPI == "SingleIlluminance" then 
+      device:try_update_metadata({profile = "illumin-temp-humid-press"})
     elseif device.preferences.changeProfileTHPI == "Multi" then 
-        device:try_update_metadata({profile = "temp-humid-press-illumin-multi"})
+      device:try_update_metadata({profile = "temp-humid-press-illumin-multi"})
+    
     elseif device.preferences.changeProfileTHIB == "Single" then
         device:try_update_metadata({profile = "temp-humid-illumin-battery"})
+    elseif device.preferences.changeProfileTHIB == "SingleHumidity" then
+      device:try_update_metadata({profile = "humid-temp-illumin-battery"})
+    elseif device.preferences.changeProfileTHIB == "SingleIlluminance" then
+      device:try_update_metadata({profile = "illumin-temp-humid-battery"})
     elseif device.preferences.changeProfileTHIB == "Multi" then
         device:try_update_metadata({profile = "temp-humid-illumin-battery-multi"})
     end
@@ -658,22 +763,28 @@ local function do_init(self,device)
     --  initialize values of capabilities
     if device:supports_capability_by_id(illumin_Condition.ID) then
       illumin_Condition_set = device:get_latest_state("main", illumin_Condition.ID, illumin_Condition.illuminCondition.NAME)
-      if illumin_Condition_set == nil then illumin_Condition_set = 0 end
-      device:emit_event(illumin_Condition.illuminCondition(illumin_Condition_set))
+      if illumin_Condition_set == nil then 
+        illumin_Condition_set = 0
+        device:emit_event(illumin_Condition.illuminCondition(illumin_Condition_set))
+      end
     end
 
     humidity_Condition_set = device:get_latest_state("main", humidity_Condition.ID, humidity_Condition.humidityCondition.NAME)
-    if humidity_Condition_set == nil then humidity_Condition_set = 0 end
-    device:emit_event(humidity_Condition.humidityCondition(humidity_Condition_set))
+    if humidity_Condition_set == nil then 
+      humidity_Condition_set = 0
+      device:emit_event(humidity_Condition.humidityCondition(humidity_Condition_set))
+    end
 
     temp_Condition_set.value = device:get_latest_state("main", temp_Condition.ID, temp_Condition.tempCondition.NAME)
-    print("device:get_latest_state", device:get_latest_state("main", temp_Condition.ID, temp_Condition.tempCondition.NAME))
-    if temp_Condition_set.value == nil then temp_Condition_set.value = 0 end
-    local temp_scale = "C"
-    if device.preferences.thermTempUnits == "Fahrenheit" then 
-      temp_scale = "F"
+    --print("device:get_latest_state", device:get_latest_state("main", temp_Condition.ID, temp_Condition.tempCondition.NAME))
+    if temp_Condition_set.value == nil then
+      temp_Condition_set.value = 0
+      local temp_scale = "C"
+      if device.preferences.thermTempUnits == "Fahrenheit" then 
+        temp_scale = "F"
+      end
+      device:emit_event(temp_Condition.tempCondition({value = temp_Condition_set.value, unit = temp_scale }))
     end
-    device:emit_event(temp_Condition.tempCondition({value = temp_Condition_set.value, unit = temp_scale }))
 
     if device:supports_capability_by_id(illumin_Target.ID) then
       illumin_Target_set = device:get_latest_state("main", illumin_Target.ID, illumin_Target.illuminTarget.NAME)
@@ -682,12 +793,16 @@ local function do_init(self,device)
     end
 
     humidity_Target_set = device:get_latest_state("main", humidity_Target.ID, humidity_Target.humidityTarget.NAME)
-    if humidity_Target_set == nil then humidity_Target_set = " " end
-    device:emit_event(humidity_Target.humidityTarget(humidity_Target_set))
+    if humidity_Target_set == nil then 
+      humidity_Target_set = " "
+      device:emit_event(humidity_Target.humidityTarget(humidity_Target_set))
+    end
 
     temp_Target_set = device:get_latest_state("main", temp_Target.ID, temp_Target.tempTarget.NAME)
-    if temp_Target_set == nil then temp_Target_set = " " end
-    device:emit_event(temp_Target.tempTarget(temp_Target_set))
+    if temp_Target_set == nil then 
+      temp_Target_set = " "
+      device:emit_event(temp_Target.tempTarget(temp_Target_set))
+    end
 
     if device:get_latest_state("main", signal_Metrics.ID, signal_Metrics.signalMetrics.NAME) == nil then
       device:emit_event(signal_Metrics.signalMetrics({value = "Waiting Zigbee Message"}, {visibility = {displayed = false }}))
@@ -738,13 +853,16 @@ local function do_init(self,device)
     device:add_monitored_attribute(config)
 
     if device:get_latest_state("main", atm_Pressure_Rate_Change.ID, atm_Pressure_Rate_Change.atmPressureRateChange.NAME) == nil then
-      --device:emit_event(atm_Pressure_Rate_Change.atmPressureRateChange({value = nil, unit = "mBar/h"}))
+      device:emit_event(atm_Pressure_Rate_Change.atmPressureRateChange({value = 0, unit = "mBar/h"}))
     end
 
 end
 
 -----driver_switched
 local function driver_switched(self,device)
+
+  if device.network_type == "DEVICE_EDGE_CHILD" then return end-- is CHILD DEVICE
+
   device.thread:call_with_delay(5, function() 
     do_configure(self,device)
     --print("doConfigure performed, transitioning device to PROVISIONED")
@@ -752,10 +870,24 @@ local function driver_switched(self,device)
   end)
 end
 
+-- this new function in libraries version 9 allow load only subdrivers with devices paired
+  local function lazy_load_if_possible(sub_driver_name)
+    -- gets the current lua libs api version
+    local version = require "version"
+  
+    --print("<<<<< Library Version:", version.api)
+    -- version 9 will include the lazy loading functions
+    if version.api >= 9 then
+      return ZigbeeDriver.lazy_load_sub_driver(require(sub_driver_name))
+    else
+      return require(sub_driver_name)
+    end
+  end
+
 ----- driver template ----------
 local zigbee_temp_driver = {
   supported_capabilities = {
-    capabilities.temperatureMeasurement,
+    --capabilities.temperatureMeasurement,
     capabilities.relativeHumidityMeasurement,
     capabilities.atmosphericPressureMeasurement,
     atmos_Pressure,
@@ -803,7 +935,11 @@ local zigbee_temp_driver = {
     }
    }
   },
-  sub_drivers = {require("battery"), require("thermostat")},
+  sub_drivers = {
+    lazy_load_if_possible("battery"),
+    lazy_load_if_possible("thermostat"),
+    lazy_load_if_possible("battery-virtual-status")
+  },
   --health_check = false
 
 }
