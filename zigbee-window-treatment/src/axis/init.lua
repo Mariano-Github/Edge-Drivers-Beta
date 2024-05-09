@@ -28,7 +28,8 @@ local DEFAULT_LEVEL = 0
 
 local is_zigbee_window_shade = function(opts, driver, device)
   if device:get_manufacturer() == "AXIS" then
-    return true
+    local subdriver = require("axis")
+    return true, subdriver
   end
   return false
 end

@@ -19,14 +19,16 @@ local windowShadeDefaults = require "st.zigbee.defaults.windowShade_defaults"
 local PowerConfiguration = zcl_clusters.PowerConfiguration
 
 local YOOLAX_WINDOW_SHADE_FINGERPRINTS = {
-    { mfr = "Yookee", model = "D10110" },                                 -- Yookee Window Treatment
-    { mfr = "yooksmart", model = "D10110" }                               -- yooksmart Window Treatment
+    { mfr = "Yookee", model = "D10110" },                 -- Yookee Window Treatment
+    { mfr = "yooksmart", model = "D10110" },              -- yooksmart Window Treatment
+    { mfr = "_TZE200_9caxna4s", model = "TS0301" }        -- Yookee Window Treatment
 }
 
 local function is_yoolax_window_shade(opts, driver, device)
   for _, fingerprint in ipairs(YOOLAX_WINDOW_SHADE_FINGERPRINTS) do
     if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-      return true
+      local subdriver = require("yoolax")
+      return true, subdriver
     end
   end
   return false
@@ -57,6 +59,9 @@ end
 
 -- battery percentage
 local function battery_perc_attr_handler(driver, device, value, zb_rx)
+  if device:get_manufacturer() == "_TZE200_9caxna4s" then
+    value.value  = value.value / 2
+  end
   -- this device use battery without / 2
   device:emit_event_for_endpoint(zb_rx.address_header.src_endpoint.value, capabilities.battery.battery(value.value))
 end

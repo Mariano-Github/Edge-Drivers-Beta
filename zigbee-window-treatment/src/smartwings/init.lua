@@ -14,7 +14,7 @@
 
 local capabilities = require "st.capabilities"
 local zcl_clusters = require "st.zigbee.zcl.clusters"
-local window_shade_defaults = require "st.zigbee.defaults.windowShade_defaults"
+--local window_shade_defaults = require "st.zigbee.defaults.windowShade_defaults"
 local WindowCovering = zcl_clusters.WindowCovering
 local PowerConfiguration = zcl_clusters.PowerConfiguration
 
@@ -22,7 +22,8 @@ local SHADE_SET_STATUS = "shade_set_status"
 
 local is_smartwings_window_shade = function(opts, driver, device)
   if device:get_manufacturer() == "Smartwings" then
-    return true
+    local subdriver = require("smartwings")
+    return true, subdriver
   end
   return false
 end
@@ -96,6 +97,13 @@ local function battery_perc_attr_handler(driver, device, value, zb_rx)
   device:emit_event_for_endpoint(zb_rx.address_header.src_endpoint.value, capabilities.battery.battery(value.value))
 end
 
+local function window_shade_preset_cmd(driver, device, command)
+  if device.preferences.presetPosition ~= nil then
+    local level = 100 - device.preferences.presetPosition
+    device:send_to_component(command.component, WindowCovering.server.commands.GoToLiftPercentage(device, level))
+  end
+end
+
 local smartwings_window_shade = {
   NAME = "smartwings window shade",
   capability_handlers = {
@@ -105,6 +113,9 @@ local smartwings_window_shade = {
     },
     [capabilities.windowShadeLevel.ID] = {
       [capabilities.windowShadeLevel.commands.setShadeLevel.NAME] = window_shade_level_cmd_handler
+    },
+    [capabilities.windowShadePreset.ID] = {
+      [capabilities.windowShadePreset.commands.presetPosition.NAME] = window_shade_preset_cmd
     }
   },
   zigbee_handlers = {

@@ -22,7 +22,7 @@ local write = require "writeAttribute"
 --- Update preferences after infoChanged recived---
 local function do_Preferences (self, device)
   for id, value in pairs(device.preferences) do
-    print("device.preferences[infoChanged]=", device.preferences[id])
+    --print("device.preferences[infoChanged]=", id, device.preferences[id])
     local oldPreferenceValue = device:get_field(id)
     local newParameterValue = device.preferences[id]
     if oldPreferenceValue ~= newParameterValue then
@@ -77,6 +77,20 @@ local function added_handler(self, device)
   device:emit_event(capabilities.windowShade.supportedWindowShadeCommands({"open", "close", "pause"}, { visibility = { displayed = false }}))
 end
 
+-- this new function in libraries version 9 allow load only subdrivers with devices paired
+  local function lazy_load_if_possible(sub_driver_name)
+    -- gets the current lua libs api version
+    local version = require "version"
+  
+    --print("<<<<< Library Version:", version.api)
+    -- version 9 will include the lazy loading functions
+    if version.api >= 9 then
+      return ZigbeeDriver.lazy_load_sub_driver(require(sub_driver_name))
+    else
+      return require(sub_driver_name)
+    end
+  end
+
 local zigbee_window_treatment_driver_template = {
   supported_capabilities = {
     capabilities.windowShade,
@@ -85,17 +99,18 @@ local zigbee_window_treatment_driver_template = {
     capabilities.battery
   },
   sub_drivers = {
-    require("vimar"),
-    require("aqara"),
-    require("feibit"),
-    require("somfy"),
-    require("IKEA"),
-    require("rooms-beautiful"),
-    require("axis"), 
-    require("yoolax"),
-    require("tuya-calib"),
-    require("smartwings"),
-    require("current-position")
+    lazy_load_if_possible("vimar"),
+    lazy_load_if_possible("aqara"),
+    lazy_load_if_possible("feibit"),
+    lazy_load_if_possible("somfy"),
+    lazy_load_if_possible("IKEA"),
+    lazy_load_if_possible("rooms-beautiful"),
+    lazy_load_if_possible("axis"), 
+    lazy_load_if_possible("yoolax"),
+    lazy_load_if_possible("tuya-calib"),
+    lazy_load_if_possible("smartwings"),
+    lazy_load_if_possible("current-position"),
+    lazy_load_if_possible("hanssem")
  },
   lifecycle_handlers = {
     added = added_handler,

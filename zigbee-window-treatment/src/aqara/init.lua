@@ -28,14 +28,15 @@ local APPLICATION_VERSION = "application_version"
 local FINGERPRINTS = {
   { mfr = "LUMI", model = "lumi.curtain" },
   { mfr = "LUMI", model = "lumi.curtain.v1" },
-  { mfr = "LUMI", model = "lumi.curtain.acn002" }, --adde but not work 100%
+  --{ mfr = "LUMI", model = "lumi.curtain.acn002" }, --added but not work 100%
   { mfr = "LUMI", model = "lumi.curtain.aq2" }
 }
 
 local function is_aqara_products(opts, driver, device)
   for _, fingerprint in ipairs(FINGERPRINTS) do
     if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-      return true
+      local subdriver = require("aqara")
+      return true, subdriver
     end
   end
   return false

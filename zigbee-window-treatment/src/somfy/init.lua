@@ -15,7 +15,7 @@
 local capabilities = require "st.capabilities"
 local utils = require "st.utils"
 local window_preset_defaults = require "st.zigbee.defaults.windowShadePreset_defaults"
-local window_shade_defaults = require "st.zigbee.defaults.windowShade_defaults"
+--local window_shade_defaults = require "st.zigbee.defaults.windowShade_defaults"
 local zcl_clusters = require "st.zigbee.zcl.clusters"
 local WindowCovering = zcl_clusters.WindowCovering
 
@@ -24,7 +24,8 @@ local GLYDEA_MOVE_THRESHOLD = 3
 local ZIGBEE_WINDOW_SHADE_FINGERPRINTS = {
     { mfr = "SOMFY", model = "Glydea Ultra Curtain" },
     { mfr = "SOMFY", model = "Sonesse 30 WF Roller" },
-    { mfr = "SOMFY", model = "Sonesse 40 Roller" }
+    { mfr = "SOMFY", model = "Sonesse 40 Roller" },
+    { mfr = "SOMFY", model = "Sonesse 28 WF Li-Ion Roller" }
 }
 
 local MOVE_LESS_THAN_THRESHOLD = "_sameLevelEvent"
@@ -33,7 +34,8 @@ local FINAL_STATE_POLL_TIMER = "_finalStatePollTimer"
 local is_zigbee_window_shade = function(opts, driver, device)
   for _, fingerprint in ipairs(ZIGBEE_WINDOW_SHADE_FINGERPRINTS) do
       if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-          return true
+        local subdriver = require("somfy")
+        return true, subdriver
       end
   end
   return false

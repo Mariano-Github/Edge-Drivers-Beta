@@ -1,5 +1,5 @@
 -- Copyright 2022 SmartThings
--- 
+--
 -- this subdriver created by M.Colmenarejo
 --
 -- Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,13 +35,15 @@ local ZIGBEE_WINDOW_SHADE_FINGERPRINTS = {
     { mfr = "_TZ3000_qqdbccb3", model = "TS130F" },
     { mfr = "_TZ3000_dph3rpss", model = "TS130F" },
     { mfr = "_TZ3210_dwytrmda", model = "TS130F" },
-    { mfr = "_TZ3000_dbpmpco1", model = "TS130F" }
+    { mfr = "_TZ3000_dbpmpco1", model = "TS130F" },
+    --{ mfr = "_TYZB01_dazsid15", model = "TS0302" }
 }
 
 local is_zigbee_window_shade = function(opts, driver, device)
   for _, fingerprint in ipairs(ZIGBEE_WINDOW_SHADE_FINGERPRINTS) do
       if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-          return true
+        local subdriver = require("tuya-calib")
+        return true, subdriver
       end
   end
 

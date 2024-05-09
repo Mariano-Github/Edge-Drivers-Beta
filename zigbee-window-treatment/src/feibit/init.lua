@@ -22,13 +22,15 @@ local Level = zcl_clusters.Level
 local ZIGBEE_WINDOW_SHADE_FINGERPRINTS = {
     { mfr = "Feibit Co.Ltd", model = "FTB56-ZT218AK1.6" },
     { mfr = "Feibit Co.Ltd", model = "FTB56-ZT218AK1.8" },
-    { mfr = "Feibit Co.Ltd", model = "FB56+CUR17SB2.2" }
+    { mfr = "Feibit Co.Ltd", model = "FB56+CUR17SB2.2" },
+    { mfr = "Current Products Corp", model = "E-Wand" }
 }
 
 local is_zigbee_window_shade = function(opts, driver, device)
   for _, fingerprint in ipairs(ZIGBEE_WINDOW_SHADE_FINGERPRINTS) do
       if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-          return true
+        local subdriver = require("feibit")
+        return true, subdriver
       end
   end
 
@@ -62,6 +64,7 @@ end
 local do_configure = function(self, device)
   device:send(device_management.build_bind_request(device, Level.ID, self.environment_info.hub_zigbee_eui))
   device:send(Level.attributes.CurrentLevel:configure_reporting(device, 1, 3600, 1))
+  device:configure()
 end
 
 local feibit_handler = {

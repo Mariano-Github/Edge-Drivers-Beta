@@ -14,9 +14,9 @@
 
 local capabilities = require "st.capabilities"
 local zcl_clusters = require "st.zigbee.zcl.clusters"
-local window_shade_defaults = require "st.zigbee.defaults.windowShade_defaults"
+--local window_shade_defaults = require "st.zigbee.defaults.windowShade_defaults"
 local cluster_base = require "st.zigbee.cluster_base"
-local utils = require "st.utils"
+--local utils = require "st.utils"
 local data_types = require "st.zigbee.data_types"
 local battery_defaults = require "st.zigbee.defaults.battery_defaults"
 local PowerConfiguration = zcl_clusters.PowerConfiguration
@@ -34,7 +34,8 @@ local PREV_TIME = "shadeLevelCmdTime"
 local is_zigbee_window_shade = function(opts, driver, device)
   for _, fingerprint in ipairs(ZIGBEE_WINDOW_SHADE_FINGERPRINTS) do
       if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-          return true
+        local subdriver = require("rooms-beautiful")
+        return true, subdriver
       end
   end
   return false

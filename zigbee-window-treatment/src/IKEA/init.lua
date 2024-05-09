@@ -14,7 +14,7 @@
 
 local capabilities = require "st.capabilities"
 local zcl_clusters = require "st.zigbee.zcl.clusters"
-local window_shade_defaults = require "st.zigbee.defaults.windowShade_defaults"
+--local window_shade_defaults = require "st.zigbee.defaults.windowShade_defaults"
 local PowerConfiguration = zcl_clusters.PowerConfiguration
 
 local WindowCovering = zcl_clusters.WindowCovering
@@ -107,11 +107,14 @@ local ikea_window_treatment = {
     }
   },
   can_handle = function(opts, driver, device, ...)
+    local subdriver = require("IKEA")
     if device:get_manufacturer() == "IKEA of Sweden" then
-      return device:get_manufacturer() == "IKEA of Sweden"
+      return true, subdriver
     elseif device:get_manufacturer() == "Third Reality, Inc" then
-      return device:get_manufacturer() == "Third Reality, Inc"    
+      return true, subdriver
     end
+    subdriver = nil
+    return false
   end
 }
 
