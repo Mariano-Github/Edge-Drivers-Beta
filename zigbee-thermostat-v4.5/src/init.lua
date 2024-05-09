@@ -27,6 +27,7 @@ local xiaomi_utils = require "xiaomi_utils"
 --module emit signal metrics
 local signal = require "signal-metrics"
 local thermostat_group = require "thermostat-group-calculation"
+local common = require("multi-contact/common")
 
 --- Custom Capabilities
 local fan_Cyclic_Mode = capabilities["legendabsolute60149.fanCyclicMode"]
@@ -55,10 +56,14 @@ local function thermostat_data_check(driver, device)
   --last_temp = device:get_latest_state("main", capabilities.temperatureMeasurement.ID, capabilities.temperatureMeasurement.temperature.NAME) + device.preferences.tempOffset
 
   local last_temp = device:get_field("last_temp")
-  if last_temp == nil then 
-    if device:get_latest_state("main", capabilities.temperatureMeasurement.ID, capabilities.temperatureMeasurement.temperature.NAME) == nil then return end
-    --last_temp = device:get_latest_state("main", capabilities.temperatureMeasurement.ID, capabilities.temperatureMeasurement.temperature.NAME) + device.preferences.tempOffset
+  if last_temp == nil then
     last_temp = device:get_latest_state("main", capabilities.temperatureMeasurement.ID, capabilities.temperatureMeasurement.temperature.NAME)
+    if last_temp == nil then
+      device:send(tempMeasurement.attributes.MeasuredValue:read(device))
+      return 
+    end
+    --last_temp = device:get_latest_state("main", capabilities.temperatureMeasurement.ID, capabilities.temperatureMeasurement.temperature.NAME) + device.preferences.tempOffset
+    --last_temp = device:get_latest_state("main", capabilities.temperatureMeasurement.ID, capabilities.temperatureMeasurement.temperature.NAME)
   else
     if device.preferences.useMultipleSensors == false then
       --last_temp = last_temp + device.preferences.tempOffset
@@ -541,15 +546,39 @@ end
 --- do Configure
 local function do_Configure(self,device)
 
- if device:get_manufacturer() == "KMPCIL" then
-  local maxTime = 900
-  local changeRep = math.floor(10000 * (math.log((2), 10)))
-  print ("Illumin maxTime & changeRep: ", maxTime, changeRep)
-  device:send(device_management.build_bind_request(device, zcl_clusters.IlluminanceMeasurement.ID, self.environment_info.hub_zigbee_eui))
-  device:send(zcl_clusters.IlluminanceMeasurement.attributes.MeasuredValue:configure_reporting(device, 60, maxTime, changeRep))
- end
   device:configure()
 
+  if device:get_manufacturer() == "KMPCIL" then
+    local maxTime = 900
+    local changeRep = math.floor(10000 * (math.log((2), 10)))
+    print ("Illumin maxTime & changeRep: ", maxTime, changeRep)
+    device:send(device_management.build_bind_request(device, zcl_clusters.IlluminanceMeasurement.ID, self.environment_info.hub_zigbee_eui))
+    device:send(zcl_clusters.IlluminanceMeasurement.attributes.MeasuredValue:configure_reporting(device, 60, maxTime, changeRep))
+  end
+  device:send(device_management.build_bind_request(device, tempMeasurement.ID, self.environment_info.hub_zigbee_eui))
+  device:send(tempMeasurement.attributes.MeasuredValue:configure_reporting(device, 30, 600, 10))
+
+  if (device:get_manufacturer() == "SmartThings" and device:get_model()== "multiv4") or
+  (device:get_manufacturer() == "Samjin" and device:get_model()== "multi") or
+  (device:get_manufacturer() == "CentraLite" and device:get_model() == "3321-S") then
+      ---Add the manufacturer-specific attributes to generate their configure reporting and bind requests
+      for capability_id, configs in pairs(common.get_cluster_configurations(device:get_manufacturer())) do
+        if device:supports_capability_by_id(capability_id) then
+            device:send(device_management.build_bind_request(device, 0xFC02, self.environment_info.hub_zigbee_eui))
+            for _, config in pairs(configs) do
+                device:add_configured_attribute(config)
+                device:add_monitored_attribute(config)
+            end
+        end
+      end
+      -- init battery voltage
+      if device:get_manufacturer() ~= "Samjin" then
+          battery_defaults.build_linear_voltage_init(2.3, 3.0)
+      end
+  end
+
+  print("doConfigure performed, transitioning device to PROVISIONED") --23/12/23
+  device:try_update_metadata({ provisioning_state = "PROVISIONED" })
 end
 
 --- added thermostat_Modes_Supported
@@ -649,20 +678,24 @@ local function do_init (self, device)
   device:set_field("thermostat_Run", thermostat_Run, {persist = false})
  
   thermostat_Mode = device:get_field("thermostat_Mode")
-  if thermostat_Mode == nil then thermostat_Mode = "off" end
-  device:emit_event(capabilities.thermostatMode.thermostatMode(thermostat_Mode))
-  --Save thermostatMode
-  device:set_field("thermostat_Mode", thermostat_Mode, {persist = true})
+  if thermostat_Mode == nil then 
+    thermostat_Mode = "off"
+    device:emit_event(capabilities.thermostatMode.thermostatMode(thermostat_Mode))
+    --Save thermostatMode
+    device:set_field("thermostat_Mode", thermostat_Mode, {persist = true})
+  end
 
   -- Save thermostatOperatingState
   thermostatOperatingState = device:get_latest_state("main", capabilities.thermostatOperatingState.ID, capabilities.thermostatOperatingState.thermostatOperatingState.NAME)
   --print("<<< thermostatOperatingState >>>",thermostatOperatingState)
-  if thermostatOperatingState == nil then 
+  if thermostatOperatingState == nil then
     thermostatOperatingState ="idle"
-  elseif thermostatOperatingState == "fan only" or thermostatOperatingState == "vent economizer" then
-    device:emit_event(fan_Cyclic_Mode.fanCyclicMode("On"))
+    device:emit_event(capabilities.thermostatOperatingState.thermostatOperatingState(thermostatOperatingState))
+    --device:set_field("thermostatOperatingState", thermostatOperatingState, {persist = false}) 
+  --elseif thermostatOperatingState == "fan only" or thermostatOperatingState == "vent economizer" then
+    --device:emit_event(fan_Cyclic_Mode.fanCyclicMode("On"))
   end
-  device:emit_event(capabilities.thermostatOperatingState.thermostatOperatingState(thermostatOperatingState))
+  --device:emit_event(capabilities.thermostatOperatingState.thermostatOperatingState(thermostatOperatingState))
   device:set_field("thermostatOperatingState", thermostatOperatingState, {persist = false})  
 
  -- Save thermostatFan_Mode
@@ -675,48 +708,63 @@ local function do_init (self, device)
     device:set_field ("cycleCurrent", "stop", {persist = false})
     device:emit_event(fan_Cyclic_Mode.fanCyclicMode("Off"))
     device:emit_event(fan_Next_Change.fanNextChange("Inactive"))
+    device:emit_event(capabilities.thermostatFanMode.thermostatFanMode(thermostatFan_Mode))
   elseif thermostatFan_Mode == "followschedule" then
     if device:get_latest_state("main", fan_Cyclic_Mode.ID, fan_Cyclic_Mode.fanCyclicMode.NAME) == "On" then
       device:set_field ("cycleCurrent", "on", {persist = false})
-      device:emit_event(fan_Cyclic_Mode.fanCyclicMode("On"))
-      device:emit_event(fan_Next_Change.fanNextChange("Active"))
+      --device:emit_event(fan_Cyclic_Mode.fanCyclicMode("On"))
+      --device:emit_event(fan_Next_Change.fanNextChange("Active"))
     else
       device:set_field ("cycleCurrent", "off", {persist = false})
-      device:emit_event(fan_Cyclic_Mode.fanCyclicMode("Off"))
-      device:emit_event(fan_Next_Change.fanNextChange("Inactive"))
+      --device:emit_event(fan_Cyclic_Mode.fanCyclicMode("Off"))
+      --device:emit_event(fan_Next_Change.fanNextChange("Inactive"))
     end
-  else 
+  else
     device:set_field ("cycleCurrent", "stop", {persist = false})
     if thermostatOperatingState == "fan only" or thermostatOperatingState == "vent economizer" then
-      device:emit_event(fan_Cyclic_Mode.fanCyclicMode("On"))
+      --device:emit_event(fan_Cyclic_Mode.fanCyclicMode("On"))
     else
-      device:emit_event(fan_Cyclic_Mode.fanCyclicMode("Off"))
+      --device:emit_event(fan_Cyclic_Mode.fanCyclicMode("Off"))
     end
-    device:emit_event(fan_Next_Change.fanNextChange("Inactive"))
+    --device:emit_event(fan_Next_Change.fanNextChange("Inactive"))
   end
-  device:emit_event(capabilities.thermostatFanMode.thermostatFanMode(thermostatFan_Mode))
+  --device:emit_event(capabilities.thermostatFanMode.thermostatFanMode(thermostatFan_Mode))
 
   --Save thermostatFanMode
   device:set_field("thermostatFan_Mode", thermostatFan_Mode, {persist = true})
   
   -- initialize Temp set points
-  if device:get_field("heating_Setpoint") == nil then device:set_field("heating_Setpoint", device.preferences.heatTempAuto, {persist = true}) end
-  if device:get_field("cooling_Setpoint") == nil then device:set_field("cooling_Setpoint", device.preferences.heatTempAuto, {persist = true}) end
-
   local temp_scale = "C"
   if device.preferences.thermTempUnits == "Fahrenheit" then temp_scale = "F" end
-  device:emit_event_for_endpoint("main", capabilities.thermostatHeatingSetpoint.heatingSetpoint({value = device:get_field("heating_Setpoint"), unit = temp_scale }))
-  device:emit_event_for_endpoint("main", capabilities.thermostatCoolingSetpoint.coolingSetpoint({value = device:get_field("cooling_Setpoint"), unit = temp_scale }))
+  if device:get_field("heating_Setpoint") == nil then 
+    device:set_field("heating_Setpoint", device.preferences.heatTempAuto, {persist = true})
+    device:emit_event_for_endpoint("main", capabilities.thermostatHeatingSetpoint.heatingSetpoint({value = device:get_field("heating_Setpoint"), unit = temp_scale }))
+  end
+  if device:get_field("cooling_Setpoint") == nil then 
+    device:set_field("cooling_Setpoint", device.preferences.coolTempAuto, {persist = true})
+    device:emit_event_for_endpoint("main", capabilities.thermostatCoolingSetpoint.coolingSetpoint({value = device:get_field("cooling_Setpoint"), unit = temp_scale }))
+  end
+
+  --local temp_scale = "C"
+  --if device.preferences.thermTempUnits == "Fahrenheit" then temp_scale = "F" end
+  --device:emit_event_for_endpoint("main", capabilities.thermostatHeatingSetpoint.heatingSetpoint({value = device:get_field("heating_Setpoint"), unit = temp_scale }))
+  --device:emit_event_for_endpoint("main", capabilities.thermostatCoolingSetpoint.coolingSetpoint({value = device:get_field("cooling_Setpoint"), unit = temp_scale }))
 
   --- thermostat lock state initialize
-  if device:get_field("thermostat_Lock") == nil then device:set_field("thermostat_Lock", "Unlocked", {persist = true}) end
-  device:emit_event(thermostat_Locked.thermostatLocked(device:get_field("thermostat_Lock")))
+  if device:get_field("thermostat_Lock") == nil then 
+    device:set_field("thermostat_Lock", "Unlocked", {persist = true}) --end
+    device:emit_event(thermostat_Locked.thermostatLocked(device:get_field("thermostat_Lock")))
+  end
 
  --- if thermostat initialized by hub reboot
  if thermostat_Mode ~= "off" or thermostatFan_Mode == "followschedule" then
   thermostatMode_handler(self,device,"init")
  end
 
+ -- adde feb-24 due to new temperature  defaults of 52.x libraries
+  device.thread:call_with_delay(5, function() 
+    do_Configure(self,device)
+  end)
 end
 
 --- Update preferences after infoChanged recived---
@@ -817,7 +865,8 @@ end
 
 -- attributte handler Atmospheric pressure
 local pressure_value_attr_handler = function (driver, device, value, zb_rx)
-  local kPa = math.floor (value.value / 10)
+  --local kPa = math.floor (value.value / 10)
+  local kPa = value.value / 10
   device: emit_event (capabilities.atmosphericPressureMeasurement.atmosphericPressure ({value = kPa, unit = "kPa"}))
 
   -- emit even for custom capability in mBar
@@ -830,6 +879,20 @@ local function temp_attr_handler(self, device, tempvalue, zb_rx)
 
   -- emit signal metrics
   signal.metrics(device, zb_rx)
+
+  if device:get_manufacturer() == "LUMI" and device:get_model()== "lumi.weather" then -- ramdomly send value 0º or -100º
+    if tempvalue.value <= -9900 then return end
+    if tempvalue.value == 0 then
+      if device:get_field("last_temp") == nil then
+        return
+      else
+        if (math.abs((tempvalue.value / 100) - device:get_field("last_temp"))) > 3 then
+          device:set_field("last_temp", tempvalue.value / 100, {persist = false})
+          return
+        end
+      end
+    end
+  end
 
   -- reduce events to temp change > 0.06 and 0.3 if mode = Off
   local ref_event_temp = tempvalue.value
@@ -905,9 +968,33 @@ end
 
 -----driver_switched
 local function driver_switched(self,device)
-  device.thread:call_with_delay(5, function() do_Configure(self,device) end)
+  device.thread:call_with_delay(5, function() 
+    do_Configure(self,device)
+    --print("doConfigure performed, transitioning device to PROVISIONED")
+    --device:try_update_metadata({ provisioning_state = "PROVISIONED" })
+   end)
 end
 
+-- this new function in libraries version 9 allow load only subdrivers with devices paired
+  local function lazy_load_if_possible(sub_driver_name)
+    -- gets the current lua libs api version
+    local version = require "version"
+  
+    --print("<<<<< Library Version:", version.api)
+    -- version 9 will include the lazy loading functions
+    if version.api >= 9 then
+      return ZigbeeDriver.lazy_load_sub_driver(require(sub_driver_name))
+    else
+      return require(sub_driver_name)
+    end
+  end
+
+  local function do_refresh(driver, device)
+    if device:supports_capability_by_id(capabilities.temperatureMeasurement.ID) then
+      device:send(tempMeasurement.attributes.MeasuredValue:read(device))
+    end
+    device:refresh()
+  end
 
 ----- driver template ----------
 local zigbee_thermostat_driver = {
@@ -916,7 +1003,7 @@ local zigbee_thermostat_driver = {
     capabilities.contactSensor,
     capabilities.threeAxis,
     capabilities.accelerationSensor,
-    capabilities.temperatureMeasurement,
+    --capabilities.temperatureMeasurement,
     capabilities.relativeHumidityMeasurement,
     capabilities.atmosphericPressureMeasurement,
     capabilities.illuminanceMeasurement,
@@ -953,7 +1040,10 @@ local zigbee_thermostat_driver = {
     },  
     [thermostat_Locked.ID] = {
       [thermostat_Locked.commands.setThermostatLocked.NAME] = thermostatLocked_handler,
-    },  
+    },
+    [capabilities.refresh.ID] = {
+      [capabilities.refresh.commands.refresh.NAME] = do_refresh,
+    }
   },
   zigbee_handlers = {
     attr = {
@@ -972,7 +1062,11 @@ local zigbee_thermostat_driver = {
         }
       },  
   },
-  sub_drivers = {require("battery"), require("multi-contact"), require("button")},
+  sub_drivers = {
+    lazy_load_if_possible("battery"), 
+    lazy_load_if_possible("multi-contact"), 
+    lazy_load_if_possible("button")
+  },
 
   ias_zone_configuration_method = constants.IAS_ZONE_CONFIGURE_TYPE.AUTO_ENROLL_RESPONSE
 }

@@ -1,8 +1,8 @@
-local zcl_clusters = require "st.zigbee.zcl.clusters"
+--local zcl_clusters = require "st.zigbee.zcl.clusters"
 local capabilities = require "st.capabilities"
 local battery = capabilities.battery
-local battery_defaults = require "st.zigbee.defaults.battery_defaults"
-local common = require("common")
+--local battery_defaults = require "st.zigbee.defaults.battery_defaults"
+local common = require("multi-contact/common")
 local utils = require "st.utils"
 
 local can_handle = function(opts, driver, device)

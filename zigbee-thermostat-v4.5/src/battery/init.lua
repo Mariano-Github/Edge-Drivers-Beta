@@ -1,25 +1,25 @@
 local zcl_clusters = require "st.zigbee.zcl.clusters"
 local capabilities = require "st.capabilities"
 local battery = capabilities.battery
-local battery_defaults = require "st.zigbee.defaults.battery_defaults"
+--local battery_defaults = require "st.zigbee.defaults.battery_defaults"
 local utils = require "st.utils"
 
 local can_handle = function(opts, driver, device)
+    local subdriver = require("battery")
     if device:get_manufacturer() == "_TZ2000_a476raq2" then
-      return true
+      return true, subdriver
     elseif device:get_manufacturer() == "CentraLite" then
-      return true
+      return true, subdriver
     elseif device:get_manufacturer() == "iMagic by GreatStar" then
-      return true
+      return true, subdriver
     elseif device:get_manufacturer() == "SmartThings" then
-      return true
+      return true, subdriver
     elseif device:get_manufacturer() == "Bosch" then
-      return true
+      return true, subdriver
     elseif device:get_manufacturer() == "Samjin" and device:get_model() == "button" then
-      return true
-    --elseif device:get_manufacturer() == "SONOFF" and device:get_model() == "SNZB-02D" then
-      --return true
+      return true, subdriver
     end
+    subdriver = nil
     return false
 end
 

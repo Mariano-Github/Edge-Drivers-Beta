@@ -6,9 +6,10 @@ local IASZone = (require "st.zigbee.zcl.clusters").IASZone
 
 local can_handle = function(opts, driver, device)
     if device:get_manufacturer() == "Samjin" and device:get_model() == "button" then
-      return device:get_manufacturer() == "Samjin"
+      local subdriver = require("button")
+      return true, subdriver
     end
-
+    return false
 end
 
 local generate_event_from_zone_status = function(driver, device, zone_status, zb_rx)

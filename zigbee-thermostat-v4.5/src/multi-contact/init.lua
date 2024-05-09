@@ -1,22 +1,25 @@
-local capabilities = require "st.capabilities"
+--local capabilities = require "st.capabilities"
 local zcl_clusters = require "st.zigbee.zcl.clusters"
-local ZigbeeDriver = require "st.zigbee"
+--local ZigbeeDriver = require "st.zigbee"
 local constants = require "st.zigbee.constants"
-local defaults = require "st.zigbee.defaults"
+--local defaults = require "st.zigbee.defaults"
 local contact_sensor_defaults = require "st.zigbee.defaults.contactSensor_defaults"
-local data_types = require "st.zigbee.data_types"
-local common = require("common")
+--local data_types = require "st.zigbee.data_types"
+local common = require("multi-contact/common")
 local device_management = require "st.zigbee.device_management"
 local battery_defaults = require "st.zigbee.defaults.battery_defaults"
 
 local can_handle = function(opts, driver, device)
+    local subdriver = require("multi-contact")
     if device:get_manufacturer() == "SmartThings" and device:get_model()== "multiv4" then
-      return device:get_manufacturer() == "SmartThings"
+      return true, subdriver
     elseif device:get_manufacturer() == "Samjin" and device:get_model()== "multi" then
-        return device:get_manufacturer() == "Samjin"
+        return true, subdriver
     elseif device:get_manufacturer() == "CentraLite" and device:get_model() == "3321-S" then
-      return device:get_model() == "3321-S"
+        return true, subdriver
     end
+    subdriver = nil
+    return false
 end
 
 local function ias_zone_status_change_handler(driver, device, zb_rx)
@@ -75,7 +78,7 @@ local multipurpose_driver_template = {
     },
     lifecycle_handlers = {
         --init = added,
-        added = do_added,
+        --added = do_added,
     },
     ias_zone_configuration_method = constants.IAS_ZONE_CONFIGURE_TYPE.AUTO_ENROLL_RESPONSE,
     sub_drivers = {

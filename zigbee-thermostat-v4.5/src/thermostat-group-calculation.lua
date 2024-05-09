@@ -42,7 +42,7 @@ local thermostat_group ={}
       info = info .. "</tbody></table>"
 
       for dev, value in pairs (temperature) do
-        dev:emit_event(device_Info.deviceInfo({value = info}, {visibility = {displayed = false}}))
+        dev:emit_event(device_Info.deviceInfo({value = info}, {visibility = {displayed = true}}))
       end
     --end
   end
@@ -73,7 +73,7 @@ local thermostat_group ={}
           info = "<table style='font-size:75%'> <tbody>".. format_row('', info)
           info = info .. "</tbody></table>"
 
-          dev:emit_event(device_Info.deviceInfo({value = info}, {visibility = {displayed = false}}))
+          dev:emit_event(device_Info.deviceInfo({value = info}, {visibility = {displayed = true}}))
         end
       end
       return
