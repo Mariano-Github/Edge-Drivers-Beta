@@ -25,7 +25,8 @@ local IRIS_THERMOSTAT_FINGERPRINTS = {
 local is_iris_duraflame_thermostat = function(opts, driver, device)
   for _, fingerprint in ipairs(IRIS_THERMOSTAT_FINGERPRINTS) do
     if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-      return true
+      local subdriver = require("iris-duraflame")
+      return true, subdriver
     end
   end
   return false
@@ -175,6 +176,9 @@ local function do_configure(self, device)
     -- Divisor and multipler for PowerMeter
     device:send(SimpleMetering.attributes.Divisor:read(device))
     device:send(SimpleMetering.attributes.Multiplier:read(device))
+
+  print("doConfigure performed, transitioning device to PROVISIONED") --23/12/23
+  device:try_update_metadata({ provisioning_state = "PROVISIONED" })
 end
 
 local do_refresh = function(self, device)
@@ -197,7 +201,12 @@ end
 
 local driver_switched = function(self, device)
   do_refresh(self, device)
-  do_configure(self, device)
+  --do_configure(self, device)
+  device.thread:call_with_delay(2, function() 
+    do_configure(self,device)
+    --print("doConfigure performed, transitioning device to PROVISIONED")
+    --device:try_update_metadata({ provisioning_state = "PROVISIONED" })
+  end)
 end
 
 

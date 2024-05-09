@@ -190,7 +190,8 @@ local set_setpoint_factory = function(setpoint_attribute)
     if (value >= 40) then -- assume this is a fahrenheit value
       value = utils.f_to_c(value)
     end
-    device:send_to_component(command.component, setpoint_attribute:write(device, math.floor(value * 100)))
+    --device:send_to_component(command.component, setpoint_attribute:write(device, math.floor(value * 100)))
+    device:send_to_component(command.component, setpoint_attribute:write(device,  utils.round(value*100)))
 
     device.thread:call_with_delay(2, function(d)
       device:send_to_component(command.component, setpoint_attribute:read(device))
@@ -222,11 +223,31 @@ local do_configure = function(self, device)
   device:send(device_management.build_bind_request(device, FanControl.ID, self.environment_info.hub_zigbee_eui))
   device:send(device_management.build_bind_request(device, PowerConfiguration.ID, self.environment_info.hub_zigbee_eui))
   device:send(PowerConfiguration.attributes.BatteryVoltage:configure_reporting(device, 30, 21600, 1))
+  device:send(Thermostat.attributes.LocalTemperature:configure_reporting(device, 5, 300, 10))
+  device:send(Thermostat.attributes.OccupiedHeatingSetpoint:configure_reporting(device, 30, 600, 50))
+  device:send(Thermostat.attributes.OccupiedCoolingSetpoint:configure_reporting(device, 30, 600, 50))
+  device:send(Thermostat.attributes.ThermostatRunningState:configure_reporting(device, 30, 300))
+  device:send(Thermostat.attributes.SystemMode:configure_reporting(device, 1, 0, 1))
+  device:send(Thermostat.attributes.ThermostatRunningState:configure_reporting(device, 30, 300))
 end
 
 local device_added = function(self, device)
   do_refresh(self, device)
 end
+
+-- this new function in libraries version 9 allow load only subdrivers with devices paired
+  local function lazy_load_if_possible(sub_driver_name)
+    -- gets the current lua libs api version
+    local version = require "version"
+  
+    --print("<<<<< Library Version:", version.api)
+    -- version 9 will include the lazy loading functions
+    if version.api >= 9 then
+      return ZigbeeDriver.lazy_load_sub_driver(require(sub_driver_name))
+    else
+      return require(sub_driver_name)
+    end
+  end
 
 local zigbee_thermostat_driver = {
   supported_capabilities = {
@@ -294,19 +315,21 @@ local zigbee_thermostat_driver = {
     added = device_added,
   },
   sub_drivers = {
-    require("zenwithin"),
-    require("fidure"),
-    require("sinope"),
-    require("stelpro-ki-zigbee-thermostat"),
-    require("stelpro"),
-    require("lux-konoz"),
-    require("leviton"),
-    require("popp_danfoss"),
-    require("eurotronic"),
-    require("namrom-thermostat"),
-    require("vimar"),
-    require("sonoff"),
-    require("iris-duraflame")
+    lazy_load_if_possible("zenwithin"),
+    lazy_load_if_possible("fidure"),
+    lazy_load_if_possible("sinope"),
+    lazy_load_if_possible("stelpro-ki-zigbee-thermostat"),
+    lazy_load_if_possible("stelpro"),
+    lazy_load_if_possible("lux-konoz"),
+    lazy_load_if_possible("leviton"),
+    lazy_load_if_possible("popp"),
+    lazy_load_if_possible("popp_danfoss"),
+    lazy_load_if_possible("eurotronic"),
+    lazy_load_if_possible("namrom-thermostat"),
+    lazy_load_if_possible("vimar"),
+    lazy_load_if_possible("sonoff"),
+    lazy_load_if_possible("iris-duraflame"),
+    lazy_load_if_possible("namrom-plug")
   },
 }
 

@@ -88,7 +88,8 @@ local PREFERENCE_TABLES = {
 
 local is_sinope_thermostat = function(opts, driver, device)
   if device:get_manufacturer() == SINOPE_TECHNOLOGIES_MFR_STRING then
-    return true
+    local subdriver = require("sinope")
+    return true, subdriver
   else
     return false
   end

@@ -59,7 +59,8 @@ local VIMAR_THERMOSTAT_COOLING_PROFILE = "thermostat-fanless-cooling-no-fw"
 local vimar_thermostat_can_handle = function(opts, driver, device)
     for _, fingerprint in ipairs(VIMAR_THERMOSTAT_FINGERPRINT) do
         if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-            return true
+          local subdriver = require("vimar")
+          return true, subdriver
         end
     end
     return false

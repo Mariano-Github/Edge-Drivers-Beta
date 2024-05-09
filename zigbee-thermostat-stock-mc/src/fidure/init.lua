@@ -36,7 +36,12 @@ local fidure_thermostat = {
     doConfigure = do_configure,
   },
   can_handle = function(opts, driver, device, ...)
-    return device:get_manufacturer() == "Fidure" and device:get_model() == "A1732R3"
+
+    if device:get_manufacturer() == "Fidure" and device:get_model() == "A1732R3" then
+      local subdriver = require("fidure")
+      return true, subdriver
+    end
+    return false
   end
 }
 

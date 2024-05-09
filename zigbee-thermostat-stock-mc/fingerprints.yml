@@ -34,7 +34,12 @@ zigbeeManufacturer:
     deviceLabel: POPP Thermostat
     manufacturer: D5X84YU
     model: eT093WRO
-    deviceProfileName: thermostat-popp-danfoss
+    deviceProfileName: thermostat-popp
+  - id: "D5X84YU/eT093WRG"
+    deviceLabel: POPP Thermostat
+    manufacturer: D5X84YU
+    model: eT093WRG
+    deviceProfileName: thermostat-popp
   - id: "Zen Within/Zen-01"
     deviceLabel: Zen Thermostat
     manufacturer: Zen Within

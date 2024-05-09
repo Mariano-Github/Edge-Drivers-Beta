@@ -14,10 +14,10 @@
 
 local capabilities = require "st.capabilities"
 local clusters = require "st.zigbee.zcl.clusters"
-local device_management = require "st.zigbee.device_management"
-local utils = require "st.utils"
+--local device_management = require "st.zigbee.device_management"
+--local utils = require "st.utils"
 
-local RelativeHumidity = clusters.RelativeHumidity
+--local RelativeHumidity = clusters.RelativeHumidity
 local Thermostat = clusters.Thermostat
 local ThermostatUserInterfaceConfiguration = clusters.ThermostatUserInterfaceConfiguration
 
@@ -39,7 +39,8 @@ local STELPRO_THERMOSTAT_FINGERPRINTS = {
 local is_stelpro_thermostat = function(opts, driver, device)
   for _, fingerprint in ipairs(STELPRO_THERMOSTAT_FINGERPRINTS) do
       if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-          return true
+        local subdriver = require("stelpro")
+        return true, subdriver
       end
   end
   return false

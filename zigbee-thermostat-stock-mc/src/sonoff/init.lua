@@ -1,6 +1,6 @@
 local clusters = require "st.zigbee.zcl.clusters"
 local capabilities = require "st.capabilities"
-local battery_defaults = require "st.zigbee.defaults.battery_defaults"
+--local battery_defaults = require "st.zigbee.defaults.battery_defaults"
 local PowerConfiguration = clusters.PowerConfiguration
 local ThermostatMode = capabilities.thermostatMode
 local Thermostat = clusters.Thermostat
@@ -23,7 +23,8 @@ local SONOFF_THERMOSTAT_FINGERPRINTS = {
 local is_sonoff_thermostat = function(opts, driver, device)
   for _, fingerprint in ipairs(SONOFF_THERMOSTAT_FINGERPRINTS) do
     if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-      return true
+      local subdriver = require("sonoff")
+      return true, subdriver
     end
   end
   return false
@@ -91,14 +92,16 @@ end
 
 local function do_configure(self, device)
   device:send(device_management.build_bind_request(device, Thermostat.ID, self.environment_info.hub_zigbee_eui))
-  device:send(Thermostat.attributes.LocalTemperature:configure_reporting(device, 10, 60, 50))
+  device:send(Thermostat.attributes.LocalTemperature:configure_reporting(device, 30, 300, 50))
   device:send(Thermostat.attributes.OccupiedHeatingSetpoint:configure_reporting(device, 1, 600, 50))
   device:send(Thermostat.attributes.SystemMode:configure_reporting(device, 1, 0, 1))
-  device:send(Thermostat.attributes.ThermostatRunningState:configure_reporting(device, 10, 300))
+  device:send(Thermostat.attributes.ThermostatRunningState:configure_reporting(device, 30, 300))
   device:send(device_management.build_bind_request(device, PowerConfiguration.ID, self.environment_info.hub_zigbee_eui))
   device:send(PowerConfiguration.attributes.BatteryPercentageRemaining:configure_reporting(device, 30, 21600, 1))
   --device:send(PowerConfiguration.attributes.BatteryVoltage:configure_reporting(device, 30, 21600, 1))
 
+  print("doConfigure performed, transitioning device to PROVISIONED") --23/12/23
+  device:try_update_metadata({ provisioning_state = "PROVISIONED" })
 end
 
 local do_refresh = function(self, device)
@@ -121,7 +124,12 @@ end
 
 local driver_switched = function(self, device)
   do_refresh(self, device)
-  do_configure(self, device)
+  --do_configure(self, device)
+  device.thread:call_with_delay(2, function() 
+    do_configure(self,device)
+    --print("doConfigure performed, transitioning device to PROVISIONED")
+    --device:try_update_metadata({ provisioning_state = "PROVISIONED" })
+  end)
 end
 
 -- battery_percentage_handler

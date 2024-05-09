@@ -63,7 +63,8 @@ local THERMOSTAT_MODE_MAP = {
 local is_stelpro_ki_zigbee_thermostat = function(opts, driver, device)
   for _, fingerprint in ipairs(STELPRO_KI_ZIGBEE_THERMOSTAT_FINGERPRINTS) do
       if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-          return true
+        local subdriver = require("stelpro-ki-zigbee-thermostat")     
+        return true, subdriver
       end
   end
   return false
