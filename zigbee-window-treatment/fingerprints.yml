@@ -187,6 +187,16 @@ zigbeeManufacturer:
     manufacturer: _TZE200_9caxna4s
     model: TS0301
     deviceProfileName: window-treatment-battery
+  - id: "TS130F/_TZ3000_drk3g2st"
+    deviceLabel: TS130F Window Treatment
+    manufacturer: _TZ3000_drk3g2st
+    model: TS130F
+    deviceProfileName: window-treatment-profile-calib
+  - id: "TS130F/_TZ3000_eg7awg6a"
+    deviceLabel: TS130F Window Treatment
+    manufacturer: _TZ3000_eg7awg6a
+    model: TS130F
+    deviceProfileName: window-treatment-profile-calib
 zigbeeGeneric:
   - id: "genericShade"
     deviceLabel: Zigbee Window Treatment
