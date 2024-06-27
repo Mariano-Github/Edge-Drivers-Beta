@@ -1045,6 +1045,16 @@ zigbeeManufacturer:
     manufacturer: NAMRON AS
     model: 4512735
     deviceProfileName: five-outlet
+  - id: "TS0012/TUYATEC-nzrrvgco"
+    deviceLabel: Two Switch
+    manufacturer: TUYATEC-nzrrvgco
+    model: TS0012
+    deviceProfileName: two-switch
+  - id: "TS0004/_TZ3000_mmkbptmx"
+    deviceLabel: 4 Gang In-Wall Relay
+    manufacturer: _TZ3000_mmkbptmx
+    model: TS0004
+    deviceProfileName: four-switch
 
     # level devices
   - id: "TS110E/_TZ3210_pagajpog"
