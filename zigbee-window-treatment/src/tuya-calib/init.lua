@@ -36,7 +36,12 @@ local ZIGBEE_WINDOW_SHADE_FINGERPRINTS = {
     { mfr = "_TZ3000_dph3rpss", model = "TS130F" },
     { mfr = "_TZ3210_dwytrmda", model = "TS130F" },
     { mfr = "_TZ3000_dbpmpco1", model = "TS130F" },
-    --{ mfr = "_TYZB01_dazsid15", model = "TS0302" }
+    { mfr = "_TZ3000_drk3g2st", model = "TS130F" },
+    { mfr = "_TZ3000_eg7awg6a", model = "TS130F" },
+    { mfr = "_TZ3210_ol1uhvza", model = "TS130F" },
+    { mfr = "_TZ3000_wptayaqr", model = "TS130F" },
+    --{ mfr = "_TYZB01_dazsid15", model = "TS0302" },
+
 }
 
 local is_zigbee_window_shade = function(opts, driver, device)
