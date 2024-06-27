@@ -379,7 +379,7 @@ zwaveManufacturer:
     manufacturerId: 0x019A
     productType: 0x0003
     productId: 0x0003
-    deviceProfileName: contact-battery-tamperalert
+    deviceProfileName: base-contact
   - id: 0258/0003/0082
     deviceLabel: NEO Coolcam Open/Closed Sensor
     manufacturerId: 0x0258
@@ -665,6 +665,25 @@ zwaveManufacturer:
     productType: 0x0005
     productId: 0x04AA
     deviceProfileName: contact-battery-tamperalert
+  - id: 0131/0004/1113
+    deviceLabel: Alloy Temp/Humidity Repeater
+    manufacturerId: 0x0131
+    productType: 0x0004
+    productId: 0x1113
+    deviceProfileName: humidity-temperature
+  - id: 0258/0200/1022
+    deviceLabel: NEO Coolcam Open/Closed Sensor
+    manufacturerId: 0x0258
+    productType: 0x0200
+    productId: 0x1022
+    deviceProfileName: contact-battery-tamperalert
+    
+  # for my test
+  #- id: "010F/0402"
+  #  deviceLabel: Fibaro Single Relay
+  #  manufacturerId: 0x010F
+  #  productType: 0x0402
+  #  deviceProfileName: fibaro-relay-single
     
 zwaveGeneric:
   - id: "GenericSensorAlarm"
