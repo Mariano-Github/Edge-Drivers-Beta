@@ -197,6 +197,16 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_eg7awg6a
     model: TS130F
     deviceProfileName: window-treatment-profile-calib
+  - id: "TS130F/_TZ3210_ol1uhvza"
+    deviceLabel: TS130F Window Treatment
+    manufacturer: _TZ3210_ol1uhvza
+    model: TS130F
+    deviceProfileName: window-treatment-profile-calib
+  - id: "TS130F/_TZ3000_wptayaqr"
+    deviceLabel: TS130F Window Treatment
+    manufacturer: _TZ3000_wptayaqr
+    model: TS130F
+    deviceProfileName: window-treatment-profile-calib
 zigbeeGeneric:
   - id: "genericShade"
     deviceLabel: Zigbee Window Treatment
