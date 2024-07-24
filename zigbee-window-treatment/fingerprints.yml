@@ -161,11 +161,11 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_dbpmpco1
     model: TS130F
     deviceProfileName: window-treatment-profile-calib
-  #- id: "_TZE204_fzbskaga/TS0601"  #copy fron stock driver aug 2023
-  #  deviceLabel: Hanssem Window Treatment
-  #  manufacturer: _TZE204_fzbskaga
-  #  model: TS0601
-  #  deviceProfileName: window-treatment-hanssem
+  - id: "_TZE204_zuq5xxib/TS0601"  #Testing for zemismart curtain driver
+   deviceLabel: zemismart Window Treatment
+   manufacturer: _TZE204_zuq5xxib
+   model: TS0601
+   deviceProfileName: window-treatment-zemismart
   # august 2023
   - id: "TS0302/_TYZB01_dazsid15"
     deviceLabel: TS130F Window Treatment
