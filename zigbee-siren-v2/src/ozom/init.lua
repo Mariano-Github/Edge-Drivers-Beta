@@ -76,7 +76,11 @@ local ozom_siren_driver = {
         }
     },
     can_handle = function(opts, driver, device, ...)
-        return device:get_manufacturer() == "ClimaxTechnology"
+        if device:get_manufacturer() == "ClimaxTechnology" then
+            local subdriver = require("ozom")
+            return true, subdriver
+        end
+        return false
     end
 }
 

@@ -1,0 +1,45 @@
+name: switch-alarm-battery
+components:
+- id: main
+  capabilities:
+  - id: switch
+    version: 1
+  - id: alarm
+    version: 1
+    config:
+      values:
+        - key: "alarm.value"
+          enabledValues:
+            - 'off'
+            - both
+        - key: "{{enumCommands}}"
+          enabledValues:
+            - 'off'
+            - both
+  - id: powerSource
+    version: 1
+  - id: battery
+    version: 1
+  - id: legendabsolute60149.signalMetrics
+    version: 1
+  - id: firmwareUpdate
+    version: 1
+  - id: refresh
+    version: 1
+  categories :
+  - name: Siren
+preferences:
+  - name: "signalMetricsVisibles"
+    title: "Signal Metrics Visible in History"
+    description: "Signal Metrics Visible in App History: (default: No Visible)"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Yes" : "Signal Metrics Visible"
+        "No": "Signal Metrics No Visible"
+      default: "No"
+metadata:
+  deviceType: Siren
+  ocfDeviceType: x.com.st.d.siren
+  deviceTypeId: Siren

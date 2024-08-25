@@ -25,7 +25,8 @@ local signal = require "signal-metrics"
 
 local is_heat_detector = function(opts, driver, device)
   if device:get_manufacturer() == "frient A/S" and device:get_model() == "HESZB-120" then
-    return true
+    local subdriver = require("frient-heat")
+    return true, subdriver
   end
   return false
 end

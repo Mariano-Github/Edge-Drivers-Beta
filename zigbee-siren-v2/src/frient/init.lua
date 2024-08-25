@@ -90,7 +90,14 @@ local frient_siren_driver = {
         }
     },
     can_handle = function(opts, driver, device, ...)
-        return device:get_manufacturer() == "frient A/S"
+        if device:get_manufacturer() == "frient A/S" then
+            local subdriver = require("frient")
+            return true, subdriver
+        elseif device:get_manufacturer() == "Develco Products A/S" then
+            local subdriver = require("frient")
+            return true, subdriver
+        end
+        return false
     end
 }
 
