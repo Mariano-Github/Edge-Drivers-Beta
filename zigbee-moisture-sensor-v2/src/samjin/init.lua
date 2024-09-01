@@ -14,8 +14,8 @@ local can_handle = function(opts, driver, device)
       return true, subdriver
     elseif device:get_manufacturer() == "CentraLite" then
       return true, subdriver
-    elseif device:get_manufacturer() == "LUMI" then
-      return true, subdriver
+    --elseif device:get_manufacturer() == "LUMI" then
+      --return true, subdriver
     elseif device:get_manufacturer() == "SmartThings" then
       return true, subdriver
     end

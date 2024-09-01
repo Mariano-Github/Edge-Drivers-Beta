@@ -87,15 +87,23 @@ local function do_added(driver, device)
   if device:get_latest_state("main", signal_Metrics.ID, signal_Metrics.signalMetrics.NAME) == nil then
     device:emit_event(signal_Metrics.signalMetrics({value = "Waiting Zigbee Message"}, {visibility = {displayed = false }}))
   end
-  device:refresh()
+  if device:get_manufacturer() == "LUMI" then
+    device:send(cluster_base.read_attribute(device, data_types.ClusterId(0x0000), data_types.AttributeId(0xFF01)))
+    device:send(cluster_base.read_attribute(device, data_types.ClusterId(0x0000), data_types.AttributeId(0xFF02)))
+    device:send(zcl_clusters.IASZone.attributes.ZoneStatus:read(device))
+  else
+    device:refresh()
+  end
 end
 
 local function device_refresh(driver, device, command)
   if device.network_type == "DEVICE_EDGE_CHILD" then return end-- is CHILD DEVICE
-  device:refresh()
   if device:get_manufacturer() == "LUMI" then
     device:send(cluster_base.read_attribute(device, data_types.ClusterId(0x0000), data_types.AttributeId(0xFF01)))
     device:send(cluster_base.read_attribute(device, data_types.ClusterId(0x0000), data_types.AttributeId(0xFF02)))
+    device:send(zcl_clusters.IASZone.attributes.ZoneStatus:read(device))
+  else
+    device:refresh()
   end
 end
 
@@ -138,6 +146,11 @@ end
       device:add_configured_attribute(config)
 
       device:configure() -- mod (19/04/2024)
+      device:remove_monitored_attribute(0x0500, 0x0002)
+      
+    elseif device:get_model() == "lumi.sensor_wleak.aq1" then
+      device:send(device_management.build_bind_request(device, zcl_clusters.IASZone.ID, driver.environment_info.hub_zigbee_eui))
+      device:send(zcl_clusters.IASZone.attributes.ZoneStatus:configure_reporting(device, 30, 600, 1))
       device:remove_monitored_attribute(0x0500, 0x0002)
     else
       device:configure() -- mod (19/04/2024)

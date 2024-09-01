@@ -205,3 +205,13 @@ zigbeeManufacturer:
     manufacturer: IKEA of Sweden
     model: BADRING Water Leakage Sensor
     deviceProfileName: moisture-battery
+  - id: "_TZ3000_mugyhz0q/TS0207"
+    deviceLabel: TuYa 899WZ Water Sensor
+    manufacturer: _TZ3000_mugyhz0q
+    model: TS0207
+    deviceProfileName: moisture-battery
+  - id: "Lumi/SJCGQ12LM"
+    deviceLabel: Aqara Water Leak Sensor
+    manufacturer: LUMI
+    model: lumi.flood.agl02
+    deviceProfileName: moisture-battery
