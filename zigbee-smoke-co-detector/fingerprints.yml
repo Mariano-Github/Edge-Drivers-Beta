@@ -183,3 +183,8 @@ zigbeeManufacturer:
     manufacturer: LUMI
     model: lumi.sensor_gas.acn02
     deviceProfileName: gas-detector
+  - id: "FNB56-GAS05FB1.4/feibit"
+    deviceLabel: feibit Gas Sensor
+    manufacturer: feibit
+    model: FNB56-GAS05FB1.4
+    deviceProfileName: gas-detector
