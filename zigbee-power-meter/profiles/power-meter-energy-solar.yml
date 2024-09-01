@@ -1,0 +1,52 @@
+name: power-meter-energy-solar
+components:
+- id: main
+  label: Solar Energy Exported
+  capabilities:
+  - id: powerMeter
+    version: 1
+  - id: energyMeter
+    version: 1
+  - id: voltageMeasurement
+    version: 1
+  - id: currentMeasurement
+    version: 1
+  - id: firmwareUpdate
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: CurbPowerMeter
+- id: energyConsumption
+  label: Grid Energy Imported
+  capabilities:
+  - id: energyMeter
+    version: 1
+  categories:
+  - name: CurbPowerMeter
+preferences:
+  - name: "powerIntervalEvent"
+    title: "Events values set Interval Events"
+    description: "Set interval to send Power, voltage and current events to App (5 to 600 sec). Default = 60 sec"
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 5
+      maximum: 600
+      default:  60
+  - name: "powerSign"
+    title: "Select the Power sign value"
+    description: "Set the direction of the clam arrow to the direction of the current flow you want to display positive. With this preference you can reverse as shown in the App without changing the direction of the clam. (Default: Export->Negative and Import->Positive)"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "0": "Export->Negative & Import->Positive"
+        "1": "Export->Positive & Import->Negative"
+      default: "0"
+  - name: "logDebugPrint"
+    title: "Show Logs Debug Prints in CLI"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false

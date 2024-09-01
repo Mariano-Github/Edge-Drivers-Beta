@@ -29,6 +29,11 @@ zigbeeManufacturer:
     manufacturer: Climax Technology
     model: PCM_00.00.03.09TC
     deviceProfileName: power-energy-meter
+  - id: "_TZE204_ac0fhfiq/TS0601"
+    deviceLabel: Energy Monitor Bi-directional
+    manufacturer: _TZE204_ac0fhfiq
+    model: TS0601
+    deviceProfileName: power-meter-energy-solar
 zigbeeGeneric:
   - id: "genericMeter"
     deviceLabel: Zigbee Meter
