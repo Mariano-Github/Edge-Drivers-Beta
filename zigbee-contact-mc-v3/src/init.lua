@@ -40,7 +40,7 @@ local common = require("multi-contact/common")
 local signal_Metrics = capabilities["legendabsolute60149.signalMetrics"]
 --local MONITORED_ATTRIBUTES_KEY = "__monitored_attributes"
 
--- no offline function
+-- no offline function users request
 local function no_offline(self,device)
   if device.network_type ~= "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE
     print("***** function no_offline *********")
@@ -89,7 +89,6 @@ local function info_Changed(self,device)
 
     -- update preferences
       for id, value in pairs(device.preferences) do
-        --print("device.preferences[infoChanged]=", device.preferences[id], "preferences: ", id)
         local oldPreferenceValue = device:get_field(id)
         local newParameterValue = device.preferences[id]
         if oldPreferenceValue ~= newParameterValue then
@@ -357,7 +356,7 @@ local function do_init(self, device)
       device:emit_event(signal_Metrics.signalMetrics({value = "Waiting Zigbee Message"}, {visibility = {displayed = false }}))
     end
 
-    -- set timer for offline devices issue 
+    -- set timer for offline devices issue at user request
     no_offline(self,device)
 
     device:refresh()
@@ -420,7 +419,6 @@ local zigbee_contact_driver_template = {
   },
   lifecycle_handlers = {
     infoChanged = info_Changed,
-    --driverSwitched = do_configure,
     driverSwitched = do_driverSwitched, -- 23/12/23
     init = do_init,
     doConfigure = do_configure

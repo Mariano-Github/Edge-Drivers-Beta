@@ -461,6 +461,22 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_gntwytxo
     model: TS0203
     deviceProfileName: contact-battery-profile
+  - id: "Konke/3AFE280104020015"
+    deviceLabel: Konke Close Sensor
+    manufacturer: Konke
+    model: 3AFE280104020015
+    deviceProfileName: contact-battery-profile
+  - id: "_TZ3000_fku2h3gw/Close Sensor"
+    deviceLabel: TS0203 Close Sensor
+    manufacturer: _TZ3000_fku2h3gw
+    model: TS0203
+    deviceProfileName: contact-battery-profile
+  #added Aug 2024
+  - id: "_TYZB01_epni2jgy/Close Sensor"
+    deviceLabel: TS0203 Close Sensor
+    manufacturer: _TYZB01_epni2jgy
+    model: TS0203
+    deviceProfileName: contact-battery-profile
 
   # ST multipurpose sensors
   - id: "Samjin/multi"

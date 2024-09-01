@@ -34,7 +34,7 @@ preferences:
       default: false
   - name: "iasZoneReports"
     title: "Set Contact Sensor Interval Report"
-    description: "IF YOUR DEVICE & NETWORK WORK FINE THEN DON'T TOUCH. Set Device Interval Report (300 to 3600 sec). Smartthings Default=300. Longer intervals reduce zigbee Network traffic, Hub work and Battery consumption. NEED WAKE UP DEVICE WITH Open-Close TO ACCEPT NEW VALUE. Restore default before Driver Change"
+    description: "IF YOUR DEVICE & NETWORK WORK FINE THEN DON'T TOUCH. Set Device Interval Report (300 to 3600 sec). Smartthings Default=300.\nLonger intervals reduce zigbee Network traffic, Hub work and Battery consumption. NEED WAKE UP DEVICE WITH Open-Close TO ACCEPT NEW VALUE. Restore default before Driver Change"
     required: true
     preferenceType: integer
     definition:
