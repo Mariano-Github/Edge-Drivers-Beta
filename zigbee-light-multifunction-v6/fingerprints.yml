@@ -1080,6 +1080,21 @@ zigbeeManufacturer:
     manufacturer: IKEA of Sweden
     model: TRADFRI bulb E27 WW globe 806lm
     deviceProfileName: switch-level
+  - id: "IKEA/bulb LED2201G8"
+    deviceLabel: IKEA Bulb
+    manufacturer: IKEA of Sweden
+    model: TRADFRI bulb E27 WS globe 1055lm
+    deviceProfileName: level-colortemp-2200-4000
+  - id: "LEDVANCE/A60 RGBW T"
+    deviceLabel: LEDVANCE Classis A60 RGBW
+    manufacturer: LEDVANCE
+    model: A60 RGBW T
+    deviceProfileName: rgbw-level-colortemp-2000-6500
+  - id: "GLEDOPTO/GL-B-003P"
+    deviceLabel: GLEDOPTO GL-B-003P
+    manufacturer: GLEDOPTO
+    model: GL-B-003P
+    deviceProfileName: level-colortemp-2200-6500
   
   # XY Color
   - id: "IKEA/E27 CWS 806lm"

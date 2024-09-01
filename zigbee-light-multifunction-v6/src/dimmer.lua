@@ -612,7 +612,7 @@ function driver_handler.do_Preferences (self, device)
          child_devices.create_new_device(self, device, "main", "child-rgbw-2000-6500")
         end 
       elseif id == "circadianTimeStart" or id == "circadianTimeEnd" then
-        if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) == "on" then
+        if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) == "on" and circadian[device] == "Active" then
           driver_handler.circadian_handler(self, device)
         end
       end
@@ -1595,7 +1595,13 @@ function driver_handler.circadian_handler(self, device)
     local color_temp_read = function(d)
       device:send_to_component("main", zcl_clusters.ColorControl.attributes.ColorTemperatureMireds:read(device))
     end
-    device.thread:call_with_delay(2, color_temp_read, "setColorTemp delayed read")
+
+    -- added to ZLL devices get turn on state
+    device.thread:call_with_delay(2, function(d)
+      --print("<<<< refresh Delay")
+        device:refresh()
+    end)
+    --device.thread:call_with_delay(2, color_temp_read, "setColorTemp delayed read")
 
     
     set_status_timer = device:get_field("timer_circadian")
@@ -1673,6 +1679,7 @@ function driver_handler.circadian_handler(self, device)
         --print("colorTemp Mired", colorTemp_Mireds)
         device:send_to_component("main", zcl_clusters.ColorControl.server.commands.MoveToColorTemperature(device, colorTemp_Mireds, 0x0000))
         color_temp_read = function(d)
+          device:send_to_component("main", zcl_clusters.Level.attributes.CurrentLevel:read(device))
           device:send_to_component("main", zcl_clusters.ColorControl.attributes.ColorTemperatureMireds:read(device))
         end
         device.thread:call_with_delay(2, color_temp_read, "setColorTemp delayed read")
@@ -1739,8 +1746,14 @@ function driver_handler.circadian_handler(self, device)
       local color_temp_read = function(d)
         device:send_to_component("main", zcl_clusters.ColorControl.attributes.ColorTemperatureMireds:read(device))
       end
-      device.thread:call_with_delay(2, color_temp_read, "setColorTemp delayed read")
+      --device.thread:call_with_delay(2, color_temp_read, "setColorTemp delayed read")
     end
+
+    -- added to ZLL devices get turn on state
+    device.thread:call_with_delay(2, function(d)
+      --print("<<<< refresh Delay")
+        device:refresh()
+      end)
   end
 end
 

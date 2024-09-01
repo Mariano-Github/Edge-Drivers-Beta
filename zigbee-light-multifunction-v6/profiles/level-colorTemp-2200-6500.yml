@@ -1,0 +1,350 @@
+name: level-colortemp-2200-6500
+components:
+- id: main
+  capabilities:
+  - id: switch
+    version: 1
+  - id: switchLevel
+    version: 1
+  - id: legendabsolute60149.levelSteps
+    version: 1
+  - id: colorTemperature
+    version: 1
+    config:
+      values:
+        - key: "colorTemperature.value"
+          range: [ 2200, 6500 ]
+  - id: legendabsolute60149.colorTemperatureSteps
+    version: 1
+  - id: legendabsolute60149.randomOnOff1
+    version: 1
+  - id: legendabsolute60149.randomNextStep
+    version: 1
+  - id: legendabsolute60149.progressiveOn1
+    version: 1
+  - id: legendabsolute60149.progressiveOff1
+    version: 1
+  - id: legendabsolute60149.forcedOnLevel
+    version: 1
+  - id: legendabsolute60149.circadian
+    version: 1
+  - id: legendabsolute60149.effectsSetCommand
+    version: 1
+  - id: legendabsolute60149.mirrorGroupFunction
+    version: 1
+  - id: legendabsolute60149.getGroups
+    version: 1
+  - id: legendabsolute60149.signalMetrics
+    version: 1
+  - id: legendabsolute60149.driverVersion1
+    version: 1
+  - id: refresh
+    version: 1
+  - id: firmwareUpdate
+    version: 1
+  categories:
+  - name: Light
+preferences:
+  - name: "version"
+    title: "Version 6.4 (Mar 2024)"
+    description: "Added: Device custom Circadian Period"
+    required: false
+    preferenceType: string
+    definition:
+      stringType: text
+      minLength: 0
+      maxLength: 0
+      default: "" 
+  - name: "onOffReports"
+    title: "Device On-Off Interval Report"
+    description: "IF YOUR DEVICE & NETWORK WORK FINE THEN DON'T TOUCH. Set Device Interval Report (300 to 1200 sec). Smartthings Default = 300. Longer intervals reduce zigbee network traffic and Hub work. If Offline states occur with high values, then reduce the interval. Restore default Value before Driver Change."
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 300
+      maximum: 1200
+      default:  300
+  - name: "localTimeOffset"
+    title: "Local Time Offset to UTC (-12 to 12)"
+    description: "Select Your Local Time Offset to UTC Time Hours (-12 to 12, Default:0)"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: -12
+      maximum: 12
+      default: 0
+  - name: "groupChild"
+    title: "Create Device Mirror Group Control"
+    description: "Create Virtual Device for Control a Mirror Group created with devices paired with this driver:"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "onOffGroup"
+    title: "Assign to one Mirror Group"
+    description: "Assign this Device to one Mirror Group. 0 = Not Group Assigned (defualt: 0)"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 10
+      default: 0
+  - name: "restoreState"
+    title: "ATTEMPT Restore State if Power Lost"
+    description: "WARNNING: COULD NOT WORK\n After the power supply is back on, the State can be restored to previous state or remain switched off (Default: Device restores previous state)"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "0": "Device remains switched Off"
+        "1": "Device remains switched On"
+        "255": "Device restores previous state"
+      default: "255"
+  - name: "onTransTime"
+    title: "Turn ON and OFF Transition Time(sec)"
+    description: "Select Transition Time to Turn ON to last Level or OFF (0 to 3600 sec, Default: 0). WARNING: If the device is not able to move at a variable rate, the Transition time field MAY be disregarded and not will work"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 0
+      maximum: 3600
+      default: 0
+  - name: "levelTransTime"
+    title: "Transition Time to New Level(sec)"
+    description: "Select Transition Time to Move New Level (0 to 3600 sec, Default: 0). WARNING: If the device is not able to move at a variable rate, the Transition time field MAY be disregarded and not will work"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 0
+      maximum: 3600
+      default: 0
+  - name: "tempTransTime"
+    title: "Transition Time New ColorTemp(sec)"
+    description: "Select Transition Time to Move New Color Temperature (0 to 3600 sec, Default: 0). WARNING: If the device is not able to move at a variable rate, the Transition time field MAY be disregarded and not will work"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 0
+      maximum: 3600
+      default: 0
+  - name: "onTimeMax"
+    title: "Turn (ON) Time to End Level(min)"
+    description: "Select Time to reach the End Level with Progressive ON function: 6 sec to 45 min (0.1 min to 45 min, Default: 10)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 0.1
+      maximum: 45
+      default: 10  
+  - name: "onLevelStart"
+    title: "Turn (ON) Start Level %"
+    description: "Select Start Level when Turn ON with Progressive On function. (1 to 100, Default: 1)"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 1
+      maximum: 100
+      default: 1   
+  - name: "onLevelEnd"
+    title: "Turn (ON) End Level %"
+    description: "Select End Level when Turn ON with Progressive On function. (1 to 100, Default: 100)"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 1
+      maximum: 100
+      default: 100   
+  - name: "offTimeMax"
+    title: "Turn (OFF) Time to End Level (min)"
+    description: "Select Time to reach the End Level with Progressive OFF function: 6 sec to 45 min (0.1 min to 45 min, Default: 10)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 0.1
+      maximum: 45
+      default: 10
+  - name: "offLevelEnd"
+    title: "Turn (OFF) End Level %"
+    description: "Select End Level when Turn OFF with Progressive OFF function:(0 to 100, Default: 0)"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 100
+      default: 0 
+  - name: "ifPushSwitch"
+    title: "If Switch Pushed when Running:"
+    description: "Select Action if Switch Pushed when dimming is Running: (Default: Light Turn Off)"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "End" : "Go to End Level Selected"
+        "Stop": "Stop Dimming"
+        "Off" : "Light Turn Off "
+        "Change": "Invert Dimming Direction"
+      default: "Off"
+  - name: "randomMin"
+    title: "Random ON-OFF Minimum Time"
+    description: "Select Minimum Time for Random ON-OFF Interval: (0.5 min to 25 min, Default: 1)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 0.5
+      maximum: 25
+      default: 1 
+  - name: "randomMax"
+    title: "Random ON-OFF Maximum Time"
+    description: "Select Maximum Time for Random ON-OFF Interval (0.5 min to 25 min, Default: 10)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 0.5
+      maximum: 25
+      default: 10 
+  - name: "progLevelColor"
+    title: "Progressive (Level-TempColor) Active"
+    description: "Select Progressive Level-TempColor Active (Default: No)"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Yes" : "Yes"
+        "No"  : "No"
+      default: "No"
+  - name: "circadianTimeStart"
+    title: "Local Time Circadian Period Start"
+    description: "Local Time for Circadian Period Start (4 h to 10 h). Default: 6h"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 4
+      maximum: 10
+      default: 6
+  - name: "circadianTimeEnd"
+    title: "Local Time Circadian Period End"
+    description: "Local Time for Circadian Period End (14 h to 24 h). Default :18"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 14
+      maximum: 24
+      default: 18
+  - name: "colorTempMinim"
+    title: "Color Temperature  Min value (k)"
+    description: "Select Maximum Color Temp Increment value (2200k to 6000k, Default: 2200)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 2200
+      maximum: 6000
+      default: 2200
+  - name: "colorTempMaxim"
+    title: "ColorTemp Increment Max value (k)"
+    description: "Select Maximum Color Temp Increment value (3000k to 6500k, Default: 6500)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 3000
+      maximum: 6500
+      default: 6500 
+  - name: "limitColorTemp"
+    title: "Use ColorTemp Min and Max as limits"
+    description: "Use ColorTemp Min and Max values as limits for this device"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "circadLevelMin"
+    title: "Circadian Lighting MIN Level %"
+    description: "Select Minimum Level for Circadian Lighting function: (1 to 100, Default: 50)"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 1
+      maximum: 100
+      default: 50   
+  - name: "circadLevelMax"
+    title: "Circadian Lighting MAX Level %"
+    description: "Select Maximum Level for Circadian Lighting function: (1 to 100, Default: 100)"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 1
+      maximum: 100
+      default: 100
+  - name: "circadianNightSetting"
+    title: "Use Circadian Night Minimum Settings"
+    description: "Use Circadian settings of minimum Color Temperature and Level as default Night Minimum Settings"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: true
+  - name: "setLevelMin"
+    title: "Minimum Set Command Level %"
+    description: "Select Minimum Level for Set Command (0 to 99, Default: 0)"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 99
+      default: 0
+  - name: "levelExtStepsMode"
+    title: "External Level Steps Operation Mode"
+    description: "External Level Steps Operation Mode. (Default: Change in +/- value step). The received value is increased or decreased in one step or varied at the rate of the received value for each second, until receiving value = 0 or reaching 0% or 100%"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Step": "Change in +/- value step"
+        "Continuos": "Change in +/- value rate level"
+      default: "Step"
+  - name: "groupAdd"
+    title: "Add Device to Group Number"
+    description: "Insert Group number to Add this device. Value = 0, Get All Groups in History Events, (Default: 0)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 0
+      maximum: 65535
+      default: 0 
+  - name: "groupRemove"
+    title: "Remove Device Group Number"
+    description: "Insert Group number to Remove from this device. Value = 0, all Groups Removed"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 0
+      maximum: 65535
+      default: 1
+  - name: "blinkTimer"
+    title: "Set Blink Time interval (sec)"
+    description: "Set Blink Time interval in sec (1 sec to 30 sec, Default: 3)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 1
+      maximum: 30
+      default: 3
+  - name: "signalMetricsVisibles"
+    title: "Signal Metrics Visible in History"
+    description: "Signal Metrics Visible in App History, Default, (Signal Metrics No Visible)"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Yes": "Signal Metrics Visible"
+        "No": "Signal Metrics No Visible"
+      default: "No"
+  - name: "logDebugPrint"
+    title: "Show Logs Debug Prints in CLI"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+metadata:
+  deviceType: Light
+  ocfDeviceType: oic.d.light
+  deviceTypeId: Light
+  #mnmn: SmartThingsCommunity
+  #vid: dc0f9f67-eba0-3573-aad5-40a568f2e791
