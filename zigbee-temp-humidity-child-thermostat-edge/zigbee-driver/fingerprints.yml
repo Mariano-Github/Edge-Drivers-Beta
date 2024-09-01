@@ -1,0 +1,206 @@
+zigbeeManufacturer:
+  - id: "lumi.weather"
+    deviceLabel: Aqara Weather
+    manufacturer: LUMI
+    model: lumi.weather
+    deviceProfileName: temp-humid-press-battery
+  - id: "TUYATEC/RH3052"
+    deviceLabel: TUYATEC RH3052
+    manufacturer: TUYATEC-prhs1rsd
+    model: RH3052
+    deviceProfileName: temp-humid-battery
+  - id: "eWeLink/66666"
+    deviceLabel: Temp Humidity Sensor
+    manufacturer: eWeLink
+    model: 66666
+    deviceProfileName: temp-humid-battery
+  - id: "eWeLink/TH01"
+    deviceLabel: Temp Humidity Sensor
+    manufacturer: eWeLink
+    model: TH01
+    deviceProfileName: temp-humid-battery
+  - id: "Zemismart/RH3052"
+    deviceLabel: Zemismart RH3052
+    manufacturer: TUYATEC-jigsujrv
+    model: RH3052
+    deviceProfileName: temp-humid-battery
+  - id: "Tuya/TS0201"
+    deviceLabel: Tuya TS0201
+    manufacturer: _TZ2000_a476raq2
+    model: TS0201
+    deviceProfileName: temp-humid-battery
+  - id: " _TZ3000_i8jfiezr/TS0201"
+    deviceLabel: Tuya TS0201
+    manufacturer: _TZ3000_i8jfiezr
+    model: TS0201
+    deviceProfileName: temp-humid-battery
+  - id: "KMPCIL/sensor"
+    deviceLabel: Environment Sensor
+    manufacturer: KMPCIL
+    model: RES001
+    deviceProfileName: temp-humid-press-illumin
+  - id: "KMPCIL/BME280"
+    deviceLabel: Environment Sensor BME280
+    manufacturer: KMPCIL
+    model: RES001BME280
+    deviceProfileName: temp-humid-press-illumin
+  - id: "KMPCIL/RES005"
+    deviceLabel: Environment Sensor RES005
+    manufacturer: KMPCIL
+    model: RES005
+    deviceProfileName: temp-humid-press-illumin
+  - id: "_TZ3000_fllyghyj/TS0201"
+    deviceLabel: Tuya TS0201
+    manufacturer: _TZ3000_fllyghyj
+    model: TS0201
+    deviceProfileName: temp-humid-battery
+  - id: "_TZ3000_bguser20/TS0201"
+    deviceLabel: Tuya TS0201
+    manufacturer: _TZ3000_bguser20
+    model: TS0201
+    deviceProfileName: temp-humid-battery
+  - id: "_TYZB01_a476raq2/TS0201"
+    deviceLabel: Tuya TS0201
+    manufacturer: _TYZB01_a476raq2
+    model: TS0201
+    deviceProfileName: temp-humid-battery
+  - id: "_TZ3000_yd2e749y/TS0201"
+    deviceLabel: Tuya TS0201
+    manufacturer: _TZ3000_yd2e749y
+    model: TS0201
+    deviceProfileName: temp-humid-battery
+  - id: "CentraLite/3310-G"
+    deviceLabel: Temp Sensor 3310-G
+    manufacturer: CentraLite
+    model: 3310-G
+    deviceProfileName: temp-humid-battery
+  - id: "_TZ3000_nau60otv/TS0201"
+    deviceLabel: Tuya TS0201
+    manufacturer: _TZ3000_nau60otv
+    model: TS0201
+    deviceProfileName: temp-humid-battery
+  - id: "_TZ3000_dowj6gyi/TS0201"
+    deviceLabel: Tuya TS0201
+    manufacturer: _TZ3000_dowj6gyi
+    model: TS0201
+    deviceProfileName: temp-humid-battery
+  - id: "_TYZB01_ftdkanlj/TS0222"
+    deviceLabel: Tuya TS0222
+    manufacturer: _TYZB01_ftdkanlj
+    model: TS0222
+    deviceProfileName: temp-humid-illumin-battery
+  #- id: "_TZE200_znbl8dj5/TS0601"
+  #  deviceLabel: Tuya TS0601
+  #  manufacturer: _TZE200_znbl8dj5
+  #  model: TS0601
+  #  deviceProfileName: temp-humid-battery  # not works
+  - id: "Tuya/_TZ2000_hjsgdkfl"
+    deviceLabel: Tuya TS0201
+    manufacturer: _TZ2000_hjsgdkfl
+    model: TS0201
+    deviceProfileName: temp-humid-battery
+  - id: "_TZ3000_0s1izerx/TS0201"
+    deviceLabel: Tuya TS0201
+    manufacturer: _TZ3000_0s1izerx
+    model: TS0201
+    deviceProfileName: temp-humid-battery
+  - id: "Third Reality/3RTHS24BZ"
+    deviceLabel: Third Reality 3RTHS24BZ
+    manufacturer: Third Reality, Inc
+    model: 3RTHS24BZ
+    deviceProfileName: temp-humid-battery
+  - id: "_TZ3000_kchagk8y/TS0201"
+    deviceLabel: Tuya TS0201
+    manufacturer: _TZ3000_kchagk8y
+    model: TS0201
+    deviceProfileName: temp-humid-battery
+  - id: "_TZ3000_fie1dpkm/TS0201"
+    deviceLabel: Tuya TS0201
+    manufacturer: _TZ3000_fie1dpkm
+    model: TS0201
+    deviceProfileName: temp-humid-battery
+  - id: "_TZ3000_ywagc4rj/TS0201"
+    deviceLabel: Tuya TS0201
+    manufacturer: _TZ3000_ywagc4rj
+    model: TS0201
+    deviceProfileName: temp-humid-battery
+  - id: "TUYATEC-yg5dcbfu/RH3052"
+    deviceLabel: Tuya RH3052
+    manufacturer: TUYATEC-yg5dcbfu
+    model: RH3052
+    deviceProfileName: temp-humid-battery
+  - id: "_TZ3000_xr3htd96/TS0201"
+    deviceLabel: Tuya TS0201
+    manufacturer: _TZ3000_xr3htd96
+    model: TS0201
+    deviceProfileName: temp-humid-battery
+  - id: "_TZ3000_itnrsufe/TS0201"
+    deviceLabel: Tuya TS0201
+    manufacturer: _TZ3000_itnrsufe
+    model: TS0201
+    deviceProfileName: temp-humid-battery
+  - id: "LUMI/RS-THP-MP-1.0"
+    deviceLabel: Aqara WSDCGQ01LM
+    manufacturer: LUMI
+    model: RS-THP-MP-1.0
+    deviceProfileName: temp-humid-press-battery
+  - id: eWeLink/SNZB-02P
+    deviceLabel: eWeLink Multipurpose Sensor
+    manufacturer: eWeLink
+    model: SNZB-02P
+    deviceProfileName: temp-humid-battery
+  - id: SONOFF/SNZB-02D
+    deviceLabel: SONOFF Multipurpose Sensor
+    manufacturer: SONOFF
+    model: SNZB-02D
+    deviceProfileName: temp-humid-battery
+  - id: "_TYZB01_kvwjujy9/TS0222"
+    deviceLabel: Tuya TS0222
+    manufacturer: _TYZB01_kvwjujy9
+    model: TS0222
+    deviceProfileName: temp-humid-illumin-battery
+  - id: "TUYATEC-gqhxixyk/RH3052"
+    deviceLabel: Moes RH3052
+    manufacturer: TUYATEC-gqhxixyk
+    model: RH3052
+    deviceProfileName: temp-humid-battery
+  - id: "_TZ3000_rdhukkmi/TS0201"
+    deviceLabel: Tuya TS0201
+    manufacturer: _TZ3000_rdhukkmi
+    model: TS0201
+    deviceProfileName: temp-humid-battery
+  - id: "_TZ3000_zl1kmjqx/TY0201"
+    deviceLabel: Tuya TS0201
+    manufacturer: _TZ3000_zl1kmjqx
+    model: TY0201
+    deviceProfileName: temp-humid-battery
+  - id: "_TZ3000_qaaysllp/TS0201"
+    deviceLabel: Tuya TS0201
+    manufacturer: _TZ3000_qaaysllp
+    model: TS0201
+    deviceProfileName: temp-humid-illumin-battery
+  - id: "_TZ3000_kky16aay/TS0222"
+    deviceLabel: YIERYI Soil Sensor
+    manufacturer: _TZ3000_kky16aay
+    model: TS0222
+    deviceProfileName: temp-humid-illumin-battery
+  - id: "_TZ3000_zl1kmjqx"
+    deviceLabel: Tuya Temp Sensor
+    manufacturer: _TZ3000_zl1kmjqx
+    # model: TY0201
+    deviceProfileName: temp-humid-battery
+  - id: "_TZ3000_bjawzodf/TY0201"
+    deviceLabel: Tuya TS0201
+    manufacturer: _TZ3000_bjawzodf
+    model: TY0201
+    deviceProfileName: temp-humid-battery
+  - id: "_TZE200_a8sdabtg/TS0601"
+    deviceLabel: Tuya TS0601
+    manufacturer: _TZE200_a8sdabtg
+    model: TS0601
+    deviceProfileName: temp-humid-battery  # works ??
+  - id: "_TZ3210_ncw88jfq/TY0201"
+    deviceLabel: Tuya TS0201
+    manufacturer: _TZ3210_ncw88jfq
+    model: TY0201
+    deviceProfileName: temp-humid-battery
