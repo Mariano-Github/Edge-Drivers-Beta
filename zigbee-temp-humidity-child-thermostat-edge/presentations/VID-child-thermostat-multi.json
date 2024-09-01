@@ -1,6 +1,6 @@
 {
     "mnmn": "SmartThingsCommunity",
-    "vid": "446450a9-1d7e-3d81-843d-98a9d39b330c",
+    "vid": "c7b66a55-d61e-3b13-aae7-9249eaea89b0",
     "version": "0.0.1",
     "type": "profile",
     "dashboard": {
@@ -16,7 +16,7 @@
             },
             {
                 "component": "main",
-                "capability": "temperatureMeasurement",       
+                "capability": "temperatureMeasurement",
                 "version": 1,
                 "idx": 0,
                 "group": "Temperature",
@@ -25,7 +25,7 @@
             },
             {
                 "component": "main",
-                "capability": "thermostatOperatingState",     
+                "capability": "thermostatOperatingState",
                 "version": 1,
                 "idx": 0,
                 "group": "Operating State",
@@ -175,7 +175,17 @@
                 "component": "main",
                 "capability": "temperatureMeasurement",
                 "version": 1,
-                "values": [],
+                "values": [
+                    {
+                        "key": "temperature.value",
+                        "enabledValues": [],
+                        "range": [
+                            -100,
+                            250
+                        ],
+                        "step": 1
+                    }
+                ],
                 "patch": [],
                 "exclusion": []
             },
@@ -335,6 +345,6 @@
             }
         ]
     },
-    "presentationId": "446450a9-1d7e-3d81-843d-98a9d39b330c",
+    "presentationId": "c7b66a55-d61e-3b13-aae7-9249eaea89b0",
     "manufacturerName": "SmartThingsCommunity"
 }

@@ -1,6 +1,6 @@
 {
     "mnmn": "SmartThingsCommunity",
-    "vid": "7d4b606c-0c14-388f-98fe-875425807680",
+    "vid": "505646b9-eea5-37fc-be22-06a94102160a",
     "version": "0.0.1",
     "type": "profile",
     "dashboard": {
@@ -175,7 +175,17 @@
                 "component": "main",
                 "capability": "temperatureMeasurement",
                 "version": 1,
-                "values": [],
+                "values": [
+                    {
+                        "key": "temperature.value",
+                        "enabledValues": [],
+                        "range": [
+                            -100,
+                            250
+                        ],
+                        "step": 1
+                    }
+                ],
                 "patch": [],
                 "exclusion": []
             },
@@ -335,6 +345,6 @@
             }
         ]
     },
-    "presentationId": "7d4b606c-0c14-388f-98fe-875425807680",
+    "presentationId": "505646b9-eea5-37fc-be22-06a94102160a",
     "manufacturerName": "SmartThingsCommunity"
 }

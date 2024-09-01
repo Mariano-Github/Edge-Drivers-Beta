@@ -125,7 +125,17 @@
                 "component": "main",
                 "capability": "temperatureMeasurement",
                 "version": 1,
-                "values": [],
+                "values": [
+                    {
+                        "key": "temperature.value",
+                        "enabledValues": [],
+                        "range": [
+                            -100,
+                            250
+                        ],
+                        "step": 1
+                    }
+                ],
                 "patch": [],
                 "exclusion": []
             },
