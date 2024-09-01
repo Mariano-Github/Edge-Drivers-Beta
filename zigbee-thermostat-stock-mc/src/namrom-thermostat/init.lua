@@ -10,6 +10,8 @@ local ThermostatOperatingState = capabilities.thermostatOperatingState
 --local utils             = require "st.utils"
 local device_management = require "st.zigbee.device_management"
 local data_types = require "st.zigbee.data_types"
+local ElectricalMeasurement = clusters.ElectricalMeasurement
+local SimpleMetering = clusters.SimpleMetering
 
 local write = require "writeAttribute"
 
@@ -147,6 +149,14 @@ local function do_configure(self, device)
   device:send(Thermostat.attributes.ControlSequenceOfOperation:configure_reporting(device, 10, 600))
   device:send(Thermostat.attributes.SystemMode:configure_reporting(device, 10, 600))
   device:send(Thermostat.attributes.ThermostatRunningState:configure_reporting(device, 10, 300))
+
+  -- Additional one time configuration
+    -- Divisor and multipler for EnergyMeter
+    device:send(ElectricalMeasurement.attributes.ACPowerDivisor:read(device))
+    device:send(ElectricalMeasurement.attributes.ACPowerMultiplier:read(device))
+    -- Divisor and multipler for PowerMeter
+    device:send(SimpleMetering.attributes.Divisor:read(device))
+    device:send(SimpleMetering.attributes.Multiplier:read(device))
 
   print("doConfigure performed, transitioning device to PROVISIONED") --23/12/23
   device:try_update_metadata({ provisioning_state = "PROVISIONED" })

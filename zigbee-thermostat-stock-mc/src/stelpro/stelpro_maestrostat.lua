@@ -25,7 +25,9 @@ local ThermostatOperatingState = capabilities.thermostatOperatingState
 
 local STELPRO_THERMOSTAT_FINGERPRINTS = {
   { mfr = "Stelpro", model = "MaestroStat" },
-  { mfr = "Stelpro", model = "SMT402AD" } -- added M.Colmenarejo
+  { mfr = "Stelpro", model = "SMT402AD" }, -- added M.Colmenarejo
+  { mfr = "Stelpro", model = "SMT402AD01" }, -- added M.Colmenarejo
+  { mfr = "Stelpro", model = "" } -- added M.Colmenarejo "SMT402AD01" is nil in fingerprints
 }
 
 local is_stelpro_thermostat = function(opts, driver, device)

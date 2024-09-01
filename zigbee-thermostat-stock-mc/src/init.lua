@@ -228,7 +228,7 @@ local do_configure = function(self, device)
   device:send(Thermostat.attributes.OccupiedCoolingSetpoint:configure_reporting(device, 30, 600, 50))
   device:send(Thermostat.attributes.ThermostatRunningState:configure_reporting(device, 30, 300))
   device:send(Thermostat.attributes.SystemMode:configure_reporting(device, 1, 0, 1))
-  device:send(Thermostat.attributes.ThermostatRunningState:configure_reporting(device, 30, 300))
+  device:send(Thermostat.attributes.ThermostatRunningMode:configure_reporting(device, 30, 300))
 end
 
 local device_added = function(self, device)
@@ -329,7 +329,8 @@ local zigbee_thermostat_driver = {
     lazy_load_if_possible("vimar"),
     lazy_load_if_possible("sonoff"),
     lazy_load_if_possible("iris-duraflame"),
-    lazy_load_if_possible("namrom-plug")
+    lazy_load_if_possible("namrom-plug"),
+    lazy_load_if_possible("namrom-thermostat-Hvit"),
   },
 }
 

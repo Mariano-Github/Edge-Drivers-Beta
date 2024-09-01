@@ -85,6 +85,16 @@ zigbeeManufacturer:
     manufacturer: Stelpro
     model: SMT402AD
     deviceProfileName: thermostat-stelpro-profile
+  - id: "Stelpro/SMT402AD01" # Added M.colmenarejo
+    deviceLabel: Stelpro Thermostat
+    manufacturer: Stelpro
+    model: SMT402AD01
+    deviceProfileName: thermostat-stelpro-profile-no-humid
+  - id: "Stelpro/SMT402AD01/nil" # Added M.colmenarejo "SMT402AD01" is nil in fingerprints
+    deviceLabel: Stelpro Thermostat
+    manufacturer: Stelpro
+    model: ""
+    deviceProfileName: thermostat-stelpro-profile-no-humid
   - id: "Stelpro/ST218"
     deviceLabel: Stelpro Thermostat
     manufacturer: Stelpro
@@ -177,6 +187,16 @@ zigbeeManufacturer:
     manufacturer: NAMRON AS
     model: 4512749-N
     deviceProfileName: namrom-plug
+  - id: "Namron AS/4512758"
+    deviceLabel: NAMRON Thermostat Hvit White
+    manufacturer: Namron AS
+    model: 4512758
+    deviceProfileName: namrom-thermostat-hvit
+  - id: "Namron AS/4512759"
+    deviceLabel: NAMRON Thermostat Hvit Black
+    manufacturer: Namron AS
+    model: 4512759
+    deviceProfileName: namrom-thermostat-hvit
 zigbeeGeneric:
   - id: "genericThermostat"
     deviceLabel: Zigbee Thermostat
