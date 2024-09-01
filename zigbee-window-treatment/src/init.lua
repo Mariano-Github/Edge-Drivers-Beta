@@ -64,8 +64,10 @@ local function do_Preferences (self, device)
   local model_len = string.len(model)
 
   print("Device ID", device)
-  print("Manufacturer >>>", manufacturer, "Manufacturer_Len >>>",manufacturer_len)
-  print("Model >>>", model,"Model_len >>>",model_len)
+  print("Manufacturer >>>", manufacturer)
+  print("Manufacturer_Len >>>",manufacturer_len)
+  print("Model >>>", model)
+  print("Model_len >>>",model_len)
   local firmware_full_version = device.data.firmwareFullVersion
   print("<<<<< Firmware Version >>>>>",firmware_full_version)
   -- This will print in the log the total memory in use by Lua in Kbytes

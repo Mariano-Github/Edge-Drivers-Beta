@@ -207,13 +207,25 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_wptayaqr
     model: TS130F
     deviceProfileName: window-treatment-profile-calib
+  #Agosto 2024
+  - id: "TS130F/_TZ3000_ctbafvhm"
+    deviceLabel: TS130F Window Treatment
+    manufacturer: _TZ3000_ctbafvhm
+    model: TS130F
+    deviceProfileName: window-treatment-profile-calib
+  # this device has invisible character in manufacturer and model
+  - id: "Legrand/K 4027C"
+    deviceLabel: BTICINO LIVING NOW K 4027C
+    manufacturer: Legrand
+    model: Shutter SW with level control
+    deviceProfileName: window-treatment-profile-generic    
 zigbeeGeneric:
   - id: "genericShade"
     deviceLabel: Zigbee Window Treatment
     clusters:
       server:
         - 0x0102 #Window Covering
-    deviceProfileName: window-treatment-profile
+    deviceProfileName: window-treatment-profile-generic
   - id: "genericShade-battery"
     deviceLabel: Zigbee Window Treatment
     clusters:

@@ -112,6 +112,8 @@ local ikea_window_treatment = {
       return true, subdriver
     elseif device:get_manufacturer() == "Third Reality, Inc" then
       return true, subdriver
+    --elseif device:get_manufacturer() == "Legrand" then
+      --return true, subdriver
     end
     subdriver = nil
     return false

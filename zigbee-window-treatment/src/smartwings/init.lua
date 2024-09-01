@@ -24,6 +24,9 @@ local is_smartwings_window_shade = function(opts, driver, device)
   if device:get_manufacturer() == "Smartwings" then
     local subdriver = require("smartwings")
     return true, subdriver
+  elseif device.preferences.reverse == true then
+    local subdriver = require("smartwings")
+    return true, subdriver
   end
   return false
 end

@@ -1,4 +1,4 @@
-name: window-treatment-profile
+name: window-treatment-profile-generic
 components:
 - id: main
   capabilities:
@@ -16,4 +16,6 @@ components:
   - name: Blind
 preferences:
   - preferenceId: presetPosition
+    explicit: true
+  - preferenceId: reverse
     explicit: true
