@@ -585,3 +585,28 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_wijoqjk1
     model: TS0001
     deviceProfileName: single-switch
+  - id: "_TZ3000_bmqxalil/TS0001"
+    deviceLabel: TS0001 Switch
+    manufacturer: _TZ3000_bmqxalil
+    model: TS0001
+    deviceProfileName: single-switch
+  - id: "_TZ3210_cm9mbpr1/Fingerboot"
+    deviceLabel: Hej Fingerbot Plus
+    manufacturer: _TZ3210_cm9mbpr1
+    model: TS0001
+    deviceProfileName: switch-battery
+  - id: "_TZ3000_jrpdaujd/TS0001"
+    deviceLabel: WL-SW01 Switch 30A
+    manufacturer: _TZ3000_jrpdaujd
+    model: TS0001
+    deviceProfileName: single-switch-plug
+  - id: "IKEA/TRETAKT"
+    deviceLabel: IKEA TRETAKT Plug
+    manufacturer: IKEA of Sweden
+    model: TRETAKT Smart plug
+    deviceProfileName: single-switch-plug
+  - id: "_TZ3000_y4che4dc/TS0001"
+    deviceLabel: TS0001 Switch
+    manufacturer: _TZ3000_y4che4dc
+    model: TS0001
+    deviceProfileName: single-switch
