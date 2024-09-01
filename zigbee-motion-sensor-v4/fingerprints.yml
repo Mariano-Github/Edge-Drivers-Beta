@@ -465,3 +465,24 @@ zigbeeManufacturer:
     manufacturer: _TZ3210_wuhzzfqg
     model: TS0202
     deviceProfileName: motion-temp-humidity-illumin-battery
+  - id: "_TZE200_kb5noeto/TS0601"
+    deviceLabel: ZG-204ZM Motion Sensor
+    manufacturer: _TZE200_kb5noeto
+    model: TS0601
+    deviceProfileName: motion-illuminance
+  - id: "TUYATEC-deetibst/Motion"
+    deviceLabel: TUYATEC Motion Sensor
+    manufacturer: TUYATEC-deetibst
+    model: RH3040
+    deviceProfileName: motion-battery
+  #Agosto 2024
+  - id: "TTUYATEC-kmfarmcu/Motion"
+    deviceLabel: RH3040 Motion Sensor
+    manufacturer: TUYATEC-kmfarmcu
+    model: RH3040
+    deviceProfileName: motion-battery
+  - id: "Schneider Electric/CCT595011_AS"
+    deviceLabel: Schneider CCT595011_AS Motion Sensor
+    manufacturer: Schneider Electric
+    model: CCT595011_AS
+    deviceProfileName: motion-illuminance

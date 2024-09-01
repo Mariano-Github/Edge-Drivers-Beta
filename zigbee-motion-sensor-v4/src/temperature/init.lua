@@ -29,6 +29,8 @@ local can_handle = function(opts, driver, device)
       return true, subdriver
     elseif device:get_manufacturer() == "NAMRON AS" then
       return true, subdriver
+    elseif device:get_manufacturer() == "Sunricher" and device:get_model() == "HK-SENSOR-4IN1-A" then
+      return true, subdriver
     elseif device:get_manufacturer() == "Develco Products A/S" and (device:get_model() == "MOSZB-140" or device:get_model() == "MOSZB-130") then
       return true, subdriver
     end
