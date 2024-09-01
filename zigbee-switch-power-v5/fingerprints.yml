@@ -240,10 +240,10 @@ zigbeeManufacturer:
     model: Mains_Power_Outlet_v1.0
     deviceProfileName: switch-power-energy-plug
   - id: "TS011F/_TZ3000_okaz9tjs"
-    deviceLabel: TS011F Plug
+    deviceLabel: LSPA9ZB20 TS011F Plug
     manufacturer: _TZ3000_okaz9tjs
     model: TS011F
-    deviceProfileName: switch-power-energy-plug-refresh
+    deviceProfileName: switch-power-energy-plug # refresh
   - id: "TS011F/_TZ3000_ko6v90pg"
     deviceLabel: TS011F Plug
     manufacturer: _TZ3000_ko6v90pg

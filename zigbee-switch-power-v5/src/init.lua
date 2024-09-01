@@ -195,6 +195,23 @@ local function do_configure(self, device)
       device:send(write.custom_write_attribute(device, 0x0000, 0x1000, data_types.Enum8, 0, 0x1224))
     end
 
+    if device:get_manufacturer() == "_TZ3000_okaz9tjs" then -- -- default data_type is Int16 need Uint16
+      local config =
+      {
+        cluster = 0x0B04,
+        attribute = 0x050B,
+        minimum_interval = 30,
+        maximum_interval = 420,
+        reportable_change = 5,
+        data_type = data_types.Uint16,
+      }
+      device:add_configured_attribute(config)
+      device:add_monitored_attribute(config)
+
+      -- disable RMS volts
+      --device:send(zcl_clusters.ElectricalMeasurement.attributes.RMSVoltage:configure_reporting(device, 0xFFFF, 0xFFFF,0xFFFF))
+    end
+
     -- Configure OnOff interval report
     local config ={
       cluster = zcl_clusters.OnOff.ID,
@@ -554,7 +571,7 @@ local function device_init(self ,device)
     device:get_manufacturer() == "_TZ3000_1h2x4akh" or
     device:get_manufacturer() == "lumi.plug.mmeu01" or
     ---device:get_manufacturer() == "_TZ3000_gvn91tmx" or
-    device:get_manufacturer() == "_TZ3000_okaz9tjs" or
+    --device:get_manufacturer() == "_TZ3000_okaz9tjs" or -- removed for data_type Int16 Invalid and custom configured
     --device:get_manufacturer() == "_TZ3000_kdi2o9m6" or -- ONLY FOR MY TEST
     device:get_manufacturer() == "_TZ3000_g5xawfcq" then
       device:try_update_metadata({profile = "switch-power-energy-plug-refresh"})
