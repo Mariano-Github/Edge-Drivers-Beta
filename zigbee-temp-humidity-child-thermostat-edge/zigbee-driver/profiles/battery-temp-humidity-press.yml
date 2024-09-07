@@ -1,9 +1,7 @@
-name: illumin-temp-humid-press
+name: battery-temp-humid-press
 components:
 - id: main
   capabilities:
-  - id: illuminanceMeasurement
-    version: 1
   - id: temperatureMeasurement
     version: 1
   - id: relativeHumidityMeasurement
@@ -22,9 +20,7 @@ components:
     version: 1
   - id: legendabsolute60149.humidityTarget
     version: 1
-  - id: legendabsolute60149.illuminCondition
-    version: 1
-  - id: legendabsolute60149.illuminTarget
+  - id: battery
     version: 1
   - id: legendabsolute60149.signalMetrics
     version: 1
@@ -47,15 +43,6 @@ preferences:
     definition:
       minimum: -150
       maximum: 150
-      default: 0
-  - name: "luxOffset"
-    title: "Illuminance Offset (Lux)"
-    description: "Illuminance Offset (-15 Lux to 15 Lux)"
-    required: false
-    preferenceType: integer
-    definition:
-      minimum: -15
-      maximum: 15
       default: 0
   - name: "version"
     title: "Version 5.2 (Jan 2024)"
@@ -81,17 +68,17 @@ preferences:
     preferenceType: boolean
     definition:
       default: false
-  - name: "changeProfileTHPI"
+  - name: "changeProfileTHPB"
     title: "Select Tile Type"
-    description: "Select Multi-Tile or Single-Tile Temperature-Humidity or Single Humidity-Temperature or Single Illuminance-Temperature or Single Atmos Press-Temperature or Single Atmos Press mb-Temperature or Single Atmos Press Rate Change-Temperature. (Default: Single-Tile Temperature-Humidity)"
+    description: "Select Multi-Tile or Single-Tile Temperature-Humidity or Single Humidity-Temperature or Single Humidity-Temperature or Single Atmos Press-Temperature or Single Atmos Press mb-Temperature or Single Atmos Press Rate Change-Temperature. (Default: Single-Tile Temperature-Humidity)"
     required: false
     preferenceType: enumeration
     definition:
       options:
         "Multi" : "Multi-Tile Type"
         "Single": "Single-Tile Temperature-Humidity"
-        "SingleHumidity": "Single Humidity-Temperature"
-        "SingleIlluminance": "Single Illuminance-Temperature"
+        "SingleBatt": "Single-Tile Temperature-Battery"
+        "SingleHumidity": "Single-Tile Humidity-Temperature"
         "SinglePressure": "Single Atmospheric Press-Temperature"
         "SinglePressureMb": "Single Atmos Press mb-Temperature"
         "SinglePressChange": "Single Press Rate Change-Temperature"
@@ -142,24 +129,6 @@ preferences:
       minimum: 1
       maximum: 10
       default: 1
-  - name: "illuMaxTime"
-    title: "Illuminance Report Interval (min)"
-    description: "Select Illuminance Report Max. Interval (5 min to 300 min)"
-    required: false
-    preferenceType: integer
-    definition:
-      minimum: 5
-      maximum: 300
-      default: 15   
-  - name: "illuChangeRep"
-    title: "Illuminance Reportable Change (lux)"
-    description: "Select Illuminance Reportable Change 1 Lux to 30 Lux"
-    required: false
-    preferenceType: integer
-    definition:
-      minimum: 1
-      maximum: 30
-      default: 15
   - name: "pressMaxTime"
     title: "At. Pressure Report Interval (min)"
     description: "Select At. Pressure Report Max. Interval (5 min to 300 min). WARNING: For the best performance of the Atm Pressure Rate Change calculation use 5 to 15 minutes interval"
@@ -198,23 +167,20 @@ deviceConfig:
   dashboard:
     states:
       - component: main
-        capability: illuminanceMeasurement
+        capability: temperatureMeasurement
         version: 1
         group: main
         composite: true
       - component: main
-        capability: temperatureMeasurement       
+        capability: battery
         version: 1
         group: main
         values:
-          - label: " | {{temperature.value}} {{temperature.unit}}"
+          - label: " Batt:{{battery.value}} {{battery.unit}}"
         composite: true
     actions: []
     basicPlus: []
   detailView:
-    - component: main
-      capability: illuminanceMeasurement
-      version: 1
     - component: main
       capability: temperatureMeasurement
       version: 1
@@ -231,16 +197,10 @@ deviceConfig:
       capability: legendabsolute60149.atmPressureRateChange
       version: 1
     - component: main
-      capability: legendabsolute60149.atmosPressure
-      version: 1
-    - component: main
       capability: legendabsolute60149.tempCondition2
       version: 1
     - component: main
       capability: legendabsolute60149.humidityCondition
-      version: 1
-    - component: main
-      capability: legendabsolute60149.illuminCondition
       version: 1
     - component: main
       capability: battery
@@ -266,16 +226,10 @@ deviceConfig:
         capability: legendabsolute60149.atmPressureRateChange
         version: 1
       - component: main
-        capability: illuminanceMeasurement
-        version: 1
-      - component: main
         capability: legendabsolute60149.tempTarget
         version: 1
       - component: main
         capability: legendabsolute60149.humidityTarget
-        version: 1
-      - component: main
-        capability: legendabsolute60149.illuminTarget
         version: 1
       - component: main
         capability: battery
@@ -286,7 +240,4 @@ deviceConfig:
         version: 1
       - component: main
         capability: legendabsolute60149.humidityCondition
-        version: 1
-      - component: main
-        capability: legendabsolute60149.illuminCondition
         version: 1

@@ -29,7 +29,7 @@ components:
   - id: firmwareUpdate
     version: 1
   categories:
-  - name: Thermostat
+  - name: TempHumiditySensor
 preferences:
   - preferenceId: tempOffset
     explicit: true  
@@ -161,8 +161,5 @@ preferences:
     definition:
       default: false
 metadata:
-  deviceType: Thermostat	
-  ocfDeviceType: oic.d.thermostat
-  deviceTypeId: Thermostat
   mnmn: SmartThingsCommunity
   vid: 2b3121ed-8759-3b0c-a6dc-11b93028d3a9

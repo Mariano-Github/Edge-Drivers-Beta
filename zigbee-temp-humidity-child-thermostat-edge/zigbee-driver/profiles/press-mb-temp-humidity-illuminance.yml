@@ -1,8 +1,8 @@
-name: illumin-temp-humid-press
+name: press-mb-temp-humid-illumin
 components:
 - id: main
   capabilities:
-  - id: illuminanceMeasurement
+  - id: legendabsolute60149.atmosPressure
     version: 1
   - id: temperatureMeasurement
     version: 1
@@ -10,9 +10,9 @@ components:
     version: 1
   - id: atmosphericPressureMeasurement
     version: 1
-  - id: legendabsolute60149.atmosPressure
-    version: 1
   - id: legendabsolute60149.atmPressureRateChange
+    version: 1
+  - id: illuminanceMeasurement
     version: 1
   - id: legendabsolute60149.tempCondition2
     version: 1
@@ -70,13 +70,6 @@ preferences:
   - name: "childThermostat"
     title: "Create Virtual Thermostat Device"
     description: "Create Virtual Thermostat Device:"
-    required: false
-    preferenceType: boolean
-    definition:
-      default: false
-  - name: "childBatteries"
-    title: "Create devices batt status Virtual"
-    description: "Create devices batt status Virtual"
     required: false
     preferenceType: boolean
     definition:
@@ -198,12 +191,12 @@ deviceConfig:
   dashboard:
     states:
       - component: main
-        capability: illuminanceMeasurement
+        capability: legendabsolute60149.atmosPressure
         version: 1
         group: main
         composite: true
       - component: main
-        capability: temperatureMeasurement       
+        capability: temperatureMeasurement
         version: 1
         group: main
         values:
@@ -213,7 +206,7 @@ deviceConfig:
     basicPlus: []
   detailView:
     - component: main
-      capability: illuminanceMeasurement
+      capability: legendabsolute60149.atmosPressure
       version: 1
     - component: main
       capability: temperatureMeasurement
@@ -225,13 +218,10 @@ deviceConfig:
       capability: atmosphericPressureMeasurement
       version: 1
     - component: main
-      capability: legendabsolute60149.atmosPressure
-      version: 1
-    - component: main
       capability: legendabsolute60149.atmPressureRateChange
       version: 1
     - component: main
-      capability: legendabsolute60149.atmosPressure
+      capability: illuminanceMeasurement
       version: 1
     - component: main
       capability: legendabsolute60149.tempCondition2

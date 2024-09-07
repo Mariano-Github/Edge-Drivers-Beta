@@ -33,7 +33,7 @@ components:
   - id: firmwareUpdate
     version: 1
   categories:
-  - name: Thermostat
+  - name: TempHumiditySensor
 preferences:
   - preferenceId: tempOffset
     explicit: true  
@@ -76,17 +76,18 @@ preferences:
       default: false
   - name: "changeProfileTHPI"
     title: "Select Tile Type"
-    description: "Select Multi-Tile or Single-Tile Temperature or Single-Tile Humidity or Single-Tile Illuminance or Single-Tile Atmos Pressure or or Single-Tile Atmos Pressure Rate Change:"
+    description: "Select Multi-Tile or Single-Tile Temperature-Humidity or Single Humidity-Temperature or Single Illuminance-Temperature or Single Atmos Press-Temperature or Single Atmos Press mb-Temperature or Single Atmos Press Rate Change-Temperature. (Default: Single-Tile Temperature-Humidity)"
     required: false
     preferenceType: enumeration
     definition:
       options:
         "Multi" : "Multi-Tile Type"
-        "Single": "Single-Tile Temperature"
-        "SingleHumidity": "Single-Tile Humidity"
-        "SingleIlluminance": "Single-Tile Illuminance"
-        "SinglePressure": "Single-Tile Atmospheric Pressure"
-        "SinglePressChange": "Single-Tile Pressure Rate Change"
+        "Single": "Single-Tile Temperature-Humidity"
+        "SingleHumidity": "Single Humidity-Temperature"
+        "SingleIlluminance": "Single Illuminance-Temperature"
+        "SinglePressure": "Single Atmospheric Press-Temperature"
+        "SinglePressureMb": "Single Atmos Press mb-Temperature"
+        "SinglePressChange": "Single Press Rate Change-Temperature"
       default: "Single"
   - name: "thermTempUnits"
     title: "Select Temp Condition Units"
@@ -186,9 +187,96 @@ preferences:
     preferenceType: boolean
     definition:
       default: false
-metadata:
-  deviceType: Thermostat	
-  ocfDeviceType: oic.d.thermostat
-  deviceTypeId: Thermostat
-  #mnmn: SmartThingsCommunity
-  #vid: d010e46e-f77f-3856-8367-783b2eb01419
+deviceConfig:
+  dashboard:
+    states:
+      - component: main
+        capability: temperatureMeasurement
+        version: 1
+        group: main
+        composite: true
+      - component: main
+        capability: relativeHumidityMeasurement
+        version: 1
+        group: main
+        values:
+          - label: " | {{humidity.value}} {{humidity.unit}}"
+        composite: true
+    actions: []
+    basicPlus: []
+  detailView:
+    - component: main
+      capability: temperatureMeasurement
+      version: 1
+    - component: main
+      capability: relativeHumidityMeasurement
+      version: 1
+    - component: main
+      capability: atmosphericPressureMeasurement
+      version: 1
+    - component: main
+      capability: legendabsolute60149.atmosPressure
+      version: 1
+    - component: main
+      capability: legendabsolute60149.atmPressureRateChange
+      version: 1
+    - component: main
+      capability: illuminanceMeasurement
+      version: 1
+    - component: main
+      capability: legendabsolute60149.tempCondition2
+      version: 1
+    - component: main
+      capability: legendabsolute60149.humidityCondition
+      version: 1
+    - component: main
+      capability: legendabsolute60149.illuminCondition
+      version: 1
+    - component: main
+      capability: battery
+      version: 1
+    - component: main
+      capability: refresh
+      version: 1
+  automation:
+    conditions:
+      - component: main
+        capability: temperatureMeasurement
+        version: 1
+      - component: main
+        capability: relativeHumidityMeasurement
+        version: 1
+      - component: main
+        capability: atmosphericPressureMeasurement
+        version: 1
+      - component: main
+        capability: legendabsolute60149.atmosPressure
+        version: 1
+      - component: main
+        capability: legendabsolute60149.atmPressureRateChange
+        version: 1
+      - component: main
+        capability: illuminanceMeasurement
+        version: 1
+      - component: main
+        capability: legendabsolute60149.tempTarget
+        version: 1
+      - component: main
+        capability: legendabsolute60149.humidityTarget
+        version: 1
+      - component: main
+        capability: legendabsolute60149.illuminTarget
+        version: 1
+      - component: main
+        capability: battery
+        version: 1
+    actions:
+      - component: main
+        capability: legendabsolute60149.tempCondition2
+        version: 1
+      - component: main
+        capability: legendabsolute60149.humidityCondition
+        version: 1
+      - component: main
+        capability: legendabsolute60149.illuminCondition
+        version: 1

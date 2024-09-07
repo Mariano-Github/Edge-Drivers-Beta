@@ -197,16 +197,6 @@ preferences:
       minimum: -50.0
       maximum: 250.0
       default: 28.0
-  #- name: "fanCyclic"
-  #  title: "Select Circulate Fan Cyclic Mode"
-  #  description: "Select Circulate Fan Cyclic Mode"
-  #  required: true
-  #  preferenceType: enumeration
-  #  definition:
-  #    options:
-  #      "Yes" : "Yes"
-  #      "No": "No"
-  #    default: "No"
   - name: "onTime"
     title: "Select time for ON Fan Programmed"
     description: "Select time for ON Fan Programmed Mode (1 min to 60 min)"

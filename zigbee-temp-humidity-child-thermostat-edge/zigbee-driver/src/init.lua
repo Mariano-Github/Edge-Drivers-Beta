@@ -283,6 +283,8 @@ local function do_preferences(self, device)
            device:try_update_metadata({profile = "temp-humid-battery-multi"})
         elseif newParameterValue == "Single" then
            device:try_update_metadata({profile = "temp-humid-battery"})
+        elseif newParameterValue == "SingleBatt" then
+          device:try_update_metadata({profile = "battery-temp-humid"})
         elseif newParameterValue == "SingleHumidity" then
           device:try_update_metadata({profile = "humid-temp-battery"})
         end
@@ -291,10 +293,14 @@ local function do_preferences(self, device)
           device:try_update_metadata({profile = "temp-humid-press-battery-multi"})
         elseif newParameterValue == "Single" then
           device:try_update_metadata({profile = "temp-humid-press-battery"})
+        elseif newParameterValue == "SingleBatt" then
+          device:try_update_metadata({profile = "battery-temp-humid-press"})
         elseif newParameterValue == "SingleHumidity" then
           device:try_update_metadata({profile = "humid-temp-press-battery"})
         elseif newParameterValue == "SinglePressure" then
           device:try_update_metadata({profile = "press-temp-humid-battery"})
+        elseif newParameterValue == "SinglePressureMb" then
+          device:try_update_metadata({profile = "press-mb-temp-humid-battery"})
         elseif newParameterValue == "SinglePressChange" then
           device:try_update_metadata({profile = "press-change-temp-humid-battery"})
         end
@@ -307,6 +313,8 @@ local function do_preferences(self, device)
           device:try_update_metadata({profile = "humid-temp-press-illumin"})
         elseif newParameterValue == "SinglePressure" then
           device:try_update_metadata({profile = "press-temp-humid-illumin"})
+        elseif newParameterValue == "SinglePressureMb" then
+          device:try_update_metadata({profile = "press-mb-temp-humid-illumin"})
         elseif newParameterValue == "SinglePressChange" then
           device:try_update_metadata({profile = "press-change-temp-humid-illumin"})
         elseif newParameterValue == "SingleIlluminance" then
@@ -318,6 +326,8 @@ local function do_preferences(self, device)
           device:try_update_metadata({profile = "temp-humid-illumin-battery-multi"})
         elseif newParameterValue == "Single" then
           device:try_update_metadata({profile = "temp-humid-illumin-battery"})
+        elseif newParameterValue == "SingleBatt" then
+          device:try_update_metadata({profile = "battery-temp-humid-illumin"})
         elseif newParameterValue == "SingleHumidity" then
           device:try_update_metadata({profile = "humid-temp-illumin-battery"})
         elseif newParameterValue == "SingleIlluminance" then
@@ -721,17 +731,23 @@ local function do_init(self,device)
       -- initialice device profiles
     if device.preferences.changeProfileTHB == "Single" then
         device:try_update_metadata({profile = "temp-humid-battery"})
+    elseif device.preferences.changeProfileTHB == "SingleBatt" then
+      device:try_update_metadata({profile = "battery-temp-humid"})
     elseif device.preferences.changeProfileTHB == "SingleHumidity" then
       device:try_update_metadata({profile = "humid-temp-battery"})
     elseif device.preferences.changeProfileTHB == "Multi" then
         device:try_update_metadata({profile = "temp-humid-battery-multi"})
 
     elseif device.preferences.changeProfileTHPB == "Single" then
-        device:try_update_metadata({profile = "temp-humid-press-battery"})
+      device:try_update_metadata({profile = "temp-humid-press-battery"})
+    elseif device.preferences.changeProfileTHPB == "SingleBatt" then
+      device:try_update_metadata({profile = "battery-temp-humid-press"})
     elseif device.preferences.changeProfileTHPB == "SingleHumidity" then
       device:try_update_metadata({profile = "humid-temp-illumin-battery"})
     elseif device.preferences.changeProfileTHPB == "SinglePressure" then
       device:try_update_metadata({profile = "press-temp-humid-battery"})
+    elseif device.preferences.changeProfileTHPB == "SinglePressureMb" then
+      device:try_update_metadata({profile = "press-mb-temp-humid-battery"})
     elseif device.preferences.changeProfileTHPB == "SinglePressChange" then
       device:try_update_metadata({profile = "press-change-temp-humid-battery"})    
     elseif device.preferences.changeProfileTHPB == "Multi" then
@@ -743,6 +759,8 @@ local function do_init(self,device)
       device:try_update_metadata({profile = "humid-temp-press-illumin"})    
     elseif device.preferences.changeProfileTHPI == "SinglePressure" then 
       device:try_update_metadata({profile = "press-temp-humid-illumin"})
+    elseif device.preferences.changeProfileTHPI == "SinglePressureMb" then 
+      device:try_update_metadata({profile = "press-mb-temp-humid-illumin"})
     elseif device.preferences.changeProfileTHPI == "SinglePressChange" then 
       device:try_update_metadata({profile = "press-change-temp-humid-illumin"})
     elseif device.preferences.changeProfileTHPI == "SingleIlluminance" then 
@@ -751,7 +769,9 @@ local function do_init(self,device)
       device:try_update_metadata({profile = "temp-humid-press-illumin-multi"})
     
     elseif device.preferences.changeProfileTHIB == "Single" then
-        device:try_update_metadata({profile = "temp-humid-illumin-battery"})
+      device:try_update_metadata({profile = "temp-humid-illumin-battery"})
+    elseif device.preferences.changeProfileTHIB == "SingleBatt" then
+      device:try_update_metadata({profile = "battery-temp-humid-illumin"})
     elseif device.preferences.changeProfileTHIB == "SingleHumidity" then
       device:try_update_metadata({profile = "humid-temp-illumin-battery"})
     elseif device.preferences.changeProfileTHIB == "SingleIlluminance" then

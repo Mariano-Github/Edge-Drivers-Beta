@@ -29,7 +29,7 @@ components:
   - id: firmwareUpdate
     version: 1
   categories:
-  - name: Thermostat
+  - name: TempHumiditySensor
 preferences:
   - preferenceId: tempOffset
     explicit: true  
@@ -70,16 +70,18 @@ preferences:
       default: false
   - name: "changeProfileTHPB"
     title: "Select Tile Type"
-    description: "Select Multi-Tile or Single-Tile Temperature or Single-Tile Humidity or Single-Tile Atmos Pressure or or Single-Tile Atmos Pressure Rate Change:"
+    description: "Select Multi-Tile or Single-Tile Temperature-Humidity or Single Humidity-Temperature or Single Humidity-Temperature or Single Atmos Press-Temperature or Single Atmos Press mb-Temperature or Single Atmos Press Rate Change-Temperature. (Default: Single-Tile Temperature-Humidity)"
     required: false
     preferenceType: enumeration
     definition:
       options:
         "Multi" : "Multi-Tile Type"
-        "Single": "Single-Tile Temperature"
-        "SingleHumidity": "Single-Tile Humidity"
-        "SinglePressure": "Single-Tile Atmospheric Pressure"
-        "SinglePressChange": "Single-Tile Pressure Rate Change"
+        "Single": "Single-Tile Temperature-Humidity"
+        "SingleBatt": "Single-Tile Temperature-Battery"
+        "SingleHumidity": "Single-Tile Humidity-Temperature"
+        "SinglePressure": "Single Atmospheric Press-Temperature"
+        "SinglePressureMb": "Single Atmos Press mb-Temperature"
+        "SinglePressChange": "Single Press Rate Change-Temperature"
       default: "Single"
   - name: "thermTempUnits"
     title: "Select Temp Condition Units"
@@ -161,9 +163,81 @@ preferences:
     preferenceType: boolean
     definition:
       default: false
-metadata:
-  deviceType: Thermostat	
-  ocfDeviceType: oic.d.thermostat
-  deviceTypeId: Thermostat
-  #mnmn: SmartThingsCommunity
-  #vid: 87e90a0a-ec33-399a-9d52-4ba4b32a6581
+deviceConfig:
+  dashboard:
+    states:
+      - component: main
+        capability: relativeHumidityMeasurement
+        version: 1
+        group: main
+        composite: true
+      - component: main
+        capability: temperatureMeasurement
+        version: 1
+        group: main
+        values:
+          - label: " | {{temperature.value}} {{temperature.unit}}"
+        composite: true
+    actions: []
+    basicPlus: []
+  detailView:
+    - component: main
+      capability: relativeHumidityMeasurement
+      version: 1
+    - component: main
+      capability: temperatureMeasurement
+      version: 1
+    - component: main
+      capability: atmosphericPressureMeasurement
+      version: 1
+    - component: main
+      capability: legendabsolute60149.atmosPressure
+      version: 1
+    - component: main
+      capability: legendabsolute60149.atmPressureRateChange
+      version: 1
+    - component: main
+      capability: legendabsolute60149.tempCondition2
+      version: 1
+    - component: main
+      capability: legendabsolute60149.humidityCondition
+      version: 1
+    - component: main
+      capability: battery
+      version: 1
+    - component: main
+      capability: refresh
+      version: 1
+  automation:
+    conditions:
+      - component: main
+        capability: temperatureMeasurement
+        version: 1
+      - component: main
+        capability: relativeHumidityMeasurement
+        version: 1
+      - component: main
+        capability: atmosphericPressureMeasurement
+        version: 1
+      - component: main
+        capability: legendabsolute60149.atmosPressure
+        version: 1
+      - component: main
+        capability: legendabsolute60149.atmPressureRateChange
+        version: 1
+      - component: main
+        capability: legendabsolute60149.tempTarget
+        version: 1
+      - component: main
+        capability: legendabsolute60149.humidityTarget
+        version: 1
+      - component: main
+        capability: battery
+        version: 1
+    actions:
+      - component: main
+        capability: legendabsolute60149.tempCondition2
+        version: 1
+      - component: main
+        capability: legendabsolute60149.humidityCondition
+        version: 1
