@@ -194,9 +194,6 @@ deviceConfig:
       capability: atmosphericPressureMeasurement
       version: 1
     - component: main
-      capability: legendabsolute60149.atmosPressure
-      version: 1
-    - component: main
       capability: legendabsolute60149.atmPressureRateChange
       version: 1
     - component: main

@@ -215,7 +215,7 @@ deviceConfig:
       capability: relativeHumidityMeasurement
       version: 1
     - component: main
-      capability: atmosPressure
+      capability: legendabsolute60149.atmosPressure
       version: 1
     - component: main
       capability: legendabsolute60149.atmPressureRateChange

@@ -218,7 +218,7 @@ deviceConfig:
       capability: atmosphericPressureMeasurement
       version: 1
     - component: main
-      capability: atmosPressure
+      capability: legendabsolute60149.atmosPressure
       version: 1
     - component: main
       capability: illuminanceMeasurement
