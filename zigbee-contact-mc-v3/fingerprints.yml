@@ -160,6 +160,11 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_402jjyro
     model: TS0203
     deviceProfileName: contact-battery-profile
+  - id: "_TZ3000_qld3y9tu/Close Sensor"
+    deviceLabel: TS0203 Close Sensor
+    manufacturer: _TZ3000_qld3y9tu
+    model: TS0203
+    deviceProfileName: contact-battery-profile
   - id: "Visonic/MCT-370 SMA"
     deviceLabel: Tyco Open/Closed Sensor
     manufacturer: Visonic
