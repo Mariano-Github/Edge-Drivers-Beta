@@ -50,7 +50,9 @@ local devices = {
   GAS_DETECTOR = {
     FINGERPRINTS = {
       { mfr = "_TYZB01_mfccmeio", model = "TS0204" },
-      { mfr = "LUMI", model = "lumi.sensor_gas.acn02" },
+      { mfr = "_TYZB01_0w3d5uw", model = "TS0204" },
+      { mfr = "feibit", model = "FNB56-GAS05FB1.4" },
+      { mfr = "LUMI", model = "lumi.sensor_gas.acn02" }
     },
     CONFIGURATION = {
       {

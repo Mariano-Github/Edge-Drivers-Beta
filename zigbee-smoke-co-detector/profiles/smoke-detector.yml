@@ -1,8 +1,8 @@
-name: gas-detector
+name: smoke-detector
 components:
 - id: main
   capabilities:
-  - id: gasDetector
+  - id: smokeDetector
     version: 1
   - id: legendabsolute60149.signalMetrics
     version: 1
@@ -15,7 +15,7 @@ components:
 preferences:
   - name: "changeProfile"
     title: "Set Profile Type"
-    description: "Select Profile for Gas Detector or Smoke Detector.(Default = Gas Detector)"
+    description: "Select Profile for Gas Detector or Smoke Detector. (Default = Gas Detector)"
     required: false
     preferenceType: enumeration
     definition:

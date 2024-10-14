@@ -38,6 +38,12 @@ local function do_preferences(self, device)
         if newParameterValue == true then
           child_devices.create_new(self, device, "main", "child-batteries-status")
         end
+      elseif id == "changeProfile" then
+        if newParameterValue == "Smoke" then
+          device:try_update_metadata({profile = "smoke-detector"})
+        else --if newParameterValue == "Smoke"
+          device:try_update_metadata({profile = "gas-detector"})
+        end
       end
     end
   end

@@ -68,15 +68,14 @@ end
   end
 
   --- do_driverSwitched
-local function do_driverSwitched(self, device) --23/12/23
-  print("<<<< DriverSwitched >>>>")
-  device.thread:call_with_delay(3, function(d)
-    do_configure(self, device)
-    --print("doConfigure performed, transitioning device to PROVISIONED")
-    --device:try_update_metadata({ provisioning_state = "PROVISIONED" })
-  end, "configure") 
+  local function do_driverSwitched(self, device) --23/12/23
+    print("<<<< DriverSwitched >>>>")
+    device.thread:call_with_delay(3, function(d)
+      do_configure(self, device)
+    end, "configure") 
  end
 
+ 
 local heiman_SMOK_V16 = {
   NAME = "heiman_SMOK_V16",
   lifecycle_handlers = {

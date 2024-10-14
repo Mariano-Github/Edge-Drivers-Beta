@@ -23,10 +23,11 @@ local configurationMap = require "configurations"
 
 local is_gas_detector = function(opts, driver, device)
   if device.network_type ~= "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE
-    if (device:get_manufacturer() == "LUMI" and device:get_model() == "lumi.sensor_gas.acn02") or
-      (device:get_manufacturer() == "feibit" and device:get_model() == "FNB56-GAS05FB1.4") or
-      (device:get_manufacturer() == "_TYZB01_mfccmeio" and device:get_model() == "TS0204") then -- gas detector
-      --or (device:get_manufacturer() == "_TYZB01_18pkine6" and device:get_model() == "TS0204")
+  if device.preferences.changeProfile == "Gas" then
+    --if (device:get_manufacturer() == "LUMI" and device:get_model() == "lumi.sensor_gas.acn02") or
+      --(device:get_manufacturer() == "feibit" and device:get_model() == "FNB56-GAS05FB1.4") or
+      --(device:get_manufacturer() == "_TYZB01_mfccmeio" and device:get_model() == "TS0204") or
+      --(device:get_manufacturer() == "_TYZB01_0w3d5uw3" and device:get_model() == "TS0204") then -- gas detector
       local subdriver = require("gas-handler")
       return true, subdriver
     end
@@ -61,7 +62,8 @@ local function ias_zone_status_change_handler(driver, device, zb_rx)
   generate_event_from_zone_status(driver, device, zone_status, zb_rx)
 end
 
-local function added(driver, device)
+local function  device_init(driver, device)
+  print("<< Gas device Init >>")
   local configuration = configurationMap.get_device_configuration(device)
     if configuration ~= nil then
       for _, attribute in ipairs(configuration) do
@@ -69,6 +71,27 @@ local function added(driver, device)
         device:add_monitored_attribute(attribute)
       end
     end
+end
+
+--do Configure
+local function do_configure(self, device)
+  print("<< Gas do Configure >>")
+  local configuration = configurationMap.get_device_configuration(device)
+  if configuration ~= nil then
+    for _, attribute in ipairs(configuration) do
+      device:add_configured_attribute(attribute)
+      device:add_monitored_attribute(attribute)
+    end
+  end
+  device:configure()
+end
+
+--- do_driverSwitched
+local function do_driverSwitched(self, device) --23/12/23
+  print("<<<< Gas DriverSwitched >>>>")
+  device.thread:call_with_delay(3, function(d)
+    do_configure(self, device)
+  end, "configure") 
 end
 
 local gas_detector = {
@@ -90,7 +113,10 @@ local gas_detector = {
     },
   },
   lifecycle_handlers = {
-    added = added
+    --added = added,
+    init = device_init,
+    doConfigure = do_configure,
+    driverSwitched = do_driverSwitched
   },
   ias_zone_configuration_method = constants.IAS_ZONE_CONFIGURE_TYPE.AUTO_ENROLL_RESPONSE,
 

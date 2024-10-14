@@ -188,3 +188,8 @@ zigbeeManufacturer:
     manufacturer: feibit
     model: FNB56-GAS05FB1.4
     deviceProfileName: gas-detector
+  - id: "TS0204/_TYZB01_0w3d5uw3"
+    deviceLabel: TS0204 Gas Sensor
+    manufacturer: _TYZB01_0w3d5uw3
+    model: TS0204
+    deviceProfileName: gas-detector
