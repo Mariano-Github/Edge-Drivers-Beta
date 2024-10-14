@@ -46,4 +46,12 @@ function write.write_attribute_function(device, cluster_id, attr_id, data_value)
   end
   write.custom_write_attribute = custom_write_attribute
 
+  function write.custom_read_attribute(device, cluster_id, attr_id, mfg_specific_code)
+    local message = cluster_base.read_attribute(device, data_types.ClusterId(cluster_id), data_types.AttributeId(attr_id))
+    message.body.zcl_header.frame_ctrl:set_mfg_specific()
+    message.body.zcl_header.mfg_code = data_types.validate_or_build_type(mfg_specific_code, data_types.Uint16, "mfg_code")
+  
+    return message
+  end
+
 return write

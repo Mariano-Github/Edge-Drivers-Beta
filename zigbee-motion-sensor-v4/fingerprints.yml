@@ -486,3 +486,18 @@ zigbeeManufacturer:
     manufacturer: Schneider Electric
     model: CCT595011_AS
     deviceProfileName: motion-illuminance
+  - id: "eWeLink/SNZB-03P"
+    deviceLabel: Sonoff SNZB-03P Motion Sensor
+    manufacturer: eWeLink
+    model: SNZB-03P
+    deviceProfileName: motion-illuminance
+  - id: "_TZE200_bh3n6gk8/TS0601"
+    deviceLabel: Tuya ZG-204Z Motion Sensor
+    manufacturer: _TZE200_bh3n6gk8
+    model: TS0601
+    deviceProfileName: motion-battery-ef00
+  - id: "aqara/lumi.sensor_occupy.agl1"
+    deviceLabel: aqara FP1E Presence Sensor
+    manufacturer: aqara
+    model: lumi.sensor_occupy.agl1
+    deviceProfileName: aqara-fp1e

@@ -27,7 +27,8 @@ local TUYA_CLUSTER = 0xEF00
 
 local TUYA_MOTION_SENSOR_FINGERPRINTS = {
     { mfr = "_TZE200_3towulqd", model = "TS0601" },
-    { mfr = "_TZE200_mgxy2d9f", model = "TS0601" }
+    { mfr = "_TZE200_mgxy2d9f", model = "TS0601" },
+    { mfr = "_TZE200_bh3n6gk8", model = "TS0601" }
 }
 
 local is_tuya_motion = function(opts, driver, device)
@@ -57,7 +58,7 @@ end
 
 local do_configure = function(self, device)
   device:send(device_management.build_bind_request(device, PowerConfiguration.ID, self.environment_info.hub_zigbee_eui))
-  device:send(PowerConfiguration.attributes.BatteryPercentageRemaining:configure_reporting(device, 30, 21600, 1))
+  device:send(PowerConfiguration.attributes.BatteryPercentageRemaining:configure_reporting(device, 30, 3600, 1))
   device:send(clusters.PowerConfiguration.attributes.BatteryPercentageRemaining:read(device))
 
   -- Read binding table

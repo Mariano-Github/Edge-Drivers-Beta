@@ -1,0 +1,46 @@
+name: aqara-fp1e-motion-only
+components:
+- id: main
+  capabilities:
+  - id: motionSensor
+    version: 1
+  - id: legendabsolute60149.signalMetrics
+    version: 1
+  - id: refresh
+    version: 1
+  - id: firmwareUpdate
+    version: 1
+  categories:
+  - name: MotionSensor
+preferences:
+  - name: "version"
+    title: "Version 6.3 (Oct 2024)"
+    description: "Added: Aqara FP1E"
+    required: false
+    preferenceType: string
+    definition:
+      stringType: text
+      minLength: 0
+      maxLength: 0
+      default: ""
+  - name: "changeProfileFp1e"
+    title: "Set Profile Type"
+    description: "Select Profile for Motion only or Motion and Motion Type Capabilities (Default = Motion and Motion Type)"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "MotionType" : "Motion and Motion Type"
+        "Motion": "Motion only"
+      default: "MotionType"
+  - name: "sensitivityFp1"
+    title: "Select Sensor Sensitivity Level"
+    description: "Select Motion Sensitivity Level (Low, Midium, High). Default : High"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        1 : "Low"
+        2 : "Medium"
+        3 : "High"
+      default: 3  

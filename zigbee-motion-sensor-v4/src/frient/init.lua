@@ -46,7 +46,7 @@ local function add_illuminance(self,device)
   print ("Illuminance maxTime y changeRep: ",maxTime, changeRep )
 
   device:send(device_management.build_bind_request(device, zcl_clusters.IlluminanceMeasurement.ID, self.environment_info.hub_zigbee_eui))--:to_endpoint (0x27))
-  device:send(zcl_clusters.IlluminanceMeasurement.attributes.MeasuredValue:configure_reporting(device, 60, maxTime, changeRep):to_endpoint (0x27))
+  device:send(zcl_clusters.IlluminanceMeasurement.attributes.MeasuredValue:configure_reporting(device, 1, maxTime, changeRep):to_endpoint (0x27))
   device:send(device_management.build_bind_request(device, zcl_clusters.OccupancySensing.ID, self.environment_info.hub_zigbee_eui))--:to_endpoint (0x28))
   device:send(zcl_clusters.OccupancySensing.attributes.Occupancy:configure_reporting(device, 0, 3600):to_endpoint (0x22))
 

@@ -59,6 +59,8 @@ local function no_offline(self,device)
         else
           device:emit_event(capabilities.motionSensor.motion.inactive())
         end
+        local value = "Refresh state: ".. os.date("%Y/%m/%d GMT: %H:%M",os.time())
+        device:emit_event(signal_Metrics.signalMetrics({value = value}, {visibility = {displayed = false }}))
       end
       ,'Refresh state')
   end  
@@ -445,6 +447,8 @@ end
   local function do_refresh(driver, device)
     if device:supports_capability_by_id(capabilities.temperatureMeasurement.ID) then
       device:send(tempMeasurement.attributes.MeasuredValue:read(device))
+      --device:send(tempMeasurement.attributes.MaxMeasuredValue:read(device))
+      --device:send(tempMeasurement.attributes.MinMeasuredValue:read(device))
     end
     device:refresh()
   end
@@ -466,7 +470,6 @@ local zigbee_motion_driver = {
     init = do_init,
     infoChanged = do_preferences,
     driverSwitched = do_driverSwitched, -- 23/12/23
-    --driverSwitched = do_configure,
     doConfigure = do_configure
 },
 capability_handlers = {
@@ -506,7 +509,8 @@ zigbee_handlers = {
                   lazy_load_if_possible("frient"),
                   lazy_load_if_possible("namron"),
                   lazy_load_if_possible("ikea-vallhorn"),
-                  lazy_load_if_possible("battery-virtual-status")
+                  lazy_load_if_possible("battery-virtual-status"),
+                  lazy_load_if_possible("aqara-fp1e")
   },
   ias_zone_configuration_method = constants.IAS_ZONE_CONFIGURE_TYPE.AUTO_ENROLL_RESPONSE
 }
