@@ -394,6 +394,11 @@ zigbeeManufacturer:
     manufacturer: innr
     model: SP 242
     deviceProfileName: switch-power-energy-plug
+  - id: "RM3500ZB"
+    deviceLabel: Calypso smart water heater controller
+    manufacturer: Sinopé
+    model: RM3500ZB
+    deviceProfileName: switch-temp-voltage-power-energy-plug
 zigbeeGeneric:
   - id: "generic/switch/power"
     deviceLabel: Generic Switch Power
