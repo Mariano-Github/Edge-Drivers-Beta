@@ -7,7 +7,7 @@ local device_Info = capabilities["legendabsolute60149.deviceInfo"]
 
 local can_handle = function(opts, driver, device)
   --print("<<< Batteries status subdriver >>>>")
-  if device.network_type == "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE  
+  if device.network_type == "DEVICE_EDGE_CHILD" then -- is CHILD DEVICE  
     if device.preferences.profileType == "Batteries" then
       local subdriver = require("battery-virtual-status")
       return true, subdriver

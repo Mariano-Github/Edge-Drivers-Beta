@@ -19,6 +19,7 @@ local ZigbeeDriver = require "st.zigbee"
 local defaults = require "st.zigbee.defaults"
 local xiaomi_utils = require "xiaomi_utils"
 local data_types = require "st.zigbee.data_types"
+local cluster_base = require "st.zigbee.cluster_base"
 
 --- Temperature Mesurement config
 local zcl_clusters = require "st.zigbee.zcl.clusters"
@@ -26,6 +27,7 @@ local BasicInput = zcl_clusters.BasicInput
 local tempMeasurement = zcl_clusters.TemperatureMeasurement
 local device_management = require "st.zigbee.device_management"
 local tempMeasurement_defaults = require "st.zigbee.defaults.temperatureMeasurement_defaults"
+local battery_defaults = require "st.zigbee.defaults.battery_defaults"
 
 -- default Humidity Measurement
 local HumidityCluster = require ("st.zigbee.zcl.clusters").RelativeHumidity
@@ -182,17 +184,20 @@ if device.network_type == "DEVICE_EDGE_CHILD" then return end
   device:send(device_management.build_bind_request(device, zcl_clusters.IlluminanceMeasurement.ID, self.environment_info.hub_zigbee_eui))
   device:send(zcl_clusters.IlluminanceMeasurement.attributes.MeasuredValue:configure_reporting(device, 60, maxTime, changeRep))
  end
- ---battery configure
- if device:get_manufacturer() ~= "_TZ2000_a476raq2" then
+  ---battery configure
+  if device:get_manufacturer() == "_TZ2000_a476raq2" then
     print("Battery Config >>>>>>>>>")
     device:send(device_management.build_bind_request(device, zcl_clusters.PowerConfiguration.ID, self.environment_info.hub_zigbee_eui))
-    device:send(zcl_clusters.PowerConfiguration.attributes.BatteryPercentageRemaining:configure_reporting(device, 30, 21600, 1))
- else
-    device:send(device_management.build_bind_request(device, zcl_clusters.PowerConfiguration.ID, self.environment_info.hub_zigbee_eui))
     device:send(zcl_clusters.PowerConfiguration.attributes.BatteryVoltage:configure_reporting(device, 30, 21600, 1))
- end
- print("doConfigure performed, transitioning device to PROVISIONED") --23/12/23
- device:try_update_metadata({ provisioning_state = "PROVISIONED" })
+  elseif (device:get_manufacturer() == "LUMI" and device:get_model() == "lumi.sensor_ht.agl02") then
+    device:send(device_management.build_bind_request(device, zcl_clusters.PowerConfiguration.ID, self.environment_info.hub_zigbee_eui))
+    device:send(zcl_clusters.PowerConfiguration.attributes.BatteryVoltage:configure_reporting(device, 30, 3600, 1))
+  else
+    device:send(device_management.build_bind_request(device, zcl_clusters.PowerConfiguration.ID, self.environment_info.hub_zigbee_eui))
+    device:send(zcl_clusters.PowerConfiguration.attributes.BatteryPercentageRemaining:configure_reporting(device, 30, 21600, 1))
+  end
+  print("doConfigure performed, transitioning device to PROVISIONED") --23/12/23
+  device:try_update_metadata({ provisioning_state = "PROVISIONED" })
 end
 
 -- preferences update
@@ -278,6 +283,27 @@ local function do_preferences(self, device)
         print ("Illumin maxTime & changeRep: ", maxTime, changeRep)
         --device:send(device_management.build_bind_request(device, zcl_clusters.IlluminanceMeasurement.ID, self.environment_info.hub_zigbee_eui))
         device:send(zcl_clusters.IlluminanceMeasurement.attributes.MeasuredValue:configure_reporting(device, 60, maxTime, changeRep))
+      elseif id == "thermTempUnits" then
+        local temp_Condition_state, state_Unit = device:get_latest_state("main", temp_Condition.ID, temp_Condition.tempCondition.NAME)
+        if temp_Condition_state == nil then temp_Condition_state = 0 end
+        print("<<temp_Condition_state:", temp_Condition_state)
+        print("<<state_Unit:",state_Unit.unit)
+        if state_Unit.unit == "C" then
+          if newParameterValue == "Celsius" then
+            return
+          elseif newParameterValue == "Fahrenheit" then
+            local condition_temp = utils.round((temp_Condition_state * 9 / 5)) + 32
+            device:emit_event(temp_Condition.tempCondition({value = condition_temp, unit = "F"}))
+          end
+        elseif state_Unit.unit == "F" then
+          if newParameterValue == "Celsius" then
+            local condition_temp = utils.round((temp_Condition_state - 32) * 5/9)
+            device:emit_event(temp_Condition.tempCondition({value = condition_temp, unit = "C"}))
+          elseif newParameterValue == "Fahrenheit" then
+            return
+          end
+        end
+
       elseif id == "changeProfileTHB" then
         if newParameterValue == "Multi" then
            device:try_update_metadata({profile = "temp-humid-battery-multi"})
@@ -843,6 +869,27 @@ local function do_init(self,device)
       device:add_configured_attribute(config)
       device:add_monitored_attribute(config)            
     end
+
+    if (device:get_manufacturer() == "LUMI" and device:get_model() == "lumi.sensor_ht.agl02") then
+      local config ={
+      cluster =  zcl_clusters.PowerConfiguration.ID,
+      attribute =  zcl_clusters.PowerConfiguration.attributes.BatteryVoltage.ID,
+      minimum_interval = 30,
+      maximum_interval = 3600,
+      data_type =  zcl_clusters.PowerConfiguration.attributes.BatteryVoltage.base_type,
+      reportable_change = 1
+      }
+      device:add_configured_attribute(config)
+      device:add_monitored_attribute(config)
+
+      -- init battery voltage
+      battery_defaults.build_linear_voltage_init(2.6, 3.0)
+
+    elseif device:get_manufacturer() == "_TZ2000_a476raq2" then
+      -- init battery voltage
+      battery_defaults.build_linear_voltage_init(2.3, 3.0)
+    end
+
     local maxTime = device.preferences.tempMaxTime * 60
     local changeRep = device.preferences.tempChangeRep * 100
     print ("Temp maxTime & changeRep: ", maxTime, changeRep)
@@ -872,10 +919,11 @@ local function do_init(self,device)
     device:add_configured_attribute(config)
     device:add_monitored_attribute(config)
 
-    if device:get_latest_state("main", atm_Pressure_Rate_Change.ID, atm_Pressure_Rate_Change.atmPressureRateChange.NAME) == nil then
-      device:emit_event(atm_Pressure_Rate_Change.atmPressureRateChange({value = 0, unit = "mBar/h"}))
+    if device:supports_capability_by_id(atm_Pressure_Rate_Change.ID) then
+      if device:get_latest_state("main", atm_Pressure_Rate_Change.ID, atm_Pressure_Rate_Change.atmPressureRateChange.NAME) == nil then
+        device:emit_event(atm_Pressure_Rate_Change.atmPressureRateChange({value = 0, unit = "mBar/h"}))
+      end
     end
-
 end
 
 -----driver_switched
@@ -885,9 +933,22 @@ local function driver_switched(self,device)
 
   device.thread:call_with_delay(5, function() 
     do_configure(self,device)
-    --print("doConfigure performed, transitioning device to PROVISIONED")
-    --device:try_update_metadata({ provisioning_state = "PROVISIONED" })
   end)
+end
+
+local function added_handler(self, device)
+  if (device:get_manufacturer() == "LUMI" and device:get_model() == "lumi.sensor_ht.agl02") then
+    local PRIVATE_CLUSTER_ID = 0xFCC0
+    local PRIVATE_ATTRIBUTE_ID = 0x0009
+    local MFG_CODE = 0x115F
+    device:send(cluster_base.write_manufacturer_specific_attribute(device,
+      PRIVATE_CLUSTER_ID, PRIVATE_ATTRIBUTE_ID, MFG_CODE, data_types.Uint8, 1))
+    device:emit_event(capabilities.temperatureMeasurement.temperature({ value = 0, unit = "C" }))
+    device:emit_event(capabilities.relativeHumidityMeasurement.humidity(0))
+    device:emit_event(capabilities.battery.battery(100))
+  else 
+    device:refresh()
+  end
 end
 
 -- this new function in libraries version 9 allow load only subdrivers with devices paired
@@ -920,6 +981,7 @@ local zigbee_temp_driver = {
   },
   lifecycle_handlers = {
     init = do_init,
+    added = added_handler,
     doConfigure = do_configure,
     infoChanged = do_preferences,
     driverSwitched = driver_switched

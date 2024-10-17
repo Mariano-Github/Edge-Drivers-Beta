@@ -1,5 +1,5 @@
 name: 'Zigbee Temp Sensor and Child Thermostat Mc'
 packageKey: 'Zigbee_Temp_Humidity_Sensor_v6'
-description: 'Supported Devices: https://github.com/Mariano-Github/Edge-Drivers-Beta/blob/main/zigbee-temp-humidity-child-thermostat-edge/fingerprints.yml'
+description: 'Supported Devices: https://github.com/Mariano-Github/Edge-Drivers-Beta/blob/main/zigbee-temp-humidity-child-thermostat-edge/zigbee-driver/fingerprints.yml'
 permissions:
   zigbee: {}

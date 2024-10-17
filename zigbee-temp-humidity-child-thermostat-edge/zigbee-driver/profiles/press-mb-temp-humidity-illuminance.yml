@@ -236,6 +236,9 @@ deviceConfig:
       capability: battery
       version: 1
     - component: main
+      capability: legendabsolute60149.signalMetrics
+      version: 1
+    - component: main
       capability: refresh
       version: 1
   automation:

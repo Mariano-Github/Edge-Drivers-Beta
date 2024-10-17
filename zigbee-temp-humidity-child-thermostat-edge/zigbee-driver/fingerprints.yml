@@ -204,3 +204,8 @@ zigbeeManufacturer:
     manufacturer: _TZ3210_ncw88jfq
     model: TY0201
     deviceProfileName: temp-humid-battery
+  - id: "LUMI/lumi.sensor_ht.agl02"
+    deviceLabel: Aqara Temp & Humidity T1
+    manufacturer: LUMI
+    model: lumi.sensor_ht.agl02
+    deviceProfileName: temp-humid-press-battery
