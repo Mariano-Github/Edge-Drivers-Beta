@@ -18,7 +18,6 @@ local capabilities = require "st.capabilities"
 local ZigbeeDriver = require "st.zigbee"
 local defaults = require "st.zigbee.defaults"
 local zcl_clusters = require "st.zigbee.zcl.clusters"
---local OnOff = zcl_clusters.OnOff
 local utils = require "st.utils"
 local Groups = zcl_clusters.Groups
 
@@ -37,11 +36,9 @@ local get_Groups = capabilities["legendabsolute60149.getGroups"]
 local function setEnergyReset_handler(self,device,command)
   --print("command.args.value >>>>>", command.args.value)
   print(">>>> RESET Energy <<<<<")
-  --device:set_field("energy_Total", 0, {persist = false})
   device:emit_event_for_endpoint("main", capabilities.energyMeter.energy({value = 0, unit = "kWh" }))
   local date_reset = "Last: ".. string.format("%.3f",device:get_field("energy_Total")).." kWh".." ".."("..os.date("%m/%d/%Y",os.time() + device.preferences.localTimeOffset * 3600)..")"
   device:set_field("date_reset", date_reset, {persist = false})
-  --device:emit_event(energy_Reset.energyReset(command.args.value))
   device:emit_event(energy_Reset.energyReset(date_reset))
   device:set_field("energy_Total", 0, {persist = false})
 end
@@ -79,8 +76,9 @@ end
 
 --do_configure
 local function do_configure(self, device)
+  print("<< do Configure function >>")
+   --- _TZ3000_9hpxg80k need special configure in init lifecycle, read attribute on-off every 120 sec and not configure reports
   if device:get_manufacturer() ~= "_TZ3000_9hpxg80k" then
-    --device:configure()
     -- Configure OnOff interval report
     local config ={
       cluster = zcl_clusters.OnOff.ID,
@@ -125,19 +123,10 @@ local function driver_Switched(self,device)
     device:try_update_metadata({profile = "switch-irrigation"})
    end 
   device:refresh()
+
+   --- _TZ3000_9hpxg80k need special configure in init lifecycle, read attribute on-off every 120 sec and not configure reports
   if device:get_manufacturer() ~= "_TZ3000_9hpxg80k" then
     -- Configure OnOff interval report
-    local config ={
-      cluster = zcl_clusters.OnOff.ID,
-      attribute = zcl_clusters.OnOff.attributes.OnOff.ID,
-      minimum_interval = 0,
-      maximum_interval = device.preferences.onOffReports,
-      data_type = zcl_clusters.OnOff.attributes.OnOff.base_type
-    }
-    --device:send(zcl_clusters.OnOff.attributes.OnOff:configure_reporting(device, 0, device.preferences.onOffReports))
-    device:add_configured_attribute(config)
-    device:add_monitored_attribute(config)
-
     device.thread:call_with_delay(3, function(d) --23/12/23
       device:configure()
       print("doConfigure performed, transitioning device to PROVISIONED")
@@ -191,6 +180,7 @@ local zigbee_switch_driver_template = {
  sub_drivers = { require("tuya-fingerbot") }
 }
 -- run driver
-defaults.register_for_default_handlers(zigbee_switch_driver_template, zigbee_switch_driver_template.supported_capabilities)
+defaults.register_for_default_handlers(zigbee_switch_driver_template, zigbee_switch_driver_template.supported_capabilities, {native_capability_cmds_enabled = true})
+--defaults.register_for_default_handlers(zigbee_switch_driver_template, zigbee_switch_driver_template.supported_capabilities)
 local zigbee_switch = ZigbeeDriver("Zigbee_Switch_Mc", zigbee_switch_driver_template)
 zigbee_switch:run()

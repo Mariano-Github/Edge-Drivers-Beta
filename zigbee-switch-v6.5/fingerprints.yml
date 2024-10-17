@@ -610,3 +610,18 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_y4che4dc
     model: TS0001
     deviceProfileName: single-switch
+  - id: "_TZ3000_fdxihpp7/TS0001"
+    deviceLabel: TS0001 Plug
+    manufacturer: _TZ3000_fdxihpp7
+    model: TS0001
+    deviceProfileName: single-switch
+  - id: "_TZ3218_7fiyo3kv/TS000F"
+    deviceLabel: MHCOZY 16A Switch
+    manufacturer: _TZ3218_7fiyo3kv
+    model: TS000F
+    deviceProfileName: single-switch
+  - id: "_TZ3000_o1jzcxou/Plug"
+    deviceLabel: BSEED Plug
+    manufacturer: _TZ3000_o1jzcxou
+    model: TS011F
+    deviceProfileName: single-switch-plug

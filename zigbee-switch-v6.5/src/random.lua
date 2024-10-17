@@ -1,6 +1,5 @@
 --- Smartthings library load ---
 local capabilities = require "st.capabilities"
---local ZigbeeDriver = require "st.zigbee"
 local zcl_clusters = require "st.zigbee.zcl.clusters"
 local OnOff = zcl_clusters.OnOff
 local Groups = zcl_clusters.Groups
@@ -30,7 +29,6 @@ local last_signal_emit_time = os.time()
 local random_On_Off = capabilities["legendabsolute60149.randomOnOff2"]
 local random_Next_Step = capabilities["legendabsolute60149.randomNextStep2"]
 local energy_Reset = capabilities["legendabsolute60149.energyReset1"]
---local get_Groups = capabilities["legendabsolute60149.getGroups"]
 local signal_Metrics = capabilities["legendabsolute60149.signalMetrics"]
 --local driver_Version = capabilities["legendabsolute60149.driverVersion1"]
 
@@ -152,7 +150,6 @@ function driver_handler.do_init (self, device)
   local cap_status = device:get_latest_state("main", energy_Reset.ID,energy_Reset.energyReset.NAME)
   if cap_status == nil then
     local date_reset = "Last: ".. string.format("%.3f",device:get_field("energy_Total")).." kWh".." ".."("..os.date("%m/%d/%Y",os.time() + device.preferences.localTimeOffset * 3600)..")"
-    --local date_reset = "Last Reset Date: "..os.date("%m/%d/%Y").." (m/d/y)"
     device:set_field("date_reset", date_reset, {persist = false})
     device:emit_event(energy_Reset.energyReset(date_reset))
   end
@@ -256,6 +253,8 @@ function driver_handler.do_init (self, device)
   -- Configure OnOff monitoring attribute
   local interval =  device.preferences.onOffReports
   if  device.preferences.onOffReports == nil then interval = 300 end
+  --interval = 600
+  --print("<< Custom max interval in init:", interval)
   local config ={
     cluster = zcl_clusters.OnOff.ID,
     attribute = zcl_clusters.OnOff.attributes.OnOff.ID,
@@ -426,6 +425,17 @@ local function save_energy(self, device)
    device:emit_event_for_endpoint("main", capabilities.energyMeter.energy({value = energy_event, unit = "kWh" }))
    device:set_field("energy_Total", energy_Total, {persist = false})
    device:set_field("power_time_ini", os.time(), {persist = false})
+
+   -- calculate  capabilities.powerConsumptionReport
+  local delta_energy = 0.0
+  local current_power_consumption = device:get_latest_state("main", capabilities.powerConsumptionReport.ID, capabilities.powerConsumptionReport.powerConsumption.NAME)
+  if device.preferences.logDebugPrint == true then
+    print("<<< current_power_consumption >>>",current_power_consumption.energy)
+  end
+  if current_power_consumption ~= nil then
+    delta_energy = math.max((energy_Total * 1000) - current_power_consumption.energy, 0.0)
+  end
+  device:emit_event(capabilities.powerConsumptionReport.powerConsumption({energy = energy_Total * 1000, deltaEnergy = delta_energy })) -- the unit of these values should be 'Wh'
 end
 
 ---------------------------------------------------------
@@ -456,9 +466,6 @@ function driver_handler.on_off_attr_handler(self, device, value, zb_rx)
     end
 
     local gmt = os.date("%Y/%m/%d Time: %H:%M",os.time() + device.preferences.localTimeOffset * 3600)
-    --local dni = string.format("0x%04X", zb_rx.address_header.src_addr.value)
-    --local metrics = "<em table style='font-size:60%';'font-weight: bold'</em>".. "<b>GMT: </b>".. gmt .."<BR>"
-    --metrics = metrics .. "<b>DNI: </b>".. dni .. "  ".."<b> LQI: </b>" .. zb_rx.lqi.value .."  ".."<b>RSSI: </b>".. zb_rx.rssi.value .. "dbm".."</em>".."<BR>"
     local metrics = gmt .. ", LQI: ".. zb_rx.lqi.value .." ... rssi: ".. zb_rx.rssi.value
 
     device:emit_event(signal_Metrics.signalMetrics({value = metrics}, {visibility = {displayed = visible_satate }}))
@@ -510,7 +517,6 @@ function driver_handler.on_off_attr_handler(self, device, value, zb_rx)
       print("<<<<<<<<<< TIMER >>>>>>>")
 
       if device:get_field("last_state") == "on" then
-      --if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) == "on" then
         power = device.preferences.loadPower
         --- Energy calculation
         local power_time = (os.time() - device:get_field("power_time_ini")) / 3600
@@ -520,6 +526,17 @@ function driver_handler.on_off_attr_handler(self, device, value, zb_rx)
         local energy_event = tonumber(string.format("%.3f",energy_Total))
         device:emit_event_for_endpoint("main", capabilities.energyMeter.energy({value = energy_event, unit = "kWh" }))
         device:set_field("energy_Total", energy_Total, {persist = false})
+
+        -- calculate  capabilities.powerConsumptionReport
+        local delta_energy = 0.0
+        local current_power_consumption = device:get_latest_state("main", capabilities.powerConsumptionReport.ID, capabilities.powerConsumptionReport.powerConsumption.NAME)
+        if device.preferences.logDebugPrint == true then
+          print("<<< current_power_consumption >>>",current_power_consumption.energy)
+        end
+        if current_power_consumption ~= nil then
+          delta_energy = math.max((energy_Total * 1000) - current_power_consumption.energy, 0.0)
+        end
+        device:emit_event(capabilities.powerConsumptionReport.powerConsumption({energy = energy_Total * 1000, deltaEnergy = delta_energy })) -- the unit of these values should be 'Wh'
 
         ---- re-start timer if preferences changed
         if device:get_field("powerTimer_Changed") == "Yes" then
@@ -601,13 +618,10 @@ function driver_handler.random_on_off_handler(self,device,command)
       --Random timer calculation
       random_timer[device] = math.random(device.preferences.randomMin * 60, device.preferences.randomMax * 60)
     else
-      --if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) == "on" then
       if device:get_field("last_state") == "on" then
-        --device:set_field("last_state", "on", {persist = false})
         --Program timer calculation
         random_timer[device] = device.preferences.onTime * 60
       else
-        --device:set_field("last_state", "off", {persist = false})
         --Program timer calculation
         random_timer[device] = device.preferences.offTime * 60
       end
