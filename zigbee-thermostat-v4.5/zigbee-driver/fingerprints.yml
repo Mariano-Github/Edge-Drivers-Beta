@@ -234,3 +234,8 @@ zigbeeManufacturer:
     manufacturer: CentraLite
     model: 3325-S
     deviceProfileName: motion-temp-therm-battery-05
+  - id: "CentraLite/3320-L"
+    deviceLabel: Contact Sensor 3320-L
+    manufacturer: CentraLite
+    model: 3320-L
+    deviceProfileName: contact-temp-therm-battery-05

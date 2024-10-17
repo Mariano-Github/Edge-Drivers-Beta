@@ -263,6 +263,7 @@ local function thermostatMode_handler(self,device,command)
     thermostatOperatingState ="idle"
     device:emit_event(capabilities.thermostatOperatingState.thermostatOperatingState(thermostatOperatingState))
     device:set_field("thermostatOperatingState", thermostatOperatingState, {persist = false})
+
     --emit thermostat change state info
     local temp = device:get_latest_state("main", capabilities.temperatureMeasurement.ID, capabilities.temperatureMeasurement.temperature.NAME)
       local scale = "C"
@@ -339,6 +340,10 @@ local function thermostatMode_handler(self,device,command)
 
     -- thermostat calculations
     thermostat_data_check (self, device)
+  else
+    if device:get_field("thermostatFan_Mode") == "auto" and device:get_latest_state("main", fan_Cyclic_Mode.ID, fan_Cyclic_Mode.fanCyclicMode.NAME) ~= "Off" then
+      device:emit_event(fan_Cyclic_Mode.fanCyclicMode("Off"))
+    end
   end
 
   -- activate timer for fan_cycle
@@ -528,18 +533,6 @@ end
 --- do Configure
 local function do_Configure(self,device)
 
-  device:configure()
-
-  if device:get_manufacturer() == "KMPCIL" then
-    local maxTime = 900
-    local changeRep = math.floor(10000 * (math.log((2), 10)))
-    print ("Illumin maxTime & changeRep: ", maxTime, changeRep)
-    device:send(device_management.build_bind_request(device, zcl_clusters.IlluminanceMeasurement.ID, self.environment_info.hub_zigbee_eui))
-    device:send(zcl_clusters.IlluminanceMeasurement.attributes.MeasuredValue:configure_reporting(device, 60, maxTime, changeRep))
-  end
-  device:send(device_management.build_bind_request(device, tempMeasurement.ID, self.environment_info.hub_zigbee_eui))
-  device:send(tempMeasurement.attributes.MeasuredValue:configure_reporting(device, 30, 600, 10))
-
   if (device:get_manufacturer() == "SmartThings" and device:get_model()== "multiv4") or
   (device:get_manufacturer() == "Samjin" and device:get_model()== "multi") or
   (device:get_manufacturer() == "CentraLite" and device:get_model() == "3321-S") then
@@ -558,6 +551,21 @@ local function do_Configure(self,device)
           battery_defaults.build_linear_voltage_init(2.3, 3.0)
       end
   end
+
+  device:configure()
+
+  if device:get_manufacturer() == "KMPCIL" then
+    local maxTime = 900
+    local changeRep = math.floor(10000 * (math.log((2), 10)))
+    print ("Illumin maxTime & changeRep: ", maxTime, changeRep)
+    device:send(device_management.build_bind_request(device, zcl_clusters.IlluminanceMeasurement.ID, self.environment_info.hub_zigbee_eui))
+    device:send(zcl_clusters.IlluminanceMeasurement.attributes.MeasuredValue:configure_reporting(device, 60, maxTime, changeRep))
+  end
+  device:send(device_management.build_bind_request(device, tempMeasurement.ID, self.environment_info.hub_zigbee_eui))
+  device:send(tempMeasurement.attributes.MeasuredValue:configure_reporting(device, 30, 600, 10))
+
+  device:send(tempMeasurement.attributes.MaxMeasuredValue:read(device))
+  device:send(tempMeasurement.attributes.MinMeasuredValue:read(device))
 
   print("doConfigure performed, transitioning device to PROVISIONED") --23/12/23
   device:try_update_metadata({ provisioning_state = "PROVISIONED" })
@@ -722,7 +730,7 @@ local function do_init (self, device)
   --end
 
   --- thermostat lock state initialize
-  cap_state = device:get_latest_state("main", capabilities.thermostat_Locked.ID, capabilities.thermostat_Locked.thermostatLocked.NAME)
+  cap_state = device:get_latest_state("main", thermostat_Locked.ID, thermostat_Locked.thermostatLocked.NAME)
   if cap_state == nil then cap_state =  "Unlocked" end
   --if device:get_field("thermostat_Lock") == nil then 
   device:set_field("thermostat_Lock", cap_state, {persist = false}) --end
