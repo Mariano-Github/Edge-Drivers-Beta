@@ -1,20 +1,12 @@
-name: switch-power-energy
+name: switch-power-energy-meter-profile
 components:
 - id: main
   capabilities:
-  - id: switch
-    version: 1
-  - id: legendabsolute60149.randomOnOff2
-    version: 1
-  - id: legendabsolute60149.randomNextStep2
-    version: 1
   - id: powerMeter
     version: 1
   - id: energyMeter
     version: 1
   - id: powerConsumptionReport
-    version: 1
-  - id: legendabsolute60149.getGroups
     version: 1
   - id: legendabsolute60149.signalMetrics
     version: 1
@@ -23,7 +15,7 @@ components:
   - id: firmwareUpdate
     version: 1
   categories:
-  - name: SmartPlug
+  - name: CurbPowerMeter
 preferences:
   - name: "version"
     title: "Version 6.6 (Sep 2023)"
@@ -55,7 +47,7 @@ preferences:
       default: 0 
   - name: "changeProfileEner"
     title: "Select Profile Icon"
-    description: "Select Profile Icon. Option (Energy profile and icon) change to a profile without swith pushbutton. Default: Switch icon"
+    description: "Select Profile Icon. Option (Energy profile and icon) change to a profile without swith pushbutton. Default: Energy profile and icon"
     required: false
     preferenceType: enumeration
     definition:
@@ -65,7 +57,7 @@ preferences:
         "Light": "Light icon"
         "Energy": "Energy icon"
         "EnergyProfile": "Energy profile and icon"
-      default: "Switch"
+      default: "EnergyProfile"
   - name: "simpleMeteringDivisor1"
     title: "Custom Simple Metering Divisor"
     description: "If you device has Power & Energy measurement then this Custom Divisor is used for Total Energy Calcualtioins. Some devices could use it for Power Instantaneous Demand calcualtions too, instead the Active Power. SET TO DEFAULT VALUE= 0, TO USE DEFAULTS DIVISOR OF DRIVER."
@@ -95,42 +87,6 @@ preferences:
         "1": "device remains switched On"
         "255": "device restores previous state"
       default: "255"
-  - name: "randomMin"
-    title: "Random ON-OFF Minimum Time"
-    description: "Select Minimum Time ON-OFF Interval (0.5 min to 60 min)"
-    required: false
-    preferenceType: number
-    definition:
-      minimum: 0.5
-      maximum: 60
-      default: 1 
-  - name: "randomMax"
-    title: "Random ON-OFF Maximum Time"
-    description: "Select Maximum Time ON-OFF Interval (0.5 min to 60 min)"
-    required: false
-    preferenceType: number
-    definition:
-      minimum: 0.5
-      maximum: 60
-      default: 10 
-  - name: "onTime"
-    title: "Programmed time for ON State"
-    description: "Selec Programmed time for ON State (1 min to 60 min)"
-    required: false
-    preferenceType: integer
-    definition:
-      minimum: 1
-      maximum: 600
-      default: 10
-  - name: "offTime"
-    title: "Programmed time for OFF State"
-    description: "Selec Programmed time for OFF State (1 min to 60 min)"
-    required: false
-    preferenceType: integer
-    definition:
-      minimum: 1
-      maximum: 600
-      default: 10
   - name: "groupAdd"
     title: "Add Group Number"
     description: "Insert Group number to Add. Value = 0, Get All Groups in History Events"
@@ -166,6 +122,6 @@ preferences:
     definition:
       default: false
 metadata:
-  deviceType: Switch
-  ocfDeviceType: oic.d.switch
-  deviceTypeId: Switch
+  #deviceType: Switch
+  #ocfDeviceType: oic.d.switch
+  #deviceTypeId: Switch

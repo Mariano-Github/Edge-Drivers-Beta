@@ -55,14 +55,16 @@ preferences:
       default: 0 
   - name: "changeProfileEner"
     title: "Select Profile Icon"
-    description: "Select Profile Icon:"
+    description: "Select Profile Icon. Option (Energy profile and icon) change to a profile without swith pushbutton. Default: Light icon"
     required: false
     preferenceType: enumeration
     definition:
       options:
-        "Switch" : "Switch"
-        "Plug": "Plug"
-        "Light": "Light"
+        "Switch" : "Switch icon"
+        "Plug": "Plug icon"
+        "Light": "Light icon"
+        "Energy": "Energy icon"
+        "EnergyProfile": "Energy profile and icon"
       default: "Light"
   - name: "simpleMeteringDivisor1"
     title: "Custom Simple Metering Divisor"

@@ -1,4 +1,4 @@
-name: switch-power-energy
+name: switch-power-energy-meter
 components:
 - id: main
   capabilities:
@@ -23,7 +23,7 @@ components:
   - id: firmwareUpdate
     version: 1
   categories:
-  - name: SmartPlug
+  - name: CurbPowerMeter
 preferences:
   - name: "version"
     title: "Version 6.6 (Sep 2023)"
@@ -55,7 +55,7 @@ preferences:
       default: 0 
   - name: "changeProfileEner"
     title: "Select Profile Icon"
-    description: "Select Profile Icon. Option (Energy profile and icon) change to a profile without swith pushbutton. Default: Switch icon"
+    description: "Select Profile Icon. Option (Energy profile and icon) change to a profile without swith pushbutton. Default: Energy icon"
     required: false
     preferenceType: enumeration
     definition:
@@ -65,7 +65,7 @@ preferences:
         "Light": "Light icon"
         "Energy": "Energy icon"
         "EnergyProfile": "Energy profile and icon"
-      default: "Switch"
+      default: "Energy"
   - name: "simpleMeteringDivisor1"
     title: "Custom Simple Metering Divisor"
     description: "If you device has Power & Energy measurement then this Custom Divisor is used for Total Energy Calcualtioins. Some devices could use it for Power Instantaneous Demand calcualtions too, instead the Active Power. SET TO DEFAULT VALUE= 0, TO USE DEFAULTS DIVISOR OF DRIVER."
@@ -166,6 +166,6 @@ preferences:
     definition:
       default: false
 metadata:
-  deviceType: Switch
-  ocfDeviceType: oic.d.switch
-  deviceTypeId: Switch
+  #deviceType: Switch
+  #ocfDeviceType: oic.d.switch
+  #deviceTypeId: Switch

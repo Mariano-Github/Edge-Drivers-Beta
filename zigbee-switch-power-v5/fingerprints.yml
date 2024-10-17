@@ -394,6 +394,16 @@ zigbeeManufacturer:
     manufacturer: innr
     model: SP 242
     deviceProfileName: switch-power-energy-plug
+  #- id: "_TZ3000_fdxihpp7/TS0001" # does not support energy & power
+  #  deviceLabel: TS0001 Plug
+  #  manufacturer: _TZ3000_fdxihpp7
+  #  model: TS0001
+  #  deviceProfileName: switch-power-energy-plug-refresh
+  - id: "_TZ3000_3ias4w4o/TS011F"
+    deviceLabel: Nedis Plug
+    manufacturer: _TZ3000_3ias4w4o
+    model: TS011F
+    deviceProfileName: switch-power-energy-plug
 zigbeeGeneric:
   - id: "generic/switch/power"
     deviceLabel: Generic Switch Power

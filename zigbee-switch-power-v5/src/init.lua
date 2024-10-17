@@ -266,11 +266,12 @@ local function energy_meter_handler(driver, device, value, zb_rx)
   local multiplier = device:get_field(constants.SIMPLE_METERING_MULTIPLIER_KEY) or 1
   local divisor = device:get_field(constants.SIMPLE_METERING_DIVISOR_KEY) or 1
   raw_value = raw_value * multiplier/divisor
+  local offset = device:get_field(constants.ENERGY_METER_OFFSET) or 0
   if device.preferences.logDebugPrint == true then
     print("SIMPLE_METERING_DIVISOR_KEY >>>>", device:get_field(constants.SIMPLE_METERING_DIVISOR_KEY))
     print("ELECTRICAL_MEASUREMENT_DIVISOR_KEY >>>>>", device:get_field(constants.ELECTRICAL_MEASUREMENT_DIVISOR_KEY))
+    print("<< Energy Offset:", offset, " Kwh")
   end
-  local offset = device:get_field(constants.ENERGY_METER_OFFSET) or 0
   if raw_value < offset then
     --- somehow our value has gone below the offset, so we'll reset the offset, since the device seems to have
     offset = 0
@@ -373,6 +374,9 @@ end
 --- emit event to Global Command
 local function default_response_handler(driver, device, zb_rx)
   print("<<< GlobalCommand Handler >>>")
+  -- if profile does not have swicth button return
+  if not device:supports_capability_by_id(capabilities.switch.ID) then return end
+
   local status = zb_rx.body.zcl_body.status.value
   local cmd = zb_rx.body.zcl_body.cmd.value
 
@@ -412,9 +416,6 @@ local function default_response_handler(driver, device, zb_rx)
     visible_satate = true
   end
   local gmt = os.date("%Y/%m/%d Time: %H:%M",os.time() + device.preferences.localTimeOffset * 3600)
-  --local dni = string.format("0x%04X", zb_rx.address_header.src_addr.value)
-  --local metrics = "<em table style='font-size:70%';'font-weight: bold'</em>".. "<b>GMT: </b>".. gmt .."<BR>"
-  --metrics = metrics .. "<b>DNI: </b>".. dni .. "  ".."<b> LQI: </b>" .. zb_rx.lqi.value .."  ".."<b>RSSI: </b>".. zb_rx.rssi.value .. "dbm".."</em>".."<BR>"
   local metrics = gmt .. ", LQI: ".. zb_rx.lqi.value .." ... rssi: ".. zb_rx.rssi.value
   device:emit_event(signal_Metrics.signalMetrics({value = metrics}, {visibility = {displayed = visible_satate }}))
 
@@ -467,11 +468,11 @@ local function on_off_attr_handler(self, device, value, zb_rx)
     visible_satate = true
   end
   local gmt = os.date("%Y/%m/%d Time: %H:%M",os.time() + device.preferences.localTimeOffset * 3600)
-  --local dni = string.format("0x%04X", zb_rx.address_header.src_addr.value)
-  --local metrics = "<em table style='font-size:70%';'font-weight: bold'</em>".. "<b>GMT: </b>".. gmt .."<BR>"
-  --metrics = metrics .. "<b>DNI: </b>".. dni .. "  ".."<b> LQI: </b>" .. zb_rx.lqi.value .."  ".."<b>RSSI: </b>".. zb_rx.rssi.value .. "dbm".."</em>".."<BR>"
   local metrics = gmt .. ", LQI: ".. zb_rx.lqi.value .." ... rssi: ".. zb_rx.rssi.value
   device:emit_event(signal_Metrics.signalMetrics({value = metrics}, {visibility = {displayed = visible_satate }}))
+
+  -- if profile does not have swicth button return
+  if not device:supports_capability_by_id(capabilities.switch.ID) then return end
 
   local attr = capabilities.switch.switch
   --device:emit_event_for_endpoint(zb_rx.address_header.src_endpoint.value, value.value and attr.on() or attr.off())
@@ -547,38 +548,40 @@ end
 local function device_init(self ,device)
   print("<<< device_init >>>")
 
-    ------ Change profile & Icon
-  if device.preferences.changeProfile == "Switch" then
-    device:try_update_metadata({profile = "switch-power"})
-  elseif device.preferences.changeProfile == "Plug" then
-    device:try_update_metadata({profile = "switch-power-plug"})
-  elseif device.preferences.changeProfile == "Light" then
-    device:try_update_metadata({profile = "switch-power-light"})
-  elseif device.preferences.changeProfileEner == "Switch" then
-    device:try_update_metadata({profile = "switch-power-energy"})
-  elseif device.preferences.changeProfileEner == "Plug" then
-    device:try_update_metadata({profile = "switch-power-energy-plug"})
-  elseif device.preferences.changeProfileEner == "Light" then
-    device:try_update_metadata({profile = "switch-power-energy-light"})
-  elseif device.preferences.useAsSwitchOnly == true then
-    device:try_update_metadata({profile = "switch-power-energy-light"})
-  elseif device.preferences.useAsSwitchOnly == false then          
-    device:try_update_metadata({profile = "level-power-energy-light"})
-  end
+  --[[
+      ------ Change profile & Icon
+    if device.preferences.changeProfile == "Switch" then
+      device:try_update_metadata({profile = "switch-power"})
+    elseif device.preferences.changeProfile == "Plug" then
+      device:try_update_metadata({profile = "switch-power-plug"})
+    elseif device.preferences.changeProfile == "Light" then
+      device:try_update_metadata({profile = "switch-power-light"})
+    elseif device.preferences.changeProfileEner == "Switch" then
+      device:try_update_metadata({profile = "switch-power-energy"})
+    elseif device.preferences.changeProfileEner == "Plug" then
+      device:try_update_metadata({profile = "switch-power-energy-plug"})
+    elseif device.preferences.changeProfileEner == "Light" then
+      device:try_update_metadata({profile = "switch-power-energy-light"})
+    elseif device.preferences.useAsSwitchOnly == true then
+      device:try_update_metadata({profile = "switch-power-energy-light"})
+    elseif device.preferences.useAsSwitchOnly == false then          
+      device:try_update_metadata({profile = "level-power-energy-light"})
+    end
 
-  -- due to error in profile asign in hub firmware
-  if device:get_manufacturer() == "_TZ3000_9vo5icau" or 
-    device:get_manufacturer() == "_TZ3000_1h2x4akh" or
-    device:get_manufacturer() == "lumi.plug.mmeu01" or
-    ---device:get_manufacturer() == "_TZ3000_gvn91tmx" or
-    --device:get_manufacturer() == "_TZ3000_okaz9tjs" or -- removed for data_type Int16 Invalid and custom configured
-    --device:get_manufacturer() == "_TZ3000_kdi2o9m6" or -- ONLY FOR MY TEST
-    device:get_manufacturer() == "_TZ3000_g5xawfcq" then
-      device:try_update_metadata({profile = "switch-power-energy-plug-refresh"})
-  elseif device:get_model() == "4257050-RZHAC" then -- for fix and error, can delete 
-    --print("<< change profile >>")
-    device:try_update_metadata({profile = "switch-power-plug"})
-  end
+    -- due to error in profile asign in hub firmware
+    if device:get_manufacturer() == "_TZ3000_9vo5icau" or 
+      device:get_manufacturer() == "_TZ3000_1h2x4akh" or
+      device:get_manufacturer() == "lumi.plug.mmeu01" or
+      ---device:get_manufacturer() == "_TZ3000_gvn91tmx" or
+      --device:get_manufacturer() == "_TZ3000_okaz9tjs" or -- removed for data_type Int16 Invalid and custom configured
+      --device:get_manufacturer() == "_TZ3000_kdi2o9m6" or -- ONLY FOR MY TEST
+      device:get_manufacturer() == "_TZ3000_g5xawfcq" then
+        device:try_update_metadata({profile = "switch-power-energy-plug-refresh"})
+    elseif device:get_model() == "4257050-RZHAC" then -- for fix and error, can delete 
+      --print("<< change profile >>")
+      device:try_update_metadata({profile = "switch-power-plug"})
+    end
+ ]] 
 
   random.do_init(self,device)
 end
@@ -600,7 +603,7 @@ local zigbee_switch_driver_template = {
     random_On_Off,
     random_Next_Step,
     capabilities.refresh,
-    capabilities.tempMeasurement
+    --capabilities.temperatureMeasurement
   },
   lifecycle_handlers = {
     infoChanged = random.do_Preferences,
@@ -647,6 +650,6 @@ local zigbee_switch_driver_template = {
   sub_drivers = { require("device-temperature")},
 }
 -- run driver
-defaults.register_for_default_handlers(zigbee_switch_driver_template, zigbee_switch_driver_template.supported_capabilities)
+defaults.register_for_default_handlers(zigbee_switch_driver_template, zigbee_switch_driver_template.supported_capabilities, {native_capability_cmds_enabled = true})
 local zigbee_switch_power = ZigbeeDriver("Zigbee_Switch_power", zigbee_switch_driver_template)
 zigbee_switch_power:run()

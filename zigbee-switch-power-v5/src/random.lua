@@ -39,54 +39,56 @@ function driver_handler.do_init (self, device)
   random_timer[device] = math.random(10, 20)
 
   -- initialize random on-off
-  local cap_status = device:get_latest_state("main", random_On_Off.ID, random_On_Off.randomOnOff.NAME)
-  if cap_status == nil then
-    device:emit_event(random_On_Off.randomOnOff("Inactive"))
-    device:emit_event(random_Next_Step.randomNext("Inactive"))
-    device:set_field("random_state", "Inactive", {persist = false})
-  else
-    device:set_field("random_state", cap_status, {persist = false})
-    cap_status = device:get_latest_state("main", random_Next_Step.ID, random_Next_Step.randomNext.NAME)
-      if cap_status == nil then
-        device:emit_event(random_Next_Step.randomNext("Inactive"))
-      end
-      if cap_status ~= "Inactive" then
-        -- convert string next change to seconds of date type
-        local date = device:get_latest_state("main", random_Next_Step.ID, random_Next_Step.randomNext.NAME)
-        local hour = tonumber(string.sub (date, 1 , 2))
-        local min = tonumber(string.sub (date, 4 , 5))
-        local sec = tonumber(string.sub (date, 7 , 8))
-        local year = tonumber(os.date("%Y", os.time() + device.preferences.localTimeOffset * 3600))
-        local month = tonumber(os.date("%m", os.time() + device.preferences.localTimeOffset * 3600))
-        local day = tonumber(os.date("%d", os.time() + device.preferences.localTimeOffset * 3600))
-        local time = os.time({ day = day, month = month, year = year, hour = hour, min = min, sec = sec})
-        if device.preferences.logDebugPrint == true then
-          print("<<< date:", date)
-          print("<<< date:", year, month, day, hour, min, sec)
-          print("<<< date formated >>>", os.date("%Y/%m/%d %H:%M:%S",time))
-        end
-        device:set_field("time_nextChange", time, {persist = false})
-      end
-  end
-
-  ----- print device init values for debug------
-  if device.preferences.logDebugPrint == true then
-    local id = device
-    print("device_running[id]=",device_running[id])
-    print("random_timer=",random_timer[id])
-  end
-
-  --restart random on-off if active
-  if device.preferences.logDebugPrint == true then
-    print("random_state >>>>>",device:get_field("random_state"))
-  end
-  if device:get_field("random_state") ~= "Inactive" and device:get_field("random_state") ~= nil then
-    if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) == "on" then
-      device:set_field("last_state", "on")
+  if device:supports_capability_by_id(random_On_Off.ID) then
+    local cap_status = device:get_latest_state("main", random_On_Off.ID, random_On_Off.randomOnOff.NAME)
+    if cap_status == nil then
+      device:emit_event(random_On_Off.randomOnOff("Inactive"))
+      device:emit_event(random_Next_Step.randomNext("Inactive"))
+      device:set_field("random_state", "Inactive", {persist = false})
     else
-      device:set_field("last_state", "off")
+      device:set_field("random_state", cap_status, {persist = false})
+      cap_status = device:get_latest_state("main", random_Next_Step.ID, random_Next_Step.randomNext.NAME)
+        if cap_status == nil then
+          device:emit_event(random_Next_Step.randomNext("Inactive"))
+        end
+        if cap_status ~= "Inactive" then
+          -- convert string next change to seconds of date type
+          local date = device:get_latest_state("main", random_Next_Step.ID, random_Next_Step.randomNext.NAME)
+          local hour = tonumber(string.sub (date, 1 , 2))
+          local min = tonumber(string.sub (date, 4 , 5))
+          local sec = tonumber(string.sub (date, 7 , 8))
+          local year = tonumber(os.date("%Y", os.time() + device.preferences.localTimeOffset * 3600))
+          local month = tonumber(os.date("%m", os.time() + device.preferences.localTimeOffset * 3600))
+          local day = tonumber(os.date("%d", os.time() + device.preferences.localTimeOffset * 3600))
+          local time = os.time({ day = day, month = month, year = year, hour = hour, min = min, sec = sec})
+          if device.preferences.logDebugPrint == true then
+            print("<<< date:", date)
+            print("<<< date:", year, month, day, hour, min, sec)
+            print("<<< date formated >>>", os.date("%Y/%m/%d %H:%M:%S",time))
+          end
+          device:set_field("time_nextChange", time, {persist = false})
+        end
     end
-    driver_handler.random_on_off_handler(self,device,"Active")
+
+    ----- print device init values for debug------
+    if device.preferences.logDebugPrint == true then
+      local id = device
+      print("device_running[id]=",device_running[id])
+      print("random_timer=",random_timer[id])
+    end
+
+    --restart random on-off if active
+    if device.preferences.logDebugPrint == true then
+      print("random_state >>>>>",device:get_field("random_state"))
+    end
+    if device:get_field("random_state") ~= "Inactive" and device:get_field("random_state") ~= nil then
+      if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) == "on" then
+        device:set_field("last_state", "on")
+      else
+        device:set_field("last_state", "off")
+      end
+      driver_handler.random_on_off_handler(self,device,"Active")
+    end
   end
 
   -- Configure OnOff monitoring attribute
@@ -170,6 +172,10 @@ function driver_handler.do_Preferences (self, device)
          device:try_update_metadata({profile = "switch-power-energy-plug"})
         elseif newParameterValue[device] == "Light" then
          device:try_update_metadata({profile = "switch-power-energy-light"})
+        elseif newParameterValue[device] == "Energy" then
+          device:try_update_metadata({profile = "switch-power-energy-meter"})
+        elseif newParameterValue[device] == "EnergyProfile" then
+          device:try_update_metadata({profile = "switch-power-energy-meter-profile"})
         end
       elseif id == "useAsSwitchOnly" then
         if newParameterValue[device] == true then
