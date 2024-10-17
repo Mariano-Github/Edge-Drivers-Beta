@@ -477,6 +477,26 @@ zigbeeManufacturer:
     manufacturer: _TYZB01_epni2jgy
     model: TS0203
     deviceProfileName: contact-battery-profile
+  - id: "_TZ3000_3fqh6agt/Close Sensor"
+    deviceLabel: GIRIER Contact Sensor
+    manufacturer: _TZ3000_3fqh6agt
+    model: TS0203
+    deviceProfileName: contact-battery-profile
+  - id: "_TZ3000_bdoswav6/Close Sensor"
+    deviceLabel: Maxcio Contact Sensor
+    manufacturer: _TZ3000_bdoswav6
+    model: TS0203
+    deviceProfileName: contact-battery-profile
+  - id: "_TZ3000_qld3y9tu/Close Sensor"
+    deviceLabel: TS0203 Contact Sensor
+    manufacturer: _TZ3000_qld3y9tu
+    model: TS0203
+    deviceProfileName: contact-battery-profile
+  - id: "_TZ3000_wut53hfm/Contact Sensor"
+    deviceLabel: TS0203 Contact Sensor
+    manufacturer: _TZ3000_wut53hfm
+    model: TS0203
+    deviceProfileName: contact-battery-profile
 
   # ST multipurpose sensors
   - id: "Samjin/multi"

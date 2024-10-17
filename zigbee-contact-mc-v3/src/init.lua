@@ -60,6 +60,8 @@ local function no_offline(self,device)
         else
           device:emit_event(capabilities.contactSensor.contact.open())
         end
+        local value = "Refresh state: ".. os.date("%Y/%m/%d GMT: %H:%M",os.time())
+        device:emit_event(signal_Metrics.signalMetrics({value = value}, {visibility = {displayed = false }}))
       end
       ,'Refresh state')
     end
@@ -234,6 +236,21 @@ local function do_configure(self,device)
       configure_accel_threshold (self, device)
     end
 
+    -- custom configure to some devices to not offline
+    if device:get_manufacturer() == "_TZ3000_f1hmoyj4" or
+    device:get_manufacturer() == "eWeLink" or
+    device:get_manufacturer() == "LUMI" or -- 3600s IAZone and batttery voltaje 3600s
+    device:get_manufacturer() == "TUYATEC-rkqiqvcs" then
+      print("<<< special configure battery 600 sec or LUMI >>>")
+      local configuration = configurationMap.get_device_configuration(device)
+      if configuration ~= nil then
+        for _, attribute in ipairs(configuration) do
+          device:add_configured_attribute(attribute)
+          device:add_monitored_attribute(attribute)
+        end
+      end
+    end
+
     device:configure()
     device:remove_monitored_attribute(0x0500, 0x0002)
 
@@ -400,6 +417,8 @@ end
 local function do_refresh(driver, device)
   if device:supports_capability_by_id(capabilities.temperatureMeasurement.ID) then
     device:send(tempMeasurement.attributes.MeasuredValue:read(device))
+    --device:send(tempMeasurement.attributes.MaxMeasuredValue:read(device))
+    --device:send(tempMeasurement.attributes.MinMeasuredValue:read(device))
   end
   device:refresh()
 end
