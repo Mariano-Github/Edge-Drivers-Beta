@@ -564,8 +564,8 @@ local function do_Configure(self,device)
   device:send(device_management.build_bind_request(device, tempMeasurement.ID, self.environment_info.hub_zigbee_eui))
   device:send(tempMeasurement.attributes.MeasuredValue:configure_reporting(device, 30, 600, 10))
 
-  device:send(tempMeasurement.attributes.MaxMeasuredValue:read(device))
-  device:send(tempMeasurement.attributes.MinMeasuredValue:read(device))
+  --device:send(tempMeasurement.attributes.MaxMeasuredValue:read(device))
+  --device:send(tempMeasurement.attributes.MinMeasuredValue:read(device))
 
   print("doConfigure performed, transitioning device to PROVISIONED") --23/12/23
   device:try_update_metadata({ provisioning_state = "PROVISIONED" })
