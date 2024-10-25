@@ -123,12 +123,12 @@ end
 
   -- do_configure
   local function do_configure(driver, device)
-    if device:get_model() == "TS0207" then
+    if device:get_model() == "TS0207" or device:get_model() == "SNZB-03" then
       local config ={
         cluster = zcl_clusters.PowerConfiguration.ID,
         attribute = zcl_clusters.PowerConfiguration.attributes.BatteryPercentageRemaining.ID,
         minimum_interval = 30,
-        maximum_interval = 3600,
+        maximum_interval = 1800,
         data_type = zcl_clusters.PowerConfiguration.attributes.BatteryPercentageRemaining.base_type,
         reportable_change = 1
       }
@@ -139,7 +139,7 @@ end
         cluster = zcl_clusters.IASZone.ID,
         attribute = zcl_clusters.IASZone.attributes.ZoneStatus.ID,
         minimum_interval = 30,
-        maximum_interval = 2100,
+        maximum_interval = 1200,
         data_type = zcl_clusters.IASZone.attributes.ZoneStatus.base_type,
         reportable_change = 1
       }
@@ -157,6 +157,39 @@ end
     end
   end
 
+   -- device init
+   local function device_init(driver, device)
+    if device:get_model() == "TS0207" or device:get_model() == "SNZB-03" then
+      local config ={
+        cluster = zcl_clusters.PowerConfiguration.ID,
+        attribute = zcl_clusters.PowerConfiguration.attributes.BatteryPercentageRemaining.ID,
+        minimum_interval = 30,
+        maximum_interval = 1800,
+        data_type = zcl_clusters.PowerConfiguration.attributes.BatteryPercentageRemaining.base_type,
+        reportable_change = 1
+      }
+      device:add_configured_attribute(config)
+      device:add_monitored_attribute(config)
+
+      config ={
+        cluster = zcl_clusters.IASZone.ID,
+        attribute = zcl_clusters.IASZone.attributes.ZoneStatus.ID,
+        minimum_interval = 30,
+        maximum_interval = 1200,
+        data_type = zcl_clusters.IASZone.attributes.ZoneStatus.base_type,
+        reportable_change = 1
+      }
+      --device:add_configured_attribute(config)
+
+      device:remove_monitored_attribute(0x0500, 0x0002)
+      
+    elseif device:get_model() == "lumi.sensor_wleak.aq1" then
+      --device:send(device_management.build_bind_request(device, zcl_clusters.IASZone.ID, driver.environment_info.hub_zigbee_eui))
+      --device:send(zcl_clusters.IASZone.attributes.ZoneStatus:configure_reporting(device, 30, 600, 1))
+      device:remove_monitored_attribute(0x0500, 0x0002)
+    end
+  end
+
 ----- driver template ----------
 local zigbee_moisture_driver = {
   supported_capabilities = {
@@ -167,7 +200,8 @@ local zigbee_moisture_driver = {
   lifecycle_handlers = {
     infoChanged = do_preferences,
     added = do_added,
-    doConfigure = do_configure
+    doConfigure = do_configure,
+    init = device_init
 },
 capability_handlers = {
   [capabilities.refresh.ID] = {

@@ -215,3 +215,18 @@ zigbeeManufacturer:
     manufacturer: LUMI
     model: lumi.flood.agl02
     deviceProfileName: moisture-battery
+  - id: "eWeLink/SNZB-03"
+    deviceLabel: SNZB-03 Water Sensor
+    manufacturer: eWeLink
+    model: SNZB-03
+    deviceProfileName: moisture-battery
+  - id: "_TZ3000_5ynfoj1f/TS0207"
+    deviceLabel: Tuya Water Sensor
+    manufacturer: _TZ3000_5ynfoj1f
+    model: TS0207
+    deviceProfileName: moisture-battery
+  - id: "_TZ3000_bzt33cyu/TS0207"
+    deviceLabel: Tuya Water Sensor
+    manufacturer: _TZ3000_bzt33cyu
+    model: TS0207
+    deviceProfileName: moisture-battery
