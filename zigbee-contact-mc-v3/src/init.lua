@@ -241,7 +241,7 @@ local function do_configure(self,device)
     device:get_manufacturer() == "eWeLink" or
     device:get_manufacturer() == "LUMI" or -- 3600s IAZone and batttery voltaje 3600s
     device:get_manufacturer() == "TUYATEC-rkqiqvcs" then
-      print("<<< special configure battery 600 sec or LUMI >>>")
+      print("<<< special configure battery 900 sec or LUMI >>>")
       local configuration = configurationMap.get_device_configuration(device)
       if configuration ~= nil then
         for _, attribute in ipairs(configuration) do
@@ -325,7 +325,7 @@ local function do_init(self, device)
       device:get_manufacturer() == "eWeLink" or
       device:get_manufacturer() == "LUMI" or -- 3600s IAZone and batttery voltaje 3600s
       device:get_manufacturer() == "TUYATEC-rkqiqvcs" then
-      print("<<< special configure battery 600 sec or LUMI >>>")
+      print("<<< special configure battery 900 sec or LUMI >>>")
       local configuration = configurationMap.get_device_configuration(device)
       if configuration ~= nil then
         for _, attribute in ipairs(configuration) do
