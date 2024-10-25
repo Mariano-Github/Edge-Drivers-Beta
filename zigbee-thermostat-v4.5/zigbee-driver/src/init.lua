@@ -266,13 +266,16 @@ local function thermostatMode_handler(self,device,command)
 
     --emit thermostat change state info
     local temp = device:get_latest_state("main", capabilities.temperatureMeasurement.ID, capabilities.temperatureMeasurement.temperature.NAME)
+    local text = "Temp: ".."-> No Expected Status Change"
+    if temp ~= nil then
       local scale = "C"
       if device.preferences.thermTempUnits == "Fahrenheit" then
         scale = "F"
         temp = (temp * 9/5) + 32
       end
       temp = temp + device.preferences.tempOffset
-    local text = "Temp: "..temp.."º"..scale.."-> No Expected Status Change"
+      text = "Temp: "..temp.."º"..scale.."-> No Expected Status Change"
+    end
     device:emit_event(info_Panel.infoPanel(text))
 
     ---- Set Thermostat stopped ------
