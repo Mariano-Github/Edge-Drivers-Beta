@@ -24,6 +24,7 @@ local is_tuya_window_shade = function(opts, driver, device)
   device:get_manufacturer() == "_TZ3000_drk3g2st" or
   device:get_manufacturer() == "_TZ3000_wptayaqr" or
   device:get_manufacturer() == "_TZ3000_ctbafvhm" or
+  device:get_manufacturer() == "_TZ3000_e3vhyirx" or
   device:get_manufacturer() == "_TZ3210_ol1uhvza" then
     local subdriver = require("current-position")
     return true, subdriver

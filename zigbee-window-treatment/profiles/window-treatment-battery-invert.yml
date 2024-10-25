@@ -1,0 +1,35 @@
+name: window-treatment-battery-invert
+components:
+- id: main
+  capabilities:
+  - id: windowShade
+    version: 1
+  - id: windowShadePreset
+    version: 1
+  - id: windowShadeLevel
+    version: 1
+  - id: battery
+    version: 1
+  - id: firmwareUpdate
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: Blind
+preferences:
+  - preferenceId: presetPosition
+    explicit: true
+  - name: "invert"
+    title: "Invert device direction commands"
+    description: "Invert device direction commands"
+    required: true
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "invertPercentage"
+    title: "Invert device reported percentage"
+    description: "Invert device reported percentage"
+    required: true
+    preferenceType: boolean
+    definition:
+      default: false

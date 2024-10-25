@@ -30,7 +30,7 @@ zigbeeManufacturer:
   #  deviceLabel: Aqara Curtain Controller
   #  manufacturer: LUMI
   #  model: lumi.curtain.acn002
-  #  deviceProfileName: window-treatment-aqara #no funciona y fañta depuracion
+  #  deviceProfileName: window-treatment-aqara #no funciona y falta depuracion
   - id: "REXENSE/KG0001"
     deviceLabel: Window Treatment
     manufacturer: REXENSE
@@ -84,12 +84,12 @@ zigbeeManufacturer:
     deviceLabel: Yookee Window Treatment
     manufacturer: Yookee
     model: D10110
-    deviceProfileName: window-treatment-battery
+    deviceProfileName: window-treatment-battery-invert
   - id: "yooksmart/D10110"
     deviceLabel: yooksmart Window Treatment
     manufacturer: yooksmart
     model: D10110
-    deviceProfileName: window-treatment-battery
+    deviceProfileName: window-treatment-battery-invert
   - id: "Rooms Beautiful/C001"
     deviceLabel: Rooms Beautiful Window Treatment
     manufacturer: Rooms Beautiful
@@ -186,7 +186,7 @@ zigbeeManufacturer:
     deviceLabel: yoolax Window Treatment
     manufacturer: _TZE200_9caxna4s
     model: TS0301
-    deviceProfileName: window-treatment-battery
+    deviceProfileName: window-treatment-battery-invert
   - id: "TS130F/_TZ3000_drk3g2st"
     deviceLabel: TS130F Window Treatment
     manufacturer: _TZ3000_drk3g2st
@@ -218,7 +218,12 @@ zigbeeManufacturer:
     deviceLabel: BTICINO LIVING NOW K 4027C
     manufacturer: Legrand
     model: Shutter SW with level control
-    deviceProfileName: window-treatment-profile-generic    
+    deviceProfileName: window-treatment-profile-generic
+  - id: "TS130F/_TZ3000_e3vhyirx"
+    deviceLabel: TS130F Window Treatment
+    manufacturer: _TZ3000_e3vhyirx
+    model: TS130F
+    deviceProfileName: window-treatment-profile-calib  
 zigbeeGeneric:
   - id: "genericShade"
     deviceLabel: Zigbee Window Treatment

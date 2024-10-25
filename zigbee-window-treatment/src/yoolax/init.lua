@@ -36,6 +36,9 @@ end
 
 local function set_shade_level(device, value, command)
   local level = 100 - value
+  if device.preferences.invert == true then
+    level = value
+  end
   device:send_to_component(command.component, WindowCovering.server.commands.GoToLiftPercentage(device, level))
 end
 
@@ -54,7 +57,12 @@ local function set_window_shade_level(level)
 end
 
 local function current_position_attr_handler(driver, device, value, zb_rx)
-  windowShadeDefaults.default_current_lift_percentage_handler(driver, device, {value = 100 - value.value}, zb_rx)
+  local level = 100 - value.value
+  if device.preferences.invertPercentage == true then
+    level = value.value
+  end
+  --windowShadeDefaults.default_current_lift_percentage_handler(driver, device, {value = 100 - value.value}, zb_rx)
+  windowShadeDefaults.default_current_lift_percentage_handler(driver, device, {value = level}, zb_rx)
 end
 
 -- battery percentage
