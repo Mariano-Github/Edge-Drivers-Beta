@@ -502,6 +502,21 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_jiocgoks
     model: TS0203
     deviceProfileName: contact-battery-profile
+  - id: "_TZ3000_c8zfad4a/Contact Sensor"
+    deviceLabel: GIRIER Contact Sensor
+    manufacturer: _TZ3000_c8zfad4a
+    model: TS0203
+    deviceProfileName: contact-battery-profile
+  - id: "SMaBiT/Contact Sensor"
+    deviceLabel: SMaBiT U. Flat Contact Sensor
+    manufacturer: SMaBiT
+    model: AV2010/21C
+    deviceProfileName: contact-battery-profile
+  - id: "eWeLink/SNZB-04P"
+    deviceLabel: eWeLink Open/Closed Sensor
+    manufacturer: eWeLink
+    model: SNZB-04P
+    deviceProfileName: contact-battery-profile
 
   # ST multipurpose sensors
   - id: "Samjin/multi"
