@@ -112,6 +112,42 @@ zwaveManufacturer:
     productType: 0x5FFF
     productId: 0xA010
     deviceProfileName: popp-radiator-thermostat
+  - id: "015F/0712/5102"
+    deviceLabel: MCOHome MH7H-WH/EH
+    manufacturerId: 0x015F
+    productType: 0x0712
+    productId: 0x5102
+    deviceProfileName: heat-thermostat-without-battery
+  - id: "015F/0702/5102"
+    deviceLabel: MCOHome MH7H-WH/EH
+    manufacturerId: 0x015F
+    productType: 0x0702
+    productId: 0x5102
+    deviceProfileName: heat-thermostat-without-battery
+  #- id: "0002/8005/0002" # no funciona
+  #  deviceLabel: Danfoss LC Thermostat
+  #  manufacturerId: 0x0002
+  #  productType: 0x8005
+  #  productId: 0x0002
+  #  deviceProfileName: thermostat-heating-battery
+  - id: "Devolo/Danfoss/014G0160"
+    deviceLabel: Danfoss or Devolo RS014G0160
+    manufacturerId: 0x0002
+    productType: 0x0003
+    productId: 0x8010
+    deviceProfileName: temp-thermostat-heating-battery
+  - id: "Danfoss/thermostat/TRV"
+    deviceLabel: Danfoss TRV
+    manufacturerId: 0x0002
+    productType: 0x6FFF
+    productId: 0xA010
+    deviceProfileName: popp-radiator-thermostat
+  - id: "0131/220A/1357"
+    deviceLabel: Alloy MH4 Thermostat
+    manufacturerId: 0x0131
+    productType: 0x220A
+    productId: 0x1357
+    deviceProfileName: heat-thermostat-mco-mh4
 zwaveGeneric:
   - id: "GenericBatteryThermostat"
     deviceLabel: Z-Wave Battery Thermostat
