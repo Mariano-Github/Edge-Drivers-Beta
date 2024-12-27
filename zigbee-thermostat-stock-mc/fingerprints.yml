@@ -95,6 +95,11 @@ zigbeeManufacturer:
     manufacturer: Stelpro
     model: ""
     deviceProfileName: thermostat-stelpro-profile-no-humid
+  - id: "Stelpro/SAT402ZB"
+    deviceLabel: Allia Thermostat
+    manufacturer: Stello
+    model: HT402
+    deviceProfileName: thermostat-stelpro-profile-no-humid
   - id: "Stelpro/ST218"
     deviceLabel: Stelpro Thermostat
     manufacturer: Stelpro
@@ -197,6 +202,21 @@ zigbeeManufacturer:
     manufacturer: Namron AS
     model: 4512759
     deviceProfileName: namrom-thermostat-hvit
+  - id: Avatto-battery-thermostat
+    deviceLabel: Avatto Thermostat ZWT198
+    manufacturer: _TZE204_xnbkhhdr
+    model: TS0601
+    deviceProfileName: thermostat-tuya-avatto
+  - id: Avatto/_TZE204_lzriup1j
+    deviceLabel: Avatto Thermostat ZWT198/ZWT100
+    manufacturer: _TZE204_lzriup1j
+    model: TS0601
+    deviceProfileName: thermostat-tuya-avatto
+  - id: Avatto/_TZE200_viy9ihs7
+    deviceLabel: Avatto Thermostat ZWT198/ZWT100
+    manufacturer: _TZE200_viy9ihs7
+    model: TS0601
+    deviceProfileName: thermostat-tuya-avatto
 zigbeeGeneric:
   - id: "genericThermostat"
     deviceLabel: Zigbee Thermostat
