@@ -60,3 +60,8 @@ zigbeeManufacturer :
     manufacturer : _TYZB01_m0dhmvfo
     model : TS0216
     deviceProfileName : switch-alarm
+  - id : TS0216/_TYZB01_a5tf0bpl
+    deviceLabel : Zigbee Siren
+    manufacturer : _TYZB01_a5tf0bpl
+    model : TS0216
+    deviceProfileName : switch-alarm
