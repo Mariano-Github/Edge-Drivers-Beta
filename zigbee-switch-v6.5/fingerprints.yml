@@ -625,3 +625,13 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_o1jzcxou
     model: TS011F
     deviceProfileName: single-switch-plug
+  - id: "_TZ3000_hdc8bbha/TS000F"
+    deviceLabel: Dry Contact Switch
+    manufacturer: _TZ3000_hdc8bbha
+    model: TS000F
+    deviceProfileName: single-switch
+  - id: "ZBMicro/Switch"
+    deviceLabel: ZBMicro Switch
+    manufacturer: SONOFF
+    model: ZBMicro
+    deviceProfileName: single-switch
