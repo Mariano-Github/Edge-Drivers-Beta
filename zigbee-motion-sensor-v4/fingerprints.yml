@@ -501,3 +501,13 @@ zigbeeManufacturer:
     manufacturer: aqara
     model: lumi.sensor_occupy.agl1
     deviceProfileName: aqara-fp1e
+  - id: "Visonic/GB-540"
+    deviceLabel: Visonic Glass break detector
+    manufacturer: Visonic
+    model: GB-540
+    deviceProfileName: motion-battery
+  - id: "_TZ3000_k5wwrk7a/TS0202"
+    deviceLabel: TS0202 Motion Sensor
+    manufacturer: _TZ3000_k5wwrk7a
+    model: TS0202
+    deviceProfileName: motion-battery
