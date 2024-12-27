@@ -24,17 +24,17 @@ zwaveManufacturer:
     productId: 0x000A
     deviceProfileName: alarm-switch-3
   - id: 013C/0004/000A
-    deviceLabel: Philio Siren
+    deviceLabel: Philio Siren PSE02
     manufacturerId: 0x013C
     productType: 0x0004
     productId: 0x000A
     deviceProfileName: philio-sound-siren
   - id: 013C/0004/0084
-    deviceLabel: Philio Siren
+    deviceLabel: Philio Siren PSE04
     manufacturerId: 0x013C
     productType: 0x0004
     productId: 0x0084
-    deviceProfileName: philio-sound-siren
+    deviceProfileName: philio-alarm-battery-temp-tamper
   - id: 0371/00A2/0x0003 # Aeotec Doorbell 6, productType: 0x0003 (EU), 0x0103 (US), 0x0203 (AU)
     deviceLabel: Aeotec Doorbell
     manufacturerId: 0x0371
@@ -117,7 +117,7 @@ zwaveManufacturer:
     manufacturerId: 0x0258
     productType: 0x0600
     productId: 0x1028
-    deviceProfileName: alarm-battery
+    deviceProfileName: coolcam-alarm-battery  # changed from alarm-battery
   - id: 0109/2009/0908
     deviceLabel: Vision Siren
     manufacturerId: 0x0109
