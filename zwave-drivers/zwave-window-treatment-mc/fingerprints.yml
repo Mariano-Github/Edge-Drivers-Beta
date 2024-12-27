@@ -81,7 +81,7 @@ zwaveManufacturer:
     manufacturerId: 0x0441
     productType: 0x2400
     productId: 0x1000
-    deviceProfileName: window-treatment-power
+    deviceProfileName: nice-garage-door
   - id: Forest Shuttle/Blind
     deviceLabel: Forest Shuttle SML
     manufacturerId: 0x0207
@@ -106,3 +106,21 @@ zwaveManufacturer:
     productType: 0x0200
     productId: 0x102C
     deviceProfileName: window-treatment-preset-reverse-mc
+  - id: MCO/015F/C521/5103
+    deviceLabel: MCO Windows Treatment
+    manufacturerId: 0x015F
+    productType: 0xC521
+    productId: 0x5103
+    deviceProfileName: window-treatment-power
+  - id: 0455/0004/0002
+    deviceLabel: Cherubini OpenZRX
+    manufacturerId: 0x0455
+    productType: 0x0004
+    productId: 0x0002
+    deviceProfileName: window-treatment-preset
+  - id: FibaroRollerShutter4
+    deviceLabel: Fibaro Window Treatment FGR-224
+    manufacturerId: 0x010F
+    productType: 0x0304
+    productId: 0x1000
+    deviceProfileName: fibaro-roller-shutter-4
