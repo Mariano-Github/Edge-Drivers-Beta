@@ -365,7 +365,7 @@ zigbeeManufacturer:
     model: FB56+ZSW1JKJ2.7
     deviceProfileName: four-switch
   - id: "TS0006/_TZ3000_jyupj3fw"
-    deviceLabel: TS0115 Switch
+    deviceLabel: TS0006 Switch
     manufacturer: _TZ3000_jyupj3fw
     model: TS0006
     deviceProfileName: six-switch  # need six-switch profile
@@ -1085,6 +1085,46 @@ zigbeeManufacturer:
     deviceLabel: TS0726 Switch
     manufacturer: _TZ3000_s678wazd
     model: TS0726
+    deviceProfileName: six-switch
+  - id: "TS000F/_TZ3000_m8f3z8ju"
+    deviceLabel: Two Switch
+    manufacturer: _TZ3000_m8f3z8ju
+    model: TS000F
+    deviceProfileName: two-switch
+  - id: "TS0013/_TZ3000_5e5ptb24"
+    deviceLabel: Wifi Smart Home Three Switch
+    manufacturer: _TZ3000_5e5ptb24
+    model: TS0013
+    deviceProfileName: three-switch
+  - id: "TS0004/_TZ3000_hdlplfbk"
+    deviceLabel: MHCozy 12V Four Switches
+    manufacturer: _TZ3000_hdlplfbk
+    model: TS0004
+    deviceProfileName: four-switch
+  - id: "TS0003/_TZ3000_tlpiniax"
+    deviceLabel: Avatto 1 plug & 2 Switch
+    manufacturer: _TZ3000_tlpiniax
+    model: TS0003
+    deviceProfileName: three-outlet
+  - id: "LUMI/switch.b2nc01"
+    deviceLabel: LUMI Double Switch QBKG41LM
+    manufacturer: LUMI
+    model: lumi.switch.b2nc01
+    deviceProfileName: two-switch
+  - id: "_TZ3000_5ajpkyq6/TS0004"
+    deviceLabel: TS0004 Switch
+    manufacturer: _TZ3000_5ajpkyq6
+    model: TS0004
+    deviceProfileName: four-switch
+  - id: "_TZ3000_zo1zfrum/TS0004"
+    deviceLabel: TS0004 Switch
+    manufacturer: _TZ3000_zo1zfrum
+    model: TS0004
+    deviceProfileName: four-switch
+  - id: "_TZ3000_x3skfi9i/TS0026"
+    deviceLabel: TS0026 Switch
+    manufacturer: _TZ3000_x3skfi9i
+    model: TS0026
     deviceProfileName: six-switch
 
     # level devices
