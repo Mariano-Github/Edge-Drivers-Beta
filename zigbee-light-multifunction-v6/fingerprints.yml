@@ -283,7 +283,7 @@ zigbeeManufacturer:
     deviceLabel: IKEA Bulb E26 WS
     manufacturer: IKEA of Sweden
     model: TRADFRIbulbE26WSglobeopal1100lm
-    deviceProfileName: level-colortemp-2200-4000
+    deviceProfileName: level-colortemp-2700-6500 #modified from 2200-4000
   - id: "TRADFRI bulb E26 WS opal 1000lm"
     deviceLabel: IKEA Bulb E26 WS
     manufacturer: IKEA of Sweden
@@ -1095,6 +1095,16 @@ zigbeeManufacturer:
     manufacturer: GLEDOPTO
     model: GL-B-003P
     deviceProfileName: level-colortemp-2200-6500
+  - id: "innr/AE 270 T"
+    deviceLabel: innr RGBW
+    manufacturer: innr
+    model: AE 270 T
+    deviceProfileName: level-colortemp-2000-6500
+  - id: "_TZ3210_s1x7gcq0/TS0502B"
+    deviceLabel: TS0502B LED
+    manufacturer: _TZ3210_s1x7gcq0
+    model: TS0502B
+    deviceProfileName: level-colortemp-2000-8000
   
   # XY Color
   - id: "IKEA/E27 CWS 806lm"
@@ -1203,6 +1213,12 @@ zigbeeManufacturer:
     manufacturer: IKEA of Sweden
     model: TRADFRI bulb E26 CWS 806lm
     deviceProfileName: rgbw-level-colortemp-2200-4000
+  # dec 2024
+  - id: "TRADFRI bulb E14 CWS opal 600lm"
+    deviceLabel: IKEA E26 Bulb
+    manufacturer: IKEA of Sweden
+    model: TRADFRI bulb E14 CWS opal 600lm
+    deviceProfileName: rgbw-level-colortemp-2000-6500
 
   # Dimmers
   - id: "3A-Smart-Home/LXN56-DC27LX1.1"
