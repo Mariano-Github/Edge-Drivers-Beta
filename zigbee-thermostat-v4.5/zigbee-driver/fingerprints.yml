@@ -239,3 +239,23 @@ zigbeeManufacturer:
     manufacturer: CentraLite
     model: 3320-L
     deviceProfileName: contact-temp-therm-battery-05
+  - id: "_TZ2000_lxvycln5/TS0201"
+    deviceLabel: Tuya TS0201
+    manufacturer: _TZ2000_lxvycln5
+    model: TS0201
+    deviceProfileName: temp-humid-therm-battery-05
+  - id: "_TZ3210_qkj7rujp/TS0201"
+    deviceLabel: Tuya TS0201
+    manufacturer: _TZ3210_qkj7rujp
+    model: TS0201
+    deviceProfileName: temp-humid-therm-battery-05
+  - id: "_TZ3000_cx6atb9s/TS0201"
+    deviceLabel: Tuya TS0201
+    manufacturer: _TZ3000_cx6atb9s
+    model: TS0201
+    deviceProfileName: temp-humid-therm-battery-05
+  - id: "_TZ3000_akqdg6g7/TS0201"
+    deviceLabel: Tuya TS0201
+    manufacturer: _TZ3000_akqdg6g7
+    model: TS0201
+    deviceProfileName: temp-humid-therm-battery-05
