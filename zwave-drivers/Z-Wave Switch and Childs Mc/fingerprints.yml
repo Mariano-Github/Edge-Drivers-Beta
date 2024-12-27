@@ -1290,10 +1290,16 @@ zwaveManufacturer:
     productId: 0x0015
     deviceProfileName: dual-metering-switch
   - id: 0059/0003/0002
-    deviceLabel: Double Switch
+    deviceLabel: Double Switch SSR302
     manufacturerId: 0x0059
     productType: 0x0003
     productId: 0x0002
+    deviceProfileName: dual-switch
+  - id: 0059/0003/0006
+    deviceLabel: Double Switch SSR302
+    manufacturerId: 0x0059
+    productType: 0x0003
+    productId: 0x0006
     deviceProfileName: dual-switch
   - id: 0013C/0001/0012
     deviceLabel: Philio PAN04
@@ -1373,6 +1379,13 @@ zwaveManufacturer:
     productType: 0x0002
     productId: 0x0081
     deviceProfileName: dual-metering-switch
+  #Agosto 2024
+  - id: 0258/0100/1027
+    deviceLabel: NEO Coolcam Outlet
+    manufacturerId: 0x0258
+    productType: 0x0100
+    productId: 0x1027
+    deviceProfileName: metering-plug
 zwaveGeneric:
   - id: "GenericSwitch/1"
     deviceLabel: Switch
