@@ -230,3 +230,18 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_bzt33cyu
     model: TS0207
     deviceProfileName: moisture-battery
+  - id: "_TZ3000_upgcbody/SNZB-05"
+    deviceLabel: SNZB-05 Water Sensor
+    manufacturer: _TZ3000_upgcbody
+    model: SNZB-05
+    deviceProfileName: moisture-battery
+  - id: "SONOFF/SNZB-05P"
+    deviceLabel: SNZB-05 Water Sensor
+    manufacturer: SONOFF
+    model: SNZB-05P
+    deviceProfileName: moisture-battery
+  - id: "loocam/LNAWTC2WBS"
+    deviceLabel: loocam Water Sensor
+    #manufacturer: loocam
+    model: LNAWTC2WBS
+    deviceProfileName: moisture-battery
