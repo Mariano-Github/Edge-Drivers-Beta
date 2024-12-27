@@ -24,6 +24,11 @@ zigbeeManufacturer :
     manufacturer: WAXMAN
     model: House Water Valve - MDL-TBD
     deviceProfileName: valve-battery-powerSource
+  - id: WAXMAN/HouseWaterValve/MDL-8810300L
+    deviceLabel: Waxman Valve
+    manufacturer: WAXMAN
+    model: House Water Valve - MDL-8810300L
+    deviceProfileName: valve-battery-powerSource
   - id: GasValve/E253-KR0B0ZX-HA
     deviceLabel: Valve
     manufacturer: ""
@@ -34,6 +39,7 @@ zigbeeManufacturer :
     manufacturer: Compacta
     model: ZBVC1(1023A)
     deviceProfileName: valve-battery-powerSource
+  #added to stock
   - id: "Valve/TS0011"
     deviceLabel: Water Valve
     manufacturer: _TYZB01_rifa0wlb
@@ -59,10 +65,10 @@ zigbeeManufacturer :
     manufacturer: _TZ3000_z8wel7lz
     model: TS0001
     deviceProfileName: water-valve
-  - id: "Valve/TS0011F"
+  - id: "Valve/TS011F"
     deviceLabel: Water Valve
     manufacturer: _TZ3000_tvuarksa
-    model: TS0011F
+    model: TS011F
     deviceProfileName: water-valve 
   - id: "GasValve/SG-V100-ZB"
     deviceLabel: Dawon Valve
@@ -80,3 +86,19 @@ zigbeeManufacturer :
     manufacturer: _TZ3000_5ucujjts
     model: TS0001
     deviceProfileName: water-valve
+  - id : WAXMAN/Water Valve
+    deviceLabel : WAXMAN Valve
+    manufacturer: WAXMAN
+    model: leakSMART Water Valve
+    deviceProfileName: valve-battery-powerSource
+    #agosto 2024
+  - id: "_TZ3000_wpueorev/TS0001"
+    deviceLabel: Water Valve
+    manufacturer: _TZ3000_wpueorev
+    model: TS0001
+    deviceProfileName: water-valve
+  - id: "SONOFF/SWV"
+    deviceLabel: SONOFF SWV Water Valve
+    manufacturer: SONOFF
+    model: SWV
+    deviceProfileName: valve-battery-powerSource
