@@ -1,0 +1,164 @@
+name: presence-temp-motion-acc-batt
+components:
+- id: main
+  capabilities:
+  - id: presenceSensor
+    version: 1
+  - id: temperatureMeasurement
+    version: 1
+  - id: motionSensor
+    version: 1
+  - id: accelerationSensor
+    version: 1
+  - id: powerSource
+    version: 1
+  - id: battery
+    version: 1
+  - id: voltageMeasurement
+    version: 1
+  - id: legendabsolute60149.motionSensorEnable
+    version: 1
+  - id: legendabsolute60149.signalMetrics
+    version: 1
+  - id: refresh
+    version: 1
+  - id: firmwareUpdate
+    version: 1
+  categories:
+  - name: PresenceSensor
+preferences:
+  - name: "temCustomOffset"
+    title: "Temperature Custom Offset"
+    description: "Select Temperature Custom Offset (-20.0º to +20.0º)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: -20
+      maximum: 20
+      default: 0 
+  - name: "version"
+    title: "Version 1.0 (Jan 2022)"
+    description: "First Release" 
+    required: false
+    preferenceType: string
+    definition:
+      stringType: text
+      minLength: 0
+      maxLength: 0
+      default: ""
+  - name: "localTimeOffset"
+    title: "Local Time Offset to UTC (-12 to 12)"
+    description: "Select Your Local Time Offset to UTC Time Hours (-12 to 12)"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: -12
+      maximum: 12
+      default: 0
+  - name: "changeProfile"
+    title: "Select Presentation Tile"
+    description: "Select Single or Multi Capability Tile:"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Single": "Single"
+        "Multi": "Multi"
+      default: "Single"
+  - name: "battPresenceCheck"
+    title: "Presence timeout on Battery (min)"
+    description: "Presence timeout on Battery (1 min to 20 min)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 1
+      maximum: 20
+      default: 7
+  - name: "dcPresenceCheck"
+    title: "Presence timeout on DC power (min)"
+    description: "Presence timeout on DC power (1 min to 20 min)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 1
+      maximum: 20
+      default: 1
+  - name: "battMinVolts"
+    title: "Volts to Battery 0% (volts)"
+    description: "Enter Volts to Battery 0% (volts)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 1.0
+      maximum: 4
+      default: 2.0
+  - name: "battMaxVolts"
+    title: "Volts to Battery 100% (volts)"
+    description: "Enter Volts to Battery 100% (volts)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 1.5
+      maximum: 5
+      default: 3.0
+  - name: "battDisableNoPresence"
+    title: "Battery % to Disable Not Present"
+    description: "Select Battery % to Disable Not Present event (1% to 100%)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 0
+      maximum: 100
+      default: 20  
+  - name: "battChangeReported"
+    title: "Battery Change Reported"
+    description: "Select Battery Change Reported (0.1 v to 0.5v). Default: 0.3 v."
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 0.1
+      maximum: 0.5
+      default: 0.3
+  - name: "temMaxTime"
+    title: "Temperature Report Interval (min)"
+    description: "Select Temp. Report Max. Interval (5 min to 1080 min). Default = 20"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 5
+      maximum: 1080
+      default: 20
+  - name: "temChangeRep"
+    title: "Temperature Reportable Change"
+    description: "Select Temp. Reportable Change 0.1º to 6º"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 0.1
+      maximum: 6
+      default: 1
+  - name: "pauseAccelEvents"
+    title: "Pause Vibration Sensor Eventents"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "signalMetricsVisibles"
+    title: "Signal Metrics Visible in History"
+    description: "Signal Metrics Visible in App History (default: No Visible):"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "logDebugPrint"
+    title: "Show Logs Debug Prints in CLI"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+metadata:
+  deviceType: PresenceSensor	
+  ocfDeviceType: x.com.st.d.sensor.presence
+  deviceTypeId: PresenceSensor
+  mnmn: SmartThingsCommunity
+  vid: bdeef821-a00c-3fc3-accd-3ad35e1bd245

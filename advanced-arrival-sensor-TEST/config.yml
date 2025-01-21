@@ -1,0 +1,4 @@
+name: 'Zigbee Advanced Arrival Sensor TEST'
+packageKey: 'Zigbee_Advanced_Arrival_Sensor-v10'
+permissions:
+  zigbee: {}

@@ -1,0 +1,91 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{motionSensorEnable.value}}" 
+            }
+        ],
+        "actions": []
+    },
+    "detailView": [
+        {
+            "label": "Motion Sensor",
+            "displayType": "switch",
+            "switch": {
+                "command": {
+                    "name": "setMotionSensorEnable",    
+                    "on": "Enabled",
+                    "off": "Disabled",
+                    "argumentType": "string"
+                },
+                "state": {
+                    "value": "motionSensorEnable.value",
+                    "valueType": "string",
+                    "on": "Enabled",
+                    "off": "Disabled",
+                    "alternatives": [
+                        {
+                            "key": "Enabled",
+                            "value": "Enabled",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Disabled",
+                            "value": "Disabled",
+                            "type": "inactive"
+                        }
+                    ]
+                }
+            },
+            "state": null
+        }
+    ],
+    "automation": {
+        "conditions": [
+            {
+                "label": "Motion Sensor",
+                "displayType": "list",
+                "list": {
+                    "alternatives": [
+                        {
+                            "key": "Enabled",
+                            "value": "Enabled",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Disabled",
+                            "value": "Disabled",
+                            "type": "inactive"
+                        }
+                    ],
+                    "value": "motionSensorEnable.value",
+                    "valueType": "string"
+                }
+            }
+        ],
+        "actions": [
+            {
+                "label": "Motion Sensor",
+                "displayType": "list",
+                "list": {
+                    "alternatives": [
+                        {
+                            "key": "Enabled",
+                            "value": "Enabled",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Disabled",
+                            "value": "Disabled",
+                            "type": "inactive"
+                        }
+                    ],
+                    "command": "setMotionSensorEnable",
+                    "argumentType": "string"
+                }
+            }
+        ]
+    },
+    "id": "legendabsolute60149.motionSensorEnable",
+    "version": 1
+}
