@@ -90,6 +90,11 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_o5wjxxqn
     model: TS0203
     deviceProfileName: contact-battery-profile
+  - id: "Sercomm Corp./SZ-DWS04N_SF"
+    deviceLabel: Sercomm Open/Closed Sensor
+    manufacturer: Sercomm Corp.
+    model: SZ-DWS04N_SF
+    deviceProfileName: contact-profile
   - id: "Sercomm Corp./SZ-DWS08"
     deviceLabel: Sercomm Open/Closed Sensor
     manufacturer: Sercomm Corp.
