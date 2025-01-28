@@ -544,6 +544,11 @@ zigbeeManufacturer:
     manufacturer: Signify Netherlands B.V.
     model: LCD006
     deviceProfileName: rgbw-level-colortemp-2700-6500
+  - id: "HUE/LCA006"
+    deviceLabel: HUE LCA006
+    manufacturer: Signify Netherlands B.V.
+    model: LCA006
+    deviceProfileName: rgbw-level-colortemp-2700-6500    
   - id: "_TZ3210_k1pe6ibm/TS0505B"
     deviceLabel: RGBW TS0505B
     manufacturer: _TZ3210_k1pe6ibm
