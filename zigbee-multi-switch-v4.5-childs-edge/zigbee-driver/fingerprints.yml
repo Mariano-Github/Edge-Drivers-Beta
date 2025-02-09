@@ -1169,3 +1169,8 @@ zigbeeManufacturer:
     manufacturer: Aurora
     model: 2GBatteryDimmer50AU
     deviceProfileName: two-switch-level-battery
+  - id: "TS0003/_TZ3000_fawk5xjv"
+    deviceLabel: TS0003 Switch
+    manufacturer: _TZ3000_fawk5xjv
+    model: TS0003
+    deviceProfileName: three-switch
