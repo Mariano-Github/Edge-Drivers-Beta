@@ -1131,7 +1131,7 @@ zigbeeManufacturer:
   - id: "TS110E/_TZ3210_pagajpog"
     deviceLabel: TS110E Dimmer
     manufacturer: _TZ3210_pagajpog
-    model: TS0110E
+    model: TS110E
     deviceProfileName: two-switch-level
   - id: "TS110F/_TYZB01_v8gtiaed"
     deviceLabel: TS110F Dimmer
@@ -1147,12 +1147,12 @@ zigbeeManufacturer:
   - id: "TS110E/_TZ3210_3mpwqzuu"
     deviceLabel: TS110E Dimmer
     manufacturer: _TZ3210_3mpwqzuu
-    model: TS0110E
+    model: TS110E
     deviceProfileName: two-switch-level
   - id: "TS110E/_TZ3210_wdexaypg"
     deviceLabel: TS110E Dimmer
     manufacturer: _TZ3210_wdexaypg
-    model: TS0110E
+    model: TS110E
     deviceProfileName: two-switch-level
   - id: "EcoDim-Zigbee 3.0/EcoDim BV"
     deviceLabel: EcoDim BV Dimmer
