@@ -102,3 +102,8 @@ zigbeeManufacturer :
     manufacturer: SONOFF
     model: SWV
     deviceProfileName: valve-battery-powerSource
+    - id: "_TZ3000_abjodzas/TS0001"
+    deviceLabel: Water Valve
+    manufacturer: _TZ3000_abjodzas
+    model: TS0001
+    deviceProfileName: water-valve
