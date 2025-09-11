@@ -1,0 +1,47 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{createDevice.value}}"
+            }
+        ],
+        "actions": []
+    },
+    "detailView": [
+        {
+            "label": "Create New Virtual Device",
+            "displayType": "list",
+            "list": {
+                "command": {
+                    "name": "setCreateDevice",
+                    "alternatives": [
+                        {
+                            "key": "Create",
+                            "value": "Create",
+                            "type": "active"
+                        }
+                    ],
+                    "argumentType": "string"
+                },
+                "state": {
+                    "value": "createDevice.value",
+                    "valueType": "string",
+                    "alternatives": [
+                        {
+                            "key": "Create",
+                            "value": "Create",
+                            "type": "active"
+                        }
+                    ]
+                }
+            },
+            "state": null
+        }
+    ],
+    "automation": {
+        "conditions": [],
+        "actions": []
+    },
+    "id": "legendabsolute60149.createDevice",
+    "version": 1
+}

@@ -1,0 +1,20 @@
+name: creator-virtual-device
+components:
+- id: main
+  capabilities:
+  - id: legendabsolute60149.createDevice
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: PresenceSensor
+preferences:
+  - name: "profileNumber"
+    title: "Profile Number"
+    description: "Profile Number, Do not change"
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 0
+      default: 0

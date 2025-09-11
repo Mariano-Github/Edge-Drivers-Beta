@@ -1,0 +1,47 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{locationStatus.value}}"
+            }
+        ],
+        "actions": [],
+        "panelItems": []
+    },
+    "detailView": [
+        {
+            "label": "Location Status",
+            "displayType": "textField",
+            "textField": {
+                "command": "setLocationStatus",
+                "argumentType": "string",
+                "value": "locationStatus.value",
+                "valueType": "string"
+            }
+        }
+    ],
+    "automation": {
+        "conditions": [
+            {
+                "label": "Location Status",
+                "displayType": "textField",
+                "textField": {
+                    "value": "locationStatus.value",
+                    "valueType": "string"
+                }
+            }
+        ],
+        "actions": [
+            {
+                "label": "Location Status",
+                "displayType": "textField",
+                "textField": {
+                    "command": "setLocationStatus",
+                    "argumentType": "string"
+                }
+            }
+        ]
+    },
+    "id": "legendabsolute60149.locationStatus",
+    "version": 1
+}

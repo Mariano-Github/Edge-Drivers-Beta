@@ -1,0 +1,34 @@
+name: virtual-presence-sensor
+components:
+- id: main
+  capabilities:
+  - id: presenceSensor
+    version: 1
+  - id: legendabsolute60149.locationStatus
+    version: 1
+  - id: switch
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: PresenceSensor
+preferences:
+  - name: "deviceOperationType"
+    title: "Device Operation Type"
+    description: "Select the Operation type of the device. (Default: Presence Sensor) "
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Presence" : "Presence Sensor"
+        "Location": "Location Status"
+      default: "Presence"
+  - name: "profileNumber"
+    title: "Profile Number"
+    description: "Profile Number, Do not change"
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 1
+      maximum: 1
+      default: 1

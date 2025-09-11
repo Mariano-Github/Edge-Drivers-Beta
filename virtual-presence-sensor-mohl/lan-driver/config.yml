@@ -1,0 +1,5 @@
+name: 'GroupTrackR Presence Sensor'
+packageKey: 'Virtual-Presence-Sensor'
+description: 'Driver to create Virtual Presence Sensor'
+permissions:
+  discovery: {}

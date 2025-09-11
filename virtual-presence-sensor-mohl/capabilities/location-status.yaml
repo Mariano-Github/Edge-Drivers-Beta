@@ -1,0 +1,25 @@
+id: legendabsolute60149.locationStatus
+version: 1
+status: proposed
+name: Location Status
+ephemeral: false
+attributes:
+  locationStatus:
+    schema:
+      type: object
+      properties:
+        value:
+          type: string
+      additionalProperties: false   
+      required:
+        - value
+    setter: setLocationStatus
+    enumCommands: []
+commands:
+  setLocationStatus:
+    name: setLocationStatus
+    arguments:
+      - name: value
+        optional: false
+        schema:
+          type: string
