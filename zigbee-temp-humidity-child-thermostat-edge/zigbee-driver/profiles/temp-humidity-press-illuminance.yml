@@ -58,8 +58,8 @@ preferences:
       maximum: 15
       default: 0
   - name: "version"
-    title: "Version 5.2 (Jan 2024)"
-    description: "Added: Create virtual device for Batteries status"
+    title: "Version 5.3 (Feb 2025)"
+    description: "Added: Delete virtual device for Batteries status"
     required: false
     preferenceType: string
     definition:

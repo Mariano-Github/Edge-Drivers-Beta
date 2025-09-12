@@ -477,6 +477,9 @@ local function do_init (self, device)
   thermostatMode_handler(self,device,"init")
  end
 
+ -- set temperature range to -50ºc to 250ºc
+ device:emit_event(capabilities.temperatureMeasurement.temperatureRange({ value = { minimum = -50, maximum = 250 }, unit = "C" }))
+
 end
 
 --- added thermostat_Modes_Supported
@@ -515,24 +518,25 @@ local function added_device(self,device)
 end
 
 --- Update preferences after infoChanged recived---
-local function do_Preferences (self, device)
+local function do_Preferences (self, device, event, args)
  for id, value in pairs(device.preferences) do
   if device.preferences.logDebugPrint == true then
     print("device.preferences[infoChanged]=", device.preferences[id])
   end
-  local oldPreferenceValue = device:get_field(id)
+  --local oldPreferenceValue = device:get_field(id)
+  local oldPreferenceValue = args.old_st_store.preferences[id]
   local newParameterValue = device.preferences[id]
     if oldPreferenceValue ~= newParameterValue then
-      device:set_field(id, newParameterValue, {persist = true})
+      --device:set_field(id, newParameterValue, {persist = true})
       print("<< Preference changed name:", id, "old value:", oldPreferenceValue, "new value:",  newParameterValue)
       if id == "thermTempUnits" then
         local temp_scale =  "C"
         if device.preferences.thermTempUnits == "Fahrenheit" then temp_scale = "F" end
         device:emit_event(capabilities.thermostatHeatingSetpoint.heatingSetpoint({value = device:get_field("heating_Setpoint"), unit = temp_scale }))
         device:emit_event(capabilities.thermostatCoolingSetpoint.coolingSetpoint({value = device:get_field("cooling_Setpoint"), unit = temp_scale }))
-      end
+      --end
         ------ Change profile Temp Set points steps
-      if id == "changeProfileTherm" or id == "multiTile" then
+      elseif id == "changeProfileTherm" or id == "multiTile" then
         if device.preferences.logDebugPrint == true then
           print("<<< device.preferences.changeProfileTherm >>>",device.preferences.changeProfileTherm)
           print("<<< device.preferences.multiTile >>>",device.preferences.multiTile)

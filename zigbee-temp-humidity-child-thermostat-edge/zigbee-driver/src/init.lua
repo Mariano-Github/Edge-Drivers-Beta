@@ -201,14 +201,15 @@ if device.network_type == "DEVICE_EDGE_CHILD" then return end
 end
 
 -- preferences update
-local function do_preferences(self, device)
+local function do_preferences(self, device, event, args)
   --if device.network_type == "DEVICE_EDGE_CHILD" then return end
   for id, value in pairs(device.preferences) do
     --print("device.preferences[infoChanged]=", device.preferences[id])
-    local oldPreferenceValue = device:get_field(id)
+    --local oldPreferenceValue = device:get_field(id)
+    local oldPreferenceValue = args.old_st_store.preferences[id]
     local newParameterValue = device.preferences[id]
-     if oldPreferenceValue ~= newParameterValue then
-      device:set_field(id, newParameterValue, {persist = true})
+    if oldPreferenceValue ~= newParameterValue then
+      --device:set_field(id, newParameterValue, {persist = true})
       if device.preferences.logDebugPrint == true then
         print("<< Preference changed:",id, "old value", oldPreferenceValue, "new value>>", newParameterValue)
       end
@@ -231,6 +232,7 @@ local function do_preferences(self, device)
           }
           device:add_monitored_attribute(config)
         end
+        break
       elseif id == "humMaxTime" or id == "humChangeRep" then
         local maxTime = device.preferences.humMaxTime * 60
         local changeRep = device.preferences.humChangeRep * 100
@@ -250,6 +252,7 @@ local function do_preferences(self, device)
           }
           device:add_monitored_attribute(config)
         end
+        break
       elseif id == "pressMaxTime" or id == "pressChangeRep" then
         --local minTime = 60
         local maxTime = device.preferences.pressMaxTime * 60
@@ -274,6 +277,7 @@ local function do_preferences(self, device)
           --device:send(device_management.build_bind_request(device, zcl_clusters.PressureMeasurement.ID, self.environment_info.hub_zigbee_eui))
           device:send(zcl_clusters.PressureMeasurement.attributes.MeasuredValue:configure_reporting(device, 60, maxTime, changeRep))
         end
+        break
       elseif id == "illuMaxTime" or id == "illuChangeRep" then
         local maxTime = device.preferences.illuMaxTime * 60
         local changeRep = math.floor(10000 * (math.log((device.preferences.illuChangeRep + 1), 10)))
@@ -283,6 +287,7 @@ local function do_preferences(self, device)
         print ("Illumin maxTime & changeRep: ", maxTime, changeRep)
         --device:send(device_management.build_bind_request(device, zcl_clusters.IlluminanceMeasurement.ID, self.environment_info.hub_zigbee_eui))
         device:send(zcl_clusters.IlluminanceMeasurement.attributes.MeasuredValue:configure_reporting(device, 60, maxTime, changeRep))
+        break
       elseif id == "thermTempUnits" then
         local temp_Condition_state, state_Unit = device:get_latest_state("main", temp_Condition.ID, temp_Condition.tempCondition.NAME)
         if temp_Condition_state == nil then temp_Condition_state = 0 end
@@ -303,7 +308,7 @@ local function do_preferences(self, device)
             return
           end
         end
-
+        break
       elseif id == "changeProfileTHB" then
         if newParameterValue == "Multi" then
            device:try_update_metadata({profile = "temp-humid-battery-multi"})
@@ -314,6 +319,7 @@ local function do_preferences(self, device)
         elseif newParameterValue == "SingleHumidity" then
           device:try_update_metadata({profile = "humid-temp-battery"})
         end
+        break
       elseif id == "changeProfileTHPB" then
         if newParameterValue == "Multi" then
           device:try_update_metadata({profile = "temp-humid-press-battery-multi"})
@@ -330,6 +336,7 @@ local function do_preferences(self, device)
         elseif newParameterValue == "SinglePressChange" then
           device:try_update_metadata({profile = "press-change-temp-humid-battery"})
         end
+        break
       elseif id == "changeProfileTHPI" then
         if newParameterValue == "Multi" then
           device:try_update_metadata({profile = "temp-humid-press-illumin-multi"})
@@ -346,7 +353,7 @@ local function do_preferences(self, device)
         elseif newParameterValue == "SingleIlluminance" then
           device:try_update_metadata({profile = "illumin-temp-humid-press"})
         end
-      
+        break
       elseif id == "changeProfileTHIB" then
         if newParameterValue == "Multi" then
           device:try_update_metadata({profile = "temp-humid-illumin-battery-multi"})
@@ -359,16 +366,18 @@ local function do_preferences(self, device)
         elseif newParameterValue == "SingleIlluminance" then
           device:try_update_metadata({profile = "illumin-temp-humid-battery"})
         end
+        break
+      elseif id == "batteryType" and newParameterValue ~= nil then
+        device:emit_event(capabilities.battery.type(newParameterValue))
+      elseif id == "batteryQuantity" and newParameterValue ~= nil then
+        device:emit_event(capabilities.battery.quantity(newParameterValue))
       end
 
       if id == "childThermostat" then
         if oldPreferenceValue ~= nil and newParameterValue == true then
          child_devices.create_new(self, device, "main", "child-thermostat")
         end
-      elseif id == "childBatteries" then
-        if newParameterValue == true then
-          child_devices.create_new(self, device, "battery", "child-batteries-status")
-        end
+        break
       end
 
       --configure basicinput cluster
@@ -444,6 +453,12 @@ local function temp_attr_handler(self, device, tempvalue, zb_rx)
   end
   last_temp_value =  utils.round(last_temp_value) + device.preferences.tempOffset
 
+  -- temperature condition calculation
+  temp_Condition_set.value = device:get_latest_state("main", temp_Condition.ID, temp_Condition.tempCondition.NAME)
+  if temp_Condition_set.value == nil then temp_Condition_set.value = 0 end
+  if device.preferences.logDebugPrint == true then
+    print("<< temp_Condition_set.value:",temp_Condition_set.value)
+  end
   if last_temp_value < temp_Condition_set.value then
     temp_Target_set = "Down"
   elseif last_temp_value >= temp_Condition_set.value then
@@ -609,6 +624,12 @@ local function humidity_attr_handler(driver, device, value, zb_rx)
 
   local last_humid_value = utils.round(value.value / 100.0) + device.preferences.humidityOffset
 
+  -- humidity condition calculation
+  humidity_Condition_set = device:get_latest_state("main", humidity_Condition.ID, humidity_Condition.humidityCondition.NAME)
+  if humidity_Condition_set == nil then humidity_Condition_set = 0 end
+  if device.preferences.logDebugPrint == true then
+    print("<< humidity_Condition_set:",humidity_Condition_set)
+  end
   if last_humid_value < humidity_Condition_set then
     humidity_Target_set = "Down"
   elseif last_humid_value >= humidity_Condition_set then
@@ -653,6 +674,12 @@ local function illuminance_measurement_defaults(driver, device, value, zb_rx)
   end
   if lux_value < 0 then lux_value = 0 end
 
+  -- illuminance condition calculation
+  illumin_Condition_set = device:get_latest_state("main", illumin_Condition.ID, illumin_Condition.illuminCondition.NAME)
+  if illumin_Condition_set == nil then illumin_Condition_set = 0 end
+  if device.preferences.logDebugPrint == true then
+    print("<< illumin_Condition_set:",illumin_Condition_set)
+  end
   if lux_value < illumin_Condition_set then
     illumin_Target_set = "Down"
   elseif lux_value >= illumin_Condition_set then
@@ -744,7 +771,7 @@ local function set_IlluminCondition_handler(self,device,command)
 end
 
 local function do_init(self,device)
-
+  
   if device.network_type == "DEVICE_EDGE_CHILD" then return end-- is CHILD DEVICE
 
     --tuyaBlackMagic() {return zigbee.readAttribute(0x0000, [0x0004, 0x000, 0x0001, 0x0005, 0x0007, 0xfffe], [:], delay=200)}
@@ -809,6 +836,7 @@ local function do_init(self,device)
     --  initialize values of capabilities
     if device:supports_capability_by_id(illumin_Condition.ID) then
       illumin_Condition_set = device:get_latest_state("main", illumin_Condition.ID, illumin_Condition.illuminCondition.NAME)
+      print("<< illumin_Condition_set:",illumin_Condition_set)
       if illumin_Condition_set == nil then 
         illumin_Condition_set = 0
         device:emit_event(illumin_Condition.illuminCondition(illumin_Condition_set))
@@ -816,6 +844,7 @@ local function do_init(self,device)
     end
 
     humidity_Condition_set = device:get_latest_state("main", humidity_Condition.ID, humidity_Condition.humidityCondition.NAME)
+    print("<< humidity_Condition_set:",humidity_Condition_set)
     if humidity_Condition_set == nil then 
       humidity_Condition_set = 0
       device:emit_event(humidity_Condition.humidityCondition(humidity_Condition_set))
@@ -852,6 +881,21 @@ local function do_init(self,device)
 
     if device:get_latest_state("main", signal_Metrics.ID, signal_Metrics.signalMetrics.NAME) == nil then
       device:emit_event(signal_Metrics.signalMetrics({value = "Waiting Zigbee Message"}, {visibility = {displayed = false }}))
+    end
+
+    -- set battery type and quantity
+    --device:send(zcl_clusters.PowerConfiguration.attributes.BatterySize:read(device))
+    --device:send(zcl_clusters.PowerConfiguration.attributes.BatteryQuantity:read(device))
+    if device:supports_capability_by_id(capabilities.battery.ID) then
+      local cap_status = device:get_latest_state("main", capabilities.battery.ID, capabilities.battery.type.NAME)
+      if cap_status == nil and device.preferences.batteryType ~= nil then
+        device:emit_event(capabilities.battery.type(device.preferences.batteryType))
+      end
+
+      cap_status = device:get_latest_state("main", capabilities.battery.ID, capabilities.battery.quantity.NAME)
+      if cap_status == nil and device.preferences.batteryQuantity ~= nil then
+        device:emit_event(capabilities.battery.quantity(device.preferences.batteryQuantity))
+      end
     end
 
     if device:get_manufacturer() == "KMPCIL" then
@@ -894,7 +938,7 @@ local function do_init(self,device)
     local changeRep = device.preferences.tempChangeRep * 100
     print ("Temp maxTime & changeRep: ", maxTime, changeRep)
     --device:send(device_management.build_bind_request(device, tempMeasurement.ID, self.environment_info.hub_zigbee_eui))
-    device:send(tempMeasurement.attributes.MeasuredValue:configure_reporting(device, 30, maxTime, changeRep))
+    --device:send(tempMeasurement.attributes.MeasuredValue:configure_reporting(device, 30, maxTime, changeRep))
     local config ={
       cluster = zcl_clusters.TemperatureMeasurement.ID,
       attribute = zcl_clusters.TemperatureMeasurement.attributes.MeasuredValue.ID,
@@ -924,6 +968,9 @@ local function do_init(self,device)
         device:emit_event(atm_Pressure_Rate_Change.atmPressureRateChange({value = 0, unit = "mBar/h"}))
       end
     end
+
+    -- set temperature range to -50ºc to 250ºc
+    device:emit_event(capabilities.temperatureMeasurement.temperatureRange({ value = { minimum = -50, maximum = 250 }, unit = "C" }))
 end
 
 -----driver_switched
@@ -1020,9 +1067,8 @@ local zigbee_temp_driver = {
   sub_drivers = {
     lazy_load_if_possible("battery"),
     lazy_load_if_possible("thermostat"),
-    lazy_load_if_possible("battery-virtual-status")
   },
-  --health_check = false
+  health_check = false
 
 }
 
