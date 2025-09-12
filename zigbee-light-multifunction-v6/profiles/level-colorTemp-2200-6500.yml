@@ -10,10 +10,10 @@ components:
     version: 1
   - id: colorTemperature
     version: 1
-    config:
-      values:
-        - key: "colorTemperature.value"
-          range: [ 2200, 6500 ]
+    #config:
+      #values:
+        #- key: "colorTemperature.value"
+          #range: [ 2200, 6500 ]
   - id: legendabsolute60149.colorTemperatureSteps
     version: 1
   - id: legendabsolute60149.randomOnOff1
@@ -347,4 +347,165 @@ metadata:
   ocfDeviceType: oic.d.light
   deviceTypeId: Light
   #mnmn: SmartThingsCommunity
-  #vid: dc0f9f67-eba0-3573-aad5-40a568f2e791
+  #vid: d671945f-1a5b-3070-b853-637a67f8a632
+deviceConfig:
+  dashboard:
+    states:
+      - component: main
+        capability: switch
+        version: 1
+        group: main
+        composite: true
+      - component: main
+        capability: switchLevel
+        version: 1
+        group: main
+        values:
+          - label: " | {{level.value}} {{level.unit}}"
+        composite: true
+    actions:
+      - component: main
+        capability: switch
+        version: 1
+        group: main
+        composite: true
+    basicPlus: []
+  detailView:
+    - component: main
+      capability: switch
+      version: 1
+    - component: main
+      capability: switchLevel
+      version: 1
+    - component: main
+      capability: legendabsolute60149.levelSteps
+      version: 1
+    - component: main
+      capability: colorTemperature
+      version: 1
+      values:
+        - key: "colorTemperature.value"
+          range: [ 2200, 6500 ]
+    - component: main
+      capability: legendabsolute60149.colorTemperatureSteps
+      version: 1
+    - component: main
+      capability: legendabsolute60149.randomOnOff1
+      version: 1
+    - component: main
+      capability: legendabsolute60149.randomNextStep
+      version: 1
+    - component: main
+      capability: legendabsolute60149.progressiveOn1
+      version: 1
+    - component: main
+      capability: legendabsolute60149.progressiveOff1
+      version: 1
+    - component: main
+      capability: legendabsolute60149.forcedOnLevel
+      version: 1
+    - component: main
+      capability: legendabsolute60149.circadian
+      version: 1
+    - component: main
+      capability: legendabsolute60149.effectsSetCommand
+      version: 1
+    - component: main
+      capability: legendabsolute60149.mirrorGroupFunction
+      version: 1
+    - component: main
+      capability: legendabsolute60149.getGroups
+      version: 1
+    - component: main
+      capability: legendabsolute60149.signalMetrics
+      version: 1
+    - component: main
+      capability: refresh
+      version: 1
+  automation:
+    conditions:
+      - component: main
+        capability: switch
+        version: 1
+      - component: main
+        capability: switchLevel
+        version: 1
+      - component: main
+        capability: legendabsolute60149.levelSteps
+        version: 1
+      - component: main
+        capability: colorTemperature
+        version: 1
+        values:
+        - key: "colorTemperature.value"
+          range: [ 2200, 6500 ]
+      - component: main
+        capability: legendabsolute60149.colorTemperatureSteps
+        version: 1
+      - component: main
+        capability: legendabsolute60149.randomOnOff1
+        version: 1
+      - component: main
+        capability: legendabsolute60149.randomNextStep
+        version: 1
+      - component: main
+        capability: legendabsolute60149.progressiveOn1
+        version: 1
+      - component: main
+        capability: legendabsolute60149.progressiveOff1
+        version: 1
+      - component: main
+        capability: legendabsolute60149.forcedOnLevel
+        version: 1
+      - component: main
+        capability: legendabsolute60149.circadian
+        version: 1
+      - component: main
+        capability: legendabsolute60149.effectsSetCommand
+        version: 1
+      - component: main
+        capability: legendabsolute60149.mirrorGroupFunction
+        version: 1
+    actions:
+      - component: main
+        capability: switch
+        version: 1
+      - component: main
+        capability: switchLevel
+        version: 1
+      - component: main
+        capability: legendabsolute60149.levelSteps
+        version: 1
+      - component: main
+        capability: colorTemperature
+        version: 1
+        values:
+        - key: "setColorTemperature"
+          range: [ 2200, 6500 ]
+      - component: main
+        capability: legendabsolute60149.colorTemperatureSteps
+        version: 1
+      - component: main
+        capability: legendabsolute60149.randomOnOff1
+        version: 1
+      - component: main
+        capability: legendabsolute60149.randomNextStep
+        version: 1
+      - component: main
+        capability: legendabsolute60149.progressiveOn1
+        version: 1
+      - component: main
+        capability: legendabsolute60149.progressiveOff1
+        version: 1
+      - component: main
+        capability: legendabsolute60149.forcedOnLevel
+        version: 1
+      - component: main
+        capability: legendabsolute60149.circadian
+        version: 1
+      - component: main
+        capability: legendabsolute60149.effectsSetCommand
+        version: 1
+      - component: main
+        capability: legendabsolute60149.mirrorGroupFunction
+        version: 1

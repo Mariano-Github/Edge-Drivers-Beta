@@ -1094,7 +1094,7 @@ zigbeeManufacturer:
     deviceLabel: GLEDOPTO GL-B-003P
     manufacturer: GLEDOPTO
     model: GL-B-003P
-    deviceProfileName: level-colortemp-2200-6500
+    deviceProfileName: level-colortemp-2000-6500 #from 2200-6500
   - id: "innr/AE 270 T"
     deviceLabel: innr RGBW
     manufacturer: innr
@@ -1105,6 +1105,21 @@ zigbeeManufacturer:
     manufacturer: _TZ3210_s1x7gcq0
     model: TS0502B
     deviceProfileName: level-colortemp-2000-8000
+  
+  #Tuya Bulb colorTemp generic
+  - id: "TS0502A/Tuya Bulb"
+    deviceLabel: TS0502A Tuya Bulb
+    model: TS0502A
+    deviceProfileName: level-colortemp-2000-6500
+  - id: "TS0502B/Tuya Bulb"
+    deviceLabel: TS0502B Tuya Bulb
+    model: TS0502B
+    deviceProfileName: level-colortemp-2000-6500
+  #Tuya Bulb RGBW generic
+  - id: "TS0505B/Tuya Bulb"
+    deviceLabel: TS0505B Tuya Bulb
+    model: TS0505B
+    deviceProfileName: rgbw-level-colortemp-2700-6500
   
   # XY Color
   - id: "IKEA/E27 CWS 806lm"

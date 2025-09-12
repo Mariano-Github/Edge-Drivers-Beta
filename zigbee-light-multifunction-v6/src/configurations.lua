@@ -28,6 +28,7 @@ local devices = {
       { mfr = "IKEA of Sweden", model = "TRADFRI bulb E12 CWS 450lm" },
       { mfr = "IKEA of Sweden", model = "TRADFRI bulb E26 CWS 800lm" },
       { mfr = "IKEA of Sweden", model = "TRADFRI bulb E26 CWS 806lm" },
+      { mfr = "IKEA of Sweden", model = "TRADFRI bulb E14 CWS opal 600lm" },
       { mfr = "_TZ3000_riwp3k79", model = "TS0505A" },
       { mfr = "_TZ3000_dbou1ap4", model = "TS0505A" },
       { mfr = "_TZ3000_kdpxju99", model = "TS0505A" },

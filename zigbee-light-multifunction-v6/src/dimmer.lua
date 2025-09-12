@@ -42,8 +42,6 @@ local offLevelStart = {}
 local offJump = {}
 local offTimer ={}
 local device_running = {}
-local oldPreferenceValue ={}
-local newParameterValue ={}
 
 -- Random tables variables
 local random_Step = {}
@@ -370,21 +368,21 @@ function driver_handler.do_init (self, device)
     if device:get_field("effects_set_command") ~= "Inactive" and device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) == "on" then
       driver_handler.effects_Set_handler(self, device, "Continue")
     end
-  end
 
-  -- Configure OnOff monitoring attribute
-  local interval =  device.preferences.onOffReports
-  if  device.preferences.onOffReports == nil then interval = 300 end
-  local config ={
-    cluster = zcl_clusters.OnOff.ID,
-    attribute = zcl_clusters.OnOff.attributes.OnOff.ID,
-    minimum_interval = 0,
-    maximum_interval = interval,
-    data_type = zcl_clusters.OnOff.attributes.OnOff.base_type
-  }
-  --device:send(zcl_clusters.OnOff.attributes.OnOff:configure_reporting(device, 0, device.preferences.onOffReports))
-  device:add_configured_attribute(config)
-  device:add_monitored_attribute(config)
+    -- Configure OnOff monitoring attribute
+    local interval =  device.preferences.onOffReports
+    if  device.preferences.onOffReports == nil then interval = 300 end
+    local config ={
+      cluster = zcl_clusters.OnOff.ID,
+      attribute = zcl_clusters.OnOff.attributes.OnOff.ID,
+      minimum_interval = 0,
+      maximum_interval = interval,
+      data_type = zcl_clusters.OnOff.attributes.OnOff.base_type
+    }
+    --device:send(zcl_clusters.OnOff.attributes.OnOff:configure_reporting(device, 0, device.preferences.onOffReports))
+    device:add_configured_attribute(config)
+    device:add_monitored_attribute(config)
+  end
 end
 
 ---- do_removed device procedure: delete all device data
@@ -515,15 +513,13 @@ local function timers_Cancel(driver,device)
 end
 
 --- Update preferences after infoChanged recived---
-function driver_handler.do_Preferences (self, device)
+function driver_handler.do_Preferences (self, device, event, args)
   for id, value in pairs(device.preferences) do
-    if device.preferences.logDebugPrint == true then
-      --print("device.preferences[infoChanged]=",id, device.preferences[id])
-    end
-    oldPreferenceValue = device:get_field(id)
-    newParameterValue = device.preferences[id]
+    --oldPreferenceValue = device:get_field(id)
+    local oldPreferenceValue = args.old_st_store.preferences[id]
+    local newParameterValue = device.preferences[id]
     if oldPreferenceValue ~= newParameterValue then
-      device:set_field(id, newParameterValue, {persist = true})
+      --device:set_field(id, newParameterValue, {persist = true})
       if device.preferences.logDebugPrint == true then
         print("<<< Preference changed:",id,"Old Value:",oldPreferenceValue,"New Value:", newParameterValue)
       end
@@ -539,6 +535,7 @@ function driver_handler.do_Preferences (self, device)
           device:send(Groups.server.commands.GetGroupMembership(device, {}))
         end
  
+        break
       elseif id == "groupRemove" then
         print("Remove Groups >>>>>>>>>>>>>>>>>")
         if device.preferences[id] > 0 then
@@ -548,6 +545,7 @@ function driver_handler.do_Preferences (self, device)
         end
         device:send(Groups.server.commands.GetGroupMembership(device, {}))
 
+        break
         ------ Change profile RGBW color temperature
       elseif id == "changeProfile" then
         if newParameterValue == "20006500" then
@@ -574,6 +572,7 @@ function driver_handler.do_Preferences (self, device)
 
           device:try_update_metadata({profile = "level-rgb-rgbw"})
         end
+        break
       elseif id == "onOffReports" then
         -- Configure OnOff interval report
         local interval =  device.preferences.onOffReports
@@ -589,6 +588,7 @@ function driver_handler.do_Preferences (self, device)
         --device:add_configured_attribute(config)
         device:add_monitored_attribute(config)
 
+        break
         --- Configure on-off cluster, attributte 0x8002 and 4003 to value restore state in preferences
       elseif id == "restoreState" then
         if device.preferences.logDebugPrint == true then
@@ -610,11 +610,13 @@ function driver_handler.do_Preferences (self, device)
       elseif id == "groupChild" then
         if oldPreferenceValue ~= nil and newParameterValue == true then
          child_devices.create_new_device(self, device, "main", "child-rgbw-2000-6500")
-        end 
+        end
+        break
       elseif id == "circadianTimeStart" or id == "circadianTimeEnd" then
         if device:get_latest_state("main", capabilities.switch.ID, capabilities.switch.switch.NAME) == "on" and circadian[device] == "Active" then
           driver_handler.circadian_handler(self, device)
         end
+        break
       end
     end
   end

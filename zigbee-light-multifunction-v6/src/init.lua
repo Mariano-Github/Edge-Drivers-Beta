@@ -364,11 +364,11 @@ local function driver_Switched(driver,device)
   --dimmer.do_init (driver, device)
   --dimmer.do_Preferences(driver, device)
   --do_Configure(driver, device)
-  device.thread:call_with_delay(2, function(d) -- 23/12/23
-    do_Configure(driver, device)
-    --print("doConfigure performed, transitioning device to PROVISIONED")
-    --device:try_update_metadata({ provisioning_state = "PROVISIONED" })
-  end, "configure")
+  if device.network_type ~= "DEVICE_EDGE_CHILD" then  ---- device (is not Child device)
+    device.thread:call_with_delay(2, function(d) -- 23/12/23
+      do_Configure(driver, device)
+    end, "configure")
+  end
 end
 
 -- do added
@@ -406,7 +406,8 @@ local function do_added(driver,device)
     device:emit_event(capabilities.colorControl.hue(hue))
 
   else
-    dimmer.do_Preferences (driver, device)
+    device:refresh()
+    --dimmer.do_Preferences (driver, device)
   end
   --dimmer.do_Preferences (driver, device)
 end
@@ -604,6 +605,7 @@ local zigbee_bulb_driver_template = {
   sub_drivers = {
     require("xy-color-bulb")
   },
+  health_check = false
 }
 -- run driver
 defaults.register_for_default_handlers(zigbee_bulb_driver_template, zigbee_bulb_driver_template.supported_capabilities)
