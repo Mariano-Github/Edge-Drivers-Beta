@@ -649,6 +649,7 @@ local function do_init (self, device)
   -- set intial profile
   initial_profile(self, device)
 
+  
   --set supported modes
   thermostat_Modes_Supported(self, device)
 
@@ -665,6 +666,21 @@ local function do_init (self, device)
 
   if device:get_latest_state("main", signal_Metrics.ID, signal_Metrics.signalMetrics.NAME) == nil then
     device:emit_event(signal_Metrics.signalMetrics({value = "Waiting Zigbee Message"}, {visibility = {displayed = false }}))
+  end
+
+  -- set battery type and quantity
+  --device:send(zcl_clusters.PowerConfiguration.attributes.BatterySize:read(device))
+  --device:send(zcl_clusters.PowerConfiguration.attributes.BatteryQuantity:read(device))
+  if device:supports_capability_by_id(capabilities.battery.ID) then
+    local cap_status = device:get_latest_state("main", capabilities.battery.ID, capabilities.battery.type.NAME)
+    if cap_status == nil and device.preferences.batteryType ~= nil then
+      device:emit_event(capabilities.battery.type(device.preferences.batteryType))
+    end
+
+    cap_status = device:get_latest_state("main", capabilities.battery.ID, capabilities.battery.quantity.NAME)
+    if cap_status == nil and device.preferences.batteryQuantity ~= nil then
+      device:emit_event(capabilities.battery.quantity(device.preferences.batteryQuantity))
+    end
   end
 
   thermostat_Run = "stopped"
@@ -745,90 +761,98 @@ local function do_init (self, device)
   thermostatMode_handler(self, device, "init")
  end
 
+  -- set temperature range to -50ºc to 250ºc
+  device:emit_event(capabilities.temperatureMeasurement.temperatureRange({ value = { minimum = -50, maximum = 250 }, unit = "C" }))
+
 end
 
 --- Update preferences after infoChanged recived---
-local function do_Preferences (self, device)
+local function do_Preferences (self, device, event, args)
  for id, value in pairs(device.preferences) do
   if device.preferences.logDebugPrint == true then
     print("device.preferences[infoChanged]=", device.preferences[id])
   end
-  local oldPreferenceValue = device:get_field(id)
+  --local oldPreferenceValue = device:get_field(id)
+  local oldPreferenceValue = args.old_st_store.preferences[id]
   local newParameterValue = device.preferences[id]
-   if oldPreferenceValue ~= newParameterValue then
-    device:set_field(id, newParameterValue, {persist = true})
+    if oldPreferenceValue ~= newParameterValue then
+    --device:set_field(id, newParameterValue, {persist = true})
     print("<< Preference changed:", id, "old value:", oldPreferenceValue, "new value:", newParameterValue)
-    if id == "thermTempUnits" then
-      --device:get_field("heating_Setpoint")
-      local temp_scale =  "C"
-      if device.preferences.thermTempUnits == "Fahrenheit" then temp_scale = "F" end
-      device:emit_event_for_endpoint("main", capabilities.thermostatHeatingSetpoint.heatingSetpoint({value = device:get_field("heating_Setpoint"), unit = temp_scale }))
-      device:emit_event_for_endpoint("main", capabilities.thermostatCoolingSetpoint.coolingSetpoint({value = device:get_field("cooling_Setpoint"), unit = temp_scale }))
-    end
-      ------ Change profile Temp Set points steps
-    if id == "changeProfileTH" then
-        if newParameterValue == "1" then
-         device:try_update_metadata({profile = "temp-humid-therm-battery"})
-        elseif newParameterValue == "5" then
-         device:try_update_metadata({profile = "temp-humid-therm-battery-05"})
-        end
-    elseif id == "changeProfileTHP" then
-        if newParameterValue == "1" then
-         device:try_update_metadata({profile = "temp-humid-press-therm-battery"})
-        elseif newParameterValue == "5" then
-         device:try_update_metadata({profile = "temp-humid-press-therm-battery-05"})  
-        end
-    elseif id == "changeProfileTHPI" then
-        if newParameterValue == "1" then
-         device:try_update_metadata({profile = "temp-humidity-press-illum-therm"})
-        elseif newParameterValue == "5" then
-         device:try_update_metadata({profile = "temp-humidity-press-illum-therm-05"})  
-        end
-    elseif id == "changeProfileMT" then
-        if newParameterValue == "1" then
-         device:try_update_metadata({profile = "motion-temp-therm-battery"})
-        elseif newParameterValue == "5" then
-         device:try_update_metadata({profile = "motion-temp-therm-battery-05"})  
-        end
-    elseif id == "changeProfileMTH" then
-        if newParameterValue == "1" then
-         device:try_update_metadata({profile = "motion-temp-humid-therm-battery"})
-        elseif newParameterValue == "5" then
-         device:try_update_metadata({profile = "motion-temp-humid-therm-battery-05"})
-        end 
-    elseif id == "changeProfileCTB" then
-        if newParameterValue == "1" then
-         device:try_update_metadata({profile = "contact-temp-therm-battery"})
-        elseif newParameterValue == "5" then
-         device:try_update_metadata({profile = "contact-temp-therm-battery-05"})  
-        end
-    elseif id == "changeProfileCT" then
-        if newParameterValue == "1" then
-         device:try_update_metadata({profile = "contact-acc-temp-therm-battery"})
-        elseif newParameterValue == "5" then
-         device:try_update_metadata({profile = "contact-acc-temp-therm-battery-05"})  
-        end
-    elseif id == "changeProfileBTB" then
-        if newParameterValue == "1" then
-         device:try_update_metadata({profile = "button-temp-therm-battery"})
-        elseif newParameterValue == "5" then
-         device:try_update_metadata({profile = "button-temp-therm-battery-05"})  
-        end
-    elseif id == "useMultipleSensors" or id == "calculationType" or id == "thermostatGroup" then
-        for uuid, dev in pairs(device.driver:get_devices()) do
-          if dev.preferences.thermostatGroup > 0 then
-            -- calculate group temperature
-            thermostat_group.temperature_calculation(self, dev, dev.preferences.thermostatGroup)
-            -- refresh thermostat
-            thermostat_data_check (self, dev)
-          else
-            dev:emit_event(device_Info.deviceInfo({value = "Device not assigned to any Group"}, {visibility = {displayed = false}}))
+      if id == "thermTempUnits" then
+        --device:get_field("heating_Setpoint")
+        local temp_scale =  "C"
+        if device.preferences.thermTempUnits == "Fahrenheit" then temp_scale = "F" end
+        device:emit_event_for_endpoint("main", capabilities.thermostatHeatingSetpoint.heatingSetpoint({value = device:get_field("heating_Setpoint"), unit = temp_scale }))
+        device:emit_event_for_endpoint("main", capabilities.thermostatCoolingSetpoint.coolingSetpoint({value = device:get_field("cooling_Setpoint"), unit = temp_scale }))
+        --end
+        ------ Change profile Temp Set points steps
+      elseif id == "changeProfileTH" then
+          if newParameterValue == "1" then
+          device:try_update_metadata({profile = "temp-humid-therm-battery"})
+          elseif newParameterValue == "5" then
+          device:try_update_metadata({profile = "temp-humid-therm-battery-05"})
           end
-        end
-    end
+      elseif id == "changeProfileTHP" then
+          if newParameterValue == "1" then
+          device:try_update_metadata({profile = "temp-humid-press-therm-battery"})
+          elseif newParameterValue == "5" then
+          device:try_update_metadata({profile = "temp-humid-press-therm-battery-05"})  
+          end
+      elseif id == "changeProfileTHPI" then
+          if newParameterValue == "1" then
+          device:try_update_metadata({profile = "temp-humidity-press-illum-therm"})
+          elseif newParameterValue == "5" then
+          device:try_update_metadata({profile = "temp-humidity-press-illum-therm-05"})  
+          end
+      elseif id == "changeProfileMT" then
+          if newParameterValue == "1" then
+          device:try_update_metadata({profile = "motion-temp-therm-battery"})
+          elseif newParameterValue == "5" then
+          device:try_update_metadata({profile = "motion-temp-therm-battery-05"})  
+          end
+      elseif id == "changeProfileMTH" then
+          if newParameterValue == "1" then
+          device:try_update_metadata({profile = "motion-temp-humid-therm-battery"})
+          elseif newParameterValue == "5" then
+          device:try_update_metadata({profile = "motion-temp-humid-therm-battery-05"})
+          end 
+      elseif id == "changeProfileCTB" then
+          if newParameterValue == "1" then
+          device:try_update_metadata({profile = "contact-temp-therm-battery"})
+          elseif newParameterValue == "5" then
+          device:try_update_metadata({profile = "contact-temp-therm-battery-05"})  
+          end
+      elseif id == "changeProfileCT" then
+          if newParameterValue == "1" then
+          device:try_update_metadata({profile = "contact-acc-temp-therm-battery"})
+          elseif newParameterValue == "5" then
+          device:try_update_metadata({profile = "contact-acc-temp-therm-battery-05"})  
+          end
+      elseif id == "changeProfileBTB" then
+          if newParameterValue == "1" then
+          device:try_update_metadata({profile = "button-temp-therm-battery"})
+          elseif newParameterValue == "5" then
+          device:try_update_metadata({profile = "button-temp-therm-battery-05"})  
+          end
+      elseif id == "useMultipleSensors" or id == "calculationType" or id == "thermostatGroup" then
+          for uuid, dev in pairs(device.driver:get_devices()) do
+            if dev.preferences.thermostatGroup > 0 then
+              -- calculate group temperature
+              thermostat_group.temperature_calculation(self, dev, dev.preferences.thermostatGroup)
+              -- refresh thermostat
+              thermostat_data_check (self, dev)
+            else
+              dev:emit_event(device_Info.deviceInfo({value = "Device not assigned to any Group"}, {visibility = {displayed = false}}))
+            end
+          end
+      elseif id == "batteryType" and newParameterValue ~= nil then
+        device:emit_event(capabilities.battery.type(newParameterValue))
+      elseif id == "batteryQuantity" and newParameterValue ~= nil then
+        device:emit_event(capabilities.battery.quantity(newParameterValue))
+      end
     -- thermostat calculations
     thermostatMode_handler(self,device,"init")
-   end
+    end
   end
   --print manufacturer, model and leng of the strings
   local manufacturer = device:get_manufacturer()
@@ -1052,7 +1076,8 @@ local zigbee_thermostat_driver = {
     lazy_load_if_possible("button")
   },
 
-  ias_zone_configuration_method = constants.IAS_ZONE_CONFIGURE_TYPE.AUTO_ENROLL_RESPONSE
+  ias_zone_configuration_method = constants.IAS_ZONE_CONFIGURE_TYPE.AUTO_ENROLL_RESPONSE,
+  health_check = false
 }
 
 --------- driver run ------

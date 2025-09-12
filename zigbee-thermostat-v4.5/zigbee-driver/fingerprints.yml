@@ -259,3 +259,25 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_akqdg6g7
     model: TS0201
     deviceProfileName: temp-humid-therm-battery-05
+  #2025
+  - id: HEIMAN/HT-EF-3.0
+    deviceLabel: HEIMAN Multipurpose Sensor
+    manufacturer: HEIMAN
+    model: HT-EF-3.0
+    deviceProfileName: temp-humid-therm-battery-05
+
+  #Tuya TS0201 generic
+  - id: "TS0201/Temp Sensor"
+    deviceLabel: TS0201 Temperature Humidity
+    model: TS0201
+    deviceProfileName: temp-humid-therm-battery-05
+  #Tuya TS0222 generic
+  - id: "TS0222/Temp Sensor"
+    deviceLabel: TS0222 Temperature Humidity
+    model: TS0222
+    deviceProfileName: temp-humid-therm-battery-05
+  #Tuya RH3052 generic
+  - id: "RH3052/Temp Sensor"
+    deviceLabel: RH3052 Temperature Humidity
+    model: RH3052
+    deviceProfileName: temp-humid-therm-battery-05
