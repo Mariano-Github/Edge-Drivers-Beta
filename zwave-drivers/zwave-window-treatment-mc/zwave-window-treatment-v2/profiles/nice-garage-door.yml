@@ -1,0 +1,33 @@
+name: nice-garage-door
+components:
+- id: main
+  capabilities:
+  - id: windowShade
+    version: 1
+  - id: windowShadeLevel
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: GarageDoor
+preferences:
+  - name: "localProtection"
+    title: "S1 Operation local Protection"
+    description: "S1 Operation Local Operation. Default = S1 button controls gate state"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "S1 button controls gate state"
+        2: "S1 button doesn’t control gate state"
+      default: 0
+  - name: "rfProtection"
+    title: "S1 Operation Zwave Protection"
+    description: "S1 Operation Zwave Protection. Default = Z-Wave can change gate state"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "Z-Wave can change gate state"
+        1: "Z-Wave can't change gate state"
+      default: 0

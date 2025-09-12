@@ -1,0 +1,39 @@
+name: window-treatment-preset-reverse-mc
+components:
+- id: main
+  capabilities:
+  - id: windowShade
+    version: 1
+  - id: windowShadeLevel
+    version: 1
+  - id: windowShadePreset
+    version: 1
+  - id: legendabsolute60149.windowShadePresetValue
+    version: 1
+  - id: battery
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: Blind
+preference:
+  - preferenceId: reverse
+    explicit: true
+  - name: "randomPresetMin"
+    title: "Random window shade Preset Min."
+    description: "This setting select Random Minimum value for window shade preset position command (0-50%). Default: 40%"
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 50
+      default: 40
+  - name: "randomPresetMax"
+    title: "Random window shade Preset Max."
+    description: "This setting select Random Maximum value for window shade preset position command (51-100%). Default: 90%"
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 51
+      maximum: 100
+      default: 90

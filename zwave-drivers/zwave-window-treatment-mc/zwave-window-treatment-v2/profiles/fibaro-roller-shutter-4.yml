@@ -1,0 +1,140 @@
+name: fibaro-roller-shutter-4
+components:
+- id: main
+  capabilities:
+  - id: windowShade
+    version: 1
+  - id: windowShadeLevel
+    version: 1
+  - id: windowShadePreset
+    version: 1
+  - id: legendabsolute60149.windowShadePresetValue
+    version: 1
+  - id: powerMeter
+    version: 1
+  - id: energyMeter
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: Blind
+preferences:
+  - name: "randomPresetMin"
+    title: "Random window shade Preset Min."
+    description: "This setting select Random Minimum value for window shade preset position command (0-50%). Default: 40%"
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 50
+      default: 40
+  - name: "randomPresetMax"
+    title: "Random window shade Preset Max."
+    description: "This setting select Random Maximum value for window shade preset position command (51-100%). Default: 90%"
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 51
+      maximum: 100
+      default: 90
+  - name: "switchType"
+    title: "switch type - 20"
+    description: "Parameter 20 defines as what type the device should treat the switch connected to the S1 and S2 terminals"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "momentary switches-click to move"
+        1: "momentary switches-hold to move"
+        2: "Single momentary switch"
+        3: "Double toggle sw. (ON/OFF)"
+        4: "Single toggle sw. (ON/OFF)"
+        5: "Three-state switch"
+      default: 0
+  - name: "inputsOrientation"
+    title: "Inputs orientation-24"
+    description: "This setting allows reversing the operation of the buttons."
+    preferenceType: enumeration
+    required: true
+    definition:
+      options:
+        0: "Default (S1-UP, S2-DOWN)"
+        1: "Reversed (S1-DOWN, S2-UP)"
+      default: 0
+  - name: "outputsOrientation"
+    title: "Outputs orientation-25"
+    description: "This setting allows reversing the operation of Q1 and Q2 without changing the wiring."
+    preferenceType: enumeration
+    required: true
+    definition:
+      options:
+        0: "Default (Q1-UP, Q2-DOWN)"
+        1: "Reversed (Q1-DOWN, Q2-UP"
+      default: 0
+  - name: "calibration"
+    title: "Calibration - 150"
+    description: "This setting allows triggering blinds calibration process."
+    preferenceType: enumeration
+    required: true
+    definition:
+      options:
+        0: "Calibration not started"
+        3: "Start calibration"
+        4: "Manual calibration"
+      default: 0
+  - name: "operatingMode"
+    title: "Operating mode - 151"
+    description: "This setting allows adjusting operation according to the connected device. Default: Roller blind, Awning, Pergola, Curtain"
+    preferenceType: enumeration
+    required: true
+    definition:
+      options:
+        0: "Roller blind,Awning,Pergola,Curtain"
+        1: "Venetian blind 90°"
+        2: "Venetian blind 180°"
+      default: 0
+  - name: "timeUpMovement"
+    title: "Time of up movement - 156"
+    description: "time needed for roller blinds to reach the top..only modes without positioning 1-65535 (0.1-6553.5s, every 0.1s). Default: 600 (60 sec)"
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 1
+      maximum: 65535
+      default: 6000
+  - name: "timeDwonMovement"
+    title: "Time of down movement - 157"
+    description: "time needed for roller blinds to reach the Bottom position.  1 to 65535 (0.1-6553.5s, every 0.1s). Default: 600 (60 sec)"
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 1
+      maximum: 65535
+      default: 600
+  - name: "virtualLimit"
+    title: "Virtual Limit Switch - 158"
+    description: "This parameter allows you to set a fixed minimum level of lowering the shutter. For example, to protect a flowerpot located on a windowsill. (0-99). Default: 0"
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 99
+      default: 0
+  - name: "favoritePositionOpen"
+    title: "Favorite Opening Position - 159"
+    description: "This parameter allows you to define your favorite aperture level. (0-99 and 255 = Disabled). Default: 50"
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 255
+      default: 50
+  - name: "favoritePositionSlat"
+    title: "Favorite Opening Position - 160"
+    description: "This parameter allows you to define your favorite position of the slat angle. The parameter is used only for venetian blinds. (0-99 and 255 = Disabled). Default: 50"
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 255
+      default: 50

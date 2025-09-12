@@ -1,0 +1,178 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{windowShadePresetValue.value}}"
+            }
+        ],
+        "actions": []
+    },
+    "detailView": [
+        {
+            "label": "Window Shade Preset Value",
+            "displayType": "list",
+            "list": {
+                "command": {
+                    "name": "setWindowShadePresetValue",   
+                    "alternatives": [
+                        {
+                            "key": "0%",
+                            "value": "0%",
+                            "type": "inactive"
+                        },
+                        {
+                            "key": "25%",
+                            "value": "25%",
+                            "type": "active"
+                        },
+                        {
+                            "key": "50%",
+                            "value": "50%",
+                            "type": "active"
+                        },
+                        {
+                            "key": "75%",
+                            "value": "75%",
+                            "type": "active"
+                        },
+                        {
+                            "key": "100%",
+                            "value": "100%",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Random",
+                            "value": "Random",
+                            "type": "active"
+                        }
+                    ],
+                    "argumentType": "string"
+                },
+                "state": {
+                    "value": "windowShadePresetValue.value",
+                    "valueType": "string",
+                    "alternatives": [
+                        {
+                            "key": "0%",
+                            "value": "0%",
+                            "type": "inactive"
+                        },
+                        {
+                            "key": "25%",
+                            "value": "25%",
+                            "type": "active"
+                        },
+                        {
+                            "key": "50%",
+                            "value": "50%",
+                            "type": "active"
+                        },
+                        {
+                            "key": "75%",
+                            "value": "75%",
+                            "type": "active"
+                        },
+                        {
+                            "key": "100%",
+                            "value": "100%",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Random",
+                            "value": "Random",
+                            "type": "active"
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "automation": {
+        "conditions": [
+            {
+                "label": "Window Shade Preset Value",
+                "displayType": "list",
+                "list": {
+                    "alternatives": [
+                        {
+                            "key": "0%",
+                            "value": "0%",
+                            "type": "inactive"
+                        },
+                        {
+                            "key": "25%",
+                            "value": "25%",
+                            "type": "active"
+                        },
+                        {
+                            "key": "50%",
+                            "value": "50%",
+                            "type": "active"
+                        },
+                        {
+                            "key": "75%",
+                            "value": "75%",
+                            "type": "active"
+                        },
+                        {
+                            "key": "100%",
+                            "value": "100%",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Random",
+                            "value": "Random",
+                            "type": "active"
+                        }
+                    ],
+                    "value": "windowShadePresetValue.value",
+                    "valueType": "string"
+                }
+            }
+        ],
+        "actions": [
+            {
+                "label": "Window Shade Preset Value",
+                "displayType": "list",
+                "list": {
+                    "alternatives": [
+                        {
+                            "key": "0%",
+                            "value": "0%",
+                            "type": "inactive"
+                        },
+                        {
+                            "key": "25%",
+                            "value": "25%",
+                            "type": "active"
+                        },
+                        {
+                            "key": "50%",
+                            "value": "50%",
+                            "type": "active"
+                        },
+                        {
+                            "key": "75%",
+                            "value": "75%",
+                            "type": "active"
+                        },
+                        {
+                            "key": "100%",
+                            "value": "100%",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Random",
+                            "value": "Random",
+                            "type": "active"
+                        }
+                    ],
+                    "command": "setWindowShadePresetValue",
+                    "argumentType": "string"
+                }
+            }
+        ]
+    },
+    "id": "legendabsolute60149.windowShadePresetValue",
+    "version": 1
+}

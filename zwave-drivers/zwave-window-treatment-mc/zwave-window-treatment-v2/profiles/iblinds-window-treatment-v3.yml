@@ -1,0 +1,95 @@
+name: iblinds-window-treatment-v3
+components:
+- id: main
+  capabilities:
+  - id: windowShade
+    version: 1
+  - id: windowShadeLevel
+    version: 1
+  - id: windowShadePreset
+    version: 1
+  - id: battery
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: Blind
+preference:
+  - title: "Close Interval"
+    description: "Used for Large and Heavy blinds to set the close interval. A smaller value will make the blinds close tighter"
+    required: true
+    preferenceType: integer
+    definition:
+      default: 22
+  - preferenceId: reverse
+    explicit: true
+  - title: "Default ON Value"
+    description: "Used to set the default ON level when manual push button is pushed"
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 1
+      maximum: 100
+      default: 50
+  - title: "Disable Reset Button"
+    description: "Used for situations where the top motor buttons are being pushed accidentally via a tight installation space, etc."
+    required: true
+    preferenceType: boolean
+    definition:
+      default: false
+  - title: "Open Close Speed"
+    description: "To slow down the blinds, increase the value"
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 100
+      default: 0
+  - name: "batteryType"
+    title: "Device battery model"
+    description: Set your device Battery model to see it in App
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Unspecified": Unspecified
+        "Customed": Customed
+        "A": A
+        "AA": AA
+        "AAA": AAA
+        "B": B
+        "C": C
+        "D": D
+        "CR123A": CR123A
+        "CR2": CR2
+        "CR2016": CR2016
+        "CR2022": CR2020
+        "CR2025": CR2025
+        "CR2032": CR2032
+        "CR2040": CR2040
+        "CR2430": CR2430
+        "CR2450": CR2450
+        "CR_V3": CR_V3
+        "4v5": 4v5
+        "6v0": 6v0
+        "9v0": 9v0
+      default: "Unspecified"
+  - name: "batteryQuantity"
+    title: "Device battery quantity"
+    description: Set your device Battery quantity to see it in App
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 10
+      default: 1
+  - name: "batteryChangeDate"
+    title: "Date of batterry change"
+    description: "You can write the date you changed the new battery and your comments such as manufacturer, lifespan, etc." 
+    required: false
+    preferenceType: string
+    definition:
+      stringType: text
+      minLength: 0
+      maxLength: 100
+      default: ""
