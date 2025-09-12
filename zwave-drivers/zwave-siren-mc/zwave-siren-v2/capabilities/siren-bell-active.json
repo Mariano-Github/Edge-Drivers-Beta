@@ -1,0 +1,98 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{sirenOrBellActive.value}}" 
+            }
+        ],
+        "actions": []
+    },
+    "detailView": [
+        {
+            "label": "Siren Or Bell Active",
+            "displayType": "list",
+            "list": {
+                "command": {
+                    "name": "setSirenOrBellActive",    
+                    "alternatives": [
+                        {
+                            "key": "1",
+                            "value": "Siren",
+                            "type": "active"
+                        },
+                        {
+                            "key": "2",
+                            "value": "Door Bell",      
+                            "type": "active"
+                        }
+                    ],
+                    "argumentType": "string"
+                },
+                "state": {
+                    "value": "sirenOrBellActive.value",
+                    "valueType": "string",
+                    "alternatives": [
+                        {
+                            "key": "1",
+                            "value": "Siren",
+                            "type": "active"
+                        },
+                        {
+                            "key": "2",
+                            "value": "Door Bell",
+                            "type": "active"
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "automation": {
+        "conditions": [
+            {
+                "label": "Siren Or Bell Active",
+                "displayType": "list",
+                "list": {
+                    "alternatives": [
+                        {
+                            "key": "1",
+                            "value": "Siren",
+                            "type": "active"
+                        },
+                        {
+                            "key": "2",
+                            "value": "Door Bell",
+                            "type": "active"
+                        }
+                    ],
+                    "value": "sirenOrBellActive.value",
+                    "valueType": "string"
+                }
+            }
+        ],
+        "actions": [
+            {
+                "label": "Siren Or Bell Active",
+                "displayType": "list",
+                "list": {
+                    "alternatives": [
+                        {
+                            "key": "1",
+                            "value": "Siren",
+                            "type": "active"
+                        },
+                        {
+                            "key": "2",
+                            "value": "Door Bell",
+                            "type": "active"
+                        }
+                    ],
+                    "command": "setSirenOrBellActive",
+                    "argumentType": "string"
+                }
+            }
+        ]
+    },
+    "id": "legendabsolute60149.sirenOrBellActive",
+    "version": 1
+}
