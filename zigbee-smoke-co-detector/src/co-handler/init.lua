@@ -28,7 +28,8 @@ local is_co_detector = function(opts, driver, device)
       or (device:get_manufacturer() == "Trust" and device:get_model() == "COSensor-EM")
       or (device:get_manufacturer() == "_TYZB01_18pkine6" and device:get_model() == "TS0204")
       or (device:get_manufacturer() == "_TYZB01_wpmo3ja3" and device:get_model() == "TS0212")
-      or (device:get_manufacturer() == "_TYZB01_o7m83470" and device:get_model() == "TS0212") then
+      or (device:get_manufacturer() == "_TYZB01_o7m83470" and device:get_model() == "TS0212")
+      or (device:get_model() == "TS0212") then
         local subdriver = require("co-handler")
         return true, subdriver
     end

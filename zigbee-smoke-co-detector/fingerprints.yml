@@ -141,6 +141,17 @@ zigbeeManufacturer:
     manufacturer: _TYZB01_hr7c7xlf
     model: TS0205
     deviceProfileName: smoke-battery
+  - id: "_TYZB01_yt1wd5db/TS0205"
+    deviceLabel: Heiman Smoke Detector
+    manufacturer: _TYZB01_yt1wd5db
+    model: TS0205
+    deviceProfileName: smoke-battery
+  #Tuya TS0205 Smoke generic
+  - id: "TS0205/Tuya Smoke-Sensor"
+    deviceLabel: TS0205 Tuya CO-Sensor
+    model: TS0205
+    deviceProfileName: smoke-battery
+
   # CO Sensors
   - id: "feibit/FNB56-COS06FB1.7"
     deviceLabel: feibit CO Sensor
@@ -177,6 +188,12 @@ zigbeeManufacturer:
     manufacturer: _TYZB01_wpmo3ja3
     model: TS0212
     deviceProfileName: co-battery
+  #Tuya TS0212 CO generic
+  - id: "TS0212/Tuya Gas-Sensor"
+    deviceLabel: TS0212 Tuya CO-Sensor
+    model: TS0212
+    deviceProfileName: co-battery
+
   # Gas Sensors
   - id: "TS0204/_TYZB01_mfccmeio"
     deviceLabel: TS0204 Gas Sensor
@@ -196,5 +213,10 @@ zigbeeManufacturer:
   - id: "TS0204/_TYZB01_0w3d5uw3"
     deviceLabel: TS0204 Gas Sensor
     manufacturer: _TYZB01_0w3d5uw3
+    model: TS0204
+    deviceProfileName: gas-detector
+  #Tuya TS0204 Gas no battery generic
+  - id: "TS0204/Tuya Gas-Sensor"
+    deviceLabel: TS0204 Tuya Gas-Sensor
     model: TS0204
     deviceProfileName: gas-detector

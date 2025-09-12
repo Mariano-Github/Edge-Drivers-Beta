@@ -16,9 +16,13 @@
 local zcl_clusters = require "st.zigbee.zcl.clusters"
 local capabilities = require "st.capabilities"
 local constants = require "st.zigbee.constants"
+local clusters = require "st.zigbee.zcl.clusters"
+local IASZone = clusters.IASZone
+local device_management = require "st.zigbee.device_management"
+
 -- required module
 local signal = require "signal-metrics"
-local configurationMap = require "configurations"
+--local configurationMap = require "configurations"
 
 
 local is_gas_detector = function(opts, driver, device)
@@ -62,27 +66,11 @@ local function ias_zone_status_change_handler(driver, device, zb_rx)
   generate_event_from_zone_status(driver, device, zone_status, zb_rx)
 end
 
-local function  device_init(driver, device)
-  print("<< Gas device Init >>")
-  local configuration = configurationMap.get_device_configuration(device)
-    if configuration ~= nil then
-      for _, attribute in ipairs(configuration) do
-        device:add_configured_attribute(attribute)
-        device:add_monitored_attribute(attribute)
-      end
-    end
-end
-
 --do Configure
 local function do_configure(self, device)
   print("<< Gas do Configure >>")
-  local configuration = configurationMap.get_device_configuration(device)
-  if configuration ~= nil then
-    for _, attribute in ipairs(configuration) do
-      device:add_configured_attribute(attribute)
-      device:add_monitored_attribute(attribute)
-    end
-  end
+  device:send(device_management.build_bind_request(device, IASZone.ID, self.environment_info.hub_zigbee_eui))
+  device:send(IASZone.attributes.ZoneStatus:configure_reporting(device, 30, 180, 1))
   device:configure()
 end
 
@@ -97,8 +85,8 @@ end
 local gas_detector = {
   NAME = "Gas Detector",
   supported_capabilities = {
-    capabilities.gasDetector,
-    capabilities.battery
+    --capabilities.gasDetector,
+    --capabilities.battery
   },
   zigbee_handlers = {
     cluster = {
@@ -113,8 +101,6 @@ local gas_detector = {
     },
   },
   lifecycle_handlers = {
-    --added = added,
-    init = device_init,
     doConfigure = do_configure,
     driverSwitched = do_driverSwitched
   },

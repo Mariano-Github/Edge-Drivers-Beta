@@ -14,7 +14,7 @@
 
 local constants = require "st.zigbee.constants"
 -- required module
-local configurationMap = require "configurations"
+--local configurationMap = require "configurations"
 local clusters = require "st.zigbee.zcl.clusters"
 local IASZone = clusters.IASZone
 local IASWD = clusters.IASWD
@@ -31,9 +31,8 @@ local is_heiman_SMOK_V16 = function(opts, driver, device)
       device:get_model() == "COSensor-EM" or
       (device:get_model() == "TS0205" and device:get_manufacturer() == "_TYZB01_wqcac7lo") or
       (device:get_model() == "TS0205" and device:get_manufacturer() == "_TZ3210_up3pngle") or
-      (device:get_model() == "TS0205" and device:get_manufacturer() == "_TYZB01_hr7c7xlf") or
-      --(device:get_model() == "TS0205" and device:get_manufacturer() == "_TZ3000_hl7yraue") or
-      (device:get_model() == "TS0205" and device:get_manufacturer() == "_TYZB01_dsjszp0x") then
+      (device:get_model() == "TS0205" and device:get_manufacturer() == "_TYZB01_dsjszp0x") or
+      device:get_model() == "TS0205" then
         local subdriver = require("heiman-SMOK_V16")
         return true, subdriver
     end
@@ -57,13 +56,6 @@ end
     if (device:get_model() == "TS0205" and device:get_manufacturer() == "_TYZB01_wqcac7lo") then -- nedis device tht not respond to any command
       device:send(PowerConfiguration.attributes.BatteryVoltage:configure_reporting(device, 30, 300, 1))
     end
-    local configuration = configurationMap.get_device_configuration(device)
-    if configuration ~= nil then
-      for _, attribute in ipairs(configuration) do
-        --device:add_configured_attribute(attribute)
-        device:add_monitored_attribute(attribute)
-      end
-    end
     print("doConfigure performed, transitioning device to PROVISIONED") --23/12/23
     device:try_update_metadata({ provisioning_state = "PROVISIONED" })
   end
@@ -81,7 +73,6 @@ local heiman_SMOK_V16 = {
   NAME = "heiman_SMOK_V16",
   lifecycle_handlers = {
     doConfigure = do_configure,
-    --driverSwitched = do_configure,
     driverSwitched = do_driverSwitched --23/12/23
   },
   ias_zone_configuration_method = constants.IAS_ZONE_CONFIGURE_TYPE.AUTO_ENROLL_RESPONSE,

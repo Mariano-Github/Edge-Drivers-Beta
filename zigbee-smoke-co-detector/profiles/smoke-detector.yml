@@ -23,6 +23,16 @@ preferences:
         "Gas" : "Gas Detector"
         "Smoke": "Smoke Detector"
       default: "Gas"
+  - name: "signalMetricsVisibles"
+    title: "Signal Metrics Visible in History"
+    description: "Signal Metrics Visible in App History: (default: No Visible)"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Yes" : "Signal Metrics Visible"
+        "No": "Signal Metrics No Visible"
+      default: "No"
 metadata:
   deviceType: SmokeDetector
   ocfDeviceType: x.com.st.d.sensor.smoke

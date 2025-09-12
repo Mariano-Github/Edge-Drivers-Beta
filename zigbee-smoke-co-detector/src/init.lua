@@ -20,31 +20,33 @@ local clusters = require "st.zigbee.zcl.clusters"
 local utils = require "st.utils"
 -- required module
 local signal = require "signal-metrics"
-local child_devices = require "child-devices"
+--local child_devices = require "child-devices"
 
 
 -- preferences update
-local function do_preferences(self, device)
+local function do_preferences(self, device, event, args)
   print("***** infoChanged *********")
   
    for id, value in pairs(device.preferences) do
-    --print("device.preferences[infoChanged]=", device.preferences[id], "preferences: ", id)
-    local oldPreferenceValue = device:get_field(id)
+    local oldPreferenceValue = args.old_st_store.preferences[id]
     local newParameterValue = device.preferences[id]
+    -- temporal solution to delete old preferences variables
+    if device:get_field(id) ~= nil then
+      device:set_field(id, nil, {persist = false})
+    end
     if oldPreferenceValue ~= newParameterValue then
-      device:set_field(id, newParameterValue, {persist = true})
       print("<< Preference changed Name:", id, "old Value", oldPreferenceValue, "new Value>>", newParameterValue)
-      if id == "childBatteries" then
-        if newParameterValue == true then
-          child_devices.create_new(self, device, "main", "child-batteries-status")
-        end
-      elseif id == "changeProfile" then
+      if id == "changeProfile" then
         if newParameterValue == "Smoke" then
           device:try_update_metadata({profile = "smoke-detector"})
-        else --if newParameterValue == "Smoke"
+        else --if newParameterValue == "Gas"
           device:try_update_metadata({profile = "gas-detector"})
         end
       end
+    elseif id == "batteryType" and newParameterValue ~= nil then
+      device:emit_event(capabilities.battery.type(newParameterValue))
+    elseif id == "batteryQuantity" and newParameterValue ~= nil then
+      device:emit_event(capabilities.battery.quantity(newParameterValue))
     end
   end
   --print manufacturer, model and leng of the strings
@@ -96,7 +98,8 @@ local zigbee_smoke_driver_template = {
     capabilities.smokeDetector,
     capabilities.carbonMonoxideDetector,
     capabilities.battery,
-    capabilities.temperatureMeasurement
+    capabilities.temperatureMeasurement,
+    capabilities.gasDetector,
 
   },
   zigbee_handlers = {
@@ -110,11 +113,11 @@ local zigbee_smoke_driver_template = {
     lazy_load_if_possible("co-handler"),
     lazy_load_if_possible("heiman-SMOK_V16"),
     lazy_load_if_possible("gas-handler"),
-    lazy_load_if_possible("battery-virtual-status")
   },
   ias_zone_configuration_method = constants.IAS_ZONE_CONFIGURE_TYPE.AUTO_ENROLL_RESPONSE,
+  health_check = false
 }
 
-defaults.register_for_default_handlers(zigbee_smoke_driver_template, zigbee_smoke_driver_template.supported_capabilities)
+defaults.register_for_default_handlers(zigbee_smoke_driver_template, zigbee_smoke_driver_template.supported_capabilities, {native_capability_attrs_enabled = true})
 local zigbee_smoke_driver = ZigbeeDriver("zigbee-smoke-detector", zigbee_smoke_driver_template)
 zigbee_smoke_driver:run()
