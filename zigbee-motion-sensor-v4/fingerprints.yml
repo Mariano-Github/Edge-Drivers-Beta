@@ -351,7 +351,7 @@ zigbeeManufacturer:
     deviceProfileName: motion-battery
   # Agosto 2023
   - id: "_TYZB01_vwqnz1sn/Motion"
-    deviceLabel: TS0210 Motion Sensor
+    deviceLabel: TS0202 Motion Sensor
     manufacturer: _TYZB01_vwqnz1sn
     model: TS0202
     deviceProfileName: motion-illuminance
@@ -511,3 +511,31 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_k5wwrk7a
     model: TS0202
     deviceProfileName: motion-battery
+  - id: "_TZE200_iba1ckek/TS0601"
+    deviceLabel: Tuya ZG-103Z Vibration Sensor
+    manufacturer: _TZE200_iba1ckek
+    model: TS0601
+    deviceProfileName: motion-battery-sens-2
+  - id: "_TZ3000_c8ozah8n/TS0202"
+    deviceLabel: TS0202 Motion Sensor
+    manufacturer: _TZ3000_c8ozah8n
+    model: TS0202
+    deviceProfileName: motion-battery
+  
+  #Tuya TS0202 generic
+  - id: "TS0202/Motion Sensor"
+    deviceLabel: TS0202 Motion Sensor
+    model: TS0202
+    deviceProfileName: motion-battery
+
+  #Tuya RH3040 generic
+  - id: "RH3040/Motion Sensor"
+    deviceLabel: RH3040 Motion Sensor
+    model: RH3040
+    deviceProfileName: motion-battery
+
+  #Tuya TS0210 generic
+  - id: "TS0210/Vibration Sensor"
+    deviceLabel: TS0210 Vibration Sensor
+    model: TS0210
+    deviceProfileName: motion-battery-sens

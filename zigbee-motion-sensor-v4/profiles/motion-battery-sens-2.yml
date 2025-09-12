@@ -1,8 +1,10 @@
-name: lumi-illuminance
+name: motion-battery-sens-2
 components:
 - id: main
   capabilities:
-  - id: illuminanceMeasurement
+  - id: motionSensor
+    version: 1
+  - id: legendabsolute60149.sensorSensitivity
     version: 1
   - id: battery
     version: 1
@@ -13,8 +15,8 @@ components:
   - id: firmwareUpdate
     version: 1
   categories:
-  - name: LightSensor
-preferences: 
+  - name: MotionSensor
+preferences:
   - name: "version"
     title: "Version 6.3 (Apr 2025)"
     description: "Added: Preference for Battery type and quantity" 
@@ -25,6 +27,17 @@ preferences:
       minLength: 0
       maxLength: 0
       default: ""
+  - name: "motionSensitivity2"
+    title: "Select Vibration Sensitivity Level"
+    description: "Select Vibration Sensitivity Level. IMPORTANT: The sensor must be awakened with a movement for the new value SET. Default : Middle"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "Low"
+        1: "Middle"
+        2: "Hihg"
+      default: 1  
   - name: "batteryType"
     title: "Device battery model"
     description: Set your device Battery model to see it in App
@@ -83,3 +96,7 @@ preferences:
         "Yes" : "Signal Metrics Visible"
         "No": "Signal Metrics No Visible"
       default: "No"
+metadata:
+  deviceType: MotionSensor
+  ocfDeviceType: x.com.st.d.sensor.motion
+  deviceTypeId: MotionSensor

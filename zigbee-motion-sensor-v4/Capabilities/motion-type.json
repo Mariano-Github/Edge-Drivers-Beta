@@ -1,0 +1,53 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{motionType.value}}"
+            }
+        ],
+        "actions": [],
+        "panelItems": []
+    },
+    "detailView": [
+        {
+            "label": "Motion Type",
+            "displayType": "state",
+            "state": {
+                "label": "{{motionType.value}}"
+            }
+        }
+    ],
+    "automation": {
+        "conditions": [
+            {
+                "label": "Motion Type",
+                "displayType": "list",
+                "list": {
+                    "alternatives": [
+                        {
+                            "key": "Inactive",
+                            "value": "Inactive",
+                            "type": "inactive"
+                        },
+                        {
+                            "key": "LargeMotion",
+                            "value": "Large Motion",
+                            "type": "active"
+                        },
+                        {
+                            "key": "SmallMotion",
+                            "value": "Small Motion",
+                            "type": "active"
+                        }
+                    ],
+                    "value": "motionType.value",
+                    "valueType": "string",
+                    "multiSelectable": false
+                }
+            }
+        ],
+        "actions": []
+    },
+    "id": "legendabsolute60149.motionType",
+    "version": 1
+}

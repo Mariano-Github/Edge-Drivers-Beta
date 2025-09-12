@@ -24,8 +24,8 @@ preferences:
   - preferenceId: tempOffset
     explicit: true
   - name: "version"
-    title: "Version 6.1 (Jan 2024)"
-    description: "Added: Create virtual device for Batteries status" 
+    title: "Version 6.3 (Apr 2025)"
+    description: "Added: Preference for Battery type and quantity"  
     required: false
     preferenceType: string
     definition:
@@ -33,13 +33,6 @@ preferences:
       minLength: 0
       maxLength: 0
       default: ""
-  - name: "childBatteries"
-    title: "Create devices batt status Virtual"
-    description: "Create devices batt status Virtual"
-    required: false
-    preferenceType: boolean
-    definition:
-      default: false
   - name: "iasZoneReports"
     title: "Motion Sensor Interval Report"
     description: "IF YOUR DEVICE & NETWORK WORK FINE THEN DON'T TOUCH. Set Device Interval Report (300 to 3600 sec). Smartthings Default=300. Longer intervals reduce zigbee Network traffic,Hub work and Battery consumption. NEED WAKE UP DEVICE WITH Motion event TO ACCEPT NEW VALUE. Restore default before Driver Change"
@@ -67,6 +60,54 @@ preferences:
       minimum: 10
       maximum: 600
       default: 10
+  - name: "batteryType"
+    title: "Device battery model"
+    description: Set your device Battery model to see it in App
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Unspecified": Unspecified
+        "Customed": Customed
+        "A": A
+        "AA": AA
+        "AAA": AAA
+        "B": B
+        "C": C
+        "D": D
+        "CR123A": CR123A
+        "CR2": CR2
+        "CR2016": CR2016
+        "CR2022": CR2020
+        "CR2025": CR2025
+        "CR2032": CR2032
+        "CR2040": CR2040
+        "CR2430": CR2430
+        "CR2450": CR2450
+        "CR_V3": CR_V3
+        "4v5": 4v5
+        "6v0": 6v0
+        "9v0": 9v0
+      default: "Unspecified"
+  - name: "batteryQuantity"
+    title: "Device battery quantity"
+    description: Set your device Battery quantity to see it in App
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 10
+      default: 1
+  - name: "batteryChangeDate"
+    title: "Date of batterry change"
+    description: "You can write the date you changed the new battery and your comments such as manufacturer, lifespan, etc." 
+    required: false
+    preferenceType: string
+    definition:
+      stringType: text
+      minLength: 0
+      maxLength: 100
+      default: ""
   - name: "signalMetricsVisibles"
     title: "Signal Metrics Visible in History"
     description: "Signal Metrics Visible in App History (default: No Visible):"

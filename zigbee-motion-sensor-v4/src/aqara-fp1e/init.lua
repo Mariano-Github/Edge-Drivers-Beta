@@ -67,6 +67,10 @@ local function do_preferences(self, device)
           local mfg_code = 0x115F
           device:send(write.custom_read_attribute(device, cluster_id, attr_id, mfg_code))
         end
+      elseif id == "batteryType" and newParameterValue ~= nil then
+        device:emit_event(capabilities.battery.type(newParameterValue))
+      elseif id == "batteryQuantity" and newParameterValue ~= nil then
+        device:emit_event(capabilities.battery.quantity(newParameterValue))
       end
     end
   end
@@ -135,7 +139,17 @@ end
 
 local function device_init(self, device)
   print("<< Device do init >>")
+  
+  -- set battery type and quantity
+  local cap_status = device:get_latest_state("main", capabilities.battery.ID, capabilities.battery.type.NAME)
+  if cap_status == nil and device.preferences.batteryType ~= nil then
+    device:emit_event(capabilities.battery.type(device.preferences.batteryType))
+  end
 
+  cap_status = device:get_latest_state("main", capabilities.battery.ID, capabilities.battery.quantity.NAME)
+  if cap_status == nil and device.preferences.batteryQuantity ~= nil then
+    device:emit_event(capabilities.battery.quantity(device.preferences.batteryQuantity))
+  end
 end
 
 --device added

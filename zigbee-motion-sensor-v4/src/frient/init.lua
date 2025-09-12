@@ -79,7 +79,7 @@ local frient_motion_handler = {
     attr = {
       [zcl_clusters.IlluminanceMeasurement.ID] = {
         [zcl_clusters.IlluminanceMeasurement.attributes.MeasuredValue.ID] = illuminance_measurement_defaults
-    }
+      }
     }
   },
   can_handle = is_zigbee_frient_motion_sensor
