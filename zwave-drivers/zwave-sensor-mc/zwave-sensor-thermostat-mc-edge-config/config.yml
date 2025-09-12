@@ -1,0 +1,5 @@
+name: 'Z-Wave Sensor and Child Thermostat Mc'
+packageKey: 'zwave-sensor-child-v6'
+description: 'Devices Supported: https://github.com/Mariano-Github/Edge-Drivers-Beta/blob/main/zwave-drivers/zwave-sensor-mc/fingerprints.yml'
+permissions:
+  zwave: {}
