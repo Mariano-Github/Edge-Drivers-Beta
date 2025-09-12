@@ -1,6 +1,6 @@
 # EDGE DRIVERS BETA CREATED OR MODIFIED BY Mariano Colmenarejo
 
-# WARNING:The Lua code for the drivers in this repository has not been updated for approximately a year.
+# WARNING:The Lua code for the drivers in this repository has updated sep 2025 to last version of my drivers in my shared channel.
 
 # The code is valid as a reference or as an help for modifying or creating new drivers. Drivers generated directly with this code may display errors when packaging the driver or may not work correctly and require several modifications.
 
