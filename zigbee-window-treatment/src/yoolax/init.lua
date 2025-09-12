@@ -21,7 +21,8 @@ local PowerConfiguration = zcl_clusters.PowerConfiguration
 local YOOLAX_WINDOW_SHADE_FINGERPRINTS = {
     { mfr = "Yookee", model = "D10110" },                 -- Yookee Window Treatment
     { mfr = "yooksmart", model = "D10110" },              -- yooksmart Window Treatment
-    { mfr = "_TZE200_9caxna4s", model = "TS0301" }        -- Yookee Window Treatment
+    { mfr = "_TZE200_9caxna4s", model = "TS0301" },        -- Yookee Window Treatment
+    { mfr = "_TZE210_z2tpoj46", model = "TS0301" }        --  motor Window Treatment
 }
 
 local function is_yoolax_window_shade(opts, driver, device)

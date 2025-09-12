@@ -60,6 +60,12 @@ local function info_changed(driver, device, event, args)
   if device.preferences ~= nil and device.preferences.invert ~= args.old_st_store.preferences.invert then
     invert_preference_handler(device)
   end
+  -- set battery type and quantity
+  if (device.preferences.batteryType ~= args.old_st_store.preferences.batteryType) and device.preferences.batteryType ~= nil then
+    device:emit_event(capabilities.battery.type(device.preferences.batteryType))
+  elseif (device.preferences.batteryQuantity ~= args.old_st_store.preferences.batteryQuantity) and device.preferences.batteryQuantity ~= nil then
+    device:emit_event(capabilities.battery.quantity(device.preferences.batteryQuantity))
+  end
 end
 
 local function current_position_attr_handler(driver, device, value, zb_rx)

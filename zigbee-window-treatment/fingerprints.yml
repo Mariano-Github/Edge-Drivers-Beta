@@ -161,14 +161,14 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_dbpmpco1
     model: TS130F
     deviceProfileName: window-treatment-profile-calib
-  #- id: "_TZE204_fzbskaga/TS0601"  #copy fron stock driver aug 2023
-  #  deviceLabel: Hanssem Window Treatment
-  #  manufacturer: _TZE204_fzbskaga
-  #  model: TS0601
-  #  deviceProfileName: window-treatment-hanssem
+  - id: "_TZE204_fzbskaga/TS0601"  #copy from stock driver aug 2023
+    deviceLabel: Hanssem Window Treatment
+    manufacturer: _TZE204_fzbskaga
+    model: TS0601
+    deviceProfileName: window-treatment-hanssem
   # august 2023
   - id: "TS0302/_TYZB01_dazsid15"
-    deviceLabel: TS130F Window Treatment
+    deviceLabel: TS0302 Window Treatment
     manufacturer: _TYZB01_dazsid15
     model: TS0302
     deviceProfileName: window-treatment-profile
@@ -185,6 +185,11 @@ zigbeeManufacturer:
   - id: "_TZE200_9caxna4s/TS0301"
     deviceLabel: yoolax Window Treatment
     manufacturer: _TZE200_9caxna4s
+    model: TS0301
+    deviceProfileName: window-treatment-battery-invert
+  - id: "_TZE210_z2tpoj46/TS0301" #added 1-agosto-2025
+    deviceLabel: yoolax Window Treatment
+    manufacturer: _TZE210_z2tpoj46
     model: TS0301
     deviceProfileName: window-treatment-battery-invert
   - id: "TS130F/_TZ3000_drk3g2st"
@@ -223,7 +228,18 @@ zigbeeManufacturer:
     deviceLabel: TS130F Window Treatment
     manufacturer: _TZ3000_e3vhyirx
     model: TS130F
-    deviceProfileName: window-treatment-profile-calib  
+    deviceProfileName: window-treatment-profile-calib
+  
+  #Tuya Window Treatment generic
+  - id: "TS130F/window-treatment"
+    deviceLabel: TS130F Window Treatment
+    model: TS130F
+    deviceProfileName: window-treatment-profile-calib
+  - id: "TS0302/window-treatment"
+    deviceLabel: TS0302 Window Treatment
+    model: TS0302
+    deviceProfileName: window-treatment-profile
+
 zigbeeGeneric:
   - id: "genericShade"
     deviceLabel: Zigbee Window Treatment

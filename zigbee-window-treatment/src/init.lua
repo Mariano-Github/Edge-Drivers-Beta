@@ -20,13 +20,18 @@ local write = require "writeAttribute"
 
 
 --- Update preferences after infoChanged recived---
-local function do_Preferences (self, device)
+local function do_Preferences (self, device, event, args)
   for id, value in pairs(device.preferences) do
     --print("device.preferences[infoChanged]=", id, device.preferences[id])
-    local oldPreferenceValue = device:get_field(id)
+    --local oldPreferenceValue = device:get_field(id)
+    local oldPreferenceValue = args.old_st_store.preferences[id]
     local newParameterValue = device.preferences[id]
+    if device:get_field(id) ~= nil then
+      --print("set_field ~= nil")
+      device:set_field(id, nil, {persist = false})
+    end
     if oldPreferenceValue ~= newParameterValue then
-      device:set_field(id, newParameterValue, {persist = true})
+      --device:set_field(id, newParameterValue, {persist = true})
       print("<< Preference changed name:",id, "old value:",oldPreferenceValue, "new value:", newParameterValue)
 
       --- Configure calibration cluster 0x0102, attributte 0xF001 data type "Enum8"
@@ -53,6 +58,10 @@ local function do_Preferences (self, device)
         local cluster_id = {value = 0x0102}
         local attr_id = 0xF003
         write.write_attribute_function(device, cluster_id, attr_id, data_value)
+      elseif id == "batteryType" and newParameterValue ~= nil then
+        device:emit_event(capabilities.battery.type(newParameterValue))
+      elseif id == "batteryQuantity" and newParameterValue ~= nil then
+        device:emit_event(capabilities.battery.quantity(newParameterValue))
       end
     end
   end
@@ -117,7 +126,8 @@ local zigbee_window_treatment_driver_template = {
   lifecycle_handlers = {
     added = added_handler,
     infoChanged = do_Preferences
-  }
+  },
+  --health_check = false,
 }
 
 defaults.register_for_default_handlers(zigbee_window_treatment_driver_template, zigbee_window_treatment_driver_template.supported_capabilities)

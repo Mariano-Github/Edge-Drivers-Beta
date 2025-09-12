@@ -47,12 +47,13 @@ local ZIGBEE_WINDOW_SHADE_FINGERPRINTS = {
 }
 
 local is_zigbee_window_shade = function(opts, driver, device)
-  for _, fingerprint in ipairs(ZIGBEE_WINDOW_SHADE_FINGERPRINTS) do
-      if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
+  --for _, fingerprint in ipairs(ZIGBEE_WINDOW_SHADE_FINGERPRINTS) do
+      --if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
+      if device:get_model() == "TS130F" then
         local subdriver = require("tuya-calib")
         return true, subdriver
       end
-  end
+  --end
 
   return false
 end
