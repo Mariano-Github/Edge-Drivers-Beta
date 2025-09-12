@@ -1,0 +1,306 @@
+name: fibaro-rgbw-controller-2
+components:
+- id: main
+  capabilities:
+  - id: switch
+    version: 1
+  - id: switchLevel
+    version: 1
+  - id: powerMeter
+    version: 1
+  - id: energyMeter
+    version: 1
+  - id: legendabsolute60149.programmedSequence
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: Light
+- id: rgb
+  capabilities:
+  - id: switch
+    version: 1
+  - id: switchLevel
+    version: 1
+  - id: colorControl
+    version: 1
+  categories:
+  - name: Light
+- id: white
+  capabilities:
+  - id: switch
+    version: 1
+  - id: switchLevel
+    version: 1
+  categories:
+  - name: Light
+- id: button1
+  capabilities:
+  - id: button
+    version: 1
+  categories:
+  - name: RemoteController
+- id: button2
+  capabilities:
+  - id: button
+    version: 1
+  categories:
+  - name: RemoteController
+- id: button3
+  capabilities:
+  - id: button
+    version: 1
+  categories:
+  - name: RemoteController
+- id: button4
+  capabilities:
+  - id: button
+    version: 1
+  categories:
+  - name: RemoteController
+preferences:
+  - name: "changeProfile2"
+    title: "Select Tile Type"
+    description: "Select Multi-Tile or Single-Tile Type:"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Multi" : "Multi-Tile Type"
+        "Single": "Single-Tile Type"
+      default: "Single"
+  - name: "restoreState"
+    title: "Restore state memorized- 1"
+    description: "After the power supply is back on, the Wall Plug can be restored to previous state or remain switched off"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "device remains switched off"
+        1: "device restores the state"
+      default: 0
+  - name: "inputConfig1"
+    title: "Inputs configuration IN1- 20"
+    description: "This parameter allows to choose mode of 1st input (IN1). Change it depending on connected device."
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "A.input without p-up(S.Multilevel)"
+        1: "A.input with pull-up(S.Multilevel)"
+        2: "Momentary switch (Central Scene)"
+        3: "Toggle:State Change input(C. Scene)"
+        4: "Toggle:Contact ON-OFF(Central Scene)"
+      default: 2
+  - name: "inputConfig2"
+    title: "Inputs configuration IN2- 21"
+    description: "This parameter allows to choose mode of input (IN2). Change it depending on connected device."
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "A.input without p-up(S.Multilevel)"
+        1: "A.input with pull-up(S.Multilevel)"
+        2: "Momentary switch (Central Scene)"
+        3: "Toggle:State Change input(C.Scene)"
+        4: "Toggle:Contact ON-OFF(Central Scene)"
+      default: 2
+  - name: "inputConfig3"
+    title: "Inputs configuration IN3- 22"
+    description: "This parameter allows to choose mode of input (IN3). Change it depending on connected device."
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "A.input without p-up(S.Multilevel)"
+        1: "A.input with pull-up(S.Multilevel)"
+        2: "Momentary switch (Central Scene)"
+        3: "Toggle:State Change input(C. Scene)"
+        4: "Toggle:Contact ON-OFF(Central Scene)"
+      default: 2
+  - name: "inputConfig4"
+    title: "Inputs configuration IN4- 23"
+    description: "This parameter allows to choose mode of input (IN4). Change it depending on connected device."
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "A.input without p-up(S.Multilevel)"
+        1: "A.input with pull-up(S.Multilevel)"
+        2: "Momentary switch (Central Scene)"
+        3: "Toggle:State Change input(C. Scene)"
+        4: "Toggle:Contact ON-OFF(Central Scene)"
+      default: 2
+  - name: "inp1ScenesSent"
+    title: "Input 1 scenes sent- 40"
+    description: "This parameter determines which actions result in sending scene IDs assigned.\n Parameter is relevant only if parameter 20 is set to 2, 3 or 4."
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "Scenes disabled"
+        1: "key pressed 1 time"
+        2: "key pressed 2 times"
+        3: "key pressed 1 & 2 times"
+        4: "key pressed 3 times"
+        5: "key pressed 1 & 3 times"
+        6: "key pressed 2 & 3 times"
+        7: "key pressed 1, 2 & 3 times"
+        8: "key held & released"
+        9: "key Pressed 1 time & held"
+        10: "key pressed 2 times & held"
+        11: "key pressed 1, 2 times & held"
+        12: "key pressed 3 times & held"
+        13: "key pressed 1, 3 times & held"
+        14: "key pressed 2, 3 times & held"
+        15: "key pressed 1, 2, 3 times & held"
+      default: 15
+  - name: "inp2ScenesSent"
+    title: "Input 1 scenes sent- 41"
+    description: "This parameter determines which actions result in sending scene IDs assigned.\n Parameter is relevant only if parameter 21 is set to 2, 3 or 4."
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "Scenes disabled"  
+        1: "key pressed 1 time"
+        2: "key pressed 2 times"
+        3: "key pressed 1 & 2 times"
+        4: "key pressed 3 times"
+        5: "key pressed 1 & 3 times"
+        6: "key pressed 2 & 3 times"
+        7: "key pressed 1, 2 & 3 times"
+        8: "key held & released"
+        9: "key Pressed 1 time & held"
+        10: "key pressed 2 times & held"
+        11: "key pressed 1, 2 times & held"
+        12: "key pressed 3 times & held"
+        13: "key pressed 1, 3 times & held"
+        14: "key pressed 2, 3 times & held"
+        15: "key pressed 1, 2, 3 times & held"
+      default: 15
+  - name: "inp3ScenesSent"
+    title: "Input 3 scenes sent- 42"
+    description: "This parameter determines which actions result in sending scene IDs assigned.\n Parameter is relevant only if parameter 22 is set to 2, 3 or 4."
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "Scenes disabled"
+        1: "key pressed 1 time"
+        2: "key pressed 2 times"
+        3: "key pressed 1 & 2 times"
+        4: "key pressed 3 times"
+        5: "key pressed 1 & 3 times"
+        6: "key pressed 2 & 3 times"
+        7: "key pressed 1, 2 & 3 times"
+        8: "key held & released"
+        9: "key Pressed 1 time & held"
+        10: "key pressed 2 times & held"
+        11: "key pressed 1, 2 times & held"
+        12: "key pressed 3 times & held"
+        13: "key pressed 1, 3 times & held"
+        14: "key pressed 2, 3 times & held"
+        15: "key pressed 1, 2, 3 times & held"
+      default: 15
+  - name: "inp4ScenesSent"
+    title: "Input 4 scenes sent- 43"
+    description: "This parameter determines which actions result in sending scene IDs assigned.\n Parameter is relevant only if parameter 23 is set to 2, 3 or 4."
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "Scenes disabled"
+        1: "key pressed 1 time"
+        2: "key pressed 2 times"
+        3: "key pressed 1 & 2 times"
+        4: "key pressed 3 times"
+        5: "key pressed 1 & 3 times"
+        6: "key pressed 2 & 3 times"
+        7: "key pressed 1, 2 & 3 times"
+        8: "key held & released"
+        9: "key Pressed 1 time & held"
+        10: "key pressed 2 times & held"
+        11: "key pressed 1, 2 times & held"
+        12: "key pressed 3 times & held"
+        13: "key pressed 1, 3 times & held"
+        14: "key pressed 2, 3 times & held"
+        15: "key pressed 1, 2, 3 times & held"
+      default: 15
+  - name: "powerReportingFrequency"
+    title: "Periodic power reports- 62"
+    description: "This parameter determines intervals the periodic power reports are sent to the main controller. 0= Reports disabled (30s-32400s)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 0
+      maximum: 32400
+      default: 3600
+  - name: "analogInputsThreshold"
+    title: "0-10v analog inputs threshold- 63"
+    description: "Reporting 0-10v analog inputs change threshold and new report send: 1-100 - (0.1 - 10V)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 1
+      maximum: 100
+      default: 5
+  - name: "analogInputsReports"
+    title: "Periodic analog Inputs Reports- 64"
+    description: "This parameter defines reporting period of analog inputs value. 0= Reports disabled (30s-32400s)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 0
+      maximum: 32400
+      default: 0
+  - name: "reportingChangesEnergy"
+    title: "Reporting changes in energy- 65"
+    description: "Reporting changes in energy consumed by controlled devices. 1-500 (0,01kWh-5kWh)/ 0- changes not be reported"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 0
+      maximum: 500
+      default: 10
+  - name: "energyReportingFrequency"
+    title: "Periodic energyr reports- 66"
+    description: "This parameter determines intervals the periodic energy reports are sent to the main controller. 0= Reports disabled (30s-32400s)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 0
+      maximum: 32400
+      default: 3600
+  - name: "inputsColorMode"
+    title: "inputs Color Mode- 150"
+    description: "This parameter determines how connected switches control LED strips.(inputs works in HSB color model, IN1-H(Hue), IN2-S(Saturation), IN3-B(Brightness),IN4-White(OUT4) "
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "RGBW"
+        1: "HSB and White mode"
+      default: 0
+  - name: "localTransitionTime"
+    title: "local Transition Time- 151"
+    description: "Time of smooth transition between 0% and 100% when controlling with connected switches.\n (0 -immediate change,\n 1-127 (1s-127s, 1s step)\n 128-254 (1min-127min, 1min step)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 0
+      maximum: 255
+      default: 3
+  - name: "remoteTransitionTime"
+    title: "Remote Transition Time- 152"
+    description: "Time of smooth transition between 0% and 100% when controlling via Z-Wave network.\n (0 -immediate change,\n 1-127 (1s-127s, 1s step)\n 128-254 (1min-127min, 1min step)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 0
+      maximum: 255
+      default: 3
+metadata:
+  deviceType: Light
+  ocfDeviceType: oic.d.light
+  deviceTypeId: Light
