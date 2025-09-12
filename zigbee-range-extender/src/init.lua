@@ -29,14 +29,11 @@ local function ZCLVersion_handler(self, device, value, zb_rx)
     if device.preferences.signalMetricsVisibles == "Yes" then
       visible_satate = true
     end
-    local lqi = zb_rx.lqi.value
-    local rssi = zb_rx.rssi.value
 
-    --local gmt = os.date("%Y/%m/%d Time: %H:%M",os.time())
-    --local dni = string.format("0x%04X", zb_rx.address_header.src_addr.value)
-    --local metrics = "<em table style='font-size:70%';'font-weight: bold'</em>".. "<b>GMT: </b>".. gmt .."<BR>"
-    --metrics = metrics .. "<b>DNI: </b>".. dni .. "  ".."<b> LQI: </b>" .. zb_rx.lqi.value .."  ".."<b>RSSI: </b>".. zb_rx.rssi.value .. "dbm".."</em>".."<BR>"
-    local metrics = "LQI: ".. lqi.."..RSSI: " .. rssi .."dbm"
+    local gmt = os.date("%Y/%m/%d GMT: %H:%M",os.time())
+    --local metrics = "LQI: ".. lqi.."..RSSI: " .. rssi .."dbm"
+    --local metrics = gmt .. ", LQI: ".. zb_rx.lqi.value .." ... rssi: ".. zb_rx.rssi.value
+    local metrics = "LQI: ".. zb_rx.lqi.value .."...rssi: ".. zb_rx.rssi.value .. ", " .. gmt
 
     device:emit_event(signal_Metrics.signalMetrics({value = metrics}, {visibility = {displayed = visible_satate }}))
 end
@@ -68,6 +65,6 @@ function zigbee_range_extender_driver:device_health_check()
     device:send(Basic.attributes.ZCLVersion:read(device))
   end
 end
-zigbee_range_extender_driver.device_health_timer = zigbee_range_extender_driver.call_on_schedule(zigbee_range_extender_driver, 300, zigbee_range_extender_driver.device_health_check)
+zigbee_range_extender_driver.device_health_timer = zigbee_range_extender_driver.call_on_schedule(zigbee_range_extender_driver, 900, zigbee_range_extender_driver.device_health_check)
 
 zigbee_range_extender_driver:run()
