@@ -1,0 +1,38 @@
+name: metering-plug-multi
+components:
+- id: main
+  capabilities:
+  - id: switch
+    version: 1
+  - id: powerMeter
+    version: 1
+  - id: energyMeter
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: SmartPlug
+preferences:
+  - name: "configChild"
+    title: "Create Device Config-Association"
+    description: "Create Child Device to see Fingerprints, Configure Parameters and Association Groups. NOTE: YOU MUST DELETE THE DEVICE AFTER PERFORMING THE CONFIGURATION"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "changeProfileOneMP"
+    title: "Select Tile Type"
+    description: "Select Multi-Tile or Single-Tile Type:"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Multi" : "Multi-Tile Switch"
+        "Single": "Single-Tile Switch"
+      default: "Single"
+metadata:
+  # deviceType: Switch
+  # ocfDeviceType: oic.d.switch
+  # deviceTypeId: Switch
+  mnmn: SmartThingsCommunity
+  vid: 7a611259-81ce-3f83-89d7-f55672a5d995

@@ -1,0 +1,244 @@
+name: fibaro-smart-relay-double
+components:
+  - id: main
+    capabilities:
+    - id: switch
+      version: 1
+    - id: refresh
+      version: 1
+    categories:
+    - name: SmartPlug
+  - id: switch1
+    capabilities:
+    - id: switch
+      version: 1
+    - id: refresh
+      version: 1
+    categories:
+    - name: SmartPlug
+  - id: button1
+    capabilities:
+    - id: button
+      version: 1
+    categories:
+    - name: RemoteController
+  - id: button2
+    capabilities:
+    - id: button
+      version: 1
+    categories:
+    - name: RemoteController
+preferences:
+  - name: "configChild"
+    title: "Create Device Config-Association"
+    description: "Create Child Device to see Fingerprints, Configure Parameters and Association Groups. NOTE: YOU MUST DELETE THE DEVICE AFTER PERFORMING THE CONFIGURATION"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "changeProfileFibSmart"
+    title: "Select Tile Type"
+    description: "Select Multi-Tile or Single-Tile Type:"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Single": "Single-Tile Switch"
+        "Multi" : "Multi-Tile Switch"
+      default: "Single"
+  - name: "switch1Child"
+    title: "Create Single Device for Switch1"
+    description: "Create Single Device for Switch1:"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "restoreState"
+    title: "restore state - 1"
+    description: "Determines device state after to the power failure. NOTE: Restore remembered state of relays after restoring power, but for toggle switches (parameter 20/21 set to 1) set the same state as the current state of the switches. Deafault: Restore state memorized"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "Power off after power failure"
+        1: "Restore state memorized"
+        2: "For toggle restore state with sync"
+      default: 1
+  - name: "switchType"
+    title: "switch type - 20"
+    description: "Parameter 20 defines as what type the device should treat the switch connected to the S1 terminal. Default: Momentary switch"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "Momentary switch"
+        1: "oggle sw. sync with ON/OFF position"
+        2: "Toggle sw. change switch status"
+      default: 0
+  - name: "switchType2"
+    title: "switch type - 21"
+    description: "Parameter 21 defines as what type the device should treat the switch connected to the S2 terminal. Default: Momentary switch"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "Momentary switch"
+        1: "Toggle sw. sync with ON/OFF position"
+        2: "Toggle sw. change switch status"
+      default: 0
+  - name: "inputOrientation"
+    title: "switch input Orientation - 24"
+    description: "Parameter 24 allows reversing operation of S1 and S2 inputs without changing the wiring. Use in case of incorrect wiring. Default: S1-1st channel, S2-2nd channel"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "S1-1st channel, S2-2nd channel"
+        1: "S1-2nd channel, S2-1st channel"
+      default: 0
+  - name: "outputOrientation"
+    title: "switch output Orientation - 25"
+    description: "Parameter 25 allows reversing operation of Q1 and Q2 outputs without changing the wiring. Use in case of incorrect wiring. Default: Q1-1st channel, Q2-2nd channel"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "Q1-1st channel, Q2-2nd channel"
+        1: "Q1-2nd channel, Q2-1st channel"
+      default: 0
+  - name: "s1ScenesSent"
+    title: "s1 scenes sent - 40"
+    description: "This parameter 40 determines which actions result in sending scene IDs assigned to them. Default: key pressed 1, 2, 3 times & held"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "do not send scenes"
+        1: "key pressed 1 time"
+        2: "key pressed 2 times"
+        3: "key pressed 1 & 2 times"
+        4: "key pressed 3 times"
+        5: "key pressed 1 & 3 times"
+        6: "key pressed 2 & 3 times"
+        7: "key pressed 1, 2 & 3 times"
+        8: "key held & released"
+        9: "key Pressed 1 time & held"
+        10: "key pressed 2 times & held"
+        11: "key pressed 1, 2 times & held"
+        12: "key pressed 3 times & held"
+        13: "key pressed 1, 3 times & held"
+        14: "key pressed 2, 3 times & held"
+        15: "key pressed 1, 2, 3 times & held"
+      default: 0
+  - name: "s2ScenesSent"
+    title: "s2 scenes sent - 41"
+    description: "This parameter 41 determines which actions result in sending scene IDs assigned to them. Default: key pressed 1, 2, 3 times & held"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "do not send scenes"
+        1: "key pressed 1 time"
+        2: "key pressed 2 times"
+        3: "key pressed 1 & 2 times"
+        4: "key pressed 3 times"
+        5: "key pressed 1 & 3 times"
+        6: "key pressed 2 & 3 times"
+        7: "key pressed 1, 2 & 3 times"
+        8: "key held & released"
+        9: "key Pressed 1 time & held"
+        10: "key pressed 2 times & held"
+        11: "key pressed 1, 2 times & held"
+        12: "key pressed 3 times & held"
+        13: "key pressed 1, 3 times & held"
+        14: "key pressed 2, 3 times & held"
+        15: "key pressed 1, 2, 3 times & held"
+      default: 0
+  - name: "ch1OperatingMode"
+    title: "Ch1 operating mode - 150"
+    description: "This parameter allows to choose operating mode for channel controlled with Q/Q1 output. For timed modes (value 1, 2 or 3), time is set with parameter 154 and reaction to input change is set with parameter 152. Deafault: standard operation"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "standard operation"
+        1: "delay OFF"
+        2: "auto OFF"
+        5: "flashing mode"
+      default: 0
+  - name: "ch2OperatingMode"
+    title: "Ch2 operating mode - 151"
+    description: "This parameter allows to choose operating mode for channel controlled with Q/Q1 output. For timed modes (value 1, 2 or 3), time is set with parameter 154 and reaction to input change is set with parameter 152. Deafault: standard operation"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "standard operation"
+        1: "delay OFF"
+        2: "auto OFF"
+        5: "flashing mode"
+      default: 0
+  - name: "ch1ReactionToSwitch"
+    title: "Ch1 reaction to switch - 152"
+    description: "This parameter determines how the device reacts when changing state of S1 input in timed modes for first channel. Default:cancel and set target state"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "cancel and set target state"
+        1: "no reaction"
+        2: "reset timer"
+      default: 0
+  - name: "ch2ReactionToSwitch"
+    title: "Ch2 reaction to switch - 153"
+    description: "This parameter determines how the device reacts when changing state of S1 input in timed modes for first channel. Default:cancel and set target state"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "cancel and set target state"
+        1: "no reaction"
+        2: "reset timer"
+      default: 0
+  - name: "ch1TimeParameter"
+    title: "Ch1 time parameter - 154"
+    description: "This parameter allows to set time parameter used in timed modes for first channel. For delayed/auto OFF modes it determines duration, for flashing mode it determines cycle period. Values 0: 0.1 seconds, 1-32000: 0.1-3200 seconds, 0.1s step. Default: 5(0.5s)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 0
+      maximum: 32000
+      default: 5
+  - name: "ch2TimeParameter"
+    title: "Ch2 time parameter - 155"
+    description: "This parameter allows to set time parameter used in timed modes for second channel. For delayed/auto OFF modes it determines duration, for flashing mode it determines cycle period. Values 0: 0.1 seconds, 1-32000: 0.1-3200 seconds, 0.1s step. Default: 5(0.5s)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 0
+      maximum: 32000
+      default: 5
+  - name: "outputTypeQ1"
+    title: "Output Type of Q1 - 162"
+    description: "This parameter 162 This parameter determines type of Q1 output. Default: Normally Open (relay contacts)"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "Normally Open (relay contacts)"
+        1: "Normally Closed (relay contacts)"
+      default: 0
+  - name: "outputTypeQ2"
+    title: "Output Type of Q2 - 163"
+    description: "This parameter 163 This parameter determines type of Q2 output. Default: Normally Open (relay contacts)"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "Normally Open (relay contacts)"
+        1: "Normally Closed (relay contacts)"
+      default: 0
+metadata:
+  deviceType: Switch
+  ocfDeviceType: oic.d.switch
+  deviceTypeId: Switch

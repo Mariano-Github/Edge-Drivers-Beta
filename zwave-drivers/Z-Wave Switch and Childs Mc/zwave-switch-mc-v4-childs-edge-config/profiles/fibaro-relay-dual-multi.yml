@@ -1,0 +1,115 @@
+name: fibaro-relay-dual-multi
+components:
+  - id: main
+    capabilities:
+    - id: switch
+      version: 1
+    - id: refresh
+      version: 1
+    categories:
+    - name: SmartPlug
+  - id: switch1
+    capabilities:
+    - id: switch
+      version: 1
+    categories:
+    - name: SmartPlug
+preferences:
+  - name: "configChild"
+    title: "Create Device Config-Association"
+    description: "Create Child Device to see Fingerprints, Configure Parameters and Association Groups. NOTE: YOU MUST DELETE THE DEVICE AFTER PERFORMING THE CONFIGURATION"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "changeProfileFibRelay"
+    title: "Select Tile Type"
+    description: "Select Multi-Tile or Single-Tile Type:"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Single": "Single-Tile Switch"
+        "Multi" : "Multi-Tile Switch"
+      default: "Multi"
+  - name: "switch1Child"
+    title: "Create Single Device for Switch1"
+    description: "Create Single Device for Switch1:"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "restoreState"
+    title: "restore state"
+    description: "This parameter 16 determines if the device will return to state prior to the power failure after power is restored"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "power off after power failure"
+        1: "restore state"
+      default: 1
+  - name: "autoOffRelay"
+    title: "Auto Off Relay"
+    description: "This parameter 3 Auto off relay after specified time, with the possibility of manual override - immediate Off after button push"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "standard operation"
+        1: "auto OFF"
+      default: 0
+  - name: "autoOffTime1"
+    title: "Auto Off Time S1"
+    description: "This parameter 4 determines 0- 65535 (0 s to 6553,5 s) Time period for auto off for S1, in miliseconds"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 0
+      maximum: 65535
+      default: 0
+  - name: "autoOffTime2"
+    title: "Auto Off Time S2"
+    description: "This parameter 5 determines 0- 65535 (0 s to 6553,5 s) Time period for auto off for S2, in miliseconds"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 0
+      maximum: 65535
+      default: 0
+  - name: "bistableKeyStatus"
+    title: "Bistable Key Status"
+    description: "Parameter 13 defines Assigns bistable key status to the device status"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "(On/Off) changes status"
+        1: "Depends on key status"
+      default: 0
+  - name: "switchType"
+    title: "switch type"
+    description: "Parameter 14 defines as what type the device should treat the switch connected to the S1 terminal"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "momentary switch"
+        1: "toggle sw. (ON/OFF)"
+      default: 1
+  - name: "dimmerRollerShutter"
+    title: "Dimmer and Roller Shutter"
+    description: "Parameter 15 defines Operation of the Dimmer and Roller Shutter Controller "
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "Dimmer/Roller Shutter not active"
+        1: "Dimmer/Roller Shutter active"
+      default: 0
+metadata:
+  deviceType: Switch
+  ocfDeviceType: oic.d.switch
+  deviceTypeId: Switch
+  mnmn: SmartThingsCommunity
+  vid: d87b2ca8-127d-3d3e-b8e8-bd2cb07c5576

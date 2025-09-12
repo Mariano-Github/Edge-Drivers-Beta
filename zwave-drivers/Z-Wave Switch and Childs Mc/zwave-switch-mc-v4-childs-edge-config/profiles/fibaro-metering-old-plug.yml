@@ -1,0 +1,131 @@
+name: fibaro-metering-old-plug
+components:
+- id: main
+  capabilities:
+  - id: switch
+    version: 1
+  - id: powerMeter
+    version: 1
+  - id: energyMeter
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: SmartPlug
+preferences:
+  - name: "configChild"
+    title: "Create Device Config-Association"
+    description: "Create Child Device to see Fingerprints, Configure Parameters and Association Groups. NOTE: YOU MUST DELETE THE DEVICE AFTER PERFORMING THE CONFIGURATION"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "alwaysActive"
+    title: "Always active- 1"
+    description: "Turns the Wall Plug into a power and energy meter. Wall Plug will turn on connected device permanently and will stop reacting to attempts of turning it off."
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "function inactive"
+        1: "function activated"
+      default: 0
+  - name: "restoreState"
+    title: "Restore state- 16"
+    description: "After the power supply is back on, the Wall Plug can be restored to previous state or remain switched off"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "device remains switched off"
+        1: "device restores the state"
+      default: 1
+  - name: "overloadSafety"
+    title: "Overload safety- 70"
+    description: "Allows to turn off the controlled device in case of exceeding the defined power; 1-6535W.\n>32000 - function inactive\n10-65535 (1.0-6535.6W)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 10
+      maximum: 65535
+      default: 65535
+  - name: "inmediatePowerReport"
+    title: "Inmediate Power Report- 40"
+    description: "This parameter 40 determines the minimum percentage change in active power that will result in sending power report.\n1-99 - power change in percent\n100 - reports are disabled"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 1
+      maximum: 100
+      default: 80
+  - name: "standardPowerReports"
+    title: "Standard power reports- 42"
+    description: "This parameter 42 determines the minimum percentage change in active power that will result in sending a power report.\n1-99 - power change in percent\n100 - reports are disabled"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 1
+      maximum: 100
+      default: 15
+  - name: "powerReportFrequency"
+    title: "Power report frequency- 43"
+    description: "Time interval of sending at most 1 standard power reports.\n1-254 (in seconds)\n255 e sent only as a result of parameter 47 settings"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 1
+      maximum: 255
+      default: 30
+  - name: "energyReportingThreshold"
+    title: "Energy Reporting Threshold- 45"
+    description: "This parameter  45 specifies the minimum change in energy consumption (in relation to the previously reported)\n255-energy reports inactive\n1-254 (0.01-2.54kWh)-threshold"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 1
+      maximum: 255
+      default: 10
+  - name: "periodicReports"
+    title: "Periodic reports- 47"
+    description: "Time period between independent reports.\n65535 - periodic reports inactive\n1-65534 (in seconds)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 1
+      maximum: 65535
+      default: 3600
+  - name: "ringColorOn"
+    title: "Ring color on- 61"
+    description: "Ring LED colour when the device is ON"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "Load based - steps"
+        1: "Load based - continuous"
+        2: "White"
+        3: "Red"
+        4: "Green"
+        5: "Blue"
+        6: "Yellow"
+        7: "Cyan"
+        8: "Magenta"
+        9: "Off"
+      default: 1
+  - name: "ringColorOff"
+    title: "Ring color off- 62"
+    description: "Ring LED colour when the device is OFF"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "Last measured power"
+        1: "White"
+        2: "Red"
+        3: "Green"
+        4: "Blue"
+        5: "Yellow"
+        6: "Cyan"
+        7: "Magenta"
+        8: "Off"
+      default: 8

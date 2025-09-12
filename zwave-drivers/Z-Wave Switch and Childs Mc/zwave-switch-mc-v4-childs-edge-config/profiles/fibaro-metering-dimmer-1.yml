@@ -1,0 +1,89 @@
+name: fibaro-metering-dimmer-1
+components:
+- id: main
+  capabilities:
+  - id: switch
+    version: 1
+  - id: switchLevel
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: Switch
+preferences:
+  - name: "configChild"
+    title: "Create Device Config-Association"
+    description: "Create Child Device to see Fingerprints, Configure Parameters and Association Groups. NOTE: YOU MUST DELETE THE DEVICE AFTER PERFORMING THE CONFIGURATION"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "maximumLevel"
+    title: "Maximum brightness level - 12"
+    description: "This parameter 2 allows set Maximum brightness level % (2 to 99)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 2
+      maximum: 99
+      default: 99
+  - name: "minimumLevel"
+    title: "Minimum brightness level - 13"
+    description: "This parameter 1 allows set Minimum brightness level % (1 to 98)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 1
+      maximum: 98
+      default: 1
+  - name: "switchType"
+    title: "switch type - 14"
+    description: "Parameter 14 defines as what type the device should treat the switch connected to the S1 and S2 terminals"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "momentary switch"
+        1: "toggle sw. (ON/OFF)"
+        2: "switches (S1 to brighten, S2 to dim)"
+      default: 0
+  - name: "doubleClickOption"
+    title: "Double click option - 15"
+    description: "This parameter 15 allow set the brightness level to MAX with double click"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "Double click deactivated"
+        1: "Double click activated"
+      default: 1
+  - name: "restoreState"
+    title: "restore state - 16" 
+    description: "This parameter 16 determines if the device will return to state prior to the power failure after power is restored"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "power off after power failure"
+        1: "restore state"
+      default: 1
+  - name: "threeWaySwitch"
+    title: "Function of 3-way switch  17"
+    description: "This parameter 17 Switch no. 2 controls the Dimmer 2 additionally (in 3-way switch mode)"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "3-way function for S2 disabled"
+        1: "3-way function for S2 enabled"
+      default: 0
+  - name: "toggleSwitchStatus"
+    title: "Assign toggle switch status- 19"
+    description: "This parameter 19 allow Assign toggle switch status to the device status"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "Device changes status"
+        1: "Device status synch to switch"
+      default: 0

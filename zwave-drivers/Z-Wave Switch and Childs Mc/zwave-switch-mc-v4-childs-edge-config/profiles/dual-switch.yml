@@ -1,0 +1,41 @@
+name: dual-switch
+components:
+  - id: main
+    capabilities:
+    - id: switch
+      version: 1
+    - id: refresh
+      version: 1
+    categories:
+    - name: Switch
+  - id: switch1
+    capabilities:
+    - id: switch
+      version: 1
+    categories:
+    - name: Switch
+preferences:
+  - name: "configChild"
+    title: "Create Device Config-Association"
+    description: "Create Child Device to see Fingerprints, Configure Parameters and Association Groups. NOTE: YOU MUST DELETE THE DEVICE AFTER PERFORMING THE CONFIGURATION"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "changeProfileDualSwitch"
+    title: "Select Tile Type"
+    description: "Select Multi-Tile or Single-Tile Type (default: Multi-Tile)"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Single": "Single-Tile Switch"
+        "Multi" : "Multi-Tile Switch"
+      default: "Single"
+  - name: "switch1Child"
+    title: "Create Single Device for Switch1"
+    description: "Create Single Device for Switch1:"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false

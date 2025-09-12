@@ -1,0 +1,107 @@
+name: switch-multicomponent-generic-5
+components:
+  - id: main
+    capabilities:
+    - id: switch
+      version: 1
+    - id: powerMeter
+      version: 1
+    - id: energyMeter
+      version: 1
+    - id: refresh
+      version: 1
+    categories:
+    - name: Switch
+  - id: switch1
+    capabilities:
+    - id: switch
+      version: 1
+    - id: powerMeter
+      version: 1
+    - id: energyMeter
+      version: 1
+    categories:
+    - name: Switch
+  - id: switch2
+    capabilities:
+    - id: switch
+      version: 1
+    - id: powerMeter
+      version: 1
+    - id: energyMeter
+      version: 1
+    categories:
+    - name: Switch
+  - id: switch3
+    capabilities:
+    - id: switch
+      version: 1
+    - id: powerMeter
+      version: 1
+    - id: energyMeter
+      version: 1
+    categories:
+    - name: Switch
+  - id: switch4
+    capabilities:
+    - id: switch
+      version: 1
+    - id: powerMeter
+      version: 1
+    - id: energyMeter
+      version: 1
+    categories:
+    - name: Switch
+  - id: switch5
+    capabilities:
+    - id: switch
+      version: 1
+    - id: powerMeter
+      version: 1
+    - id: energyMeter
+      version: 1
+    categories:
+    - name: Switch
+preferences:
+  - name: "configChild"
+    title: "Create Device Config-Association"
+    description: "Create Child Device to see Fingerprints, Configure Parameters and Association Groups. NOTE: YOU MUST DELETE THE DEVICE AFTER PERFORMING THE CONFIGURATION"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "switch1Child"
+    title: "Create Single Device for Switch1"
+    description: "Create Single Device for Switch1:"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "switch2Child"
+    title: "Create Single Device for Switch2"
+    description: "Create Single Device for Switch2:"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "switch3Child"
+    title: "Create Single Device for Switch3"
+    description: "Create Single Device for Switch3:"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "switch4Child"
+    title: "Create Single Device for Switch4"
+    description: "Create Single Device for Switch4:"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "switch5Child"
+    title: "Create Single Device for Switch5"
+    description: "Create Single Device for Switch5:"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false

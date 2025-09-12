@@ -1,0 +1,87 @@
+name: inovelli-dimmer-nzw31-no-scene
+components:
+  - id: main
+    capabilities:
+      - id: switch
+        version: 1
+      - id: switchLevel
+        version: 1
+      - id: refresh
+        version: 1
+    categories:
+      - name: Switch
+preferences:
+  - name: "configChild"
+    title: "Create Device Config-Association"
+    description: "Create Child Device to see Fingerprints, Configure Parameters and Association Groups. NOTE: YOU MUST DELETE THE DEVICE AFTER PERFORMING THE CONFIGURATION"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "dimmingStep"
+    title: "Dimming Step - 1"
+    description: "Dimming Step Size\nPercentage of step when switch is dimming up or down\nRange: 0 to 99 (0 - Instant)"
+    required: true
+    preferenceType: number
+    definition:
+      minimum: 0
+      maximum: 99
+      default: 3
+  - name: "minimumLevel"
+    title: "Minimum Level - 2"
+    description: "Minimum Level\nMinimum dimming level for attached light\nRange: 1 to 99"
+    required: true
+    preferenceType: number
+    definition:
+      minimum: 1
+      maximum: 99
+      default: 1
+  - name: "ledIndicator"
+    title: "LED Indicator -3"
+    description: "LED Indicator\nTurn LED indicator on when light is: (Paddle Switch Only)"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "Off"
+        1: "On"
+        2: "Disable"
+        3: "Always On"
+      default: 0
+  - name: "invert"
+    title: "Invert Switch - 4"
+    description: "Invert Switch\nInvert on & off on the physical switch"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "No"
+        1: "Yes"
+      default: 0
+  - name: "autoOff"
+    title: "Auto Off - 5"
+    description: "Auto Off\nAutomatically turn switch off after this number of seconds\nRange: 0 to 32767"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 0
+      maximum: 32767
+      default: 0
+  - name: "defaultLocal"
+    title: "Default Local - 8"
+    description: "Default Level (Local)\nDefault level when light is turned on at the switch\nRange: 0 to 99\nNote: 0 = Previous Level\n(Firmware 1.02+)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 0
+      maximum: 99
+      default: 0
+  - name: "defaultZWave"
+    title: "Default ZWave - 9"
+    description: "Default Level (Z-Wave)\nDefault level when light is turned on via Z-Wave command\nRange: 0 to 99\nNote: 0 = Previous Level\n(Firmware 1.02+)"
+    required: true
+    preferenceType: number
+    definition:
+      minimum: 0
+      maximum: 99
+      default: 0

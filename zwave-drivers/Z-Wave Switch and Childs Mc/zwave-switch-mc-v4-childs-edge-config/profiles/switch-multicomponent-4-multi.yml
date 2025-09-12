@@ -1,0 +1,70 @@
+name: switch-multicomponent-4-multi
+components:
+  - id: main
+    capabilities:
+      - id: switch
+        version: 1
+      - id: refresh
+        version: 1
+    categories:
+      - name: Switch
+  - id: switch1
+    capabilities:
+      - id: switch
+        version: 1
+    categories:
+      - name: Switch
+  - id: switch2
+    capabilities:
+      - id: switch
+        version: 1
+    categories:
+      - name: Switch
+  - id: switch3
+    capabilities:
+      - id: switch
+        version: 1
+    categories:
+      - name: Switch
+preferences:
+  - name: "configChild"
+    title: "Create Device Config-Association"
+    description: "Create Child Device to see Fingerprints, Configure Parameters and Association Groups. NOTE: YOU MUST DELETE THE DEVICE AFTER PERFORMING THE CONFIGURATION"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "changeProfileFourSwitch"
+    title: "Select Tile Type"
+    description: "Select Multi-Tile or Single-Tile Type (default: Single-Tile Switch)"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Single": "Single-Tile Switch"
+        "Multi" : "Multi-Tile Switch"
+      default: "Multi"
+  - name: "switch1Child"
+    title: "Create Single Device for Switch1"
+    description: "Create Single Device for Switch1:"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "switch2Child"
+    title: "Create Single Device for Switch2"
+    description: "Create Single Device for Switch2:"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "switch3Child"
+    title: "Create Single Device for Switch3"
+    description: "Create Single Device for Switch3:"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+metadata:
+  mnmn: SmartThingsCommunity
+  vid: 00e44de2-ce27-34a6-8d60-4d7ac5c64314

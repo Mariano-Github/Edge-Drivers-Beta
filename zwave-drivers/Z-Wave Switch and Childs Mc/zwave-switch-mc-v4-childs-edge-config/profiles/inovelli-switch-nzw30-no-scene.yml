@@ -1,0 +1,49 @@
+name: inovelli-switch-nzw30-no-scene
+components:
+  - id: main
+    capabilities:
+      - id: switch
+        version: 1
+      - id: refresh
+        version: 1
+    categories:
+      - name: Switch
+preferences:
+  - name: "configChild"
+    title: "Create Device Config-Association"
+    description: "Create Child Device to see Fingerprints, Configure Parameters and Association Groups. NOTE: YOU MUST DELETE THE DEVICE AFTER PERFORMING THE CONFIGURATION"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "ledIndicator"
+    title: "LED Indicator -3"
+    description: "LED Indicator\nTurn LED indicator on when light is: (Paddle Switch Only)"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "Off"
+        1: "On"
+        2: "Disable"
+        3: "Always On"
+      default: 0
+  - name: "invert"
+    title: "Invert Switch - 4"
+    description: "Invert Switch\nInvert on & off on the physical switch"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "No"
+        1: "Yes"
+      default: 0
+  - name: "autoOff"
+    title: "Auto Off - 5"
+    description: "Auto Off\nAutomatically turn switch off after this number of seconds\nRange: 0 to 32767"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 0
+      maximum: 32767
+      default: 0
