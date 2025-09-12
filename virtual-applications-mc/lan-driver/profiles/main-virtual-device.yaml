@@ -1,0 +1,39 @@
+name: main-virtual-device
+components:
+- id: main
+  capabilities:
+  - id: legendabsolute60149.createDevice2
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: SmartPlug
+preferences:
+  - name: "version"
+    title: "Version 5 (Nov 2022)"
+    description: "Added Virtual Device for Timer of Days" 
+    required: false
+    preferenceType: string
+    definition:
+      stringType: text
+      minLength: 0
+      maxLength: 0
+      default: ""
+  - name: "switchNumber"
+    title: "Profile Number"
+    description: "Profile Number, Do not change"
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 0
+      default: 0
+  - name: "mirrorMain"
+    title: "This is Main Virtual Device"
+    description: "Main Virtual Device"
+    required: true
+    preferenceType: enumeration
+    definition:
+      options:
+        "Yes" : "Yes"
+      default: "Yes"

@@ -1,0 +1,62 @@
+name: list-device-events
+components:
+- id: main
+  label: List Devices Events
+  capabilities:
+    - id: legendabsolute60149.deviceInfo
+      version: 1
+    - id: legendabsolute60149.deviceName
+      version: 1
+    - id: legendabsolute60149.deviceEvent
+      version: 1
+    - id: refresh
+      version: 1
+  categories:
+  - name: Elevator
+preferences:
+  - name: "version"
+    title: "Version 6 (Jan 2024)"
+    description: "Added Virtual Devices Events List" 
+    required: false
+    preferenceType: string
+    definition:
+      stringType: text
+      minLength: 0
+      maxLength: 0
+      default: ""
+  - name: "localTimeOffset"
+    title: "Local Time Offset to UTC (-12 to 12)"
+    description: "Select Your Local Time Offset to UTC Time Hours (-12 to 12)"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: -12
+      maximum: 12
+      default: 0
+  - name: "numberOfEvents"
+    title: "Number of devices in events to list"
+    description: "Select number of devices events to list. 0 = Delete event list to 100 max events list. Default: 0"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 100
+      default: 0
+  - name: "logDebugPrint"
+    title: "Show Logs Debug Prints in CLI"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "switchNumber"
+    title: "Profile Number"
+    description: "Profile Number, Do not change"
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 12
+      maximum: 12
+      default: 12 
+metadata:
+  # mnmn: SmartThingsCommunity
+  # vid: 36ff598b-9f57-3ee7-bd08-c2f0c2d30714

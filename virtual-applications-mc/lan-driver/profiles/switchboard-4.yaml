@@ -1,0 +1,93 @@
+name: switchboard-4
+components:
+- id: main
+  label: SwitchBoard Satus
+  capabilities:
+    - id: legendabsolute60149.switchBoardStatus
+      version: 1
+    - id: legendabsolute60149.switchBoardType
+      version: 1
+    - id: refresh
+      version: 1
+  categories:
+  - name: SmartPlug
+- id: switch-1
+  label: Switch-1
+  capabilities:
+    - id: legendabsolute60149.nameSwitch1
+      version: 1
+    - id: switch
+      version: 1
+    - id: refresh
+      version: 1
+  categories:
+  - name: SmartPlug
+- id: switch-2
+  label: Switch-2
+  capabilities:
+    - id: legendabsolute60149.nameSwitch2
+      version: 1
+    - id: switch
+      version: 1
+    - id: refresh
+      version: 1
+  categories:
+  - name: SmartPlug
+- id: switch-3
+  label: Switch-3
+  capabilities:
+    - id: legendabsolute60149.nameSwitch3
+      version: 1
+    - id: switch
+      version: 1
+    - id: refresh
+      version: 1
+  categories:
+  - name: SmartPlug
+- id: switch-4
+  label: Switch-4
+  capabilities:
+    - id: legendabsolute60149.nameSwitch4
+      version: 1
+    - id: switch
+      version: 1
+    - id: refresh
+      version: 1
+  categories:
+  - name: SmartPlug
+preferences:
+  - name: "version"
+    title: "Version 5 (Nov 2022)"
+    description: "Added Virtual Device for Timer of Days" 
+    required: false
+    preferenceType: string
+    definition:
+      stringType: text
+      minLength: 0
+      maxLength: 0
+      default: ""
+  - name: "switchNumber"
+    title: "Profile Number"
+    description: "Profile Number, Do not change"
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 4
+      maximum: 4
+      default: 4 
+  - name: "switchBoardType"
+    title: "SwitchBoard Type"
+    description: "SwitchBoard Type: Only One Switch On or Independent Switches"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "MaxOneSwitchOn" : "Maximum One Switch On"
+        "Independent": "Independent Switches"
+      default: "MaxOneSwitchOn"
+metadata:
+  deviceType: Irrigation
+  ocfDeviceType: x.com.st.d.irrigation
+  deviceTypeId: Irrigation
+  # mnmn: SmartThingsCommunity
+  # vid: 36ff598b-9f57-3ee7-bd08-c2f0c2d30714

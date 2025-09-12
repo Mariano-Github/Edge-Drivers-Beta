@@ -1,0 +1,63 @@
+name: number-field-5
+components:
+- id: main
+  label: Number Fields
+  capabilities:
+    - id: legendabsolute60149.calculationResult
+      version: 1
+    - id: legendabsolute60149.numberFieldOne
+      version: 1
+    - id: legendabsolute60149.numberFieldTwo
+      version: 1
+    - id: legendabsolute60149.numberFieldThree
+      version: 1
+    - id: legendabsolute60149.numberFieldFour
+      version: 1
+    - id: legendabsolute60149.numberFieldFive
+      version: 1
+    - id: legendabsolute60149.textFormula
+      version: 1
+    - id: legendabsolute60149.deviceInfo
+      version: 1
+    - id: refresh
+      version: 1
+  categories:
+  - name: RemoteController
+preferences:
+  - name: "version"
+    title: "Version 5.5 (Jan 2024)"
+    description: "Added the Calculator function" 
+    required: false
+    preferenceType: string
+    definition:
+      stringType: text
+      minLength: 0
+      maxLength: 0
+      default: ""
+  - name: "instructions"
+    title: "Show Instructions in Detail View"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: true
+  - name: "logDebugPrint"
+    title: "Show Logs Debug Prints in CLI"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "switchNumber"
+    title: "Profile Number"
+    description: "Profile Number, Do not change"
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 7
+      maximum: 7
+      default: 7 
+metadata:
+  deviceType: RemoteController
+  ocfDeviceType: x.com.st.d.remotecontroller
+  deviceTypeId: RemoteController
+  # mnmn: SmartThingsCommunity
+  # vid: 36ff598b-9f57-3ee7-bd08-c2f0c2d30714

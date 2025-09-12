@@ -1,0 +1,5 @@
+name: 'Aplicaciones Virtuales Mc'
+packageKey: 'virtual-switches-v2'
+description: 'Driver to create Virtual devices as Virtual Timer Days, Timer seconds, Virtual Calendar, SwitchBoards, Virtual mirror, Text and Numeric Fields with calculator, Devices batt monitor, Device events, Virtual Security'
+permissions:
+  discovery: {}

@@ -1,0 +1,99 @@
+name: virtual-only-switch
+components:
+- id: main
+  capabilities:
+  - id: switch
+    version: 1
+  - id: legendabsolute60149.randomOnOff2
+    version: 1
+  - id: legendabsolute60149.randomNextStep2
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: SmartPlug
+preferences:
+  - name: "version"
+    title: "Version 5 (Nov 2022)"
+    description: "Added Virtual Device for Timer of Days" 
+    required: false
+    preferenceType: string
+    definition:
+      stringType: text
+      minLength: 0
+      maxLength: 0
+      default: ""
+  - name: "localTimeOffset"
+    title: "Local Time Offset to UTC (-12 to 12)"
+    description: "Select Your Local Time Offset to UTC Time Hours (-12 to 12)"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: -12
+      maximum: 12
+      default: 0 
+  - name: "changeProfile"
+    title: "Selected Profile "
+    description: "With Mirror profile only Mirror capabilities appears in routines. With Mirror and Switch profile all capabilities appears in routines. (Default: Mirror and Switch)"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Mirror" : "Mirror"
+        "MirrorSwitch": "Mirror and Switch"
+        "Switch": "Switch only"
+      default: "MirrorSwitch"
+  - name: "randomMin"
+    title: "Random ON-OFF Minimum Time"
+    description: "Select Minimum Time ON-OFF Interval (0.5 min to 60 min)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 0.5
+      maximum: 60
+      default: 1 
+  - name: "randomMax"
+    title: "Random ON-OFF Maximum Time"
+    description: "Select Maximum Time ON-OFF Interval (0.5 min to 60 min)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 0.5
+      maximum: 60
+      default: 10 
+  - name: "onTime"
+    title: "Programmed time for ON State"
+    description: "Selec Programmed time for ON State (1 min to 600 min)"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 1
+      maximum: 600
+      default: 10
+  - name: "offTime"
+    title: "Programmed time for OFF State"
+    description: "Selec Programmed time for OFF State (1 min to 600 min)"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 1
+      maximum: 600
+      default: 10
+  - name: "logDebugPrint"
+    title: "Show Logs Debug Prints in CLI"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "switchNumber"
+    title: "Profile Number"
+    description: "Profile Number, Do not change"
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 1
+      maximum: 1
+      default: 1
+metadata:
+  #mnmn: SmartThingsCommunity
+  #vid: 6c6cb505-23ec-3a67-a267-4c6208db775f

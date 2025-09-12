@@ -1,0 +1,106 @@
+name: virtual-calendar
+components:
+- id: main
+  capabilities:
+  - id: legendabsolute60149.localDate
+    version: 1
+  - id: legendabsolute60149.localWeekDay
+    version: 1
+  - id: legendabsolute60149.sunRise
+    version: 1
+  - id: legendabsolute60149.sunSet
+    version: 1
+  - id: legendabsolute60149.dayLength
+    version: 1
+  - id: legendabsolute60149.sunRiseOffset1
+    version: 1
+  - id: legendabsolute60149.sunSetOffset1
+    version: 1
+  - id: legendabsolute60149.currentTimePeriod
+    version: 1
+  - id: legendabsolute60149.currentTwilight
+    version: 1
+  - id: legendabsolute60149.sunElevationAngle
+    version: 1
+  - id: legendabsolute60149.sunAzimuthAngle
+    version: 1
+  - id: legendabsolute60149.localHourOffset
+    version: 1
+  - id: legendabsolute60149.localHour
+    version: 1
+  - id: legendabsolute60149.localHourTwo
+    version: 1
+  - id: legendabsolute60149.localDay
+    version: 1
+  - id: legendabsolute60149.localDayTwo
+    version: 1
+  - id: legendabsolute60149.localMonth
+    version: 1
+  - id: legendabsolute60149.localMonthTwo
+    version: 1
+  - id: legendabsolute60149.localYear
+    version: 1
+  - id: legendabsolute60149.localMonthDayOne
+    version: 1
+  - id: legendabsolute60149.localMonthDayTwo
+    version: 1
+  - id: legendabsolute60149.localDateOne
+    version: 1
+  - id: legendabsolute60149.localDateTwo1
+    version: 1
+  - id: legendabsolute60149.evenOddDay
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: Elevator
+preferences:
+  - name: "version"
+    title: "Version 6 (Feb 2023)"
+    description: "Added Virtual Device for Timer of Days" 
+    required: false
+    preferenceType: string
+    definition:
+      stringType: text
+      minLength: 0
+      maxLength: 0
+      default: ""
+  - name: "localLatitude"
+    title: "Local Latitude (-90 to 90)"
+    description: "Enter your Local Latitude (-90º to 90º)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: -90
+      maximum: 90
+      default: 0.1
+  - name: "localLongitude"
+    title: "Local Longitude (-180 to 180)"
+    description: "Enter your Local Longitude (-180º to 180º)"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: -180
+      maximum: 180
+      default: 0.1
+  - name: "logDebugPrint"
+    title: "Show Logs Debug Prints in CLI"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "switchNumber"
+    title: "Profile Number"
+    description: "Profile Number, Do not change"
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 8
+      maximum: 8
+      default: 8 
+metadata:
+  #deviceType: Elevator
+  #ocfDeviceType: x.com.st.d.elevator
+  #deviceTypeId: Elevator
+  mnmn: SmartThingsCommunity
+  vid: 288ba36c-9234-3e15-bc02-63b2466d3635

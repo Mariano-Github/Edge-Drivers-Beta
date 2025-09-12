@@ -1,0 +1,45 @@
+name: virtual-timer-days
+components:
+- id: main
+  capabilities:
+  - id: switch
+    version: 1
+  - id: legendabsolute60149.timerForNumberOfDays
+    version: 1
+  - id: legendabsolute60149.timerNextChange
+    version: 1
+  - id: legendabsolute60149.localHourOffset
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: SmartPlug
+preferences:
+  - name: "version"
+    title: "Version 5 (Nov 2022)"
+    description: "Added Virtual Device for Timer of Days" 
+    required: false
+    preferenceType: string
+    definition:
+      stringType: text
+      minLength: 0
+      maxLength: 0
+      default: ""
+  - name: "logDebugPrint"
+    title: "Show Logs Debug Prints in CLI"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "switchNumber"
+    title: "Profile Number"
+    description: "Profile Number, Do not change"
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 9
+      maximum: 9
+      default: 9
+metadata:
+  # mnmn: SmartThingsCommunity
+  # vid: 6c6cb505-23ec-3a67-a267-4c6208db775f

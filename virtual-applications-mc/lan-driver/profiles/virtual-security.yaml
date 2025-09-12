@@ -1,0 +1,83 @@
+name: virtual-security
+components:
+- id: main
+  label: Virtual Security
+  capabilities:
+    - id: securitySystem
+      version: 1
+    - id: legendabsolute60149.routineCode
+      version: 1
+    - id: legendabsolute60149.deviceInfo
+      version: 1
+    - id: legendabsolute60149.securityStatus
+      version: 1
+    - id: legendabsolute60149.oldCode
+      version: 1
+    - id: legendabsolute60149.newCode
+      version: 1
+    - id: refresh
+      version: 1
+  categories:
+  - name: RemoteController
+preferences:
+  - name: "version"
+    title: "Version 7 (Feb 2024)"
+    description: "Added Virtual Security Arm Disarm Device" 
+    required: false
+    preferenceType: string
+    definition:
+      stringType: text
+      minLength: 0
+      maxLength: 0
+      default: ""
+  - name: "armAwayDelay"
+    title: "Set Delay to Arm Away Security"
+    description: "Set Delay to Armed Away Security in Seconds (0 to 1200).Default: 30"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 1200
+      default: 30
+  - name: "armStayDelay"
+    title: "Set Delay to Arm Stay Security"
+    description: "Set Delay to Armed Stay Security in Seconds (0 to 1200).Default: 1"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 1200
+      default: 1
+  - name: "disarmDelay"
+    title: "Set Delay to Disarm Security"
+    description: "Set Delay to Disarm Security in Seconds (0 to 1200).Default: 1"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 1200
+      default: 1
+  - name: "instructions"
+    title: "Show Instructions in Detail view"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: true
+  - name: "logDebugPrint"
+    title: "Show Logs Debug Prints in CLI"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "switchNumber"
+    title: "Profile Number"
+    description: "Profile Number, Do not change"
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 13
+      maximum: 13
+      default: 13 
+metadata:
+  # mnmn: SmartThingsCommunity
+  # vid: 36ff598b-9f57-3ee7-bd08-c2f0c2d30714
