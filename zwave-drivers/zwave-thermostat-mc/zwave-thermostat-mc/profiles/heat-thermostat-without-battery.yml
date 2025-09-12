@@ -1,0 +1,79 @@
+name: heat-thermostat-without-battery
+components:
+- id: main
+  capabilities:
+  - id: temperatureMeasurement
+    version: 1
+  - id: relativeHumidityMeasurement
+    version: 1
+  - id: thermostatHeatingSetpoint
+    version: 1
+    config:
+      values:
+        - key: "heatingSetpoint.value"
+          range: [ 4, 30 ]
+  - id: thermostatMode
+    version: 1
+  - id: thermostatOperatingState
+    version: 1
+    config:
+      values:
+        - key: "thermostatOperatingState.value"
+          enabledValues:
+            - heating
+            - idle
+  - id: legendabsolute60149.thermostatTime
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: Thermostat
+preferences:
+  - name: "localTimeOffset"
+    title: "Local Time Offset to UTC (-12 to 12)"
+    description: "Select Your Local Time Offset to UTC Time Hours (-12 to 12)"
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: -12
+      maximum: 12
+      default: 0
+  - name: "autoTempHumidReport"
+    title: "Automatic Temp and Humidity report"
+    description: "Automatic Temperature and Humidity Reporting Configuration. Default: Diff and Periodic report"
+    required: true
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "Off"
+        1: "Report the Diff value"
+        2: "Periodic Report "
+        3: "Diff and Periodic report"
+      default: 3
+  - name: "tempDifferenceReport"
+    title: "Temperature Difference Reporting"
+    description: "Temperature difference to previous value Reporting 3 (0.3º) to 1000( 100º). Default 5 (0.5º)"
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 3
+      maximum: 1000
+      default: 5
+  - name: "timeIntervalReport"
+    title: "Temperature and Humidity Interval"
+    description: "Temperature and Humidity Interval reporting (10 sec to 32767 sec). Default (30 sec))"
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 10
+      maximum: 32767
+      default: 30
+  - name: "humidDifferenceReport"
+    title: "Humidity Difference Reporting"
+    description: "Humidity difference to previous value Reporting (2% to 99%). Default: 3%"
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 2
+      maximum: 99
+      default: 3

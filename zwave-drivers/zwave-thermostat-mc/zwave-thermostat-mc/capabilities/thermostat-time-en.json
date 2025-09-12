@@ -1,0 +1,12 @@
+{
+    "tag": "en",
+    "label": "Thermostat Local Time",
+    "attributes": {
+        "thermostatTime": {
+            "label": "Thermostat Local Time",
+            "displayTemplate": "{{attribute}} of {{device.label}} is {{value}}",
+            "i18n": {}
+        }
+    },
+    "commands": {}
+}

@@ -1,0 +1,25 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{thermostatTime.value}}"
+            }
+        ],
+        "actions": []
+    },
+    "detailView": [
+        {
+            "label": "Thermostat Local Time:",
+            "displayType": "state",
+            "state": {
+                "label": "{{thermostatTime.value}}"
+            }
+        }
+    ],
+    "automation": {
+        "conditions": [],
+        "actions": []
+    },
+    "id": "legendabsolute60149.thermostatTime",
+    "version": 1
+}

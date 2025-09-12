@@ -1,0 +1,184 @@
+zwaveManufacturer:
+  - id: "honeywell/t6"
+    deviceLabel: Honeywell Thermostat
+    manufacturerId: 0x0039
+    productId: 0x0008
+    productType: 0x0011
+    deviceProfileName: base-thermostat
+  - id: "gocontrol"
+    deviceLabel: GoControl Thermostat
+    manufacturerId: 0x014F
+    productId: 0x5436
+    productType: 0x5442
+    deviceProfileName: thermostat-no-humidity
+  - id: "linear"
+    deviceLabel: Linear Thermostat
+    manufacturerId: 0x014F
+    productId: 0x5431
+    productType: 0x5442
+    deviceProfileName: thermostat-no-humidity
+  - id: "everspring"
+    deviceLabel: Everspring Thermostat
+    manufacturerId: 0x0060
+    productId: 0x0001
+    productType: 0x0015
+    deviceProfileName: base-radiator-thermostat
+  - id: "aeotec/thermostat/1"
+    deviceLabel: Aeotec Thermostat
+    manufacturerId: 0x0371
+    productId: 0x0015
+    productType: 0x0002
+    deviceProfileName: aeotec-radiator-thermostat
+  - id: "popp"
+    deviceLabel: POPP Thermostat
+    manufacturerId: 0x0002
+    productId: 0xA010
+    productType: 0x0115
+    deviceProfileName: popp-radiator-thermostat
+  - id: "0098/6401/0107"
+    deviceLabel: 2Gig CT100 Programmable Thermostat
+    manufacturerId: 0x0098
+    productType: 0x6401
+    productId: 0x0107
+    deviceProfileName: base-thermostat
+  - id: "0098/6401/0106"
+    deviceLabel: 2Gig CT100 Programmable Thermostat US
+    manufacturerId: 0x0098
+    productType: 0x6401
+    productId: 0x0106
+    deviceProfileName: base-thermostat
+  - id: "0098/6501/000C"
+    deviceLabel: Iris Thermostat
+    manufacturerId: 0x0098
+    productType: 0x6501
+    productId: 0x000C
+    deviceProfileName: base-thermostat
+  - id: "0098/6501/000B"
+    deviceLabel: Iris Thermostat
+    manufacturerId: 0x0098
+    productType: 0x6501
+    productId: 0x000B
+    deviceProfileName: base-thermostat
+  - id: "fibaro/thermostat/1"
+    deviceLabel: Fibaro Thermostat
+    manufacturerId: 0x010F
+    productType: 0x1301
+    deviceProfileName: base-radiator-thermostat-10to30C
+  - id: "0239/0001/0001"
+    deviceLabel: Stelpro Ki Thermostat
+    manufacturerId: 0x0239
+    productType: 0x0001
+    productId: 0x0001
+    deviceProfileName: thermostat-temperature-temperaturealarm
+  - id: qubino/thermostat
+    deviceLabel: Qubino Thermostat
+    manufacturerId: 0x0159
+    productType: 0x0005
+    productId: 0x0054
+    deviceProfileName: qubino-flush-thermostat
+  - id: "0039/0011/0001"
+    deviceLabel: Honeywell Thermostat
+    manufacturerId: 0x0039
+    productType: 0x0011
+    productId: 0x0001
+    deviceProfileName: thermostat-no-battery
+  - id: "008B/5452"
+    deviceLabel: Trane Thermostat
+    manufacturerId: 0x008B
+    productType: 0x5452
+    deviceProfileName: base-thermostat-without-battery
+  - id: "Danfoss/thermostat/0005"
+    deviceLabel: Danfoss LC13 Thermostat
+    manufacturerId: 0x0002
+    productType: 0x0005
+    deviceProfileName: thermostat-heating-battery
+  #Added after migration
+  - id: qubino/thermostat-1
+    deviceLabel: Qubino Thermostat
+    manufacturerId: 0x0159
+    productType: 0x0005
+    productId: 0x0051
+    deviceProfileName: qubino-flush-thermostat
+  - id: Eurotronic Comet/Radiator
+    deviceLabel: Eurotronic Comet Radiator
+    manufacturerId: 0x0148
+    productType: 0x0004
+    productId: 0x0003
+    deviceProfileName: base-radiator-thermostat
+  # Agosto 2023
+  - id: "Devolo/thermostat/0005"
+    deviceLabel: Devolo Home Control
+    manufacturerId: 0x0002
+    productType: 0x0005
+    productId: 0x0175
+    deviceProfileName: popp-radiator-thermostat
+  - id: "Donexon/thermostat/0005"
+    deviceLabel: Donexon varmo TZ pro
+    manufacturerId: 0x0002
+    productType: 0x5FFF
+    productId: 0xA010
+    deviceProfileName: popp-radiator-thermostat
+  - id: "015F/0712/5102"
+    deviceLabel: MCOHome MH7H-WH/EH
+    manufacturerId: 0x015F
+    productType: 0x0712
+    productId: 0x5102
+    deviceProfileName: heat-thermostat-without-battery
+  - id: "015F/0702/5102"
+    deviceLabel: MCOHome MH7H-WH/EH
+    manufacturerId: 0x015F
+    productType: 0x0702
+    productId: 0x5102
+    deviceProfileName: heat-thermostat-without-battery
+  #- id: "0002/8005/0002" # no funciona
+  #  deviceLabel: Danfoss LC Thermostat
+  #  manufacturerId: 0x0002
+  #  productType: 0x8005
+  #  productId: 0x0002
+  #  deviceProfileName: thermostat-heating-battery
+  #- id: "Devolo/Danfoss/014G0160" # Temporal por estonio gracioso
+  #  deviceLabel: Danfoss or Devolo RS014G0160
+  #  manufacturerId: 0x0002
+  #  productType: 0x0003
+  #  productId: 0x8010
+  #  deviceProfileName: temp-thermostat-heating-battery
+  - id: "Danfoss/thermostat/TRV"
+    deviceLabel: Danfoss TRV
+    manufacturerId: 0x0002
+    productType: 0x6FFF
+    productId: 0xA010
+    deviceProfileName: popp-radiator-thermostat
+  - id: "0131/220A/1357"
+    deviceLabel: Alloy MH4 Thermostat
+    manufacturerId: 0x0131
+    productType: 0x220A
+    productId: 0x1357
+    deviceProfileName: heat-thermostat-mco-mh4
+  # added agosto 2025
+  - id: "015F/0401/5101"
+    deviceLabel: MCO MH4 Us Thermostat
+    manufacturerId: 0x015F
+    productType: 0x0401
+    productId: 0x5101
+    deviceProfileName: heat-thermostat-mco-mh4
+zwaveGeneric:
+  - id: "GenericBatteryThermostat"
+    deviceLabel: Z-Wave Battery Thermostat
+    commandClasses:
+      supported:
+        - 0x43
+        - 0x40
+        - 0x44
+        - 0x31
+        - 0x80
+    deviceProfileName: base-thermostat
+  - id: "GenericThermostat"
+    deviceLabel: Z-Wave Thermostat
+    commandClasses:
+      supported:
+        - 0x43
+        - 0x40
+        - 0x44
+        - 0x31
+    deviceProfileName: base-thermostat-without-battery
+
