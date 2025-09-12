@@ -64,7 +64,8 @@ local TUYA_FINGERBOT_FINGERPRINTS = {
 local is_tuya_fingerbot = function(opts, driver, device)
     for _, fingerprint in ipairs(TUYA_FINGERBOT_FINGERPRINTS) do
         if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-            return true
+          local subdriver = require("tuya-fingerbot")
+          return true, subdriver
         end
     end
     return false

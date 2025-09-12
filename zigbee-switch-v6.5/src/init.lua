@@ -91,6 +91,7 @@ local function do_configure(self, device)
     device:add_configured_attribute(config)
     device:add_monitored_attribute(config)
     device:configure()
+    --device:remove_monitored_attribute(0x0006, 0x0000)
   end
 end
 
@@ -135,6 +136,20 @@ local function driver_Switched(self,device)
   end
 end
 
+-- this new function in libraries version 9 allow load only subdrivers with devices paired
+  local function lazy_load_if_possible(sub_driver_name)
+    -- gets the current lua libs api version
+    local version = require "version"
+  
+    --print("<<<<< Library Version:", version.api)
+    -- version 9 will include the lazy loading functions
+    if version.api >= 9 then
+      return ZigbeeDriver.lazy_load_sub_driver(require(sub_driver_name))
+    else
+      return require(sub_driver_name)
+    end
+  end
+
 ---- Driver template config
 local zigbee_switch_driver_template = {
   supported_capabilities = {
@@ -177,7 +192,11 @@ local zigbee_switch_driver_template = {
     }
   },
  },
- sub_drivers = { require("tuya-fingerbot") }
+ sub_drivers = { 
+  lazy_load_if_possible("tuya-fingerbot"),
+  lazy_load_if_possible("tuya-MHCOZY")
+},
+ --health_check = false
 }
 -- run driver
 defaults.register_for_default_handlers(zigbee_switch_driver_template, zigbee_switch_driver_template.supported_capabilities, {native_capability_cmds_enabled = true})

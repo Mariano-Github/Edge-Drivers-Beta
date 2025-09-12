@@ -619,7 +619,7 @@ zigbeeManufacturer:
     deviceLabel: MHCOZY 16A Switch
     manufacturer: _TZ3218_7fiyo3kv
     model: TS000F
-    deviceProfileName: single-switch
+    deviceProfileName: mhcozy-switch
   - id: "_TZ3000_o1jzcxou/Plug"
     deviceLabel: BSEED Plug
     manufacturer: _TZ3000_o1jzcxou
@@ -634,4 +634,14 @@ zigbeeManufacturer:
     deviceLabel: ZBMicro Switch
     manufacturer: SONOFF
     model: ZBMicro
+    deviceProfileName: single-switch
+
+  #Tuya switch generic
+  - id: "TS0001/Tuya"
+    deviceLabel: TS0001 Switch
+    model: TS0001
+    deviceProfileName: single-switch
+  - id: "TS0011/Tuya"
+    deviceLabel: TS0011 Switch
+    model: TS0011
     deviceProfileName: single-switch

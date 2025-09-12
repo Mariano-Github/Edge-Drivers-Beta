@@ -17,8 +17,6 @@ local driver_handler = {}
 
 --- Device running and update preferences variables
 local device_running = {}
-local oldPreferenceValue ={}
-local newParameterValue ={}
 
 -- Random tables variables
 local random_timer = {}
@@ -81,6 +79,7 @@ end
 ----- do_init device tables create for dimming variables ----
 function driver_handler.do_init (self, device)
   print("<<< Device do_init >>>")
+  
   if device:get_manufacturer() == "Quirky" and device:get_model() == "Smart Switch" then
     --This device has endpoint 1 and endpoint 2 is the main component 
     device:set_component_to_endpoint_fn(component_to_endpoint)
@@ -97,6 +96,12 @@ function driver_handler.do_init (self, device)
   else
     if device.preferences.changeProfile == "Switch" then
       device:try_update_metadata({profile = "single-switch"})
+    elseif device.preferences.changeProfile == "SwitchOnly" then
+      device:try_update_metadata({profile = "mhcozy-switch"})
+    elseif device.preferences.changeProfile == "SwitchTemp" then
+      device:try_update_metadata({profile = "mhcozy-switch-temp"})
+    elseif device.preferences.changeProfile == "SwitchTempHumid" then
+      device:try_update_metadata({profile = "mhcozy-switch-temp-humidity"})
     elseif device.preferences.changeProfile == "Plug" then
       device:try_update_metadata({profile = "single-switch-plug"})
     elseif device.preferences.changeProfile == "Light" then
@@ -265,6 +270,19 @@ function driver_handler.do_init (self, device)
   --device:send(zcl_clusters.OnOff.attributes.OnOff:configure_reporting(device, 0, device.preferences.onOffReports))
   device:add_configured_attribute(config)
   device:add_monitored_attribute(config)
+  --device:remove_monitored_attribute(0x0006, 0x0000)
+
+  if device:supports_capability_by_id(capabilities.battery.ID) then
+    cap_status = device:get_latest_state("main", capabilities.battery.ID, capabilities.battery.type.NAME)
+    if cap_status == nil and device.preferences.batteryType ~= nil then
+      device:emit_event(capabilities.battery.type(device.preferences.batteryType))
+    end
+
+    cap_status = device:get_latest_state("main", capabilities.battery.ID, capabilities.battery.quantity.NAME)
+    if cap_status == nil and device.preferences.batteryQuantity ~= nil then
+      device:emit_event(capabilities.battery.quantity(device.preferences.batteryQuantity))
+    end
+  end
 end
 
 ---- do_removed device procedure: delete all device data
@@ -286,16 +304,12 @@ function driver_handler.do_removed(self,device)
 end
 
 --- Update preferences after infoChanged recived---
-function driver_handler.do_Preferences (self, device)
+function driver_handler.do_Preferences (self, device, event, args)
   print("<< do_Prefrences >>")
   for id, value in pairs(device.preferences) do
-    if device.preferences.logDebugPrint == true then
-      print("device.preference:",id, device.preferences[id])
-    end
-    oldPreferenceValue = device:get_field(id)
-    newParameterValue = device.preferences[id]
+    local oldPreferenceValue = args.old_st_store.preferences[id]
+    local newParameterValue = device.preferences[id]
     if oldPreferenceValue ~= newParameterValue then
-      device:set_field(id, newParameterValue, {persist = true})
       print("<< Preference changed name:",id, "old value:",oldPreferenceValue, "new value:", newParameterValue)
  
       --- Groups code preference value changed
@@ -308,9 +322,8 @@ function driver_handler.do_Preferences (self, device)
         else
         device:send(Groups.server.commands.GetGroupMembership(device, {}))
         end
-      end
-  
-      if id == "groupRemove" then
+        break
+      elseif id == "groupRemove" then
         print("Remove Groups >>>>>>>>>>>>>>>>>")
         if device.preferences[id] > 0 then
         device:send(Groups.server.commands.RemoveGroup(device, device.preferences[id]))
@@ -318,12 +331,19 @@ function driver_handler.do_Preferences (self, device)
         device:send(Groups.server.commands.RemoveAllGroups(device, {}))
         end
         device:send(Groups.server.commands.GetGroupMembership(device, {}))
+        break
       end
 
         ------ Change profile & Icon
         if id == "changeProfile" and device:get_manufacturer() ~= "Quirky" and device:get_model() ~= "Smart Switch" then
           if newParameterValue == "Switch" then
             device:try_update_metadata({profile = "single-switch"})
+          elseif newParameterValue == "SwitchOnly" then
+            device:try_update_metadata({profile = "mhcozy-switch"})
+          elseif newParameterValue == "SwitchTemp" then
+            device:try_update_metadata({profile = "mhcozy-switch-temp"})
+          elseif newParameterValue == "SwitchTempHumid" then
+            device:try_update_metadata({profile = "mhcozy-switch-temp-humidity"})
           elseif newParameterValue == "Plug" then
             device:try_update_metadata({profile = "single-switch-plug"})
           elseif newParameterValue == "Light" then
@@ -346,17 +366,20 @@ function driver_handler.do_Preferences (self, device)
             device:try_update_metadata({profile = "switch-washer"})
           elseif newParameterValue == "Irrigation" then
             device:try_update_metadata({profile = "switch-irrigation"})
-          end   
+          end
+          break
         --- Preference power timer changed
         elseif id == "powerTimer" then
           if device:get_field("power_meter_timer") == "ON" then 
             device:set_field("powerTimer_Changed", "Yes", {persist = false})
-          end 
+          end
+          break
           -- Any Preference timer mode changed restart timer handler
         elseif id == "randomMin" or id == "randomMax" or id == "onTime" or id == "offTime" then
           if device:get_field("random_state") ~= "Inactive" then  
             driver_handler.random_on_off_handler(self,device,"Active")
           end
+          break
         elseif id == "onOffReports" then
           -- Configure OnOff interval report
           local interval =  device.preferences.onOffReports
@@ -370,9 +393,9 @@ function driver_handler.do_Preferences (self, device)
           }
           device:send(zcl_clusters.OnOff.attributes.OnOff:configure_reporting(device, 0, interval))
           device:add_monitored_attribute(config)
-        end
+          break
         --- Configure on-off cluster, attributte 0x8002 and 4003 to value restore state in preferences
-        if id == "restoreState" then
+        elseif id == "restoreState" then
           print("<<< Write restore state >>>")
           local value_send = tonumber(newParameterValue)
           local data_value = {value = value_send, ID = 0x30}
@@ -385,6 +408,11 @@ function driver_handler.do_Preferences (self, device)
           if newParameterValue == "255" then data_value = {value = 0x02, ID = 0x30} end
           attr_id = 0x8002
           write_attribute_function(device, cluster_id, attr_id, data_value)
+          break
+        elseif id == "batteryType" and newParameterValue ~= nil then
+          device:emit_event(capabilities.battery.type(newParameterValue))
+        elseif id == "batteryQuantity" and newParameterValue ~= nil then
+          device:emit_event(capabilities.battery.quantity(newParameterValue))
         end
       end
   end
