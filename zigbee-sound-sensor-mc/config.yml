@@ -1,0 +1,5 @@
+name: 'Zigbee Sound Sensor Ecolink Mc'
+packageKey: 'zigbee-sound-sensor-v1'
+description: 'Support Ecolink Model FFZB1-SM-ECO as Smoke detector instead of Sound sensor'
+permissions:
+  zigbee: {}
