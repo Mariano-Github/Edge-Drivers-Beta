@@ -1,0 +1,28 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{actionButton.value}}"
+            }
+        ],
+        "actions": [
+            {
+                "displayType": "pushButton",
+                "pushButton": {
+                    "command": "setActionButton"
+                }
+            }
+        ]
+    },
+    "detailView": [
+        {
+            "label": "Execute Selected Action",
+            "displayType": "pushButton",
+            "pushButton": {
+                "command": "setActionButton"
+            }
+        }
+    ],
+    "id": "legendabsolute60149.actionButton",
+    "version": 1
+}

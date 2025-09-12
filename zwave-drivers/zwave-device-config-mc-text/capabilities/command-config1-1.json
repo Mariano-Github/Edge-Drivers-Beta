@@ -1,0 +1,118 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{commandConfig.value}}"    
+            }
+        ],
+        "actions": []
+    },
+    "detailView": [
+        {
+            "label": "Select Config Parameter Action",
+            "displayType": "list",
+            "list": {
+                "command": {
+                    "name": "setCommandConfig",       
+                    "alternatives": [
+                        {
+                            "key": "Get",
+                            "value": "Get",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Send",
+                            "value": "Send",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Select",
+                            "value": "Select",
+                            "type": "inactive"
+                        }
+                    ],
+                    "argumentType": "string"
+                },
+                "state": {
+                    "value": "commandConfig.value",
+                    "valueType": "string",
+                    "alternatives": [
+                        {
+                            "key": "Get",
+                            "value": "Get",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Send",
+                            "value": "Send",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Select",
+                            "value": "Select",
+                            "type": "inactive"
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "automation": {
+        "conditions": [
+            {
+                "label": "Select Config Parameter Action",
+                "displayType": "list",
+                "list": {
+                    "alternatives": [
+                        {
+                            "key": "Get",
+                            "value": "Get",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Send",
+                            "value": "Send",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Select",
+                            "value": "Select",
+                            "type": "inactive"
+                        }
+                    ],
+                    "value": "commandConfig.value",
+                    "valueType": "string"
+                }
+            }
+        ],
+        "actions": [
+            {
+                "label": "Select Config Parameter Action",
+                "displayType": "list",
+                "list": {
+                    "alternatives": [
+                        {
+                            "key": "Get",
+                            "value": "Get",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Send",
+                            "value": "Send",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Select",
+                            "value": "Select",
+                            "type": "inactive"
+                        }
+                    ],
+                    "command": "setCommandConfig",
+                    "argumentType": "string"
+                }
+            }
+        ]
+    },
+    "id": "legendabsolute60149.commandConfig1",
+    "version": 1
+}

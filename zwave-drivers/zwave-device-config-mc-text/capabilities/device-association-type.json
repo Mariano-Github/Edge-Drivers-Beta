@@ -1,0 +1,56 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{deviceAssociationType.value}}"
+            }
+        ],
+        "actions": []
+    },
+    "detailView": [
+        {
+            "label": "Select Device Association Type",
+            "displayType": "list",
+            "list": {
+                "command": {
+                    "name": "setDeviceAssociationType",
+                    "alternatives": [
+                        {
+                            "key": "Single",
+                            "value": "Single Channel Device",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Multi",
+                            "value": "Multi Channel Device",
+                            "type": "active"
+                        }
+                    ],
+                    "argumentType": "string"
+                },
+                "state": {
+                    "value": "deviceAssociationType.value",
+                    "valueType": "string",
+                    "alternatives": [
+                        {
+                            "key": "Single",
+                            "value": "Single Channel Device",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Multi",
+                            "value": "Multi Channel Device",
+                            "type": "active"
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "automation": {
+        "conditions": [],
+        "actions": []
+    },
+    "id": "legendabsolute60149.deviceAssociationType",
+    "version": 1
+}

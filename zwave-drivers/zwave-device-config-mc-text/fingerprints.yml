@@ -1,0 +1,8 @@
+zwaveThing:
+  - id: "z-wave Thing"
+    deviceLabel: Z-Wave Thing
+    manufacturerId:
+    productType:
+    productId:
+    deviceProfileName: zwave-device-info
+    isJoinable: true

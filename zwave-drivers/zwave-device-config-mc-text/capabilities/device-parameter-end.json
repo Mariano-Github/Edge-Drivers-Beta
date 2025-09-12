@@ -1,0 +1,33 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{parameterEnd.value}}"
+            }
+        ],
+        "actions": []
+    },
+    "detailView": [
+        {
+            "label": "Parameter Number End Scan",
+            "displayType": "numberField",
+            "numberField": {
+                "value": "parameterEnd.value",
+                "valueType": "integer",
+                "unit": "parameterEnd.unit",
+                "command": "setParameterEnd",
+                "argumentType": "integer",
+                "range": [
+                    1,
+                    255
+                ]
+            }
+        }
+    ],
+    "automation": {
+        "conditions": [],
+        "actions": []
+    },
+    "id": "legendabsolute60149.parameterend",
+    "version": 1
+}

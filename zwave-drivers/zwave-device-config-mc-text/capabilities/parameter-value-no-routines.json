@@ -1,0 +1,33 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{parameterValue.value}}"
+            }
+        ],
+        "actions": []
+    },
+    "detailView": [
+        {
+            "label": "Device Parameter Value",     
+            "displayType": "numberField",
+            "numberField": {
+                "value": "parameterValue.value",   
+                "valueType": "integer",
+                "unit": "parameterValue.unit",     
+                "command": "setParameterValue",    
+                "argumentType": "integer",
+                "range": [
+                    -2147483648,
+                    2147483647
+                ]
+            }
+        }
+    ],
+    "automation": {
+        "conditions": [],
+        "actions": []
+    },
+    "id": "legendabsolute60149.parameterValue",    
+    "version": 1
+}

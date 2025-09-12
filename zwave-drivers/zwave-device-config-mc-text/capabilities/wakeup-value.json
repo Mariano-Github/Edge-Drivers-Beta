@@ -1,0 +1,33 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{wakeUpValue.value}}"
+            }
+        ],
+        "actions": []
+    },
+    "detailView": [
+        {
+            "label": "Device Wake Up Value",     
+            "displayType": "numberField",       
+            "numberField": {
+                "value": "wakeUpValue.value",
+                "valueType": "integer",
+                "unit": "wakeUpValue.unit",
+                "command": "setWakeUpValue",
+                "argumentType": "integer",
+                "range": [
+                    0,
+                    16777215
+                ]
+            }
+        }
+    ],
+    "automation": {
+        "conditions": [],
+        "actions": []
+    },
+    "id": "legendabsolute60149.wakeUpValue",
+    "version": 1
+}

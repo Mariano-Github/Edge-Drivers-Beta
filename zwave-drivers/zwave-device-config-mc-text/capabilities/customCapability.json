@@ -1,0 +1,11 @@
+{
+    "name": "actionButton2",
+    "ephemeral": false,
+    "attributes": {},
+    "commands": {
+        "push": {
+            "name": "push",
+            "arguments": []
+        }
+    }
+}

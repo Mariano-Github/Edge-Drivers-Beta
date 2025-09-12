@@ -1,0 +1,33 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{nodeEndPoint.value}}"
+            }
+        ],
+        "actions": []
+    },
+    "detailView": [
+        {
+            "label": "Associated Device, EndPoint to Set (Dec)",
+            "displayType": "numberField",
+            "numberField": {
+                "value": "nodeEndPoint.value",
+                "valueType": "integer",
+                "unit": "nodeEndPoint.unit",
+                "command": "setNodeEndPoint",
+                "argumentType": "integer",
+                "range": [
+                    0,
+                    127
+                ]
+            }
+        }
+    ],
+    "automation": {
+        "conditions": [],
+        "actions": []
+    },
+    "id": "legendabsolute60149.nodeEndPoint",
+    "version": 1
+}

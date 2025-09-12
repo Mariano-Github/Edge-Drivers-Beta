@@ -1,0 +1,76 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{groupCommandOption.value}}" 
+            }
+        ],
+        "actions": []
+    },
+    "detailView": [
+        {
+            "label": "Select Group Command Action",     
+            "displayType": "list",
+            "list": {
+                "command": {
+                    "name": "setGroupCommandOption",    
+                    "alternatives": [
+                        {
+                            "key": "Get",
+                            "value": "Get",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Set",
+                            "value": "Set",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Remove",
+                            "value": "Remove All Nodes",
+                            "type": "inactive"
+                        },
+                        {
+                            "key": "RemoveOne",
+                            "value": "Remove One Node",
+                            "type": "inactive"
+                        }
+                    ],
+                    "argumentType": "string"
+                },
+                "state": {
+                    "value": "groupCommandOption.value",
+                    "valueType": "string",
+                    "alternatives": [
+                        {
+                            "key": "Get",
+                            "value": "Get",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Set",
+                            "value": "Set",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Remove",
+                            "value": "Remove All Nodes",
+                            "type": "inactive"
+                        },
+                        {
+                            "key": "RemoveOne",
+                            "value": "Remove One Node",
+                            "type": "inactive"
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "automation": {
+        "conditions": [],
+        "actions": []
+    },
+    "id": "legendabsolute60149.groupCommandOption",
+    "version": 1
+}

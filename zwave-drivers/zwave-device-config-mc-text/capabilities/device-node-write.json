@@ -1,0 +1,33 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{nodeToWrite.value}}"       
+            }
+        ],
+        "actions": []
+    },
+    "detailView": [
+        {
+            "label": "Device Node ID to Set (decimal)",
+            "displayType": "numberField",
+            "numberField": {
+                "value": "nodeToWrite.value",
+                "valueType": "integer",
+                "unit": "nodeToWrite.unit",
+                "command": "setNodeToWrite",
+                "argumentType": "integer",
+                "range": [
+                    0,
+                    255
+                ]
+            }
+        }
+    ],
+    "automation": {
+        "conditions": [],
+        "actions": []
+    },
+    "id": "legendabsolute60149.nodeToWrite",
+    "version": 1
+}

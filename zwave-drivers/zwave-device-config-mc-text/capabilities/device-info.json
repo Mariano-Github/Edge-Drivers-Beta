@@ -1,0 +1,21 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{deviceInfo}}"
+            }
+        ],
+        "actions": []
+    },
+    "detailView": [
+        {
+            "label": "Device Information:",
+            "displayType": "state",
+            "state": {
+                "label": "{{deviceInfo.value}}"
+            }
+        }
+    ],
+    "id": "legendabsolute60149.deviceInfo",
+    "version": 1
+}

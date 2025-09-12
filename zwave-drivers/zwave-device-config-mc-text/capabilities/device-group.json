@@ -1,0 +1,33 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{groupNumber.value}}"
+            }
+        ],
+        "actions": []
+    },
+    "detailView": [
+        {
+            "label": "Group Number",
+            "displayType": "numberField",       
+            "numberField": {
+                "value": "groupNumber.value",   
+                "valueType": "integer",
+                "unit": "groupNumber.unit",     
+                "command": "setGroupNumber",    
+                "argumentType": "integer",      
+                "range": [
+                    0,
+                    255
+                ]
+            }
+        }
+    ],
+    "automation": {
+        "conditions": [],
+        "actions": []
+    },
+    "id": "legendabsolute60149.groupNumber",
+    "version": 1
+}

@@ -1,0 +1,28 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{nodeToWrite.value}}"   
+            }
+        ],
+        "actions": []
+    },
+    "detailView": [
+        {
+            "label": "Associated Device, Node ID to Set (Hex)",
+            "displayType": "textField",
+            "textField": {
+                "command": "setNodeToWrite",       
+                "argumentType": "string",
+                "value": "nodeToWrite.value",      
+                "valueType": "string"
+            }
+        }
+    ],
+    "automation": {
+        "conditions": [],
+        "actions": []
+    },
+    "id": "legendabsolute60149.nodeToWriteHex",
+    "version": 1
+}

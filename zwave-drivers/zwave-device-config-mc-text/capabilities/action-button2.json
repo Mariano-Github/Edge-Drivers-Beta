@@ -1,0 +1,35 @@
+{
+    "dashboard": {
+        "states": [],
+        "actions": []
+    },
+    "detailView": [
+        {
+            "label": "Execute Selected Action",
+            "displayType": "pushButton",       
+            "pushButton": {
+                "command": "push"
+            }
+        }
+    ],
+    "automation": {
+        "conditions": [],
+        "actions": [
+            {
+                "label": "Execute Selected Action",
+                "displayType": "list",
+                "list": {
+                    "alternatives": [
+                        {
+                            "key": "push",
+                            "value": "push",
+                            "type": "active"
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    "id": "legendabsolute60149.actionbutton2", 
+    "version": 1
+}

@@ -1,0 +1,5 @@
+name: 'Z-Wave Device Config Mc'
+packageKey: 'zwave-device-config'
+description: 'For Z-Wave Devices: Show Fingerprints, End points Command Class and Allows you to view and configure Parameters and Group Association'
+permissions:
+  zwave: {}

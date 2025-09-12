@@ -1,0 +1,61 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{deviceParameter.value}}"
+            }
+        ],
+        "actions": []
+    },
+    "detailView": [
+        {
+            "label": "Device Parameter Number",     
+            "displayType": "numberField",
+            "numberField": {
+                "value": "deviceParameter.value",   
+                "valueType": "integer",
+                "unit": "deviceParameter.unit",     
+                "command": "setDeviceParameter",    
+                "argumentType": "integer",
+                "range": [
+                    0,
+                    255
+                ]
+            }
+        }
+    ],
+    "automation": {
+        "conditions": [
+            {
+                "label": "Device Parameter Number",
+                "displayType": "numberField",
+                "numberField": {
+                    "value": "deviceParameter.value",
+                    "valueType": "integer",
+                    "unit": "deviceParameter.unit",
+                    "range": [
+                        0,
+                        255
+                    ]
+                }
+            }
+        ],
+        "actions": [
+            {
+                "label": "Device Parameter Number",
+                "displayType": "numberField",
+                "numberField": {
+                    "command": "setDeviceParameter",
+                    "argumentType": "integer",
+                    "unit": "deviceParameter.unit",
+                    "range": [
+                        0,
+                        255
+                    ]
+                }
+            }
+        ]
+    },
+    "id": "legendabsolute60149.deviceParameter",    
+    "version": 1
+}

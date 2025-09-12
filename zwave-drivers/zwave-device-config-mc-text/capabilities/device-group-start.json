@@ -1,0 +1,33 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{groupNumberStart.value}}"
+            }
+        ],
+        "actions": []
+    },
+    "detailView": [
+        {
+            "label": "Group Number Start Scan",      
+            "displayType": "numberField",
+            "numberField": {
+                "value": "groupNumberStart.value",   
+                "valueType": "integer",
+                "unit": "groupNumberStart.unit",
+                "command": "setGroupNumberStart",
+                "argumentType": "integer",
+                "range": [
+                    0,
+                    255
+                ]
+            }
+        }
+    ],
+    "automation": {
+        "conditions": [],
+        "actions": []
+    },
+    "id": "legendabsolute60149.groupNumberStart",
+    "version": 1
+}

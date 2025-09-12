@@ -1,0 +1,33 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{groupNumberEnd.value}}"
+            }
+        ],
+        "actions": []
+    },
+    "detailView": [
+        {
+            "label": "Group Number End Scan",
+            "displayType": "numberField",
+            "numberField": {
+                "value": "groupNumberEnd.value",
+                "valueType": "integer",
+                "unit": "groupNumberEnd.unit",
+                "command": "setGroupNumberEnd",
+                "argumentType": "integer",
+                "range": [
+                    0,
+                    255
+                ]
+            }
+        }
+    ],
+    "automation": {
+        "conditions": [],
+        "actions": []
+    },
+    "id": "legendabsolute60149.groupNumberEnd",
+    "version": 1
+}

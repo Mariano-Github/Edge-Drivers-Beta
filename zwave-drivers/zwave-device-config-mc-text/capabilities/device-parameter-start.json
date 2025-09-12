@@ -1,0 +1,33 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{parameterStart.value}}"
+            }
+        ],
+        "actions": []
+    },
+    "detailView": [
+        {
+            "label": "Parameter Number Start Scan",
+            "displayType": "numberField",
+            "numberField": {
+                "value": "parameterStart.value",
+                "valueType": "integer",
+                "unit": "parameterStart.unit",
+                "command": "setParameterStart",
+                "argumentType": "integer",
+                "range": [
+                    1,
+                    255
+                ]
+            }
+        }
+    ],
+    "automation": {
+        "conditions": [],
+        "actions": []
+    },
+    "id": "legendabsolute60149.parameterStart",
+    "version": 1
+}
