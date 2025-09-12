@@ -73,16 +73,17 @@ local signal_Metrics = capabilities["legendabsolute60149.signalMetrics"]
   end
 
 --- Update preferences after infoChanged recived ---
-local function do_preferences (driver, device)
+local function do_preferences (driver, device, event, args)
   if device.network_type == "DEVICE_EDGE_CHILD" then return end ---- device (is Child device)
   for id, value in pairs(device.preferences) do
     if device.preferences.logDebugPrint == true then
       print("device.preferences[infoChanged]=", device.preferences[id])
     end
-    local oldPreferenceValue = device:get_field(id)
+    --local oldPreferenceValue = device:get_field(id)
+    local oldPreferenceValue = args.old_st_store.preferences[id]
     local newParameterValue = device.preferences[id]
     if oldPreferenceValue ~= newParameterValue then
-      device:set_field(id, newParameterValue, {persist = true})
+      --device:set_field(id, newParameterValue, {persist = true})
       if device.preferences.logDebugPrint == true then
         print("<< Preference changed name:",id,"oldPreferenceValue:",oldPreferenceValue, "newParameterValue: >>", newParameterValue)
       end
@@ -121,7 +122,7 @@ local function do_preferences (driver, device)
         if newParameterValue == "Single" then
           device:try_update_metadata({profile = "two-switch-power-energy-1"})
         else
-          device:try_update_metadata({profile = "two-switch-power-energy-multi-1"})
+          device:try_update_metadata({profile = "two-switch-power-energy-1-multi"})
         end
       elseif id == "changeProfileTwoSw" then
         if newParameterValue == "Single" then
@@ -652,10 +653,11 @@ end
 
 ---device init ----
 local function device_init (driver, device)
-  print("device_network_id >>>",device.device_network_id)
-  print("label >>>",device.label)
-  print("parent_device_id >>>",device.parent_device_id)
-  print("device.preferences.profileType >>>",device.preferences.profileType)
+
+  --print("device_network_id >>>",device.device_network_id)
+  --print("label >>>",device.label)
+  --print("parent_device_id >>>",device.parent_device_id)
+  --print("device.preferences.profileType >>>",device.preferences.profileType)
 
   if device.network_type ~= "DEVICE_EDGE_CHILD" then  ---- device (is NO Child device)
 
@@ -701,7 +703,7 @@ local function device_init (driver, device)
           if device.preferences[id] == "Single" then
             device:try_update_metadata({profile = "two-switch-power-energy-1"})
           else
-            device:try_update_metadata({profile = "two-switch-power-energy-multi-1"})
+            device:try_update_metadata({profile = "two-switch-power-energy-1-multi"})
           end
         elseif id == "changeProfileTwoSw" then
           if device.preferences[id] == "Single" then
