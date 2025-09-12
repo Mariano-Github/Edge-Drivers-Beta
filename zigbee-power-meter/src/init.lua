@@ -25,7 +25,7 @@ local do_configure = function(self, device)
   device:refresh()
   device:configure()
 
-    -- Additional one time configuration
+    --[[-- Additional one time configuration
     if device:supports_capability(capabilities.energyMeter) or device:supports_capability(capabilities.powerMeter) then
       -- Divisor and multipler for EnergyMeter
       device:send(ElectricalMeasurement.attributes.ACPowerDivisor:read(device))
@@ -33,7 +33,7 @@ local do_configure = function(self, device)
       -- Divisor and multipler for PowerMeter
       device:send(SimpleMetering.attributes.Divisor:read(device))
       device:send(SimpleMetering.attributes.Multiplier:read(device))
-    end
+    end]]
 
     if device:get_model() == "PCM_00.00.03.09TC" then
       local divisor = 10000
@@ -48,6 +48,17 @@ local do_configure = function(self, device)
 end
 
 local device_init = function(self, device)
+
+  -- Additional one time configuration
+  if device:supports_capability(capabilities.energyMeter) or device:supports_capability(capabilities.powerMeter) then
+    -- Divisor and multipler for EnergyMeter
+    device:send(ElectricalMeasurement.attributes.ACPowerDivisor:read(device))
+    device:send(ElectricalMeasurement.attributes.ACPowerMultiplier:read(device))
+    -- Divisor and multipler for PowerMeter
+    device:send(SimpleMetering.attributes.Divisor:read(device))
+    device:send(SimpleMetering.attributes.Multiplier:read(device))
+  end
+
   -- We check the keys to see if they're already set so that we don't clobber the values w/ the defaults if they already exist.
   if device:get_model() == "PCM_00.00.03.09TC" then
     local divisor = 10000
@@ -71,18 +82,33 @@ local device_init = function(self, device)
 end
 
 -- preferences update
-local function do_preferences(self, device)
+local function do_preferences(self, device, event, args)
   for id, value in pairs(device.preferences) do
     print("device.preferences[infoChanged]=", device.preferences[id])
-    local oldPreferenceValue = device:get_field(id)
+    --local oldPreferenceValue = device:get_field(id)
+    local oldPreferenceValue = args.old_st_store.preferences[id]
     local newParameterValue = device.preferences[id]
     if oldPreferenceValue ~= newParameterValue then
-      device:set_field(id, newParameterValue, {persist = true})
+      --device:set_field(id, newParameterValue, {persist = true})
       print("<< Preference changed:", id, "old=",oldPreferenceValue, "new =", newParameterValue)
       if  id == "simpleMeteringDivisor"  then
         device:set_field(constants.SIMPLE_METERING_DIVISOR_KEY, newParameterValue, {persist = true})
       elseif id == "electricalMeasureDivisor" then
         device:set_field(constants.ELECTRICAL_MEASUREMENT_DIVISOR_KEY, newParameterValue, {persist = true})
+      elseif id == "intallationType" then
+        if newParameterValue == "independetTwoClamp" then
+          device:try_update_metadata({profile = "power-meter-energy-solar-dual-2-clamp"})
+        elseif newParameterValue == "exportProduct" then
+          device:try_update_metadata({profile = "power-meter-energy-solar-dual-exp-prod"})
+        elseif newParameterValue == "exportConsumption" then
+          device:try_update_metadata({profile = "power-meter-energy-solar-dual-exp-cons"})
+        end
+      elseif id == "intallationClamp" then
+        if newParameterValue == "exportConsumption" then
+          device:try_update_metadata({profile = "power-meter-energy-solar"})
+        elseif newParameterValue == "production" then
+          device:try_update_metadata({profile = "power-meter-energy-solar-production"})
+        end
       end
     end
   end
@@ -100,6 +126,20 @@ local function do_preferences(self, device)
   print("Memory >>>>>>>",collectgarbage("count"), " Kbytes")
 end
 
+-- this new function in libraries version 9 allow load only subdrivers with devices paired
+local function lazy_load_if_possible(sub_driver_name)
+  -- gets the current lua libs api version
+  local version = require "version"
+
+  --print("<<<<< Library Version:", version.api)
+  -- version 9 will include the lazy loading functions
+  if version.api >= 9 then
+    return ZigbeeDriver.lazy_load_sub_driver(require(sub_driver_name))
+  else
+    return require(sub_driver_name)
+  end
+end
+
 local zigbee_power_meter_driver_template = {
   supported_capabilities = {
     capabilities.refresh,
@@ -109,10 +149,11 @@ local zigbee_power_meter_driver_template = {
     capabilities.temperatureMeasurement
   },
   sub_drivers = {
-    require("ezex"),
-    require("frient"),
-    require("shinasystems"),
-    require("tuya-meter")
+    lazy_load_if_possible("ezex"),
+    lazy_load_if_possible("frient"),
+    lazy_load_if_possible("shinasystems"),
+    lazy_load_if_possible("tuya-meter"),
+    lazy_load_if_possible("tuya-meter-dual")
   },
   lifecycle_handlers = {
     init = device_init,

@@ -12,15 +12,12 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 
--- DP´s of Fingerbot plus -------
--- DP ---------Name---------Type---------Values ---------------------------CMD
--- 101 (0x65): MODE         Enum(04)     Click(0), Switch(1),Program(2)    0x06 (PROACTIVE REPORT VALUES CHANGES)
--- 102 (0x66): Down MODE    Number(02)   50-100                            0x06 (PROACTIVE REPORT VALUES CHANGES)
--- 103 (0x67): Sustain Time Number(02)   0s-10s                            0x06 (PROACTIVE REPORT VALUES CHANGES)
--- 104 (0x68): Reverse      Enum(04)     Up-on(1)/Up-off(0)                0x06 (PROACTIVE REPORT VALUES CHANGES)
--- 105 (0x69): Battery      Number(02)   0-100                             0x05 (PASIVE REPORT INTERVAL) or 0x06 (PROACTIVE REPORT VALUES CHANGES)
--- 106 (0x6A): Up MODE      Number(02)   0-50                              0x06 (PROACTIVE REPORT VALUES CHANGES)
--- 107 (0x6B): On/off       Bool(1)      On-Off                            0x06 DP NO USADO, SE USA CLUSTER 0006 ATTRIBUTE 0000
+--DP´s of Power meter -------
+-- DP ---------Name---------
+--[0x01] = tuya_handler_energy,
+--[0x02] = tuya_handler_produced_energy,
+--[0x06] = tuya_handler_power,
+--[0x66] = tuya_handler_power_direction,
 
 local constants = require "st.zigbee.constants"
 --local clusters = require "st.zigbee.zcl.clusters"
@@ -51,7 +48,8 @@ local TUYA_METER_FINGERPRINTS = {
 local is_tuya_meter = function(opts, driver, device)
     for _, fingerprint in ipairs(TUYA_METER_FINGERPRINTS) do
         if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-            return true
+          local subdriver = require("tuya-meter")
+          return true, subdriver
         end
     end
     return false
@@ -91,11 +89,11 @@ local function zdo_binding_table_handler(driver, device, zb_rx)
 end
 
 local function device_added(self, device)
-  local _, cap_status = device:get_latest_state("main", capabilities.energyMeter.ID, capabilities.energyMeter.energy.NAME)
+  local cap_status = device:get_latest_state("main", capabilities.energyMeter.ID, capabilities.energyMeter.energy.NAME)
   if cap_status == nil then
     device:emit_event(capabilities.energyMeter.energy({value = 0, unit = "kWh" }))
   end
-  local _, cap_status = device:get_latest_state("energyConsumption", capabilities.energyMeter.ID, capabilities.energyMeter.energy.NAME)
+  cap_status = device:get_latest_state("energyConsumption", capabilities.energyMeter.ID, capabilities.energyMeter.energy.NAME)
   if cap_status == nil then
     device.profile.components["energyConsumption"]:emit_event(capabilities.energyMeter.energy({value = 0, unit = "kWh" }))
   end
@@ -143,7 +141,9 @@ local function tuya_handler_power(self, device, zb_rx)
     local direction = device:get_field("power_direction")
     if direction == nil then direction = 1 end
     power = power * direction
-    print("<<< Power = ", power)
+    if device.preferences.logDebugPrint == true then
+      print("<<< Power = ", power)
+    end
     local cap_status = device:get_latest_state("main", capabilities.powerMeter.ID, capabilities.powerMeter.power.NAME)
     if cap_status ~= power then
       device:emit_event(capabilities.powerMeter.power({value = power, unit = "W" }))
@@ -177,14 +177,18 @@ local function tuya_handler_power_direction(self, device, zb_rx)
       power_direction = 1 -- power consumed, positive power
     end
   end
-  print("<<< Power Direction = ", power_direction)
+  if device.preferences.logDebugPrint == true then
+    print("<<< Power Direction = ", power_direction)
+  end
   device:set_field("power_direction", power_direction)
 end
 
 local function tuya_handler_energy(self, device, zb_rx)
   -- DP  (0x01) Energy consumption byte 7, len 4 and divided by 100 for real value in kwh
   local energy = string.unpack(">I4", zb_rx.body.zcl_body.body_bytes, 7) /100
-  print("<<<<<<<<<<<<<<< tuya_handler_energy", energy)
+  if device.preferences.logDebugPrint == true then
+    print("<<<<<<<<<<<<<<< tuya_handler_energy", energy)
+  end
 
   local offset = device:get_field("energy_offset_energyConsumption") or 0
   if energy < offset then
@@ -203,7 +207,11 @@ local function tuya_handler_produced_energy(self, device, zb_rx)
   -- DP 2 (0x02) energy_produced, byte 7, len 4 and divided by 100 for real value in kwh
 
   local energy_produced = string.unpack(">I4", zb_rx.body.zcl_body.body_bytes, 7) / 100
-  print("<<<<<<<<<<<<<<< tuya_handler_energy", energy_produced)
+
+  if device.preferences.logDebugPrint == true then
+    print("<<<<<<<<<<<<<<< tuya_handler_energy", energy_produced)
+  end
+
   local offset = device:get_field("energy_offset_produced") or 0
   if energy_produced < offset then
     --- somehow our value has gone below the offset, so we'll reset the offset, since the device seems to have
@@ -219,13 +227,16 @@ end
 
 -- Tuya report handler
 local function tuya_handler(self, device, zb_rx)
-  print("<<<< Tuya handler >>>>")
+
+  if device.preferences.logDebugPrint == true then
+    print("<<<< Tuya handler >>>>")
+  end
 
   local dp_table = {
     --[0x65] = tuya_handler_power_1,
     [0x01] = tuya_handler_energy,
     [0x02] = tuya_handler_produced_energy,
-    [0x06] = tuya_handler_power,
+    [0x06] = tuya_handler_power, -- power + current + voltage
     [0x66] = tuya_handler_power_direction,
   }
 

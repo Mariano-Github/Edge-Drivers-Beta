@@ -1,7 +1,7 @@
-name: power-meter-energy-solar
+name: power-meter-energy-solar-production
 components:
 - id: main
-  label: Solar Energy Exported
+  label: Solar Energy Produced
   capabilities:
   - id: powerMeter
     version: 1
@@ -46,13 +46,13 @@ preferences:
       default: "exportConsumption"
   - name: "powerSign"
     title: "Select the Power sign value"
-    description: "Set the direction of the clam arrow to the direction of the current flow you want to display positive. With this preference you can reverse as shown in the App without changing the direction of the clam. (Default: Export->Negative and Import->Positive)"
+    description: "Set the direction of the clam arrow to the direction of the current flow you want to display positive. With this preference you can reverse as shown in the App without changing the direction of the clam. (Default: Produce->Negative and Import->Positive)"
     required: false
     preferenceType: enumeration
     definition:
       options:
-        "0": "Export->Negative & Import->Positive"
-        "1": "Export->Positive & Import->Negative"
+        "0": "Produce->Negative & Import->Positive"
+        "1": "Produce->Positive & Import->Negative"
       default: "0"
   - name: "logDebugPrint"
     title: "Show Logs Debug Prints in CLI"

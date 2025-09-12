@@ -1,0 +1,245 @@
+name: power-meter-energy-solar-dual-2-clamp
+components:
+- id: main
+  label: Energy Consumption Clamp A
+  capabilities:
+  - id: powerMeter
+    version: 1
+  - id: energyMeter
+    version: 1
+  - id: voltageMeasurement
+    version: 1
+  - id: currentMeasurement
+    version: 1
+  - id: legendabsolute60149.acFrequency
+    version: 1
+  - id: legendabsolute60149.powerFactor
+    version: 1
+  - id: firmwareUpdate
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: CurbPowerMeter
+- id: energyConsumption
+  label: Energy Consumption Clamp B
+  capabilities:
+  - id: powerMeter
+    version: 1
+  - id: energyMeter
+    version: 1
+  - id: currentMeasurement
+    version: 1
+  - id: legendabsolute60149.powerFactor
+    version: 1
+  - id: firmwareUpdate
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: CurbPowerMeter
+- id: energyConsumptionTotal
+  label: Energy Consumption A + B
+  capabilities:
+  - id: powerMeter
+    version: 1
+  - id: energyMeter
+    version: 1
+  - id: currentMeasurement
+    version: 1
+  categories:
+  - name: CurbPowerMeter
+- id: energyProductionA
+  label: Energy Production Clamp A
+  capabilities:
+  - id: energyMeter
+    version: 1
+  categories:
+  - name: CurbPowerMeter
+- id: energyProductionB
+  label: Energy Production Clamp B
+  capabilities:
+  - id: energyMeter
+    version: 1
+  categories:
+  - name: CurbPowerMeter
+- id: energyProductionTotal
+  label: Energy Production A + B
+  capabilities:
+  - id: energyMeter
+    version: 1
+  categories:
+  - name: CurbPowerMeter
+preferences:
+  - name: "intallationType"
+    title: "Select device intallation Type"
+    description: "device intallation Type for your device: Clamp-A=Export(+ reading) & Clamp-B= Solar Production (Default). Clamp-A=Export(+ reading) & Clamp-B= Energy Comsuption. Clamp-A & Clamp-B independent data and A+B Energy) "
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "exportProduct": "Clamp-A=Export & Clamp-B=Production"
+        "exportConsumption": "Clamp-A=Export & Clamp-B=Consumption"
+        "independetTwoClamp": "Clamp-A & Clamp-B Independent Data"
+      default: "exportProduct"
+  - name: "logDebugPrint"
+    title: "Show Logs Debug Prints in CLI"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+deviceConfig:
+  dashboard:
+    states:
+      - component: main
+        capability: powerMeter
+        version: 1
+        group: main
+        values:
+          - label: "A:{{power.value}} {{power.unit}}"
+        composite: true
+      - component: energyConsumption
+        capability: powerMeter
+        version: 1
+        group: main
+        values:
+          - label: "|B:{{power.value}} {{power.unit}}"
+        composite: true
+    actions: []
+    basicPlus: []
+  detailView:
+    - component: main
+      capability: powerMeter
+      version: 1
+    - component: main
+      capability: energyMeter
+      version: 1
+    - component: main
+      capability: voltageMeasurement
+      version: 1
+    - component: main
+      capability: currentMeasurement
+      version: 1
+    - component: main
+      capability: legendabsolute60149.acFrequency
+      version: 1
+    - component: main
+      capability: legendabsolute60149.powerFactor
+      version: 1
+    - component: main
+      capability: refresh
+      version: 1
+    - component: energyConsumption
+      capability: powerMeter
+      version: 1
+    - component: energyConsumption
+      capability: energyMeter
+      version: 1
+    - component: energyConsumption
+      capability: currentMeasurement
+      version: 1
+    - component: energyConsumption
+      capability: legendabsolute60149.powerFactor
+      version: 1
+    - component: energyConsumption
+      capability: refresh
+      version: 1
+    - component: energyConsumptionTotal
+      capability: powerMeter
+      version: 1
+    - component: energyConsumptionTotal
+      capability: energyMeter
+      version: 1
+    - component: energyConsumptionTotal
+      capability: currentMeasurement
+      version: 1
+    - component: energyConsumptionTotal
+      capability: refresh
+      version: 1
+    - component: energyProductionA
+      capability: energyMeter
+      version: 1
+    - component: energyProductionB
+      capability: energyMeter
+      version: 1
+    - component: energyProductionTotal
+      capability: energyMeter
+      version: 1
+  automation:
+    conditions:
+    - component: main
+      capability: powerMeter
+      version: 1
+    - component: main
+      capability: energyMeter
+      version: 1
+    - component: main
+      capability: voltageMeasurement
+      version: 1
+    - component: main
+      capability: currentMeasurement
+      version: 1
+    - component: main
+      capability: legendabsolute60149.acFrequency
+      version: 1
+    - component: main
+      capability: legendabsolute60149.powerFactor
+      version: 1
+    - component: main
+      capability: refresh
+      version: 1
+    - component: energyConsumption
+      capability: powerMeter
+      version: 1
+    - component: energyConsumption
+      capability: energyMeter
+      version: 1
+    - component: energyConsumption
+      capability: currentMeasurement
+      version: 1
+    - component: energyConsumption
+      capability: legendabsolute60149.powerFactor
+      version: 1
+    - component: energyConsumption
+      capability: refresh
+      version: 1
+    - component: energyConsumptionTotal
+      capability: powerMeter
+      version: 1
+    - component: energyConsumptionTotal
+      capability: energyMeter
+      version: 1
+    - component: energyConsumptionTotal
+      capability: currentMeasurement
+      version: 1
+    - component: energyConsumptionTotal
+      capability: refresh
+      version: 1
+    - component: energyProductionA
+      capability: energyMeter
+      version: 1
+    - component: energyProductionA
+      capability: energyMeter
+      version: 1
+    - component: energyProductionTotal
+      capability: energyMeter
+      version: 1
+    actions:
+    - component: main
+      capability: energyMeter
+      version: 1
+    - component: energyConsumption
+      capability: energyMeter
+      version: 1
+    - component: energyConsumptionTotal
+      capability: energyMeter
+      version: 1
+    - component: energyProductionA
+      capability: energyMeter
+      version: 1
+    - component: energyProductionB
+      capability: energyMeter
+      version: 1
+    - component: energyProductionTotal
+      capability: energyMeter
+      version: 1

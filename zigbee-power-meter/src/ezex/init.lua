@@ -27,7 +27,8 @@ local ZIGBEE_POWER_METER_FINGERPRINTS = {
 local is_ezex_power_meter = function(opts, driver, device)
   for _, fingerprint in ipairs(ZIGBEE_POWER_METER_FINGERPRINTS) do
       if device:get_model() == fingerprint.model then
-          return true
+        local subdriver = require("ezex")
+        return true, subdriver
       end
   end
 

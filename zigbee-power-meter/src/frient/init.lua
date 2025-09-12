@@ -29,7 +29,8 @@ local ZIGBEE_POWER_METER_FINGERPRINTS = {
 local is_frient_power_meter = function(opts, driver, device)
   for _, fingerprint in ipairs(ZIGBEE_POWER_METER_FINGERPRINTS) do
       if device:get_model() == fingerprint.model then
-          return true
+        local subdriver = require("frient")
+        return true, subdriver
       end
   end
 
