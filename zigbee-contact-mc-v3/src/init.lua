@@ -36,6 +36,7 @@ local SMARTSENSE_MULTI_SENSOR_CUSTOM_PROFILE = 0xFC01
 local signal = require "signal-metrics"
 local child_devices = require "child-devices"
 local common = require("multi-contact/common")
+local xiaomi_utils = require "xiaomi_utils"
 
 local signal_Metrics = capabilities["legendabsolute60149.signalMetrics"]
 --local MONITORED_ATTRIBUTES_KEY = "__monitored_attributes"
@@ -85,16 +86,17 @@ local function configure_accel_threshold (self,device)
 end
 
 ----- Update prefeence changes
-local function info_Changed(self,device)
+local function info_Changed(self, device, event, args)
   if device.network_type ~= "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE
     print("***** infoChanged *********")
 
     -- update preferences
       for id, value in pairs(device.preferences) do
-        local oldPreferenceValue = device:get_field(id)
+        --local oldPreferenceValue = device:get_field(id)
+        local oldPreferenceValue = args.old_st_store.preferences[id]
         local newParameterValue = device.preferences[id]
         if oldPreferenceValue ~= newParameterValue then
-          device:set_field(id, newParameterValue, {persist = true})
+          --device:set_field(id, newParameterValue, {persist = true})
           print("<< Preference changed name:", id, "old value:", oldPreferenceValue, "new value:", newParameterValue)
           if  id == "maxTime" or id == "changeRep" then
             local maxTime = device.preferences.maxTime * 60
@@ -158,10 +160,10 @@ local function info_Changed(self,device)
             if oldPreferenceValue ~= nil and newParameterValue == true then
               child_devices.create_new(self, device, "main", "child-contact-accel")
             end
-          elseif id == "childBatteries" then
-            if oldPreferenceValue ~= nil and newParameterValue == true then
-              child_devices.create_new(self, device, "battery", "child-batteries-status")
-            end
+          elseif id == "batteryType" and newParameterValue ~= nil then
+            device:emit_event(capabilities.battery.type(newParameterValue))
+          elseif id == "batteryQuantity" and newParameterValue ~= nil then
+            device:emit_event(capabilities.battery.quantity(newParameterValue))
           end
         end
       end
@@ -288,6 +290,7 @@ end
 
   -- init 
 local function do_init(self, device)
+
   if device.network_type ~= "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE
     
     --change profile tile
@@ -373,8 +376,26 @@ local function do_init(self, device)
       device:emit_event(signal_Metrics.signalMetrics({value = "Waiting Zigbee Message"}, {visibility = {displayed = false }}))
     end
 
+    -- set battery type and quantity
+    --device:send(zcl_clusters.PowerConfiguration.attributes.BatterySize:read(device))
+    --device:send(zcl_clusters.PowerConfiguration.attributes.BatteryQuantity:read(device))
+    if device:supports_capability_by_id(capabilities.battery.ID) then
+      local cap_status = device:get_latest_state("main", capabilities.battery.ID, capabilities.battery.type.NAME)
+      if cap_status == nil and device.preferences.batteryType ~= nil then
+        device:emit_event(capabilities.battery.type(device.preferences.batteryType))
+      end
+
+      cap_status = device:get_latest_state("main", capabilities.battery.ID, capabilities.battery.quantity.NAME)
+      if cap_status == nil and device.preferences.batteryQuantity ~= nil then
+        device:emit_event(capabilities.battery.quantity(device.preferences.batteryQuantity))
+      end
+    end
+
     -- set timer for offline devices issue at user request
     no_offline(self,device)
+
+    --read Enroll ZoneState
+    --device:send(clusters.IASZone.attributes.ZoneState:read(device))
 
     device:refresh()
   end
@@ -452,6 +473,10 @@ local zigbee_contact_driver_template = {
       attr = {
         [clusters.PowerConfiguration.ID] = {
           [clusters.PowerConfiguration.attributes.BatteryPercentageRemaining.ID] = battery_percentage_handler
+        },
+        [clusters.basic_id] = {
+          [0xFF02] = xiaomi_utils.battery_handler,
+          [0xFF01] = xiaomi_utils.battery_handler
         }
      }
     },
@@ -462,11 +487,11 @@ local zigbee_contact_driver_template = {
     lazy_load_if_possible("multi-contact"),
     lazy_load_if_possible("smartsense-multi"),
     lazy_load_if_possible("lumi-switch-cluster"),
-    lazy_load_if_possible("battery-virtual-status")
   },
-  ias_zone_configuration_method = constants.IAS_ZONE_CONFIGURE_TYPE.AUTO_ENROLL_RESPONSE
+  ias_zone_configuration_method = constants.IAS_ZONE_CONFIGURE_TYPE.AUTO_ENROLL_RESPONSE,
+  health_check = false
 }
 
-defaults.register_for_default_handlers(zigbee_contact_driver_template, zigbee_contact_driver_template.supported_capabilities)
+defaults.register_for_default_handlers(zigbee_contact_driver_template, zigbee_contact_driver_template.supported_capabilities, {native_capability_attrs_enabled = true})
 local zigbee_contact = ZigbeeDriver("zigbee_contact", zigbee_contact_driver_template)
 zigbee_contact:run()

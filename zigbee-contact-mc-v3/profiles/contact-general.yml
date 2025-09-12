@@ -46,3 +46,36 @@ metadata:
   deviceType: ContactSensor
   ocfDeviceType: x.com.st.d.sensor.contact
   deviceTypeId: ContactSensor
+deviceConfig:
+  dashboard:
+    states:
+      - component: main
+        capability: contactSensor
+        version: 1
+        group: main
+        composite: true
+      - component: main
+        capability: battery
+        version: 1
+        group: main
+        values:
+          - label: "|Bat:{{battery.value}}{{battery.unit}}"
+        composite: true
+    actions: []
+    basicPlus: []
+  detailView:
+    - component: main
+      capability: contactSensor
+      version: 1
+    - component: main
+      capability: legendabsolute60149.signalMetrics
+      version: 1
+    - component: main
+      capability: refresh
+      version: 1
+  automation:
+    conditions:
+      - component: main
+        capability: contactSensor
+        version: 1
+    actions: []

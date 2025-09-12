@@ -1,0 +1,96 @@
+{
+    "mnmn": "SmartThingsCommunity",
+    "vid": "8fe892f0-040c-3a1f-a42d-ac7933484517", 
+    "version": "0.0.1",
+    "type": "profile",
+    "dashboard": {
+        "states": [
+            {
+                "component": "main",
+                "capability": "accelerationSensor",
+                "version": 1,
+                "idx": 0,
+                "group": "main",
+                "values": [],
+                "composite": true
+            }
+        ],
+        "actions": [],
+        "basicPlus": []
+    },
+    "detailView": [
+        {
+            "component": "main",
+            "capability": "accelerationSensor",    
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "main",
+            "capability": "temperatureMeasurement",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "main",
+            "capability": "threeAxis",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "main",
+            "capability": "battery",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "main",
+            "capability": "legendabsolute60149.signalMetrics",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "main",
+            "capability": "refresh",
+            "version": 1,
+            "values": [],
+            "patch": []
+        }
+    ],
+    "automation": {
+        "conditions": [
+            {
+                "component": "main",
+                "capability": "accelerationSensor",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "main",
+                "capability": "temperatureMeasurement",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "main",
+                "capability": "battery",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            }
+        ],
+        "actions": []
+    },
+    "presentationId": "8fe892f0-040c-3a1f-a42d-ac7933484517",
+    "manufacturerName": "SmartThingsCommunity"
+}

@@ -517,6 +517,23 @@ zigbeeManufacturer:
     manufacturer: eWeLink
     model: SNZB-04P
     deviceProfileName: contact-battery-profile
+  - id: "_TZ3000_0hkmcrza/Contact Sensor"
+    deviceLabel: Tuya Contact Sensor
+    manufacturer: _TZ3000_0hkmcrza
+    model: TS0203
+    deviceProfileName: contact-battery-profile
+
+  #Tuya TS0203 generic
+  - id: "TS0203/Contact Sensor"
+    deviceLabel: Tuya Contact Sensor TS0203
+    model: TS0203
+    deviceProfileName: contact-battery-profile
+
+  #Tuya RH3001 generic
+  - id: "RH3001/Contact Sensor"
+    deviceLabel: Tuya Contact Sensor RH3001
+    model: RH3001
+    deviceProfileName: contact-battery-profile
 
   # ST multipurpose sensors
   - id: "Samjin/multi"

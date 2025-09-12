@@ -16,8 +16,8 @@ components:
   - name: ContactSensor
 preferences:
   - name: "version"
-    title: "Version 3.4 (Jan 2024)"
-    description: "Added: Create virtual device for Batteries status" 
+    title: "Version 3.6 (Apr 2025)"
+    description: "Added: Preference for Battery type and quantity"
     required: false
     preferenceType: string
     definition:
@@ -25,13 +25,6 @@ preferences:
       minLength: 0
       maxLength: 0
       default: ""
-  - name: "childBatteries"
-    title: "Create devices batt status Virtual"
-    description: "Create devices batt status Virtual"
-    required: false
-    preferenceType: boolean
-    definition:
-      default: false
   - name: "iasZoneReports"
     title: "Set Contact Sensor Interval Report"
     description: "IF YOUR DEVICE & NETWORK WORK FINE THEN DON'T TOUCH. Set Device Interval Report (300 to 3600 sec). Smartthings Default=300.\nLonger intervals reduce zigbee Network traffic, Hub work and Battery consumption. NEED WAKE UP DEVICE WITH Open-Close TO ACCEPT NEW VALUE. Restore default before Driver Change"
@@ -41,6 +34,54 @@ preferences:
       minimum: 300
       maximum: 3600
       default:  300
+  - name: "batteryType"
+    title: "Device battery model"
+    description: Set your device Battery model to see it in App
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Unspecified": Unspecified
+        "Customed": Customed
+        "A": A
+        "AA": AA
+        "AAA": AAA
+        "B": B
+        "C": C
+        "D": D
+        "CR123A": CR123A
+        "CR2": CR2
+        "CR2016": CR2016
+        "CR2022": CR2020
+        "CR2025": CR2025
+        "CR2032": CR2032
+        "CR2040": CR2040
+        "CR2430": CR2430
+        "CR2450": CR2450
+        "CR_V3": CR_V3
+        "4v5": 4v5
+        "6v0": 6v0
+        "9v0": 9v0
+      default: "Unspecified"
+  - name: "batteryQuantity"
+    title: "Device battery quantity"
+    description: Set your device Battery quantity to see it in App
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 10
+      default: 1
+  - name: "batteryChangeDate"
+    title: "Date of batterry change"
+    description: "You can write the date you changed the new battery and your comments such as manufacturer, lifespan, etc." 
+    required: false
+    preferenceType: string
+    definition:
+      stringType: text
+      minLength: 0
+      maxLength: 100
+      default: ""
   - name: "signalMetricsVisibles"
     title: "Signal Metrics Visible in History"
     description: "Signal Metrics Visible in App History (default: No Visible):"
@@ -55,3 +96,42 @@ metadata:
   deviceType: ContactSensor
   ocfDeviceType: x.com.st.d.sensor.contact
   deviceTypeId: ContactSensor
+deviceConfig:
+  dashboard:
+    states:
+      - component: main
+        capability: contactSensor
+        version: 1
+        group: main
+        composite: true
+      - component: main
+        capability: battery
+        version: 1
+        group: main
+        values:
+          - label: "|Bat:{{battery.value}}{{battery.unit}}"
+        composite: true
+    actions: []
+    basicPlus: []
+  detailView:
+    - component: main
+      capability: contactSensor
+      version: 1
+    - component: main
+      capability: battery
+      version: 1
+    - component: main
+      capability: legendabsolute60149.signalMetrics
+      version: 1
+    - component: main
+      capability: refresh
+      version: 1
+  automation:
+    conditions:
+      - component: main
+        capability: contactSensor
+        version: 1
+      - component: main
+        capability: battery
+        version: 1
+    actions: []

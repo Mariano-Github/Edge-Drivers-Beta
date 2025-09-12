@@ -24,8 +24,8 @@ preferences:
   - preferenceId: tempOffset
     explicit: true
   - name: "version"
-    title: "Version 3.4 (Jan 2024)"
-    description: "Added: Create virtual device for Batteries status" 
+    title: "Version 3.6 (Apr 2025)"
+    description: "Added: Preference for Battery type and quantity"
     required: false
     preferenceType: string
     definition:
@@ -36,13 +36,6 @@ preferences:
   - name: "childVibration"
     title: "Create Vibration-Contact Virtual"
     description: "Create Virtual Contact device, activated by Acceleration events to use in STHM:"
-    required: false
-    preferenceType: boolean
-    definition:
-      default: false
-  - name: "childBatteries"
-    title: "Create devices batt status Virtual"
-    description: "Create devices batt status Virtual"
     required: false
     preferenceType: boolean
     definition:
@@ -132,6 +125,54 @@ preferences:
       minimum: 1
       maximum: 20000
       default:  630
+  - name: "batteryType"
+    title: "Device battery model"
+    description: Set your device Battery model to see it in App
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Unspecified": Unspecified
+        "Customed": Customed
+        "A": A
+        "AA": AA
+        "AAA": AAA
+        "B": B
+        "C": C
+        "D": D
+        "CR123A": CR123A
+        "CR2": CR2
+        "CR2016": CR2016
+        "CR2022": CR2020
+        "CR2025": CR2025
+        "CR2032": CR2032
+        "CR2040": CR2040
+        "CR2430": CR2430
+        "CR2450": CR2450
+        "CR_V3": CR_V3
+        "4v5": 4v5
+        "6v0": 6v0
+        "9v0": 9v0
+      default: "Unspecified"
+  - name: "batteryQuantity"
+    title: "Device battery quantity"
+    description: Set your device Battery quantity to see it in App
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 10
+      default: 1
+  - name: "batteryChangeDate"
+    title: "Date of batterry change"
+    description: "You can write the date you changed the new battery and your comments such as manufacturer, lifespan, etc." 
+    required: false
+    preferenceType: string
+    definition:
+      stringType: text
+      minLength: 0
+      maxLength: 100
+      default: ""
   - name: "signalMetricsVisibles"
     title: "Signal Metrics Visible in History"
     description: "Signal Metrics Visible in App History (default: No Visible):"
@@ -148,3 +189,64 @@ metadata:
   deviceTypeId: Thermostat
   mnmn: SmartThingsCommunity
   vid: 203e442c-fb1f-385b-8aa8-8a71ab8440a0
+deviceConfig:
+  dashboard:
+    states:
+      - component: main
+        capability: temperatureMeasurement
+        version: 1
+        group: main
+        values:
+          - label: "{{temperature.value}}º|"
+        composite: true
+      - component: main
+        capability: contactSensor
+        version: 1
+        group: main
+        composite: true
+      - component: main
+        capability: battery
+        version: 1
+        group: main
+        values:
+          - label: "|{{battery.value}}{{battery.unit}}"
+        composite: true
+    actions: []
+    basicPlus: []
+  detailView:
+    - component: main
+      capability: contactSensor
+      version: 1
+    - component: main
+      capability: temperatureMeasurement
+      version: 1
+    - component: main
+      capability: threeAxis
+      version: 1
+    - component: main
+      capability: accelerationSensor
+      version: 1
+    - component: main
+      capability: battery
+      version: 1
+    - component: main
+      capability: legendabsolute60149.signalMetrics
+      version: 1
+    - component: main
+      capability: refresh
+      version: 1
+  automation:
+    conditions:
+      - component: main
+        capability: contactSensor
+        version: 1
+      - component: main
+        capability: temperatureMeasurement
+        version: 1
+      - component: main
+        capability: accelerationSensor
+        version: 1
+      - component: main
+        capability: battery
+        version: 1
+    actions: []
