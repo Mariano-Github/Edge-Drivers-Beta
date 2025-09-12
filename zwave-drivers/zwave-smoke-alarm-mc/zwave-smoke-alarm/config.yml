@@ -1,0 +1,5 @@
+name: 'Z-Wave Smoke Alarm-Mc'
+packageKey: 'zwave-smoke-alarm-v1'
+description: 'Devices Supported: https://github.com/Mariano-Github/Edge-Drivers-Beta/blob/main/zwave-drivers/zwave-smoke-alarm-mc/fingerprints.yml'
+permissions:
+  zwave: {}

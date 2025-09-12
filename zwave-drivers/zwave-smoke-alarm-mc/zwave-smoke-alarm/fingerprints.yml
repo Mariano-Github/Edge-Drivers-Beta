@@ -1,0 +1,91 @@
+zwaveManufacturer:
+  - id: "FirstAlert"
+    deviceLabel: First Alert Smoke Detector
+    manufacturerId: 0x0138
+    productType: 0x0001
+    productId: 0x0002
+    deviceProfileName: smoke-co-battery
+  - id: 026F/0001/0002
+    deviceLabel: FireAngel Smoke Detector
+    manufacturerId: 0x026F
+    productType: 0x0001
+    productId: 0x0002
+    deviceProfileName: temperaturealarm-battery
+  - id: 010F/1201
+    deviceLabel: Fibaro Carbon Monoxide Sensor
+    manufacturerId: 0x010F
+    productType: 0x1201
+    deviceProfileName: fibaro-co-sensor-zw5
+  - id: 010F/0C02
+    deviceLabel: Fibaro Smoke Detector
+    manufacturerId: 0x010F
+    productType: 0x0C02
+    deviceProfileName: smoke-battery-temperature-tamperalert-temperaturealarm
+  - id: 0138/0001/0001
+    deviceLabel: First Alert Smoke Detector
+    manufacturerId: 0x0138
+    productType: 0x0001
+    productId: 0x0001
+    deviceProfileName: smoke-battery
+  - id: 026F/0001/0001
+    deviceLabel: FireAngel Smoke Detector
+    manufacturerId: 0x026F
+    productType: 0x0001
+    productId: 0x0001
+    deviceProfileName: smoke-battery
+  - id: 013C/0002/001E
+    deviceLabel: Philio Smoke Detector
+    manufacturerId: 0x013C
+    productType: 0x0002
+    productId: 0x001E
+    deviceProfileName: smoke-battery
+  - id: 0154/0004/0010
+    deviceLabel: POPP Smoke Detector
+    manufacturerId: 0x0154
+    productType: 0x0004
+    productId: 0x0010
+    deviceProfileName: smoke-battery
+  - id: 0154/0100/0201
+    deviceLabel: POPP Smoke Detector
+    manufacturerId: 0x0154
+    productType: 0x0100
+    productId: 0x0201
+    deviceProfileName: smoke-battery
+  - id: 0138/0001/0003
+    deviceLabel: First Alert Smoke Detector
+    manufacturerId: 0x0138
+    productType: 0x0001
+    productId: 0x0003
+    deviceProfileName: smoke-co-battery
+  - id: 0154/0004/0003
+    deviceLabel: POPP Carbon Monoxide Sensor
+    manufacturerId: 0x0154
+    productType: 0x0004
+    productId: 0x0003
+    deviceProfileName: co-battery
+
+  - id: 0260/8002/1000
+    deviceLabel: Heiman HS3SA-Z Smoke
+    manufacturerId: 0x0260
+    productType: 0x8002
+    productId: 0x1000
+    deviceProfileName: smoke-co-battery
+  - id: 0260/8005/1000
+    deviceLabel: Heiman HS1CA CO
+    manufacturerId: 0x0260
+    productType: 0x8005
+    productId: 0x1000
+    deviceProfileName: co-battery
+  - id: 0403/0002/0003
+    deviceLabel: Asus Smoke SHRM10000
+    manufacturerId: 0x0403
+    productType: 0x0002
+    productId: 0x0003
+    deviceProfileName: smoke-battery
+  # agosto 2023
+  - id: 0260/8003/1000
+    deviceLabel: Heiman HS1CG Gas
+    manufacturerId: 0x0260
+    productType: 0x8003
+    productId: 0x1000
+    deviceProfileName: gas-battery
