@@ -1,0 +1,21 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{clustersInfo.value}}"
+            }
+        ],
+        "actions": []
+    },
+    "detailView": [
+        {
+            "label": "Device End Points & Clusters Info:",
+            "displayType": "state",
+            "state": {
+                "label": "{{clustersInfo.value}}"
+            }
+        }
+    ],
+    "id": "legendabsolute60149.clustersInfo",
+    "version": 1
+}

@@ -1,0 +1,5 @@
+name: 'Zigbee Thing Mc'
+packageKey: 'zigbee-thing-mc'
+description: 'For Zigbbe Devices: Show Fingerprints and End Points Clusters'
+permissions:
+  zigbee: {}
