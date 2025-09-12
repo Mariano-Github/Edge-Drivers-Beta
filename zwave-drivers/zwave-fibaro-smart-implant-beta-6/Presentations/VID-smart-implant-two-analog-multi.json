@@ -1,0 +1,205 @@
+{
+    "mnmn": "SmartThingsCommunity",
+    "vid": "cea3266d-58ae-34aa-8f26-b1e3a7509e76",     
+    "version": "0.0.1",
+    "type": "profile",
+    "dashboard": {
+        "states": [
+            {
+                "component": "main",
+                "capability": "temperatureMeasurement",
+                "version": 1,
+                "idx": 0,
+                "group": "main",
+                "values": [],
+                "composite": true
+            },
+            {
+                "component": "analog1",
+                "capability": "voltageMeasurement",    
+                "version": 1,
+                "idx": 0,
+                "group": "Analog Input-1",
+                "values": [],
+                "composite": true
+            },
+            {
+                "component": "out1",
+                "capability": "switch",
+                "version": 1,
+                "idx": 0,
+                "group": "Out-1",
+                "values": [],
+                "composite": true
+            },
+            {
+                "component": "analog2",
+                "capability": "voltageMeasurement",
+                "version": 1,
+                "idx": 0,
+                "group": "Analog Input-2",
+                "values": [],
+                "composite": true
+            },
+            {
+                "component": "out2",
+                "capability": "switch",
+                "version": 1,
+                "idx": 0,
+                "group": "Out-2",
+                "values": [],
+                "composite": true
+            }
+        ],
+        "actions": [
+            {
+                "component": "out1",
+                "capability": "switch",
+                "version": 1,
+                "idx": 0,
+                "group": "Out-1",
+                "inline": null
+            },
+            {
+                "component": "out2",
+                "capability": "switch",
+                "version": 1,
+                "idx": 0,
+                "group": "Out-2",
+                "inline": null
+            }
+        ],
+        "basicPlus": []
+    },
+    "detailView": [
+        {
+            "component": "main",
+            "capability": "temperatureMeasurement",
+            "version": 1,
+            "values": [
+                {
+                    "key": "temperature.value",
+                    "enabledValues": [],
+                    "range": [
+                        -50,
+                        250
+                    ]
+                }
+            ],
+            "patch": []
+        },
+        {
+            "component": "analog1",
+            "capability": "voltageMeasurement",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "out1",
+            "capability": "switch",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "out1",
+            "capability": "refresh",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "analog2",
+            "capability": "voltageMeasurement",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "out2",
+            "capability": "switch",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "out2",
+            "capability": "refresh",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "main",
+            "capability": "refresh",
+            "version": 1,
+            "values": [],
+            "patch": []
+        }
+    ],
+    "automation": {
+        "conditions": [
+            {
+                "component": "main",
+                "capability": "temperatureMeasurement",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "analog1",
+                "capability": "voltageMeasurement",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "out1",
+                "capability": "switch",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "analog2",
+                "capability": "voltageMeasurement",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "out2",
+                "capability": "switch",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            }
+        ],
+        "actions": [
+            {
+                "component": "out1",
+                "capability": "switch",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "out2",
+                "capability": "switch",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            }
+        ]
+    },
+    "presentationId": "cea3266d-58ae-34aa-8f26-b1e3a7509e76",
+    "manufacturerName": "SmartThingsCommunity"
+}

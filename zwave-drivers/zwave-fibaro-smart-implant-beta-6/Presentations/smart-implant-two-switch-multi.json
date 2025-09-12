@@ -1,0 +1,132 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "component": "out1",
+                "capability": "switch",
+                "version": 1,
+                "idx": 0,
+                "group": "main",
+                "composite": true
+            },
+            {
+                "component": "out2",
+                "capability": "switch",
+                "version": 1,
+                "idx": 0,
+                "group": "Out-2",
+                "values": [],
+                "composite": true
+            }
+        ],
+        "actions": [
+            {
+                "component": "out2",
+                "capability": "switch",
+                "version": 1,
+                "idx": 0,
+                "group": "Out-2"
+            }
+        ]
+    },
+    "detailView": [
+        {
+            "component": "out1",
+            "capability": "switch",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "out1",
+            "capability": "refresh",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "out2",
+            "capability": "switch",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "out2",
+            "capability": "refresh",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "main",
+            "capability": "temperatureMeasurement",
+            "version": 1,
+            "values": [
+                {
+                    "key": "temperature.value",
+                    "enabledValues": [],
+                    "range": [
+                        -50,
+                        250
+                    ]
+                }
+            ],
+            "patch": []
+        },
+        {
+            "component": "main",
+            "capability": "refresh",
+            "version": 1,
+            "values": [],
+            "patch": []
+        }
+    ],
+    "automation": {
+        "conditions": [
+            {
+                "component": "main",
+                "capability": "temperatureMeasurement",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "out1",
+                "capability": "switch",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "out2",
+                "capability": "switch",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            }
+        ],
+        "actions": [
+            {
+                "component": "out1",
+                "capability": "switch",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "out2",
+                "capability": "switch",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            }
+        ]
+    },
+    "type": "profile"
+}

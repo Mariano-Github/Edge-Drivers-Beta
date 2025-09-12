@@ -1,0 +1,24 @@
+name: child-motion
+components:
+- id: main
+  capabilities:
+  - id: motionSensor
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: MotionSensor
+preferences:
+  - name: "profileType"
+    title: "Child Profile Type"
+    description: "Child Profile Type: DO NOT CHANGE"
+    required: true
+    preferenceType: enumeration
+    definition:
+      options:
+        "motion": "child-motion"
+      default: "motion"
+metadata:
+  #deviceType: ContactSensor
+  #ocfDeviceType: x.com.st.d.sensor.contact
+  #deviceTypeId: ContactSensor

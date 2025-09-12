@@ -1,0 +1,28 @@
+name: child-voltage
+components:
+- id: main
+  capabilities:
+  - id: voltageMeasurement
+    version: 1
+    config:
+    values:
+      - key: "voltage.value"
+        range: [ 0, 10 ]
+  - id: refresh
+    version: 1
+  categories:
+  - name: CurbPowerMeter
+preferences:
+  - name: "profileType"
+    title: "Child Profile Type"
+    description: "Child Profile Type: DO NOT CHANGE"
+    required: true
+    preferenceType: enumeration
+    definition:
+      options:
+        "voltage": "child-voltage"
+      default: "voltage"
+metadata:
+  #deviceType: ContactSensor
+  #ocfDeviceType: x.com.st.d.sensor.contact
+  #deviceTypeId: ContactSensor

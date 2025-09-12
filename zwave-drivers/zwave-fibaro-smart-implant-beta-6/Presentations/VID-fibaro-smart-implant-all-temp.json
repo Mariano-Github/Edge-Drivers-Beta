@@ -1,0 +1,385 @@
+{
+    "mnmn": "SmartThingsCommunity",
+    "vid": "550ed0ba-9bf5-3b40-840e-f500f4ddf5be",     
+    "version": "0.0.1",
+    "type": "profile",
+    "dashboard": {
+        "states": [
+            {
+                "component": "main",
+                "capability": "temperatureMeasurement",
+                "version": 1,
+                "idx": 0,
+                "group": "main",
+                "values": [],
+                "composite": true
+            }
+        ],
+        "actions": [],
+        "basicPlus": []
+    },
+    "detailView": [
+        {
+            "component": "main",
+            "capability": "temperatureMeasurement",    
+            "version": 1,
+            "values": [
+                {
+                    "key": "temperature.value",
+                    "enabledValues": [],
+                    "range": [
+                        -100,
+                        250
+                    ],
+                    "step": 1
+                }
+            ],
+            "patch": []
+        },
+        {
+            "component": "main",
+            "capability": "refresh",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "externalTemp1",
+            "capability": "temperatureMeasurement",
+            "version": 1,
+            "values": [
+                {
+                    "key": "temperature.value",
+                    "enabledValues": [],
+                    "range": [
+                        -100,
+                        250
+                    ],
+                    "step": 1
+                }
+            ],
+            "patch": []
+        },
+        {
+            "component": "externalTemp1",
+            "capability": "refresh",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "externalTemp2",
+            "capability": "temperatureMeasurement",
+            "version": 1,
+            "values": [
+                {
+                    "key": "temperature.value",
+                    "enabledValues": [],
+                    "range": [
+                        -100,
+                        250
+                    ],
+                    "step": 1
+                }
+            ],
+            "patch": []
+        },
+        {
+            "component": "externalTemp2",
+            "capability": "refresh",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "externalTemp3",
+            "capability": "temperatureMeasurement",
+            "version": 1,
+            "values": [
+                {
+                    "key": "temperature.value",
+                    "enabledValues": [],
+                    "range": [
+                        -100,
+                        250
+                    ],
+                    "step": 1
+                }
+            ],
+            "patch": []
+        },
+        {
+            "component": "externalTemp3",
+            "capability": "refresh",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "externalTemp4",
+            "capability": "temperatureMeasurement",
+            "version": 1,
+            "values": [
+                {
+                    "key": "temperature.value",
+                    "enabledValues": [],
+                    "range": [
+                        -100,
+                        250
+                    ],
+                    "step": 1
+                }
+            ],
+            "patch": []
+        },
+        {
+            "component": "externalTemp4",
+            "capability": "refresh",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "externalTemp5",
+            "capability": "temperatureMeasurement",
+            "version": 1,
+            "values": [
+                {
+                    "key": "temperature.value",
+                    "enabledValues": [],
+                    "range": [
+                        -100,
+                        250
+                    ],
+                    "step": 1
+                }
+            ],
+            "patch": []
+        },
+        {
+            "component": "externalTemp5",
+            "capability": "refresh",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "externalTemp6",
+            "capability": "temperatureMeasurement",
+            "version": 1,
+            "values": [
+                {
+                    "key": "temperature.value",
+                    "enabledValues": [],
+                    "range": [
+                        -100,
+                        250
+                    ],
+                    "step": 1
+                }
+            ],
+            "patch": []
+        },
+        {
+            "component": "externalTemp6",
+            "capability": "refresh",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "out1",
+            "capability": "switch",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "out1",
+            "capability": "refresh",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "out2",
+            "capability": "switch",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "out2",
+            "capability": "refresh",
+            "version": 1,
+            "values": [],
+            "patch": []
+        }
+    ],
+    "automation": {
+        "conditions": [
+            {
+                "component": "main",
+                "capability": "temperatureMeasurement",
+                "version": 1,
+                "values": [
+                    {
+                        "key": "temperature.value",
+                        "enabledValues": [],
+                        "range": [
+                            -100,
+                            250
+                        ],
+                        "step": 1
+                    }
+                ],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "externalTemp1",
+                "capability": "temperatureMeasurement",
+                "version": 1,
+                "values": [
+                    {
+                        "key": "temperature.value",
+                        "enabledValues": [],
+                        "range": [
+                            -100,
+                            250
+                        ],
+                        "step": 1
+                    }
+                ],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "externalTemp2",
+                "capability": "temperatureMeasurement",
+                "version": 1,
+                "values": [
+                    {
+                        "key": "temperature.value",
+                        "enabledValues": [],
+                        "range": [
+                            -100,
+                            250
+                        ],
+                        "step": 1
+                    }
+                ],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "externalTemp3",
+                "capability": "temperatureMeasurement",
+                "version": 1,
+                "values": [
+                    {
+                        "key": "temperature.value",
+                        "enabledValues": [],
+                        "range": [
+                            -100,
+                            250
+                        ],
+                        "step": 1
+                    }
+                ],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "externalTemp4",
+                "capability": "temperatureMeasurement",
+                "version": 1,
+                "values": [
+                    {
+                        "key": "temperature.value",
+                        "enabledValues": [],
+                        "range": [
+                            -100,
+                            250
+                        ],
+                        "step": 1
+                    }
+                ],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "externalTemp5",
+                "capability": "temperatureMeasurement",
+                "version": 1,
+                "values": [
+                    {
+                        "key": "temperature.value",
+                        "enabledValues": [],
+                        "range": [
+                            -100,
+                            250
+                        ],
+                        "step": 1
+                    }
+                ],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "externalTemp6",
+                "capability": "temperatureMeasurement",
+                "version": 1,
+                "values": [
+                    {
+                        "key": "temperature.value",
+                        "enabledValues": [],
+                        "range": [
+                            -100,
+                            250
+                        ],
+                        "step": 1
+                    }
+                ],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "out1",
+                "capability": "switch",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "out2",
+                "capability": "switch",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            }
+        ],
+        "actions": [
+            {
+                "component": "out1",
+                "capability": "switch",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            },
+            {
+                "component": "out2",
+                "capability": "switch",
+                "version": 1,
+                "values": [],
+                "patch": [],
+                "exclusion": []
+            }
+        ]
+    },
+    "presentationId": "550ed0ba-9bf5-3b40-840e-f500f4ddf5be",
+    "manufacturerName": "SmartThingsCommunity"
+}

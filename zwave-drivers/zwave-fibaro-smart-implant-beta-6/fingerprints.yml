@@ -1,0 +1,6 @@
+zwaveManufacturer:
+  - id: fibaro/smart-implant
+    deviceLabel: Fibaro Smart Implant
+    manufacturerId: 0x010F
+    productType: 0x0502
+    deviceProfileName: fibaro-smart-implant-temp

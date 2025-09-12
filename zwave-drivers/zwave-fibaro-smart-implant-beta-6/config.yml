@@ -1,0 +1,5 @@
+name: 'Fibaro Smart Implant Mc'
+packageKey: 'zwave-fibaro-smart-implant-6'
+description: 'Devices Supported: Fibaro Smart Implant FGBS-222'
+permissions:
+  zwave: {}
