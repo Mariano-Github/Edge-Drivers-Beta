@@ -25,7 +25,6 @@ local cluster_base = require "st.zigbee.cluster_base"
 local xiaomi_utils = require "xiaomi_utils"
 --module emit signal metrics
 local signal = require "signal-metrics"
-local child_devices = require "child-devices"
 
 --custom capabilities
 local signal_Metrics = capabilities["legendabsolute60149.signalMetrics"]
@@ -36,27 +35,27 @@ local tempMeasurement = zcl_clusters.TemperatureMeasurement
 local device_management = require "st.zigbee.device_management"
 
 -- preferences update
-local function do_preferences(self, device)
+local function do_preferences(self, device, event, args)
   
   if device.network_type == "DEVICE_EDGE_CHILD" then return end-- is CHILD DEVICE
   for id, value in pairs(device.preferences) do
     print("device.preferences[infoChanged]=", device.preferences[id], "preferences: ", id)
-    local oldPreferenceValue = device:get_field(id)
+    --local oldPreferenceValue = device:get_field(id)
+    local oldPreferenceValue = args.old_st_store.preferences[id]
     local newParameterValue = device.preferences[id]
      if oldPreferenceValue ~= newParameterValue then
-      device:set_field(id, newParameterValue, {persist = true})
-      print("<< Preference changed: name, old, new >>", id, oldPreferenceValue, newParameterValue)
-      if  id == "maxTime" or id == "changeRep" then
-        local maxTime = device.preferences.maxTime * 60
-        local changeRep = device.preferences.changeRep * 100
-         print ("maxTime y changeRep: ", maxTime, changeRep)
-          device:send(device_management.build_bind_request(device, tempMeasurement.ID, self.environment_info.hub_zigbee_eui))
-          device:send(tempMeasurement.attributes.MeasuredValue:configure_reporting(device, 30, maxTime, changeRep))
-        elseif id == "childBatteries" then
-          if oldPreferenceValue ~= nil and newParameterValue == true then
-            child_devices.create_new(self, device, "main", "child-batteries-status")
-          end
-      end
+        print("<< Preference changed: name, old, new >>", id, oldPreferenceValue, newParameterValue)
+        if  id == "maxTime" or id == "changeRep" then
+          local maxTime = device.preferences.maxTime * 60
+          local changeRep = device.preferences.changeRep * 100
+          print ("maxTime y changeRep: ", maxTime, changeRep)
+            device:send(device_management.build_bind_request(device, tempMeasurement.ID, self.environment_info.hub_zigbee_eui))
+            device:send(tempMeasurement.attributes.MeasuredValue:configure_reporting(device, 30, maxTime, changeRep))
+        elseif id == "batteryType" and newParameterValue ~= nil then
+          device:emit_event(capabilities.battery.type(newParameterValue))
+        elseif id == "batteryQuantity" and newParameterValue ~= nil then
+          device:emit_event(capabilities.battery.quantity(newParameterValue))
+        end
      end
   end
   --print manufacturer, model and leng of the strings
@@ -123,7 +122,7 @@ end
 
   -- do_configure
   local function do_configure(driver, device)
-    if device:get_model() == "TS0207" or device:get_model() == "SNZB-03" then
+    if device:get_model() == "TS0207" or device:get_model() == "SNZB-03" or device:get_model() == "SNZB-05"  or device:get_model() == "SNZB-05P" then
       local config ={
         cluster = zcl_clusters.PowerConfiguration.ID,
         attribute = zcl_clusters.PowerConfiguration.attributes.BatteryPercentageRemaining.ID,
@@ -159,7 +158,8 @@ end
 
    -- device init
    local function device_init(driver, device)
-    if device:get_model() == "TS0207" or device:get_model() == "SNZB-03" then
+    
+    if device:get_model() == "TS0207" or device:get_model() == "SNZB-03" or device:get_model() == "SNZB-05"  or device:get_model() == "SNZB-05P" then
       local config ={
         cluster = zcl_clusters.PowerConfiguration.ID,
         attribute = zcl_clusters.PowerConfiguration.attributes.BatteryPercentageRemaining.ID,
@@ -187,6 +187,35 @@ end
       --device:send(device_management.build_bind_request(device, zcl_clusters.IASZone.ID, driver.environment_info.hub_zigbee_eui))
       --device:send(zcl_clusters.IASZone.attributes.ZoneStatus:configure_reporting(device, 30, 600, 1))
       device:remove_monitored_attribute(0x0500, 0x0002)
+    elseif device:supports_capability_by_id(capabilities.temperatureMeasurement.ID) then
+      local maxTime = device.preferences.maxTime * 60
+      local changeRep = device.preferences.changeRep * 100
+      print ("maxTime y changeRep: ",maxTime, changeRep )
+      local config ={
+        cluster = zcl_clusters.TemperatureMeasurement.ID,
+        attribute = zcl_clusters.TemperatureMeasurement.attributes.MeasuredValue.ID,
+        minimum_interval = 30,
+        maximum_interval = maxTime,
+        data_type = zcl_clusters.TemperatureMeasurement.attributes.MeasuredValue.base_type,
+        reportable_change = changeRep
+      }
+      device:add_configured_attribute(config)
+      device:add_monitored_attribute(config)
+    end
+
+    -- set battery type and quantity
+    --device:send(zcl_clusters.PowerConfiguration.attributes.BatterySize:read(device))
+    --device:send(zcl_clusters.PowerConfiguration.attributes.BatteryQuantity:read(device))
+    if device:supports_capability_by_id(capabilities.battery.ID) then
+      local cap_status = device:get_latest_state("main", capabilities.battery.ID, capabilities.battery.type.NAME)
+      if cap_status == nil and device.preferences.batteryType ~= nil then
+        device:emit_event(capabilities.battery.type(device.preferences.batteryType))
+      end
+
+      cap_status = device:get_latest_state("main", capabilities.battery.ID, capabilities.battery.quantity.NAME)
+      if cap_status == nil and device.preferences.batteryQuantity ~= nil then
+        device:emit_event(capabilities.battery.quantity(device.preferences.batteryQuantity))
+      end
     end
   end
 
@@ -223,12 +252,12 @@ sub_drivers = {
   lazy_load_if_possible("samjin"), 
   lazy_load_if_possible("smartthings"), 
   lazy_load_if_possible("thirdreality"),
-  lazy_load_if_possible("battery-virtual-status")
 },
-  ias_zone_configuration_method = constants.IAS_ZONE_CONFIGURE_TYPE.AUTO_ENROLL_RESPONSE
+  ias_zone_configuration_method = constants.IAS_ZONE_CONFIGURE_TYPE.AUTO_ENROLL_RESPONSE,
+  health_check = false
 }
 
 --------- driver run ------
-defaults.register_for_default_handlers(zigbee_moisture_driver, zigbee_moisture_driver.supported_capabilities)
+defaults.register_for_default_handlers(zigbee_moisture_driver, zigbee_moisture_driver.supported_capabilities, {native_capability_attrs_enabled = true})
 local moisture = ZigbeeDriver("st-zigbee-moisture", zigbee_moisture_driver)
 moisture:run()

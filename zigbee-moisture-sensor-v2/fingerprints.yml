@@ -245,3 +245,14 @@ zigbeeManufacturer:
     #manufacturer: loocam
     model: LNAWTC2WBS
     deviceProfileName: moisture-battery
+  - id: "_TZ3210_tgvtvdoc/TS0207"
+    deviceLabel: Solar Rain Sensor
+    manufacturer: _TZ3210_tgvtvdoc
+    model: TS0207
+    deviceProfileName: moisture-battery
+
+  #Tuya water leak generic
+  - id: "TS0207/Tuya"
+    deviceLabel: TS0207 Water Sensor
+    model: TS0207
+    deviceProfileName: moisture-battery

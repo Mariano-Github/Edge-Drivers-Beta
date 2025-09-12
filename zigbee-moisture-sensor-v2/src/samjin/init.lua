@@ -31,6 +31,16 @@ local function do_configure(self,device)
   print ("maxTime y changeRep: ",maxTime, changeRep )
     device:send(device_management.build_bind_request(device, tempMeasurement.ID, self.environment_info.hub_zigbee_eui))
     device:send(tempMeasurement.attributes.MeasuredValue:configure_reporting(device, 30, maxTime, changeRep))
+    local config ={
+      cluster = zcl_clusters.TemperatureMeasurement.ID,
+      attribute = zcl_clusters.TemperatureMeasurement.attributes.MeasuredValue.ID,
+      minimum_interval = 30,
+      maximum_interval = maxTime,
+      data_type = zcl_clusters.TemperatureMeasurement.attributes.MeasuredValue.base_type,
+      reportable_change = changeRep
+    }
+    device:add_configured_attribute(config)
+    device:add_monitored_attribute(config)
     device:configure()
 end
 
