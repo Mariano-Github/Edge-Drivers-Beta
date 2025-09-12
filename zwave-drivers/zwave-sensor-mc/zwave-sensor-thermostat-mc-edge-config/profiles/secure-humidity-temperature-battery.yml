@@ -1,0 +1,150 @@
+name: secure-humidity-temperature-battery
+components:
+- id: main
+  label: Internal Temperature
+  capabilities:
+  - id: temperatureMeasurement
+    version: 1
+  - id: relativeHumidityMeasurement
+    version: 1
+  - id: battery
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: Thermostat
+preferences:
+  - preferenceId: tempOffset
+    explicit: true
+  - preferenceId: humidityOffset
+    explicit: true
+  - name: "changeProfileExtTemp"
+    title: "Select Secure SES303 Profile"
+    description: "Select Device Profile. Default = No External Temp Probe:"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "0" : "No External Temp Probe"
+        "1" : "1 External Temp Probe"
+        "2" : "2 External Temp Probe"
+        "3" : "3 External Temp Probe"
+        "4" : "4 External Temp Probe"
+      default: "0"
+  - name: "configChild"
+    title: "Create Device Config-Association"
+    description: "Create Child Device to see Fingerprints, Configure Parameters and Association Groups. NOTE: YOU MUST DELETE THE DEVICE AFTER PERFORMING THE CONFIGURATION"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "childThermostat"
+    title: "Create Thermostat for Internal Temp"
+    description: "Create Virtual Thermostat Device for Internal Temp:"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "deltaTemp"
+    title: "Set Delta Temperature Report"
+    description: "Set Delta Temperature Report in 0.1ºC steps (1 = 0.1º to 255 = 25.5º). 0 = disabled. Default: 1 = 0.1ºC"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 255
+      default: 1
+  - name: "tempIntervalReport"
+    title: "Set Interval Temperature Report"
+    description: "Set Interval Temperature Report in minutes (1 min to 255 min). 0 = disabled. Default: 5 minutes"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 255
+      default: 5
+  - name: "deltaHumidity"
+    title: "Set Delta Humidity Report"
+    description: "Set Delta Humidity Report in 0.1% steps (1 = 0.1% to 255 = 25.5%). 0 = disabled. Default: 10 = 1%"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 255
+      default: 10
+  - name: "humidityIntervalReport"
+    title: "Set Interval Humidity Report"
+    description: "Set Interval Humidity Report in minutes (1 min to 255 min). 0 = disabled. Default: 5 minutes."
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 255
+      default: 5
+  - name: "reportingInterval"
+    title: "Wake Up Reporting Interval"
+    description: "Device wakeup interval in minutes. Default 30 min."
+    required: true
+    preferenceType: number
+    definition:
+      minimum: 2
+      maximum: 1440
+      default: 30
+  - name: "parameterSendDelay"
+    title: "New Preference Parameter Send"
+    description: "Send New Device parameter Immediately or When device wakes up. Default: When device wakes up"
+    required: true
+    preferenceType: enumeration
+    definition:
+      options:
+        "NoDelay": "Immediately"
+        "Delay": "When device wakes up"
+      default: "Delay"
+  - name: "batteryType"
+    title: "Device battery model"
+    description: Set your device Battery model to see it in App
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Unspecified": Unspecified
+        "Customed": Customed
+        "A": A
+        "AA": AA
+        "AAA": AAA
+        "B": B
+        "C": C
+        "D": D
+        "CR123A": CR123A
+        "CR2": CR2
+        "CR2016": CR2016
+        "CR2022": CR2020
+        "CR2025": CR2025
+        "CR2032": CR2032
+        "CR2040": CR2040
+        "CR2430": CR2430
+        "CR2450": CR2450
+        "CR_V3": CR_V3
+        "4v5": 4v5
+        "6v0": 6v0
+        "9v0": 9v0
+      default: "Unspecified"
+  - name: "batteryQuantity"
+    title: "Device battery quantity"
+    description: Set your device Battery quantity to see it in App
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 10
+      default: 1
+  - name: "batteryChangeDate"
+    title: "Date of batterry change"
+    description: "You can write the date you changed the new battery and your comments such as manufacturer, lifespan, etc." 
+    required: false
+    preferenceType: string
+    definition:
+      stringType: text
+      minLength: 0
+      maxLength: 100
+      default: ""

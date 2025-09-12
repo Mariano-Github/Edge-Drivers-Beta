@@ -1,0 +1,45 @@
+name: zwave-parameter-info
+components:
+- id: main
+  capabilities:
+  - id: legendabsolute60149.parameterStart
+    version: 1
+  - id: legendabsolute60149.parameterend
+    version: 1
+  - id: legendabsolute60149.actionbutton2
+    version: 1
+  - id: legendabsolute60149.commandClass
+    version: 1
+  - id: legendabsolute60149.deviceInfo
+    version: 1
+  - id: refresh
+    version: 1
+preferences:
+  - name: "version"
+    title: "Version 4.0 (Apr 2023)"
+    description: "Added: WakeUp Interval Configuration"
+    required: false
+    preferenceType: string
+    definition:
+      stringType: text
+      minLength: 0
+      maxLength: 0
+      default: ""
+  - name: "changeConfigProfile"
+    title: "Select Zwave Device Action"
+    description: "Select Zwave Device Action to perform: "
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Info": "Device Fingerprints Info"
+        "Param": "Device Parameters Scan"
+        "Config": "Device Parameter Configure"
+        "GroupScan": "Device Association Groups Scan"
+        "Group": "Device Association Groups Configure"
+        "WakeUp": "Device Wake Up Interval Configure"
+      default: "Info"
+metadata:
+  deviceType: Elevator
+  ocfDeviceType: x.com.st.d.elevator
+  deviceTypeId: Elevator

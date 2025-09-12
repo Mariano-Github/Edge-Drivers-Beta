@@ -1,0 +1,211 @@
+name: fibaro-door-window-sensor-temperature-icon
+components:
+- id: main
+  capabilities:
+  - id: contactSensor
+    version: 1
+  - id: battery
+    version: 1
+  - id: tamperAlert
+    version: 1
+  - id: temperatureMeasurement
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: ContactSensor
+preferences:
+  - preferenceId: tempOffset
+    explicit: true
+  - name: "configChild"
+    title: "Create Device Config-Association"
+    description: "Create Child Device to see Fingerprints, Configure Parameters and Association Groups. NOTE: YOU MUST DELETE THE DEVICE AFTER PERFORMING THE CONFIGURATION"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "childThermostat"
+    title: "Create Virtual Thermostat Device"
+    description: "Create Virtual Thermostat Device:"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "parameterSendDelay"
+    title: "New Preference Parameter Send"
+    description: "Send New Device parameter Immediately or When device wakes up. Default: When device wakes up"
+    required: true
+    preferenceType: enumeration
+    definition:
+      options:
+        "NoDelay": "Immediately"
+        "Delay": "When device wakes up"
+      default: "Delay"
+  - name: "useTempTileTwo"
+    title: "Use Temperature Sensor Mosaic"
+    description: "Use Temperature Sensor Mosaic. (Defaul: true)"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: true
+  - name: "alarmStatus"
+    title: "Alarm status"
+    description: "Defines state of the sensor when the magnet is close. If the alarm sensor is connected, it determines the output type."
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0 : "Door/window closed"
+        1 : "Door/window opened"
+      default: 0
+  - name: "visualLedIndications"
+    title: "Visual LED indications"
+    description: "Events indicated by the LED indicator."
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0 : "No indications"
+        1 : "Opening/closing status change (IN)"
+        2 : "Wake up (1 x click or periodical)"
+        3 : "Opening/closing and wake up"
+        4 : "Device tampering"
+        5 : "Opening/closing and tampering"
+        6 : "Wake up and tampering"
+      default: 6
+  - name: "delayOfTamperAlarmCancel"
+    title: "Delay of tamper alarm cancellation"
+    description: "Time period after which a tamper alarm will be cancelled"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 32400
+      default: 5
+  - name: "reportTamperAlarmCancel"
+    title: "Reporting tamper alarm cancellation"
+    description: "Reporting cancellation of tamper alarm to the controller"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: true
+  - name: "tempMeasurementInterval"
+    title: "Interval of temp measurements"
+    description: "The shorter the time, the more frequently the temperature will be measured (0 - temperature measurements disabled)."
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 32400
+      default: 300
+  - name: "tempReportsThreshold"
+    title: "Temperature reports threshold"
+    description: "Defines change of temperature in comparison with last reported (0 - temperature reports based on threshold disabled)."
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 300
+      default: 10
+  - name: "intervalOfTempReports"
+    title: "Interval of temperature reports"
+    description: "Temperature measurement is performed before sending any report (0 - periodic temperature reports disabled)."
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 32400
+      default: 0
+  - name: "temperatureOffset"
+    title: "Temperature offset"
+    description: "The value to be added to the actual temperature, measured by the sensor (temperature compensation)."
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: -1000
+      maximum: 1000
+      default: 0
+  - name: "temperatureAlarmReports"
+    title: "Temperature alarm reports"
+    description: "Temperature alarms reported to the controller"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0 : "Temperature alarms disabled"
+        1 : "High temperature alarm"
+        2 : "Low temperature alarm"
+        3 : "High and low temp alarms enabled"
+      default: 0
+  - name: "highTempThreshold"
+    title: "High temperature alarm threshold"
+    description: "If temperature > set value, overheat notification will be sent (0 - 100 degrees Celsius, in 0,1 degrees steps)"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 1000
+      default: 540
+  - name: "lowTempThreshold"
+    title: "Low temperature alarm threshold"
+    description: "If temperature < set value, underheat notification will be sent (-30 - 70 degrees Celsius, in 0,1 degrees steps)."
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: -300
+      maximum: 700
+      default: 40
+  - name: "batteryType"
+    title: "Device battery model"
+    description: Set your device Battery model to see it in App
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Unspecified": Unspecified
+        "Customed": Customed
+        "A": A
+        "AA": AA
+        "AAA": AAA
+        "B": B
+        "C": C
+        "D": D
+        "CR123A": CR123A
+        "CR2": CR2
+        "CR2016": CR2016
+        "CR2022": CR2020
+        "CR2025": CR2025
+        "CR2032": CR2032
+        "CR2040": CR2040
+        "CR2430": CR2430
+        "CR2450": CR2450
+        "CR_V3": CR_V3
+        "4v5": 4v5
+        "6v0": 6v0
+        "9v0": 9v0
+      default: "Unspecified"
+  - name: "batteryQuantity"
+    title: "Device battery quantity"
+    description: Set your device Battery quantity to see it in App
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 10
+      default: 1
+  - name: "batteryChangeDate"
+    title: "Date of batterry change"
+    description: "You can write the date you changed the new battery and your comments such as manufacturer, lifespan, etc." 
+    required: false
+    preferenceType: string
+    definition:
+      stringType: text
+      minLength: 0
+      maxLength: 100
+      default: ""
+metadata:
+  deviceType: Thermostat	
+  ocfDeviceType: oic.d.thermostat
+  deviceTypeId: Thermostat
+  mnmn: SmartThingsCommunity
+  vid: 86d5f6e0-e110-3797-9e20-16f8a1736abf

@@ -1,0 +1,268 @@
+name: fibaro-motion-battery-temp-illuminance-accel
+components:
+  - id: main
+    capabilities:
+      - id: motionSensor
+        version: 1
+      - id: accelerationSensor
+        version: 1
+      - id: illuminanceMeasurement
+        version: 1
+      - id: temperatureMeasurement
+        version: 1
+      - id: battery
+        version: 1
+      - id: refresh
+        version: 1
+    categories:
+      - name: MotionSensor
+preferences:
+  - preferenceId: tempOffset
+    explicit: true
+  - name: "configChild"
+    title: "Create Device Config-Association"
+    description: "Create Child Device to see Fingerprints, Configure Parameters and Association Groups. NOTE: YOU MUST DELETE THE DEVICE AFTER PERFORMING THE CONFIGURATION"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "childThermostat"
+    title: "Create Virtual Thermostat Device"
+    description: "Create Virtual Thermostat Device:"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "parameterSendDelay"
+    title: "New Preference Parameter Send"
+    description: "Send New Device parameter Immediately or When device wakes up. Default: When device wakes up"
+    required: true
+    preferenceType: enumeration
+    definition:
+      options:
+        "NoDelay": "Immediately"
+        "Delay": "When device wakes up"
+      default: "Delay"
+    # Temporary name
+  - name: motionSensitivityLevel
+    title: Motion sensor sensitivity - 1
+    description: The lower the value, the more sensitive the PIR sensor. (8-255). Defaul= 10
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 8
+      maximum: 255
+      default: 10
+  - name: motionBlindTime
+    title: Motion sensor blind time - 2
+    description: PIR sensor is “blind” (insensitive) to motion after last detection for the amount of time specified in this parameter. (1-8 in sec.)
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        1: 1 s
+        3: 2 s
+        5: 3 s
+        7: 4 s
+        9: 5 s
+        11: 6 s
+        13: 7 s
+        15: 8 s
+      default: 15
+  - name: motionCancelationDelay
+    title: Motion event cancellation delay-6 
+    description: Time period after which the motion event will be cancelled in the hub. (1-32767 sec.)
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 1
+      maximum: 32767
+      default: 30
+  - name: motionOperatingMode
+    title: Motion sensor operating mode-8
+    description: This parameter 8 determines in which part of day the PIR sensor will be active.
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: Always Active (default)
+        1: Active During Day
+        2: Active During Night
+      default: 0
+  - name: motionNightDay
+    title: Motion detection - night/day
+    description: This parameter 9 defines the difference between night and day in terms of light intensity, used in “operating mode” setting. (1-32767 lux)
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 1
+      maximum: 32767
+      default: 200
+  - name: tamperCancelationDelay
+    title: Tamper alert cancellation delay-22
+    description: Time period after which a tamper alert will be cancelled in the hub. (1-32767 in sec.)
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 1
+      maximum: 32767
+      default: 30
+  - name: tamperOperatingMode
+    title: Tamper - operating modes-24
+    description: This parameter 24 The parameter determines the behaviour of tamper and how it report. Default = 4
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: Tamper report in Sensor Alarm c.c.
+        1: Tamper-cancel report Sensor Alarm 
+        2: tamper and orientation
+        3: Tamper-cancel report Sensor Alarm
+        4: The maximum level of vibrations
+      default: 4
+  - name: illuminanceThreshold
+    title: Illuminance report-threshold-40
+    description: This parameter determines the change in light intensity level (in lux) resulting in illuminance report being sent to the main controller. (1-32767 in lux)
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 32767
+      default: 200
+  - name: illuminanceInterval
+    title: Illuminance report-interval-42
+    description: Time interval between consecutive illuminance reports. The reports are sent even if there is no change in the light intensity. (1-3276 in sec)
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 32767
+      default: 3600
+  - name: temperatureThreshold
+    title: Temperature report-threshold-60
+    description: This parameter 60 determines the change in measured temperature that will result in new temperature report being sent to the main controller.
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 255
+      default: 5
+  - name: temperatureInterval
+    title: Temperature report-interval-62
+    description: Time interval between consecutive temperature reports. The reports are sent even if there is no change in the temperature. (1-3276 in sec)
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 32767
+      default: 900
+  - name: ledMode
+    title: LED indicator-signalling mode
+    description: This parameter 80 determines the way in which visual indicator behaves after motion has been detected. (L)ong and (S)hort blinks available.
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        0: LED inactive
+        1: Temp Dependent (1L)
+        2: Flashlight Mode (1L)
+        3: White (1L)
+        4: Red (1L)
+        5: Green (1L)
+        6: Blue (1L)
+        7: Yellow (1L)
+        8: Cyan (1L)
+        9: Magenta (1L)
+        10: Temp dependent (1L 1S) (default)
+        11: Flashlight Mode (1L 1S)
+        12: White (1L 1S)
+        13: Red (1L 1S)
+        14: Green (1L 1S)
+        15: Blue (1L 1S)
+        16: Yellow (1L 1S)
+        17: Cyan (1L 1S)
+        18: Magenta (1L 1S)
+        19: Temp Dependent (1L 2S)
+        20: White (1L 2S)
+        21: Red (1L 2S)
+        22: Green (1L 2S)
+        23: Blue (1L 2S)
+        24: Yellow (1L 2S)
+        25: Cyan (1L 2S)
+        26: Magenta (1L 2S)
+      default: 10
+  - name: ledBrightness
+    title: LED indicator - brightness
+    description: This parameter 81 determines the brightness of the visual LED indicator when indicating motion. (1-100%)
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 100
+      default: 50
+  - name: ledLowBrightness
+    title: LED indicator - low brightness
+    description: This parameter 82 Light intensity level below which brightness of visual indicator is set to 1% (1-32767 lux)
+    required: false
+    preferenceType: integer
+    definition:
+      default: 100
+      minimum: 0
+      maximum: 32767
+  - name: ledHighBrightness
+    title: LED indicator - high brightness
+    description: This parameter 83 Light intensity level above which brightness of visual indicator is set to 100%. (value of parameter 82 to 32767 in lux)
+    required: false
+    preferenceType: integer
+    definition:
+      default: 1000
+      minimum: 0
+      maximum: 32767
+  - name: "batteryType"
+    title: "Device battery model"
+    description: Set your device Battery model to see it in App
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Unspecified": Unspecified
+        "Customed": Customed
+        "A": A
+        "AA": AA
+        "AAA": AAA
+        "B": B
+        "C": C
+        "D": D
+        "CR123A": CR123A
+        "CR2": CR2
+        "CR2016": CR2016
+        "CR2022": CR2020
+        "CR2025": CR2025
+        "CR2032": CR2032
+        "CR2040": CR2040
+        "CR2430": CR2430
+        "CR2450": CR2450
+        "CR_V3": CR_V3
+        "4v5": 4v5
+        "6v0": 6v0
+        "9v0": 9v0
+      default: "Unspecified"
+  - name: "batteryQuantity"
+    title: "Device battery quantity"
+    description: Set your device Battery quantity to see it in App
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 10
+      default: 1
+  - name: "batteryChangeDate"
+    title: "Date of batterry change"
+    description: "You can write the date you changed the new battery and your comments such as manufacturer, lifespan, etc." 
+    required: false
+    preferenceType: string
+    definition:
+      stringType: text
+      minLength: 0
+      maxLength: 100
+      default: ""
