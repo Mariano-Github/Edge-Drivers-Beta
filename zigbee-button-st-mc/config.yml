@@ -1,0 +1,5 @@
+name: 'ST Zigbee Button Mc'
+packageKey: 'st-zigbee-button'
+description: 'Devices Supported: Samjin button with custom settings for Temperature reports and and EZVIZ CS-T3C-A0-BG button'
+permissions:
+  zigbee: {}

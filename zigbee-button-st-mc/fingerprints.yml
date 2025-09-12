@@ -1,0 +1,29 @@
+zigbeeManufacturer:
+  - id: "samjin/Button"
+    deviceLabel: SmartThings Button
+    manufacturer: Samjin
+    model: button
+    deviceProfileName: button-temp-battery
+  - id: "EZVIZ/Button"
+    deviceLabel: EZVIZ Button
+    manufacturer: EZVIZ
+    model: CS-T3C-A0-BG
+    deviceProfileName: button-battery
+zigbeeGeneric:
+  - id: "st-Button"
+    deviceLabel: "ST Button"
+    zigbeeProfiles: 
+      - 0x0104
+    deviceIdentifiers: 
+      - 0x0402
+    clusters: 
+      server: 
+        - 0x0000
+        - 0x0001
+        - 0x0003
+        - 0x0020
+        - 0x0402
+        - 0x0500
+      client:
+        - 0x0019
+    deviceProfileName: button-temp-battery
