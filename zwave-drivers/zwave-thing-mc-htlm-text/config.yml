@@ -1,0 +1,5 @@
+name: 'Z-Wave Thing Mc'
+packageKey: 'zwave-thing'
+description: 'For Z-Wave Devices: Show Fingerprints, End points Command Class'
+permissions:
+  zwave: {}
