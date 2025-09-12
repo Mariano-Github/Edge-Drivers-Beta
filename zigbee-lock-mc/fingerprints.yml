@@ -80,6 +80,11 @@ zigbeeManufacturer:
     manufacturer: Yale
     model: YSD100
     deviceProfileName: base-lock # added 25/11/2024
+  - id: "Yale/LIA"
+    deviceLabel: "Yale LIA Door Lock"
+    manufacturer: Yale
+    model: LIA
+    deviceProfileName: base-lock # added 23/05/2025
   # KWIKSET
   - id: "Kwikset/SMARTCODE_DEADBOLT_5"
     deviceLabel: "Kwikset Door Lock"
