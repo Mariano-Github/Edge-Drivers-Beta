@@ -235,6 +235,30 @@ local device_added = function(self, device)
   do_refresh(self, device)
 end
 
+--- Update preferences after infoChanged recived ---
+local function do_preferences (driver, device)
+  for id, value in pairs(device.preferences) do
+    local oldPreferenceValue = device:get_field(id)
+    local newParameterValue = device.preferences[id]
+    if oldPreferenceValue ~= newParameterValue then
+      device:set_field(id, newParameterValue, {persist = true})
+      print("<< Preference changed name:",id,"oldPreferenceValue:",oldPreferenceValue, "newParameterValue: >>", newParameterValue)
+      ------ Change profile 
+      if id == "changeProfileSonoff" then
+        if newParameterValue == "Multi" then
+          device:try_update_metadata({profile = "thermostat-sonoff-multi"})
+        elseif newParameterValue == "Single" then
+          device:try_update_metadata({profile = "thermostat-sonoff"})
+        end
+      elseif id == "batteryType" and newParameterValue ~= nil then
+        device:emit_event(capabilities.battery.type(newParameterValue))
+      elseif id == "batteryQuantity" and newParameterValue ~= nil then
+        device:emit_event(capabilities.battery.quantity(newParameterValue))
+      end
+    end
+  end
+end
+
 -- this new function in libraries version 9 allow load only subdrivers with devices paired
   local function lazy_load_if_possible(sub_driver_name)
     -- gets the current lua libs api version
@@ -313,6 +337,7 @@ local zigbee_thermostat_driver = {
   lifecycle_handlers = {
     doConfigure = do_configure,
     added = device_added,
+    infoChanged = do_preferences
   },
   sub_drivers = {
     lazy_load_if_possible("zenwithin"),
@@ -331,6 +356,7 @@ local zigbee_thermostat_driver = {
     lazy_load_if_possible("iris-duraflame"),
     lazy_load_if_possible("namrom-plug"),
     lazy_load_if_possible("namrom-thermostat-Hvit"),
+    lazy_load_if_possible("avatto")
   },
 }
 

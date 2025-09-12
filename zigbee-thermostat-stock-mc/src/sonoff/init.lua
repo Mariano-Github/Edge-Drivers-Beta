@@ -30,28 +30,6 @@ local is_sonoff_thermostat = function(opts, driver, device)
   return false
 end
 
---- Update preferences after infoChanged recived ---
-local function do_preferences (driver, device)
-  for id, value in pairs(device.preferences) do
-    local oldPreferenceValue = device:get_field(id)
-    local newParameterValue = device.preferences[id]
-    if oldPreferenceValue ~= newParameterValue then
-      device:set_field(id, newParameterValue, {persist = true})
-      --if device.preferences.logDebugPrint == true then
-        print("<< Preference changed name:",id,"oldPreferenceValue:",oldPreferenceValue, "newParameterValue: >>", newParameterValue)
-      --end
-      ------ Change profile 
-      if id == "changeProfileSonoff" then
-       if newParameterValue == "Multi" then
-        device:try_update_metadata({profile = "thermostat-sonoff-multi"})
-       elseif newParameterValue == "Single" then
-        device:try_update_metadata({profile = "thermostat-sonoff"})
-       end
-      end
-    end
-  end
-end
-
 local thermostat_mode_handler = function(driver, device, thermostat_mode)
   if THERMOSTAT_MODE_MAP[thermostat_mode.value] then
     device:emit_event(THERMOSTAT_MODE_MAP[thermostat_mode.value]())
@@ -87,6 +65,17 @@ local function do_init(driver,device)
     device:try_update_metadata({profile = "thermostat-sonoff"})
   elseif device.preferences.changeProfileSonoff == "Multi" then
     device:try_update_metadata({profile = "thermostat-sonoff-multi"})
+  end
+
+  -- set battery type and quantity
+  local cap_status = device:get_latest_state("main", capabilities.battery.ID, capabilities.battery.type.NAME)
+  if cap_status == nil and device.preferences.batteryType ~= nil then
+    device:emit_event(capabilities.battery.type(device.preferences.batteryType))
+  end
+
+  cap_status = device:get_latest_state("main", capabilities.battery.ID, capabilities.battery.quantity.NAME)
+  if cap_status == nil and device.preferences.batteryQuantity ~= nil then
+    device:emit_event(capabilities.battery.quantity(device.preferences.batteryQuantity))
   end
 end
 
@@ -165,8 +154,7 @@ local sonoff_thermostat = {
     init = do_init,
     driverSwitched = driver_switched,
     doConfigure = do_configure,
-    added = device_added,
-    infoChanged = do_preferences,
+    added = device_added
   },
   can_handle = is_sonoff_thermostat
 }

@@ -27,7 +27,8 @@ local STELPRO_THERMOSTAT_FINGERPRINTS = {
   { mfr = "Stelpro", model = "MaestroStat" },
   { mfr = "Stelpro", model = "SMT402AD" }, -- added M.Colmenarejo
   { mfr = "Stelpro", model = "SMT402AD01" }, -- added M.Colmenarejo
-  { mfr = "Stelpro", model = "" } -- added M.Colmenarejo "SMT402AD01" is nil in fingerprints
+  { mfr = "Stelpro", model = "" }, -- added M.Colmenarejo "SMT402AD01" is nil in fingerprints
+  { mfr = "Stello", model = "HT402" },
 }
 
 local is_stelpro_thermostat = function(opts, driver, device)
@@ -46,7 +47,8 @@ local do_refresh = function(self, device)
     Thermostat.attributes.OccupiedHeatingSetpoint,
     ThermostatUserInterfaceConfiguration.attributes.TemperatureDisplayMode,
     ThermostatUserInterfaceConfiguration.attributes.KeypadLockout,
-    RelativeHumidity.attributes.MeasuredValue
+    RelativeHumidity.attributes.MeasuredValue,
+    Thermostat.attributes.ThermostatRunningState
   }
   for _, attribute in pairs(attributes) do
     device:send(attribute:read(device))
@@ -63,10 +65,22 @@ local function do_configure(self, device)
   device:send(Thermostat.attributes.LocalTemperature:configure_reporting(device, 10, 60, 50))
   device:send(Thermostat.attributes.OccupiedHeatingSetpoint:configure_reporting(device, 1, 600, 50))
   device:send(Thermostat.attributes.PIHeatingDemand:configure_reporting(device, 1, 3600, 1))
+  device:send(Thermostat.attributes.ThermostatRunningState:configure_reporting(device, 30, 300))
 
   device:send(ThermostatUserInterfaceConfiguration.attributes.TemperatureDisplayMode:configure_reporting(device, 1, 0, 1))
   device:send(ThermostatUserInterfaceConfiguration.attributes.KeypadLockout:configure_reporting(device, 1, 0, 1))
   device:send(RelativeHumidity.attributes.MeasuredValue:configure_reporting(device, 10, 300, 1))
+end
+
+-- added for models SMT402AD01 and SMT402AD
+local thermostat_operating_state_handler = function(driver, device, operating_state)
+  if (operating_state:is_heat_second_stage_on_set() or operating_state:is_heat_on_set()) then
+    device:emit_event(ThermostatOperatingState.thermostatOperatingState.heating())
+  elseif (operating_state:is_fan_on_set()) then
+    device:emit_event(ThermostatOperatingState.thermostatOperatingState.fan_only())
+  else
+    device:emit_event(ThermostatOperatingState.thermostatOperatingState.idle())
+  end
 end
 
 local stelpro_maestro_othermostat = {
@@ -74,6 +88,11 @@ local stelpro_maestro_othermostat = {
   capability_handlers = {
     [capabilities.refresh.ID] = {
       [capabilities.refresh.commands.refresh.NAME] = do_refresh,
+    }
+  },
+  attr = {
+    [Thermostat.ID] = {
+      [Thermostat.attributes.ThermostatRunningState.ID] = thermostat_operating_state_handler
     }
   },
   lifecycle_handlers = {

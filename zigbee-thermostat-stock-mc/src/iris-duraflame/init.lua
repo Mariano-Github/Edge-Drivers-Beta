@@ -39,9 +39,7 @@ local function do_preferences (driver, device)
     local newParameterValue = device.preferences[id]
     if oldPreferenceValue ~= newParameterValue then
       device:set_field(id, newParameterValue, {persist = true})
-      --if device.preferences.logDebugPrint == true then
-        print("<< Preference changed name:",id,"oldPreferenceValue:",oldPreferenceValue, "newParameterValue: >>", newParameterValue)
-      --end
+      print("<< Preference changed name:",id,"oldPreferenceValue:",oldPreferenceValue, "newParameterValue: >>", newParameterValue)
       ------ Change profile 
       if id == "changeProfileIris" then
        if newParameterValue == "Multi" then

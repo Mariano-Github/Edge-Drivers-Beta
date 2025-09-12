@@ -1,0 +1,324 @@
+name: thermostat-tuya-avatto
+components:
+- id: main
+  capabilities:
+  - id: switch
+    version: 1 
+  - id: temperatureMeasurement
+    version: 1
+  - id: thermostatHeatingSetpoint
+    version: 1
+    config:
+      values:
+        - key: "heatingSetpoint.value"
+          range: [ 5, 90 ]
+          step: 0.1
+  - id: thermostatOperatingState
+    version: 1
+    config:
+      values:
+        - key: "thermostatOperatingState.value"
+          enabledValues:
+            - idle
+            - heating
+  - id: thermostatMode
+    version: 1
+  - id: fabricbypass11616.backlightLevel
+    version: 1
+  - id: fabricbypass11616.keypadChildLock
+    version: 1
+  - id: fabricbypass11616.thermostatWorkingDaySetting
+    version: 1
+  - id: fabricbypass11616.thermostatSchedule
+    version: 1
+  - id: firmwareUpdate
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: Thermostat
+preferences:
+  - name: "tempCorrection"
+    title: "Temperature correction"
+    description: "Enter temperature correction value for thermostat room temperature. Default: 0ºc"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: -9.9
+      maximum: 9.9
+      default: 0.0
+  - name: "localTimeOffset"
+    title: "Local Time Offset"
+    description: "Select your local time offset (-12 to +12). Default: 0"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: -12
+      maximum: +12
+      default: 0
+  - name: "sensorSelection"
+    title: "Sensor Selection"
+    description: "Select internal, external or both sensor to use. Default: Internal. Note: Battery thermostat does not have external sensor conection"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+       0: "Internal"
+       1: "External"
+       2: "Both"
+      default: 0
+  - name: "maxTemp"
+    title: "Max Temperature"
+    description: "Set the maximum temperature limit for heat set point. Default: 60ºc"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 15.0
+      maximum: 90.0
+      default: 60.0
+  - name: "hysteresis"
+    title: "Hysteresis"
+    description: "Set hysteresis value for heat start and stop. Default: 1ºc. In this case heat start at heat set point - 1ºc and stop at heat set point + 1ºc"
+    required: false
+    preferenceType: number
+    definition:
+      minimum: 0.5
+      maximum: 10.0
+      default: 1.0
+  - name: "frostProtection"
+    title: "Frost protection"
+    description: "If Frost protection is On, then heat start if room temperature is below of 5ºc. Default: Off"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+       0: "Off"
+       1: "On"
+      default: 0
+  - name: "thermostatReset"
+    title: "Factory Reset"
+    description: "If thermostat is On then thermostat will turn off and restet to default values. After 6 sec turn On and set your preferences values and default heat programm. Default: Cancel"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+       0: "Cancel"
+       1: "Reset"
+      default: 0
+  - name: "batteryType"
+    title: "Device battery model"
+    description: Set your device Battery model to see it in App
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Unspecified": Unspecified
+        "Customed": Customed
+        "A": A
+        "AA": AA
+        "AAA": AAA
+        "B": B
+        "C": C
+        "D": D
+        "CR123A": CR123A
+        "CR2": CR2
+        "CR2016": CR2016
+        "CR2022": CR2020
+        "CR2025": CR2025
+        "CR2032": CR2032
+        "CR2040": CR2040
+        "CR2430": CR2430
+        "CR2450": CR2450
+        "CR_V3": CR_V3
+        "4v5": 4v5
+        "6v0": 6v0
+        "9v0": 9v0
+      default: "Unspecified"
+  - name: "batteryQuantity"
+    title: "Device battery quantity"
+    description: Set your device Battery quantity to see it in App
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 10
+      default: 1
+  - name: "batteryChangeDate"
+    title: "Date of batterry change"
+    description: "You can write the date you changed the new battery and your comments such as manufacturer, lifespan, etc." 
+    required: false
+    preferenceType: string
+    definition:
+      stringType: text
+      minLength: 0
+      maxLength: 100
+      default: ""
+deviceConfig:
+  dashboard:
+    states:
+      - component: main
+        capability: temperatureMeasurement
+        version: 1
+        idx: 0
+        group: main
+        values: []
+        composite: true
+      - component: main
+        capability: thermostatOperatingState
+        version: 1
+        idx: 0
+        group: main
+        values:
+          - label: "| {{thermostatOperatingState.value}}"
+        composite: true
+    actions: []
+    basicPlus: []
+  detailView:
+    - component: main
+      capability: switch
+      version: 1
+      values: []
+      patch: []
+    - component: main
+      capability: temperatureMeasurement
+      version: 1
+      values: []
+      patch: []
+    - component: main
+      capability: thermostatHeatingSetpoint
+      version: 1
+      values:         
+        - enabledValues: []
+          range:
+            - 5
+            - 90
+          step: 0.1
+          key: heatingSetpoint.value
+      patch: []
+    - component: main
+      capability: thermostatOperatingState
+      version: 1
+      values:
+        - key: "thermostatOperatingState.value"
+          enabledValues:
+            - idle
+            - heating
+      patch: []
+    - component: main
+      capability: thermostatMode
+      version: 1
+      values: []
+      patch: []
+    - component: main
+      capability: fabricbypass11616.backlightLevel
+      version: 1
+      values: []
+      patch: []
+    - component: main
+      capability: fabricbypass11616.keypadChildLock
+      version: 1
+      values: []
+      patch: []
+    - component: main
+      capability: fabricbypass11616.thermostatWorkingDaySetting
+      version: 1
+      values: []
+      patch: []
+    - component: main
+      capability: fabricbypass11616.thermostatSchedule
+      version: 1
+      values: []
+      patch: []
+    - component: main
+      capability: firmwareUpdate
+      version: 1
+      values: []
+      patch: []
+    - component: main
+      capability: battery
+      version: 1
+      values: []
+      patch: []
+    - component: main
+      capability: legendabsolute60149.signalMetrics
+      version: 1
+      values: []
+      patch: []
+    - component: main
+      capability: refresh
+      version: 1
+      values: []
+      patch: []
+  automation:
+    conditions:
+      - component: main
+        capability: switch
+        version: 1
+        values: []
+        patch: []
+        exclusion: []
+      - component: main
+        capability: temperatureMeasurement
+        version: 1
+        values: []
+        patch: []
+        exclusion: []
+      - component: main
+        capability: thermostatOperatingState
+        version: 1
+        values:
+          - key: "thermostatOperatingState.value"
+            enabledValues:
+              - idle
+              - heating
+        patch: []
+        exclusion: []
+      - component: main
+        capability: thermostatMode
+        version: 1
+        values: []
+        patch: []
+        exclusion: []
+      - component: main
+        capability: thermostatHeatingSetpoint
+        version: 1
+        values:
+          - enabledValues: []
+            range:
+              - 5
+              - 90
+            step: 0.1
+            key: heatingSetpoint.value
+        patch: []
+        exclusion: []
+    actions:
+      - component: main
+        capability: switch
+        version: 1
+        values: []
+        patch: []
+        exclusion: []
+      - component: main
+        capability: thermostatMode
+        version: 1
+        values: []
+        patch: []
+        exclusion: []
+      - component: main
+        capability: thermostatHeatingSetpoint
+        version: 1
+        values:
+          - enabledValues: []
+            range:
+              - 5
+              - 90
+            step: 0.1
+            key: setHeatingSetpoint
+        patch: []
+        exclusion: []
+      - component: main
+        capability: fabricbypass11616.backlightLevel
+        version: 1
+        values: []
+        patch: []
+        exclusion: []
