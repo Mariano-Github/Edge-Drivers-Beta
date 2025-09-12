@@ -1,0 +1,4 @@
+name: 'Z-Wave Valve Mc'
+packageKey: 'zwave-valve-Sylvain'
+permissions:
+  zwave: {}
