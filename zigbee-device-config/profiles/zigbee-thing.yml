@@ -1,0 +1,32 @@
+name: zigbee-thing
+components:
+- id: main
+  capabilities:
+  - id: legendabsolute60149.manufacturer
+    version: 1
+  - id: legendabsolute60149.model
+    version: 1
+  - id: legendabsolute60149.clustersInfo
+    version: 1
+  - id: legendabsolute60149.deviceInfo
+    version: 1
+  - id: refresh
+    version: 1
+preferences:
+  - name: "changeConfigProfile"
+    title: "Select Zigbee Device Profile"
+    description: "Select zigbee device profile for the required action:"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Info": "Device Fingerprints Info"
+        "Config": "Device Attribute Read or Write"
+        "ConfigReport": "Device Attribute Configure Reporting"
+      default: "Info"
+  - name: "logDebugPrint"
+    title: "Show Logs Debug Prints in CLI"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false

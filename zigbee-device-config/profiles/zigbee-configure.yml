@@ -1,0 +1,86 @@
+name: zigbee-configure
+components:
+- id: main
+  capabilities:
+  - id: legendabsolute60149.clusterNumberHex
+    version: 1
+  - id: legendabsolute60149.attributeNumberHex
+    version: 1
+  - id: legendabsolute60149.attributeDataType
+    version: 1
+  - id: legendabsolute60149.attributeValue
+    version: 1
+  - id: legendabsolute60149.manufacturerNumberHex
+    version: 1
+  - id: legendabsolute60149.clustersInfo
+    version: 1
+  #- id: legendabsolute60149.deviceInfo
+  #  version: 1
+  - id: legendabsolute60149.commandConfig
+    version: 1
+  - id: legendabsolute60149.actionbutton2
+    version: 1
+preferences:
+  - name: "changeConfigProfile"
+    title: "Select Zigbee Device Profile"
+    description: "Select zigbee device profile for the required action:"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Info": "Device Fingerprints Info"
+        "Config": "Device Attribute Read or Write"
+        "ConfigReport": "Device Attribute Configure Reporting"
+      default: "Info"
+  #- name: "group"
+  #  title: "Group to send commands."
+  #  required: false
+  #  preferenceType: integer
+  #  definition:
+  #    minimum: 0
+  #    maximum: 65535
+  #    default: 0
+  - name: "logDebugPrint"
+    title: "Show Logs Debug Prints in CLI"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+deviceConfig:
+  dashboard:
+    states:
+      - component: main
+        capability: legendabsolute60149.clustersInfo
+        version: 1
+        group: main
+        composite: false
+    actions: []
+    basicPlus: []
+  detailView:
+    - component: main
+      capability: legendabsolute60149.clustersInfo
+      version: 1
+    - component: main
+      capability: legendabsolute60149.clusterNumberHex
+      version: 1
+    - component: main
+      capability: legendabsolute60149.attributeNumberHex
+      version: 1
+    - component: main
+      capability: legendabsolute60149.attributeDataType
+      version: 1
+    - component: main
+      capability: legendabsolute60149.attributeValue
+      version: 1
+    - component: main
+      capability: legendabsolute60149.manufacturerNumberHex
+      version: 1
+    - component: main
+      capability: legendabsolute60149.commandConfig
+      version: 1
+    - component: main
+      capability: legendabsolute60149.actionbutton2
+      version: 1
+  automation:
+    conditions: []
+    actions: []

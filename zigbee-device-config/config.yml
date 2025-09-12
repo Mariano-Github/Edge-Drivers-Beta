@@ -1,0 +1,5 @@
+name: 'Zigbee Device Config Mc'
+packageKey: 'zigbee-config-mc'
+description: 'For Zigbbe Devices: Show Fingerprints & End Points Clusters and Device Read and Write attributes'
+permissions:
+  zigbee: {}
