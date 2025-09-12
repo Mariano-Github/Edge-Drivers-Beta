@@ -170,6 +170,19 @@ local device_init = function(self, device)
     end
   end
 
+  -- set battery type and quantity
+  if device:supports_capability_by_id(capabilities.battery.ID) then
+    local cap_status = device:get_latest_state("main", capabilities.battery.ID, capabilities.battery.type.NAME)
+    if cap_status == nil and device.preferences.batteryType ~= nil then
+      device:emit_event(capabilities.battery.type(device.preferences.batteryType))
+    end
+
+    cap_status = device:get_latest_state("main", capabilities.battery.ID, capabilities.battery.quantity.NAME)
+    if cap_status == nil and device.preferences.batteryQuantity ~= nil then
+      device:emit_event(capabilities.battery.quantity(device.preferences.batteryQuantity))
+    end
+  end
+
 end
 
 local function device_added(driver, device)
@@ -182,6 +195,34 @@ local function device_added(driver, device)
       device:emit_event(signal_Metrics.signalMetrics({value = "Waiting Zigbee Message"}, {visibility = {displayed = false }}))
     end
   end
+end
+
+--- Update preferences after infoChanged recived---
+local function do_preferences (self, device, event, args)
+  for id, value in pairs(device.preferences) do
+    local oldPreferenceValue = args.old_st_store.preferences[id]
+    local newParameterValue = device.preferences[id]
+    if oldPreferenceValue ~= newParameterValue then
+      print("<< Preference changed: name, old, new >>", id, oldPreferenceValue, newParameterValue)
+      if id == "batteryType" and newParameterValue ~= nil then
+        device:emit_event(capabilities.battery.type(newParameterValue))
+      elseif id == "batteryQuantity" and newParameterValue ~= nil then
+        device:emit_event(capabilities.battery.quantity(newParameterValue))
+      end
+    end
+  end
+
+  --print manufacturer, model and leng of the strings
+  local manufacturer = device:get_manufacturer()
+  local model = device:get_model()
+  local manufacturer_len = string.len(manufacturer)
+  local model_len = string.len(model)
+
+  print("Device ID", device)
+  print("Manufacturer >>>", manufacturer, "Manufacturer_Len >>>",manufacturer_len)
+  print("Model >>>", model,"Model_len >>>",model_len)
+  -- This will print in the log the total memory in use by Lua in Kbytes
+  print("Memory >>>>>>>",collectgarbage("count"), " Kbytes")
 end
 
 -- this new function in libraries version 9 allow load only subdrivers with devices paired
@@ -234,7 +275,8 @@ local zigbee_siren_driver_template = {
   lifecycle_handlers = {
     init = device_init,
     added = device_added,
-    doConfigure = do_configure
+    doConfigure = do_configure,
+    infoChanged = do_preferences
   },
   sub_drivers = { 
     lazy_load_if_possible("ozom"), 

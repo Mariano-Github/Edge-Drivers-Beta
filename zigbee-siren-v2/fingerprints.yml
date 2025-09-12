@@ -65,3 +65,14 @@ zigbeeManufacturer :
     manufacturer : _TYZB01_a5tf0bpl
     model : TS0216
     deviceProfileName : switch-alarm
+  - id : TS0216/_TYZB01_4gjtbutf
+    deviceLabel : Zigbee Siren
+    manufacturer : _TYZB01_4gjtbutf
+    model : TS0216
+    deviceProfileName : switch-alarm
+
+  #Tuya TS0216 Siren generic
+  - id: "TS0216/Tuya Siren"
+    deviceLabel: TS0216 Tuya Siren
+    model: TS0216
+    deviceProfileName: switch-alarm
