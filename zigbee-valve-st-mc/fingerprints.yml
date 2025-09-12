@@ -102,3 +102,13 @@ zigbeeManufacturer :
     manufacturer: SONOFF
     model: SWV
     deviceProfileName: valve-battery-powerSource
+
+  #Tuya Valve generic
+  - id: "TS0001/Tuya"
+    deviceLabel: TS0001 Water Valve
+    model: TS0001
+    deviceProfileName: water-valve
+  - id: "TS0011/Tuya"
+    deviceLabel: TS0011 Water Valve
+    model: TS00011
+    deviceProfileName: water-valve

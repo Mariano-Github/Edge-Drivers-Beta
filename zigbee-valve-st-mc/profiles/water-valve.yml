@@ -12,8 +12,8 @@ components:
   - name: WaterValve
 preferences:
   - name: "version"
-    title: "Version 1.0 (Oct 2021)"
-    description: "Add: Tuya zigbee Gas & Water Valve, Manufacturer_TYZB01_rifa0wlb, model: TS0011" 
+    title: "Version 2.0 (Sep 2023)"
+    description: "Added: Preference Restore Valve State After Power Lost" 
     required: false
     preferenceType: string
     definition:
@@ -21,6 +21,17 @@ preferences:
       minLength: 0
       maxLength: 0
       default: ""
+  - name: "restoreState"
+    title: "Restore State After Power Lost"
+    description: "After the power supply is back on, the State can be restored to previous state or remain switched off. Default: Device remains Valve Closed"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "0": "Device remains Valve Closed"
+        "1": "Device remains Valve Open"
+        "255": "Device restores previous state"
+      default: "0"
 metadata:
   deviceType: WaterValve
   ocfDeviceType: oic.d.watervalve

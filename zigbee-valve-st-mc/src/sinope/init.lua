@@ -60,7 +60,11 @@ local sinope_valve = {
     init = device_init
   },
   can_handle = function(opts, driver, device, ...)
-    return device:get_manufacturer() == "Sinope Technologies"
+    --return device:get_manufacturer() == "Sinope Technologies"
+    if device:get_manufacturer() == "Sinope Technologies" then
+      local subdriver = require("sinope")
+      return true, subdriver
+    end
   end
 }
 
