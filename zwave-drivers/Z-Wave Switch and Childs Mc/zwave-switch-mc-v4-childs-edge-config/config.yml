@@ -1,0 +1,5 @@
+name: 'Z-Wave Switch and Child Mc'
+packageKey: 'zwave-switch-v7'
+description: 'Devices Supported: https://github.com/Mariano-Github/Edge-Drivers-Beta/blob/main/zwave-drivers/Z-Wave%20Switch%20and%20Childs%20Mc/fingerprints.yml'
+permissions:
+  zwave: {}
