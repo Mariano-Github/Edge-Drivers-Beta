@@ -1,0 +1,4 @@
+name: 'Z-Wave Garage Door Opener Mc'
+packageKey: 'zwave-garage-door-opener-v1'
+permissions:
+  zwave: {}
