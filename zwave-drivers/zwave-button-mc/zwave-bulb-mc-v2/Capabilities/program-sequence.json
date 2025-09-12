@@ -1,0 +1,179 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{programmedSequence.value}}"
+            }
+        ],
+        "actions": []
+    },
+    "detailView": [
+        {
+            "label": "Programmed Sequence:",
+            "displayType": "list",
+            "list": {
+                "command": {
+                    "name": "setProgrammedSequence",   
+                    "alternatives": [
+                        {
+                            "key": "Inactive",
+                            "value": "Inactive",       
+                            "type": "active"
+                        },
+                        {
+                            "key": "Fireplace",        
+                            "value": "Fireplace",      
+                            "type": "active"
+                        },
+                        {
+                            "key": "Storm",
+                            "value": "Storm",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Rainbow",
+                            "value": "Rainbow",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Aurora",
+                            "value": "Aurora",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Police",
+                            "value": "Police",
+                            "type": "active"
+                        }
+                    ],
+                    "argumentType": "string"
+                },
+                "state": {
+                    "value": "programmedSequence.value",
+                    "valueType": "string",
+                    "alternatives": [
+                        {
+                            "key": "Inactive",
+                            "value": "Inactive",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Fireplace",
+                            "value": "Fireplace",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Storm",
+                            "value": "Storm",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Rainbow",
+                            "value": "Rainbow",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Aurora",
+                            "value": "Aurora",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Police",
+                            "value": "Police",
+                            "type": "active"
+                        }
+                    ]
+                }
+            },
+            "state": null
+        }
+    ],
+    "automation": {
+        "conditions": [
+            {
+                "label": "Programmed Sequence",
+                "displayType": "list",
+                "list": {
+                    "alternatives": [
+                        {
+                            "key": "Inactive",
+                            "value": "Inactive",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Fireplace",
+                            "value": "Fireplace",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Storm",
+                            "value": "Storm",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Rainbow",
+                            "value": "Rainbow",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Aurora",
+                            "value": "Aurora",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Police",
+                            "value": "Police",
+                            "type": "active"
+                        }
+                    ],
+                    "value": "programmedSequence.value",
+                    "valueType": "string"
+                }
+            }
+        ],
+        "actions": [
+            {
+                "label": "Programmed Sequence",
+                "displayType": "list",
+                "list": {
+                    "alternatives": [
+                        {
+                            "key": "Inactive",
+                            "value": "Inactive",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Fireplace",
+                            "value": "Fireplace",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Storm",
+                            "value": "Storm",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Rainbow",
+                            "value": "Rainbow",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Aurora",
+                            "value": "Aurora",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Police",
+                            "value": "Police",
+                            "type": "active"
+                        }
+                    ],
+                    "command": "setProgrammedSequence",
+                    "argumentType": "string"
+                }
+            }
+        ]
+    },
+    "id": "legendabsolute60149.programmedSequence",
+    "version": 1
+}
