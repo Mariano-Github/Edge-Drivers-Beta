@@ -318,7 +318,7 @@ zigbeeManufacturer:
     deviceLabel: TS0001 Plug
     manufacturer: _TZ3000_tgddllx4
     model: TS0001
-    deviceProfileName: switch-power-energy-plug
+    deviceProfileName: switch-power-energy-plug-refresh # modified enero 2025
   - id: "_TZ3000_amdymr71/TS011F"
     deviceLabel: TS011F Plug
     manufacturer: _TZ3000_amdymr71

@@ -42,6 +42,8 @@ local signal_Metrics = capabilities["legendabsolute60149.signalMetrics"]
 
 local set_status_timer
 
+local app_version = nil
+
 
 local function do_configure(self, device)
   print ("<<< do_configure >>>")
@@ -57,7 +59,7 @@ local function do_configure(self, device)
   --- save optionals device divisors
   device.thread:call_with_delay(3, function() customDivisors.set_custom_divisors(self, device) end)
   
-  if device.preferences.powerEnergyRead ~= nil then
+  if device.preferences.powerEnergyRead ~= nil or (device:get_manufacturer() == "_TZ3000_okaz9tjs" and device:get_field("app_version") ~= 112) then
     --if device:get_manufacturer() == "_TZ3000_9vo5icau" or -- this device does not send power and energy reports
     --device:get_manufacturer() == "_TZ3000_1h2x4akh" or
     ---device:get_manufacturer() == "_TZ3000_gvn91tmx" or
@@ -72,7 +74,8 @@ local function do_configure(self, device)
       device:send(zcl_clusters.ElectricalMeasurement.attributes.ActivePower:configure_reporting(device, 1, 3600, 5))
       device:send(device_management.build_bind_request(device, zcl_clusters.SimpleMetering.ID, self.environment_info.hub_zigbee_eui))
       device:send(zcl_clusters.SimpleMetering.attributes.CurrentSummationDelivered:configure_reporting(device, 5, 3600, 1))
-  
+      
+      device:send_to_component("main", zcl_clusters.OnOff.attributes.OnOff:read(device))
   else
 
     if device:get_model() == "SPLZB-131" or
@@ -195,7 +198,7 @@ local function do_configure(self, device)
       device:send(write.custom_write_attribute(device, 0x0000, 0x1000, data_types.Enum8, 0, 0x1224))
     end
 
-    if device:get_manufacturer() == "_TZ3000_okaz9tjs" then -- -- default data_type is Int16 need Uint16
+    if device:get_manufacturer() == "_TZ3000_okaz9tjs" and device:get_field("app_version") == 112 then -- -- default data_type is Int16 need Uint16
       local config =
       {
         cluster = 0x0B04,
@@ -420,7 +423,7 @@ local function default_response_handler(driver, device, zb_rx)
   device:emit_event(signal_Metrics.signalMetrics({value = metrics}, {visibility = {displayed = visible_satate }}))
 
   -- -- read attribute power & enrgy 
-  if device.preferences.powerEnergyRead ~= nil and cmd == zcl_clusters.OnOff.server.commands.On.ID then
+  if (device.preferences.powerEnergyRead ~= nil or (device:get_manufacturer() == "_TZ3000_okaz9tjs" and device:get_field("app_version") ~= 112))and cmd == zcl_clusters.OnOff.server.commands.On.ID then
   --if device:get_manufacturer() == "_TZ3000_9vo5icau" or 
    --device:get_manufacturer() == "_TZ3000_1h2x4akh" or
    --device:get_manufacturer() == "lumi.plug.mmeu01" or
@@ -463,6 +466,9 @@ end
 local function on_off_attr_handler(self, device, value, zb_rx)
   print("<<<<< Emit on_off >>>>>>")
 
+  --device:send(zcl_clusters.Scenes.commands.RecallScene(device, 1, 1, 0))
+  --device:send(zcl_clusters.Scenes.commands.ViewScene(device, 1, 1))
+
   local visible_satate = false
   if device.preferences.signalMetricsVisibles == "Yes" then
     visible_satate = true
@@ -498,7 +504,7 @@ local function on_off_attr_handler(self, device, value, zb_rx)
   elseif value.value == true or value.value == 1 then
     device:set_field("last_state", "on", {persist = false})
   -- -- read attribute power & enrgy
-    if device.preferences.powerEnergyRead ~= nil then
+    if device.preferences.powerEnergyRead ~= nil or (device:get_manufacturer() == "_TZ3000_okaz9tjs" and device:get_field("app_version") ~= 112) then
     --if device:get_manufacturer() == "_TZ3000_9vo5icau" or 
       --device:get_manufacturer() == "_TZ3000_1h2x4akh" or
       --device:get_manufacturer() == "lumi.plug.mmeu01" or
@@ -583,14 +589,41 @@ local function device_init(self ,device)
     end
  ]] 
 
+  device:send_to_component("main", zcl_clusters.OnOff.attributes.OnOff:read(device))
   random.do_init(self,device)
 end
 
  -- do Added
 local function device_added(self ,device)
+   -- read app and zcl version
+  if device:get_manufacturer() == "_TZ3000_okaz9tjs" then
+    device:send(zcl_clusters.Basic.attributes.ApplicationVersion:read(device))
+    --device:send(zcl_clusters.Basic.attributes.ZCLVersion:read(device))
+  end
+
   device.thread:call_with_delay(2, function() 
     do_configure(self,device)
   end)
+end
+
+--applicationVersion_handler
+local function applicationVersion_handler(self, device, value, zb_rx)
+  print("Firmware >>>>>>>>>",value.value)
+  app_version = value.value
+  if device:get_field("app_version") == nil then 
+    device:set_field("app_version", 0, {persist = true})
+  end
+  if device:get_manufacturer() == "_TZ3000_okaz9tjs" and app_version ~= device:get_field("app_version") then
+    device:set_field("app_version", app_version, {persist = true})
+    if device:get_field("app_version") ~= 112 then -- app_version = 100
+      device:try_update_metadata({profile = "switch-power-energy-plug-refresh"})
+    elseif device:get_field("app_version") == 112 then
+      device:try_update_metadata({profile = "switch-power-energy-plug"})
+    end
+    device.thread:call_with_delay(4, function() 
+      do_configure(self,device)
+    end)
+  end
 end
 
 ---- Driver template config
@@ -642,14 +675,19 @@ local zigbee_switch_driver_template = {
         [zcl_clusters.SimpleMetering.attributes.InstantaneousDemand.ID] = instantaneous_demand_handler,
         [zcl_clusters.SimpleMetering.attributes.CurrentSummationDelivered.ID] = energy_meter_handler
       },
+      [zcl_clusters.Basic.ID] = {
+        --[zcl_clusters.Basic.attributes.ZCLVersion.ID] = ZCLVersion_handler,
+        [zcl_clusters.Basic.attributes.ApplicationVersion.ID] = applicationVersion_handler
+      },
       --[zcl_clusters.ElectricalMeasurement.ID] = {
         --[zcl_clusters.ElectricalMeasurement.attributes.ActivePower.ID] = active_power_meter_handler,
       --},
     },
   },
   sub_drivers = { require("device-temperature")},
+  --health_check = false
 }
 -- run driver
-defaults.register_for_default_handlers(zigbee_switch_driver_template, zigbee_switch_driver_template.supported_capabilities, {native_capability_cmds_enabled = true})
+defaults.register_for_default_handlers(zigbee_switch_driver_template, zigbee_switch_driver_template.supported_capabilities, {native_capability_cmds_enabled = true, native_capability_attrs_enabled = true})
 local zigbee_switch_power = ZigbeeDriver("Zigbee_Switch_power", zigbee_switch_driver_template)
 zigbee_switch_power:run()

@@ -169,3 +169,80 @@ metadata:
   deviceType: SmartPlug
   ocfDeviceType: oic.d.smartplug
   deviceTypeId: SmartPlug
+deviceConfig:
+  dashboard:
+    states:
+      - component: main
+        capability: switch
+        version: 1
+        group: main
+        composite: true
+      - component: main
+        capability: powerMeter
+        version: 1
+        group: main
+        values:
+          - label: " | {{power.value}} {{power.unit}}"
+        composite: true
+    actions:
+      - component: main
+        capability: switch
+        version: 1
+        group: main
+        composite: true
+    basicPlus: []
+  detailView:
+    - component: main
+      capability: switch
+      version: 1
+    - component: main
+      capability: legendabsolute60149.randomOnOff2
+      version: 1
+    - component: main
+      capability: legendabsolute60149.randomNextStep2
+      version: 1
+    - component: main
+      capability: powerMeter
+      version: 1
+    - component: main
+      capability: energyMeter
+      version: 1
+    - component: main
+      capability: legendabsolute60149.getGroups
+      version: 1
+    - component: main
+      capability: legendabsolute60149.signalMetrics
+      version: 1
+    - component: main
+      capability: refresh
+      version: 1
+  automation:
+    conditions:
+      - component: main
+        capability: switch
+        version: 1
+      - component: main
+        capability: legendabsolute60149.randomOnOff2
+        version: 1
+      - component: main
+        capability: powerMeter
+        version: 1
+      - component: main
+        capability: energyMeter
+        version: 1
+      - component: main
+        capability: legendabsolute60149.getGroups
+        version: 1
+    actions:
+      - component: main
+        capability: switch
+        version: 1
+      - component: main
+        capability: legendabsolute60149.randomOnOff2
+        version: 1
+      - component: main
+        capability: energyMeter
+        version: 1
+      - component: main
+        capability: legendabsolute60149.getGroups
+        version: 1

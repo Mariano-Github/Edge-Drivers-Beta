@@ -17,8 +17,8 @@ local driver_handler = {}
 
 --- Device running and update preferences variables
 local device_running = {}
-local oldPreferenceValue ={}
-local newParameterValue ={}
+--local oldPreferenceValue ={}
+--local newParameterValue ={}
 
 -- Random tables variables
 local random_timer = {}
@@ -34,8 +34,8 @@ function driver_handler.do_init (self, device)
 
  ---- If is new device initialize table values
   device_running[device]= device
-  oldPreferenceValue[device] = "-"
-  newParameterValue[device] = "-"
+  --oldPreferenceValue = "-"
+  --newParameterValue = "-"
   random_timer[device] = math.random(10, 20)
 
   -- initialize random on-off
@@ -109,8 +109,8 @@ end
 ---- do_removed device procedure: delete all device data
 function driver_handler.do_removed(self,device)
     device_running[device] =nil
-    oldPreferenceValue[device] = nil
-    newParameterValue[device] = nil
+    --oldPreferenceValue = nil
+    --newParameterValue = nil
     random_timer[device] = nil
   
   -----print tables of devices no removed from driver ------
@@ -123,14 +123,15 @@ function driver_handler.do_removed(self,device)
 end
 
 --- Update preferences after infoChanged recived---
-function driver_handler.do_Preferences (self, device)
+function driver_handler.do_Preferences (self, device, event, args)
   for id, value in pairs(device.preferences) do
     --print("device.preferences[infoChanged]=", device.preferences[id])
-    oldPreferenceValue[device] = device:get_field(id)
-    newParameterValue[device] = device.preferences[id]
-    if oldPreferenceValue[device] ~= newParameterValue[device] then
-      device:set_field(id, newParameterValue[device], {persist = true})
-      print("<< Preference changed:", id, "old value:",oldPreferenceValue[device], "new Value:", newParameterValue[device])
+    --oldPreferenceValue = device:get_field(id)
+    local oldPreferenceValue = args.old_st_store.preferences[id]
+    local newParameterValue = device.preferences[id]
+    if oldPreferenceValue ~= newParameterValue then
+      --device:set_field(id, newParameterValue, {persist = true})
+      print("<< Preference changed:", id, "old value:",oldPreferenceValue, "new Value:", newParameterValue)
 
       --- Groups code preference value changed
       if id == "groupAdd" then
@@ -158,29 +159,29 @@ function driver_handler.do_Preferences (self, device)
 
       ------ Change profile & Icon
       if id == "changeProfile" then
-       if newParameterValue[device] == "Switch" then
+       if newParameterValue == "Switch" then
         device:try_update_metadata({profile = "switch-power"})
-       elseif newParameterValue[device] == "Plug" then
+       elseif newParameterValue == "Plug" then
         device:try_update_metadata({profile = "switch-power-plug"})
-       elseif newParameterValue[device] == "Light" then
+       elseif newParameterValue == "Light" then
         device:try_update_metadata({profile = "switch-power-light"})
        end
       elseif id == "changeProfileEner" then
-        if newParameterValue[device] == "Switch" then
+        if newParameterValue == "Switch" then
          device:try_update_metadata({profile = "switch-power-energy"})
-        elseif newParameterValue[device] == "Plug" then
+        elseif newParameterValue == "Plug" then
          device:try_update_metadata({profile = "switch-power-energy-plug"})
-        elseif newParameterValue[device] == "Light" then
+        elseif newParameterValue == "Light" then
          device:try_update_metadata({profile = "switch-power-energy-light"})
-        elseif newParameterValue[device] == "Energy" then
+        elseif newParameterValue == "Energy" then
           device:try_update_metadata({profile = "switch-power-energy-meter"})
-        elseif newParameterValue[device] == "EnergyProfile" then
+        elseif newParameterValue == "EnergyProfile" then
           device:try_update_metadata({profile = "switch-power-energy-meter-profile"})
         end
       elseif id == "useAsSwitchOnly" then
-        if newParameterValue[device] == true then
+        if newParameterValue == true then
           device:try_update_metadata({profile = "switch-power-energy-light"})
-        elseif newParameterValue[device] == false then          
+        elseif newParameterValue == false then          
           device:try_update_metadata({profile = "level-power-energy-light"})
         end
       -- Any Preference timer mode changed restart timer handler
@@ -204,7 +205,7 @@ function driver_handler.do_Preferences (self, device)
 
       -- set custom power and energy divisors
       elseif id == "simpleMeteringDivisor1" then
-        if newParameterValue[device] > 0 then
+        if newParameterValue > 0 then
           device:set_field(constants.SIMPLE_METERING_DIVISOR_KEY, device.preferences.simpleMeteringDivisor1, {persist = true})
         else
           device:set_field(constants.SIMPLE_METERING_DIVISOR_KEY, 1, {persist = true})
@@ -213,7 +214,7 @@ function driver_handler.do_Preferences (self, device)
           device.thread:call_with_delay(2, function() customDivisors.set_custom_divisors(self, device) end)
         end
       elseif id == "electricalMeasureDiviso1" then
-        if newParameterValue[device] > 0 then
+        if newParameterValue > 0 then
           device:set_field(constants.ELECTRICAL_MEASUREMENT_DIVISOR_KEY, device.preferences.electricalMeasureDiviso1, {persist = true})
         else
           device:set_field(constants.ELECTRICAL_MEASUREMENT_DIVISOR_KEY, 1, {persist = true})
@@ -290,7 +291,7 @@ function driver_handler.do_Preferences (self, device)
       --- Configure on-off cluster, attributte 0x8002 and 4003 to value restore state in preferences
       if id == "restoreState" then
         print("<<< Write restore state >>>")
-        local value_send = tonumber(newParameterValue[device])
+        local value_send = tonumber(newParameterValue)
         local data_value = {value = value_send, ID = 0x30}
         local cluster_id = {value = 0x0006}
         --write atribute for zigbee standard devices
@@ -298,7 +299,7 @@ function driver_handler.do_Preferences (self, device)
         write.write_attribute_function(device, cluster_id, attr_id, data_value)
 
         --write atribute for Tuya devices (Restore previous state = 0x02)
-        if newParameterValue[device] == "255" then data_value = {value = 0x02, ID = 0x30} end
+        if newParameterValue == "255" then data_value = {value = 0x02, ID = 0x30} end
         attr_id = 0x8002
         write.write_attribute_function(device, cluster_id, attr_id, data_value)
       end
@@ -313,6 +314,8 @@ function driver_handler.do_Preferences (self, device)
   print("Device ID", device)
   print("Manufacturer >>>", manufacturer, "Manufacturer_Len >>>",manufacturer_len)
   print("Model >>>", model,"Model_len >>>",model_len)
+  local firmware_full_version = device.data.firmwareFullVersion
+  print("<<<<< Firmware Version >>>>>",firmware_full_version)
   -- This will print in the log the total memory in use by Lua in Kbytes
   print("Memory >>>>>>>",collectgarbage("count"), " Kbytes")
 end
