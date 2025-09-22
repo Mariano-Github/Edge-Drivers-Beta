@@ -1,5 +1,0 @@
-name: 'Z-Wave Bulb Mc'
-packageKey: 'zwave-bulb-v2'
-description: 'Devices Supported: https://github.com/Mariano-Github/Edge-Drivers-Beta/blob/main/zwave-drivers/zwave-bulb-mc/fingerprints.yml'
-permissions:
-  zwave: {}
