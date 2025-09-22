@@ -1,0 +1,5 @@
+name: 'Z-Wave Button Mc'
+packageKey: 'zwave-button-v1'
+description: 'Devices Supported: https://github.com/Mariano-Github/Edge-Drivers-Beta/blob/main/zwave-drivers/zwave-button-mc/fingerprints.yml'
+permissions:
+  zwave: {}

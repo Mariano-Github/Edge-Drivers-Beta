@@ -1,0 +1,165 @@
+zwaveManufacturer:
+  - id: "026E/5643/5A31"
+    deviceLabel: 2 Button Window Remote
+    manufacturerId: 0x026E
+    productType: 0x5643
+    productId: 0x5A31
+    deviceProfileName: multi-button-2 #battery
+  - id: "026E/4252/5A31"
+    deviceLabel: 3 Button Window Remote
+    manufacturerId: 0x026E
+    productType: 0x4252
+    productId: 0x5A31
+    deviceProfileName: multi-button-3 #battery
+  - id: "Fibaro/Button"
+    deviceLabel: Fibaro Button
+    manufacturerId: 0x010F
+    productType: 0x0F01
+    deviceProfileName: button-generic
+  - id: "Aeotec/Button"
+    deviceLabel: Aeotec Button
+    manufacturerId: 0x0371
+    productId: 0x0004
+    deviceProfileName: button-generic
+  - id: Fibaro/keyfob
+    deviceLabel: Fibaro KeyFob
+    manufacturerId: 0x010F
+    productType: 0x1001
+    deviceProfileName: multi-button-6
+  - id: Aeotec/button/quad
+    deviceLabel: Aeotec NanoMote Quad
+    manufacturerId: 0x0371
+    productId: 0x0003
+    deviceProfileName: multi-button-4
+  - id: Aeotec/keyfob
+    deviceLabel: Aeotec Keyfob
+    manufacturerId: 0x0086
+    productId: 0x0058
+    deviceProfileName: multi-button-4
+  - id: Aeotec/wallmote/quad
+    deviceLabel: Aeotec Remote Control
+    manufacturerId: 0x0086
+    productId: 0x0082
+    deviceProfileName: multi-button-4
+  - id: Aeotec/wallmote
+    deviceLabel: Aeotec Remote Control
+    manufacturerId: 0x0086
+    productId: 0x0081
+    deviceProfileName: multi-button-2
+  - id: Everspring/wall/switch
+    deviceLabel: Everspring Remote Control
+    manufacturerId: 0x0060
+    productId: 0x0003
+    deviceProfileName: multi-button-2
+  - id: Aeotec/minimote
+    deviceLabel: Aeon Minimote
+    manufacturerId: 0x0086
+    productType: 0x0001
+    productId: 0x0003
+    deviceProfileName: multi-button-4-no-battery
+  - id: Aeotec/wallmote7/illumino
+    deviceLabel: Aeotec Remote Control
+    manufacturerId: 0x0371
+    productId: 0x0016
+    deviceProfileName: multi-button-2
+  - id: Aeon/PanicButton
+    deviceLabel: Aeotec Button
+    manufacturerId: 0x0086
+    productId: 0x0026
+    deviceProfileName: button-generic
+  # Remotec added for driver Mc
+  - id: Ramotec/zrc-90
+    deviceLabel: Remotec ZRC-90
+    manufacturerId: 0x5254
+    productId: 0x8510
+    deviceProfileName: multi-button-8
+  - id: 0208/0201/000B
+    deviceLabel: Hank Four-Key Scene
+    manufacturerId: 0x0208
+    productType: 0x0201
+    productId: 0x000B
+    deviceProfileName: multi-button-4
+  - id: Namron/4kanal
+    deviceLabel: Namron 4kanal
+    manufacturerId: 0x0438
+    productType: 0x0300
+    productId: 0xA305
+    deviceProfileName: multi-button-8
+  - id: Namron/2kanal
+    deviceLabel: Namron 2kanal
+    manufacturerId: 0x0438
+    productType: 0x0300
+    productId: 0xA306
+    deviceProfileName: multi-button-4
+  - id: Namron/1kanal
+    deviceLabel: Namron 1kanal
+    manufacturerId: 0x0438
+    productType: 0x0300
+    productId: 0xA30F
+    deviceProfileName: multi-button-2
+  - id: Namron/1kanal/0330
+    deviceLabel: Namron 1kanal
+    manufacturerId: 0x0330
+    productType: 0x0300
+    productId: 0xA30F
+    deviceProfileName: multi-button-2
+  - id: Namron/1kanal/0310
+    deviceLabel: Namron 1kanal
+    manufacturerId: 0x0330
+    productType: 0x0300
+    productId: 0xA310
+    deviceProfileName: multi-button-4
+  - id: GoControl/WA00Z-1
+    deviceLabel: GoControl WA00Z-1
+    manufacturerId: 0x014F
+    productType: 0x5343
+    productId: 0x3132
+    deviceProfileName: multi-button-2
+  - id: 011A/0801/0B03
+    deviceLabel: ZWNSC7 Enerwave Scene Master
+    manufacturerId: 0x011A
+    productType: 0x0801
+    productId: 0x0B03
+    deviceProfileName: multi-button-7
+  - id: 0178/5343/4735
+    deviceLabel: Nexia NX-1000
+    manufacturerId: 0x0178
+    productType: 0x5343
+    productId: 0x4735
+    deviceProfileName: multi-button-15
+  - id: Simon/S100 Switch IO
+    deviceLabel: Simon S100 Switch IO
+    manufacturerId: 0x0267
+    productType: 0x0002
+    productId: 0x0000
+    deviceProfileName: button-no-battery
+  - id: Simon/S100 Switch IO-2
+    deviceLabel: Simon S100 Switch IO
+    manufacturerId: 0x0267
+    productType: 0x0105
+    productId: 0x0000
+    deviceProfileName: button-no-battery
+  - id: VisionZT1101-5/4-buttons
+    deviceLabel: Vision ZT1101-5
+    manufacturerId: 0x0109
+    productType: 0x1002
+    productId: 0x0202
+    deviceProfileName: multi-button-4
+  - id: FutureHome/2Kanal
+    deviceLabel: FutureHome 2kanal
+    manufacturerId: 0x0305
+    productType: 0x0300
+    productId: 0x0075
+    deviceProfileName: multi-button-4
+  - id: GoControl/WA00Z-1S
+    deviceLabel: GoControl WA00Z-1S
+    manufacturerId: 0x014F
+    productType: 0x5754
+    productId: 0x3530
+    deviceProfileName: multi-button-2
+  - id: VisionZT1141-5/4-buttons
+    deviceLabel: Vision ZT1141-5
+    manufacturerId: 0x0109
+    productType: 0x1004
+    #productId: 0x0402 # 0x0403
+    deviceProfileName: multi-button-4

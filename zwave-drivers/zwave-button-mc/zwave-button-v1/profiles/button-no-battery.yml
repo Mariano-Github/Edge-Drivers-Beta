@@ -1,0 +1,10 @@
+name: button-no-battery
+components:
+- id: main
+  capabilities:
+  - id: button
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: RemoteController
