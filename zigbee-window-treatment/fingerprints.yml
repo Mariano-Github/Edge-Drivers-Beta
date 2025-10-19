@@ -171,7 +171,7 @@ zigbeeManufacturer:
     deviceLabel: TS0302 Window Treatment
     manufacturer: _TYZB01_dazsid15
     model: TS0302
-    deviceProfileName: window-treatment-profile
+    deviceProfileName: window-treatment-profile-invert
   - id: "SOMFY/Sonesse 28 WF Li-Ion Roller"
     deviceLabel: SOMFY Window Treatment
     manufacturer: SOMFY
@@ -238,7 +238,11 @@ zigbeeManufacturer:
   - id: "TS0302/window-treatment"
     deviceLabel: TS0302 Window Treatment
     model: TS0302
-    deviceProfileName: window-treatment-profile
+    deviceProfileName: window-treatment-profile-invert
+  - id: "TS0301/window-treatment"
+    deviceLabel: TS0301 Window Treatment
+    model: TS0301
+    deviceProfileName: window-treatment-battery-invert
 
 zigbeeGeneric:
   - id: "genericShade"

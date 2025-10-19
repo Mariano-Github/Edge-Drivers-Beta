@@ -121,7 +121,8 @@ local zigbee_window_treatment_driver_template = {
     lazy_load_if_possible("tuya-calib"),
     lazy_load_if_possible("smartwings"),
     lazy_load_if_possible("current-position"),
-    lazy_load_if_possible("hanssem")
+    lazy_load_if_possible("hanssem"),
+    lazy_load_if_possible("ts0302")
  },
   lifecycle_handlers = {
     added = added_handler,
