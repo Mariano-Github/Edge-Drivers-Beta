@@ -202,6 +202,11 @@ zigbeeManufacturer:
     manufacturer: Namron AS
     model: 4512759
     deviceProfileName: namrom-thermostat-hvit
+  - id: "Namron AS/4512783" #added 0ct-2025
+    deviceLabel: NAMRON Thermostat Hvit Black
+    manufacturer: Namron AS
+    model: 4512783
+    deviceProfileName: namrom-thermostat-hvit-humid
   - id: Avatto-battery-thermostat
     deviceLabel: Avatto Thermostat ZWT198
     manufacturer: _TZE204_xnbkhhdr

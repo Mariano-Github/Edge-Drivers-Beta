@@ -11,7 +11,8 @@ local device_management = require "st.zigbee.device_management"
 
 local NAMROM_THERMOSTAT_FINGERPRINTS = {
   { mfr = "Namron AS", model = "4512758" }, -- white color
-  { mfr = "Namron AS", model = "4512759" } -- black color
+  { mfr = "Namron AS", model = "4512759" }, -- black color
+  { mfr = "Namron AS", model = "4512783" } -- black color
 }
 
 local is_namrom_thermostat = function(opts, driver, device)
