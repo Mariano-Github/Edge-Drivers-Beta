@@ -107,6 +107,14 @@ local function device_refresh(driver, device, command)
 end
 
 -- this new function in libraries version 9 allow load only subdrivers with devices paired
+  local version = require "version"
+
+local lazy_handler
+if version.api >= 15 then
+  lazy_handler = require "st.utils.lazy_handler"
+else
+  lazy_handler = require
+end
   local function lazy_load_if_possible(sub_driver_name)
     -- gets the current lua libs api version
     local version = require "version"
@@ -132,7 +140,7 @@ end
         reportable_change = 1
       }
       device:add_configured_attribute(config)
-      device:add_monitored_attribute(config)
+    
 
       config ={
         cluster = zcl_clusters.IASZone.ID,
@@ -145,13 +153,11 @@ end
       device:add_configured_attribute(config)
 
       device:configure() -- mod (19/04/2024)
-      device:remove_monitored_attribute(0x0500, 0x0002)
-      
+    
     elseif device:get_model() == "lumi.sensor_wleak.aq1" then
       device:send(device_management.build_bind_request(device, zcl_clusters.IASZone.ID, driver.environment_info.hub_zigbee_eui))
       device:send(zcl_clusters.IASZone.attributes.ZoneStatus:configure_reporting(device, 30, 600, 1))
-      device:remove_monitored_attribute(0x0500, 0x0002)
-    else
+    
       device:configure() -- mod (19/04/2024)
     end
   end
@@ -169,7 +175,7 @@ end
         reportable_change = 1
       }
       device:add_configured_attribute(config)
-      device:add_monitored_attribute(config)
+    
 
       config ={
         cluster = zcl_clusters.IASZone.ID,
@@ -181,12 +187,11 @@ end
       }
       --device:add_configured_attribute(config)
 
-      device:remove_monitored_attribute(0x0500, 0x0002)
-      
+    
     elseif device:get_model() == "lumi.sensor_wleak.aq1" then
       --device:send(device_management.build_bind_request(device, zcl_clusters.IASZone.ID, driver.environment_info.hub_zigbee_eui))
       --device:send(zcl_clusters.IASZone.attributes.ZoneStatus:configure_reporting(device, 30, 600, 1))
-      device:remove_monitored_attribute(0x0500, 0x0002)
+    
     elseif device:supports_capability_by_id(capabilities.temperatureMeasurement.ID) then
       local maxTime = device.preferences.maxTime * 60
       local changeRep = device.preferences.changeRep * 100
@@ -200,7 +205,7 @@ end
         reportable_change = changeRep
       }
       device:add_configured_attribute(config)
-      device:add_monitored_attribute(config)
+    
     end
 
     -- set battery type and quantity
@@ -254,7 +259,7 @@ sub_drivers = {
   lazy_load_if_possible("thirdreality"),
 },
   ias_zone_configuration_method = constants.IAS_ZONE_CONFIGURE_TYPE.AUTO_ENROLL_RESPONSE,
-  health_check = false
+  health_check = false,
 }
 
 --------- driver run ------

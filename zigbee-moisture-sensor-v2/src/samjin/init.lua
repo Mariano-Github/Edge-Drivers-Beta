@@ -40,7 +40,7 @@ local function do_configure(self,device)
       reportable_change = changeRep
     }
     device:add_configured_attribute(config)
-    device:add_monitored_attribute(config)
+  
     device:configure()
 end
 
