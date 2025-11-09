@@ -181,7 +181,7 @@ local function do_preferences (driver, device, event, args)
           }
           --device:send(zcl_clusters.OnOff.attributes.OnOff:configure_reporting(device, 0, interval))
           device:add_configured_attribute(config)
-          device:add_monitored_attribute(config)
+        
           device:configure()
         end
       end
@@ -581,7 +581,7 @@ local function do_configure(driver, device)
       }
       --device:send(zcl_clusters.OnOff.attributes.OnOff:configure_reporting(device, 0, device.preferences.onOffReports))
       device:add_configured_attribute(config)
-      device:add_monitored_attribute(config)
+    
     
       device:configure()
 
@@ -817,7 +817,7 @@ local function device_init (driver, device)
       }
       --device:send(zcl_clusters.OnOff.attributes.OnOff:configure_reporting(device, 0, device.preferences.onOffReports))
       device:add_configured_attribute(config)
-      device:add_monitored_attribute(config)
+    
     end
 
     if device:get_latest_state("main", signal_Metrics.ID, signal_Metrics.signalMetrics.NAME) == nil then
@@ -905,7 +905,7 @@ local function driver_Switched_old(driver,device)
       }
       --device:send(zcl_clusters.OnOff.attributes.OnOff:configure_reporting(device, 0, device.preferences.onOffReports))
       device:add_configured_attribute(config)
-      device:add_monitored_attribute(config)
+    
 
       --device:configure()
       device.thread:call_with_delay(2, function(d) --23/12/23
@@ -1422,7 +1422,7 @@ capability_handlers = {
     [capabilities.switchLevel.commands.setLevel.NAME] = switch_level_handler
   },
 },
---health_check = false
+health_check = false
 }
 
 defaults.register_for_default_handlers(zigbee_outlet_driver_template, zigbee_outlet_driver_template.supported_capabilities)
