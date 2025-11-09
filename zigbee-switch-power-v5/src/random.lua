@@ -103,7 +103,7 @@ function driver_handler.do_init (self, device)
   }
   --device:send(zcl_clusters.OnOff.attributes.OnOff:configure_reporting(device, 0, device.preferences.onOffReports))
   device:add_configured_attribute(config)
-  device:add_monitored_attribute(config)
+
 end
 
 ---- do_removed device procedure: delete all device data
@@ -201,7 +201,7 @@ function driver_handler.do_Preferences (self, device, event, args)
           data_type = zcl_clusters.OnOff.attributes.OnOff.base_type
         }
         device:send(zcl_clusters.OnOff.attributes.OnOff:configure_reporting(device, 0, interval))
-        device:add_monitored_attribute(config)
+      
 
       -- set custom power and energy divisors
       elseif id == "simpleMeteringDivisor1" then
@@ -251,7 +251,7 @@ function driver_handler.do_Preferences (self, device, event, args)
         device:send(zcl_clusters.ElectricalMeasurement.attributes.ACFrequency:configure_reporting(device, min, 0xFFFF, 1000):to_endpoint (2))
         device:send(zcl_clusters.ElectricalMeasurement.attributes.RMSCurrent:configure_reporting(device, min, 0xFFFF, 1000):to_endpoint (2))
         --device:add_configured_attribute(config)
-        device:add_monitored_attribute(config)
+      
 
       elseif id == "energyrMaxTime" or id == "energyChangeReported" then
         -- energy reports configure
@@ -278,7 +278,7 @@ function driver_handler.do_Preferences (self, device, event, args)
         }
         device:send(zcl_clusters.SimpleMetering.attributes.CurrentSummationDelivered:configure_reporting(device, min, max, change))
         --device:add_configured_attribute(config)
-        device:add_monitored_attribute(config)
+      
       elseif id == "voltageChangeRep" or id == "voltageMaxTime" then
         device:send(zcl_clusters.ElectricalMeasurement.attributes.RMSVoltage:configure_reporting(device, 30, device.preferences.voltageMaxTime, device.preferences.voltageChangeRep * 100):to_endpoint (2))
         -- configure attributtes of 0B04 cluster not used, due to send 4 attributtes report in the same message and are many messages

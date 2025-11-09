@@ -111,7 +111,7 @@ local function do_configure(self, device)
         data_type = data_types.Int16,
       }
       device:add_configured_attribute(config)
-      device:add_monitored_attribute(config)
+    
 
       -- power reports configure
       local divisor = device:get_field(constants.ELECTRICAL_MEASUREMENT_DIVISOR_KEY) or 1
@@ -137,7 +137,7 @@ local function do_configure(self, device)
         data_type = data_types.Int16,
       }
       device:add_configured_attribute(config)
-      device:add_monitored_attribute(config)
+    
 
       -- energy reports configure
       divisor = device:get_field(constants.SIMPLE_METERING_DIVISOR_KEY) or 1
@@ -162,7 +162,7 @@ local function do_configure(self, device)
         data_type = data_types.Uint48,
       }
       device:add_configured_attribute(config)
-      device:add_monitored_attribute(config)
+    
 
       -- configure InstantaneusDemand to no send reports
       config =
@@ -175,7 +175,7 @@ local function do_configure(self, device)
         data_type = data_types.Int24,
       }
       device:add_configured_attribute(config)
-      device:add_monitored_attribute(config)
+    
 
       device.thread:call_with_delay(3, function() 
         device:send(zcl_clusters.DeviceTemperatureConfiguration.attributes.CurrentTemperature:read(device):to_endpoint (2))
@@ -209,7 +209,7 @@ local function do_configure(self, device)
         data_type = data_types.Uint16,
       }
       device:add_configured_attribute(config)
-      device:add_monitored_attribute(config)
+    
 
       -- disable RMS volts
       --device:send(zcl_clusters.ElectricalMeasurement.attributes.RMSVoltage:configure_reporting(device, 0xFFFF, 0xFFFF,0xFFFF))
@@ -225,7 +225,7 @@ local function do_configure(self, device)
     }
     --device:send(zcl_clusters.OnOff.attributes.OnOff:configure_reporting(device, 0, device.preferences.onOffReports))
     device:add_configured_attribute(config)
-    device:add_monitored_attribute(config)
+  
     device:configure()
   end
   print("doConfigure performed, transitioning device to PROVISIONED") --23/12/23
@@ -685,7 +685,7 @@ local zigbee_switch_driver_template = {
     },
   },
   sub_drivers = { require("device-temperature")},
-  --health_check = false
+  health_check = false
 }
 -- run driver
 defaults.register_for_default_handlers(zigbee_switch_driver_template, zigbee_switch_driver_template.supported_capabilities, {native_capability_cmds_enabled = true, native_capability_attrs_enabled = true})
