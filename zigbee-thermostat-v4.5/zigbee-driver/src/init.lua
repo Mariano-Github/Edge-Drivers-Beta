@@ -545,7 +545,7 @@ local function do_Configure(self,device)
             device:send(device_management.build_bind_request(device, 0xFC02, self.environment_info.hub_zigbee_eui))
             for _, config in pairs(configs) do
                 device:add_configured_attribute(config)
-                device:add_monitored_attribute(config)
+              
             end
         end
       end
@@ -983,6 +983,14 @@ local function driver_switched(self,device)
 end
 
 -- this new function in libraries version 9 allow load only subdrivers with devices paired
+  local version = require "version"
+
+local lazy_handler
+if version.api >= 15 then
+  lazy_handler = require "st.utils.lazy_handler"
+else
+  lazy_handler = require
+end
   local function lazy_load_if_possible(sub_driver_name)
     -- gets the current lua libs api version
     local version = require "version"

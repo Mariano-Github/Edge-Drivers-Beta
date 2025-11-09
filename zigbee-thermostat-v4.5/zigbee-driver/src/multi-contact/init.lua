@@ -42,7 +42,7 @@ local function do_added(self, device)
             for _, config in pairs(configs) do
                 --print("<<< config & monitor >>>")
                 device:add_configured_attribute(config)
-                device:add_monitored_attribute(config)
+            
             end
         end
     end
