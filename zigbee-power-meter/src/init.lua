@@ -127,6 +127,15 @@ local function do_preferences(self, device, event, args)
 end
 
 -- this new function in libraries version 9 allow load only subdrivers with devices paired
+local version = require "version"
+local lazy_handler
+if version.api >= 15 then
+  lazy_handler = require "st.utils.lazy_handler"
+else
+  lazy_handler = require
+end
+
+
 local function lazy_load_if_possible(sub_driver_name)
   -- gets the current lua libs api version
   local version = require "version"
@@ -159,7 +168,8 @@ local zigbee_power_meter_driver_template = {
     init = device_init,
     doConfigure = do_configure,
     infoChanged = do_preferences,
-  }
+  },
+  health_check = false
 }
 
 defaults.register_for_default_handlers(zigbee_power_meter_driver_template, zigbee_power_meter_driver_template.supported_capabilities)
