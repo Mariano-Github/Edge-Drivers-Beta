@@ -53,7 +53,8 @@ local zigbee_range_driver_template = {
         [Basic.attributes.ZCLVersion.ID] = ZCLVersion_handler,
       },
     },
-  }
+  },
+   health_check = false,
 }
 
 local zigbee_range_extender_driver = ZigbeeDriver("zigbee-range-extender", zigbee_range_driver_template)
