@@ -37,7 +37,7 @@ local xiaomi_utils = require "xiaomi_utils"
 -- custom capabilities
 local sensor_Sensitivity = capabilities["legendabsolute60149.sensorSensitivity"]
 local signal_Metrics = capabilities["legendabsolute60149.signalMetrics"]
-local MONITORED_ATTRIBUTES_KEY = "__monitored_attributes"
+
 
 -- no offline function
 local function no_offline(self,device)
@@ -154,12 +154,9 @@ local function do_preferences(self, device, event, args)
           reportable_change = 1
         }
         device:send(IASZone.attributes.ZoneStatus:configure_reporting(device, 30, interval, 1))
-        --device:add_monitored_attribute(config)
-        --local monitored_attrs = device:get_field(MONITORED_ATTRIBUTES_KEY) or {}
-        --print("monitored_attrs-Before remove att 0x0002 >>>>>>",utils.stringify_table(monitored_attrs))
-        device:remove_monitored_attribute(0x0500, 0x0002)
-        --print("monitored_attrs-After remove att 0x0002 >>>>>>",utils.stringify_table(monitored_attrs))
-
+      
+        
+      
       elseif id == "motionSensitivitySonoff" then
         print("<<< Write Sensitivity Level sonoff>>>")
         local value_send = tonumber(device.preferences.motionSensitivitySonoff)
@@ -214,11 +211,11 @@ local function do_configure(self,device)
     }
     --device:send(IASZone.attributes.ZoneStatus:configure_reporting(device, 30, interval, 1))
     device:add_configured_attribute(config)
-    --device:add_monitored_attribute(config)
+  
 
-    --local monitored_attrs = device:get_field(MONITORED_ATTRIBUTES_KEY) or {}
+  
     --print("monitored_attrs-Before remove att 0x0002 >>>>>>",utils.stringify_table(monitored_attrs))
-    --device:remove_monitored_attribute(0x0500, 0x0002)
+  
    -- print("monitored_attrs-After remove att 0x0002 >>>>>>",utils.stringify_table(monitored_attrs))
     if device:get_model() == "MS01" or 
     device:get_model() == "ms01" or
@@ -233,12 +230,12 @@ local function do_configure(self,device)
         reportable_change = 1
       }
       device:add_configured_attribute(config)
-      device:add_monitored_attribute(config)
+    
     end
   end
 
   device:configure() -- mod (09/01/2023)
-  device:remove_monitored_attribute(0x0500, 0x0002)
+
 
   if device:get_manufacturer() == "frient A/S" or 
       (device:get_manufacturer() == "IKEA of Sweden" and device:get_model() == "TRADFRI motion sensor") or
@@ -371,7 +368,7 @@ local function do_init(self, device)
     }
     --device:send(IASZone.attributes.ZoneStatus:configure_reporting(device, 30, device.preferences.iasZoneReports, 1))
     device:add_configured_attribute(config)
-    --device:add_monitored_attribute(config)
+  
 
     if device:get_model() == "MS01" or 
     device:get_model() == "ms01" or
@@ -386,12 +383,12 @@ local function do_init(self, device)
         reportable_change = 1
       }
       device:add_configured_attribute(config)
-      device:add_monitored_attribute(config)
+    
     end
 
-    --local monitored_attrs = device:get_field(MONITORED_ATTRIBUTES_KEY) or {}
+  
     --print("monitored_attrs-Before remove att 0x0002 >>>>>>",utils.stringify_table(monitored_attrs))
-    device:remove_monitored_attribute(0x0500, 0x0002)
+  
     --print("monitored_attrs-After remove att 0x0002 >>>>>>",utils.stringify_table(monitored_attrs))
 
     local firmware_full_version = device.data.firmwareFullVersion
@@ -411,7 +408,7 @@ local function do_init(self, device)
         data_type = zcl_clusters.OccupancySensing.attributes.Occupancy.base_type,
       }
       device:add_configured_attribute(config)
-      device:add_monitored_attribute(config)
+    
     end
     if device:get_manufacturer() == "frient A/S" or 
       (device:get_manufacturer() == "IKEA of Sweden" and device:get_model() == "TRADFRI motion sensor") or
@@ -474,7 +471,14 @@ local function do_driverSwitched(self, device)
     do_configure(self, device)
   end, "configure") 
 end
+local version = require "version"
 
+local lazy_handler
+if version.api >= 15 then
+  lazy_handler = require "st.utils.lazy_handler"
+else
+  lazy_handler = require
+end
 -- this new function in libraries version 9 allow load only subdrivers with devices paired
   local function lazy_load_if_possible(sub_driver_name)
     -- gets the current lua libs api version

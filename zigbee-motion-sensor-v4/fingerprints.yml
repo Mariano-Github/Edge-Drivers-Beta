@@ -516,6 +516,11 @@ zigbeeManufacturer:
     manufacturer: _TZE200_iba1ckek
     model: TS0601
     deviceProfileName: motion-battery-sens-2
+  - id: "_TZE200_jfw0a4aa/TS0601"
+    deviceLabel: Tuya ZG-103Z Vibration Sensor
+    manufacturer: _TZE200_jfw0a4aa
+    model: TS0601
+    deviceProfileName: motion-battery-sens-2
   - id: "_TZ3000_c8ozah8n/TS0202"
     deviceLabel: TS0202 Motion Sensor
     manufacturer: _TZ3000_c8ozah8n
