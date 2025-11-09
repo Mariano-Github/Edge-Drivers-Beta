@@ -39,7 +39,7 @@ local common = require("multi-contact/common")
 local xiaomi_utils = require "xiaomi_utils"
 
 local signal_Metrics = capabilities["legendabsolute60149.signalMetrics"]
---local MONITORED_ATTRIBUTES_KEY = "__monitored_attributes"
+
 
 -- no offline function users request
 local function no_offline(self,device)
@@ -138,7 +138,7 @@ local function info_Changed(self, device, event, args)
                 data_type = clusters.OnOff.attributes.OnOff.base_type
               }
               device:send(clusters.OnOff.attributes.OnOff:configure_reporting(device, 0, device.preferences.iasZoneReports))
-              device:add_monitored_attribute(config)
+          
             elseif device:get_manufacturer() ~= "LUMI" then
               -- Configure iasZone interval report
               local config ={
@@ -150,11 +150,11 @@ local function info_Changed(self, device, event, args)
                 reportable_change = 1
               }
               device:send(IASZone.attributes.ZoneStatus:configure_reporting(device, 30, device.preferences.iasZoneReports, 1))
-              --device:add_monitored_attribute(config)
-              --local monitored_attrs = device:get_field(MONITORED_ATTRIBUTES_KEY) or {}
-              --print("monitored_attrs-Before remove att 0x0002 >>>>>>",utils.stringify_table(monitored_attrs))
-              device:remove_monitored_attribute(0x0500, 0x0002)
-              --print("monitored_attrs-After remove att 0x0002 >>>>>>",utils.stringify_table(monitored_attrs))
+          
+            
+            
+            
+            
             end
           elseif id == "childVibration" then
             if oldPreferenceValue ~= nil and newParameterValue == true then
@@ -203,7 +203,7 @@ local function do_configure(self,device)
       }
       --device:send(clusters.OnOff.attributes.OnOff:configure_reporting(device, 0, device.preferences.iasZoneReports))
       device:add_configured_attribute(config)
-      device:add_monitored_attribute(config)
+  
     elseif device:get_manufacturer() ~= "LUMI" then
       -- Configure iasZone interval report
       local config ={
@@ -216,7 +216,7 @@ local function do_configure(self,device)
       }
       --device:send(IASZone.attributes.ZoneStatus:configure_reporting(device, 30, device.preferences.iasZoneReports, 1))
       device:add_configured_attribute(config)
-      --device:add_monitored_attribute(config)
+    
     end
 
     -- configure Accel cluster moved from added lifecycle of multi-contact subdriver
@@ -230,7 +230,7 @@ local function do_configure(self,device)
               for _, config in pairs(configs) do
                   --print("<<< config & monitor >>>")
                   device:add_configured_attribute(config)
-                  device:add_monitored_attribute(config)
+              
               end
           end
       end
@@ -248,13 +248,13 @@ local function do_configure(self,device)
       if configuration ~= nil then
         for _, attribute in ipairs(configuration) do
           device:add_configured_attribute(attribute)
-          device:add_monitored_attribute(attribute)
+        
         end
       end
     end
 
     device:configure()
-    device:remove_monitored_attribute(0x0500, 0x0002)
+  
 
     -- Configure temperature custom interval report
     if device:supports_capability_by_id(capabilities.temperatureMeasurement.ID) then
@@ -333,7 +333,7 @@ local function do_init(self, device)
       if configuration ~= nil then
         for _, attribute in ipairs(configuration) do
           device:add_configured_attribute(attribute)
-          device:add_monitored_attribute(attribute)
+        
         end
       end
     end
@@ -352,7 +352,7 @@ local function do_init(self, device)
       }
       --device:send(clusters.OnOff.attributes.OnOff:configure_reporting(device, 0, device.preferences.iasZoneReports))
       device:add_configured_attribute(config)
-      device:add_monitored_attribute(config)
+    
     elseif device:get_manufacturer() ~= "LUMI" then
       -- Configure iasZone monitored attributes
       local config ={
@@ -365,11 +365,11 @@ local function do_init(self, device)
       }
       --device:send(IASZone.attributes.ZoneStatus:configure_reporting(device, 30, device.preferences.iasZoneReports, 1))
       device:add_configured_attribute(config)
-      --device:add_monitored_attribute(config)
-      --local monitored_attrs = device:get_field(MONITORED_ATTRIBUTES_KEY) or {}
-      --print("monitored_attrs-Before remove att 0x0002 >>>>>>",utils.stringify_table(monitored_attrs))
-      device:remove_monitored_attribute(0x0500, 0x0002)
-      --print("monitored_attrs-After remove att 0x0002 >>>>>>",utils.stringify_table(monitored_attrs))
+    
+    
+    
+    
+    
     end
 
     if device:get_latest_state("main", signal_Metrics.ID, signal_Metrics.signalMetrics.NAME) == nil then
@@ -422,6 +422,14 @@ local function do_driverSwitched(self, device)
 end
 
 -- this new function in libraries version 9 allow load only subdrivers with devices paired
+local version = require "version"
+
+local lazy_handler
+if version.api >= 15 then
+  lazy_handler = require "st.utils.lazy_handler"
+else
+  lazy_handler = require
+end
 local function lazy_load_if_possible(sub_driver_name)
   -- gets the current lua libs api version
   local version = require "version"
