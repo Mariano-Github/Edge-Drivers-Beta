@@ -128,7 +128,8 @@ local zigbee_sound_sensor_driver_template = {
     doConfigure = do_configure,
     infoChanged = do_preferences,
     init = battery_defaults.build_linear_voltage_init(2.2, 3.0)
-  }
+  },
+  health_check = false
 }
 
 defaults.register_for_default_handlers(zigbee_sound_sensor_driver_template, zigbee_sound_sensor_driver_template.supported_capabilities)
