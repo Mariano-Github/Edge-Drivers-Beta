@@ -269,8 +269,6 @@ function driver_handler.do_init (self, device)
   }
   --device:send(zcl_clusters.OnOff.attributes.OnOff:configure_reporting(device, 0, device.preferences.onOffReports))
   device:add_configured_attribute(config)
-  device:add_monitored_attribute(config)
-  --device:remove_monitored_attribute(0x0006, 0x0000)
 
   if device:supports_capability_by_id(capabilities.battery.ID) then
     cap_status = device:get_latest_state("main", capabilities.battery.ID, capabilities.battery.type.NAME)
@@ -392,7 +390,7 @@ function driver_handler.do_Preferences (self, device, event, args)
             data_type = zcl_clusters.OnOff.attributes.OnOff.base_type
           }
           device:send(zcl_clusters.OnOff.attributes.OnOff:configure_reporting(device, 0, interval))
-          device:add_monitored_attribute(config)
+      
           break
         --- Configure on-off cluster, attributte 0x8002 and 4003 to value restore state in preferences
         elseif id == "restoreState" then

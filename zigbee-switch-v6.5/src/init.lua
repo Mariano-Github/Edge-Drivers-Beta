@@ -89,9 +89,8 @@ local function do_configure(self, device)
     }
     --device:send(zcl_clusters.OnOff.attributes.OnOff:configure_reporting(device, 0, device.preferences.onOffReports))
     device:add_configured_attribute(config)
-    device:add_monitored_attribute(config)
+    
     device:configure()
-    --device:remove_monitored_attribute(0x0006, 0x0000)
   end
 end
 
@@ -196,7 +195,7 @@ local zigbee_switch_driver_template = {
   lazy_load_if_possible("tuya-fingerbot"),
   lazy_load_if_possible("tuya-MHCOZY")
 },
- --health_check = false
+ health_check = false
 }
 -- run driver
 defaults.register_for_default_handlers(zigbee_switch_driver_template, zigbee_switch_driver_template.supported_capabilities, {native_capability_cmds_enabled = true})
