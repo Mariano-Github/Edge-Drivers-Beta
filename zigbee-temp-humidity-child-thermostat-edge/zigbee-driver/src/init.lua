@@ -126,7 +126,7 @@ if device.network_type == "DEVICE_EDGE_CHILD" then return end
       data_type = zcl_clusters.TemperatureMeasurement.attributes.MeasuredValue.base_type,
       reportable_change = changeRep
     }
-    device:add_monitored_attribute(config)
+  
   end
   -- configure Humidity
   maxTime = device.preferences.humMaxTime * 60
@@ -146,7 +146,7 @@ if device.network_type == "DEVICE_EDGE_CHILD" then return end
       data_type = zcl_clusters.RelativeHumidity.attributes.MeasuredValue.base_type,
       reportable_change = changeRep
     }
-    device:add_monitored_attribute(config)
+  
     --device:configure()
   end
   -- configure pressure reports
@@ -165,7 +165,7 @@ if device.network_type == "DEVICE_EDGE_CHILD" then return end
         data_type = data_types.Uint16,
       }
       device:add_configured_attribute(config)
-      device:add_monitored_attribute(config)
+    
     --end         
     else  
       device:send(device_management.build_bind_request(device, zcl_clusters.PressureMeasurement.ID, self.environment_info.hub_zigbee_eui))
@@ -230,7 +230,7 @@ local function do_preferences(self, device, event, args)
             data_type = zcl_clusters.TemperatureMeasurement.attributes.MeasuredValue.base_type,
             reportable_change = changeRep
           }
-          device:add_monitored_attribute(config)
+        
         end
         break
       elseif id == "humMaxTime" or id == "humChangeRep" then
@@ -250,7 +250,7 @@ local function do_preferences(self, device, event, args)
             data_type = zcl_clusters.RelativeHumidity.attributes.MeasuredValue.base_type,
             reportable_change = changeRep
           }
-          device:add_monitored_attribute(config)
+        
         end
         break
       elseif id == "pressMaxTime" or id == "pressChangeRep" then
@@ -269,7 +269,7 @@ local function do_preferences(self, device, event, args)
             data_type = data_types.Uint16,
           }
           device:add_configured_attribute(config)
-          device:add_monitored_attribute(config)
+        
           device:configure() -- configure pressure with correct data types
           do_configure(self,device)  -- configure correct intervals for temp, humid and illumin   
         else
@@ -911,7 +911,7 @@ local function do_init(self,device)
         data_type = data_types.Uint16,
       }
       device:add_configured_attribute(config)
-      device:add_monitored_attribute(config)            
+                
     end
 
     if (device:get_manufacturer() == "LUMI" and device:get_model() == "lumi.sensor_ht.agl02") then
@@ -924,7 +924,7 @@ local function do_init(self,device)
       reportable_change = 1
       }
       device:add_configured_attribute(config)
-      device:add_monitored_attribute(config)
+    
 
       -- init battery voltage
       battery_defaults.build_linear_voltage_init(2.6, 3.0)
@@ -948,8 +948,7 @@ local function do_init(self,device)
       reportable_change = changeRep
     }
     device:add_configured_attribute(config)
-    device:add_monitored_attribute(config)
-
+  
     maxTime = device.preferences.humMaxTime * 60
     changeRep = device.preferences.humChangeRep * 100
     config ={
@@ -961,7 +960,7 @@ local function do_init(self,device)
       reportable_change = changeRep
     }
     device:add_configured_attribute(config)
-    device:add_monitored_attribute(config)
+  
 
     if device:supports_capability_by_id(atm_Pressure_Rate_Change.ID) then
       if device:get_latest_state("main", atm_Pressure_Rate_Change.ID, atm_Pressure_Rate_Change.atmPressureRateChange.NAME) == nil then
@@ -999,6 +998,14 @@ local function added_handler(self, device)
 end
 
 -- this new function in libraries version 9 allow load only subdrivers with devices paired
+  local version = require "version"
+
+local lazy_handler
+if version.api >= 15 then
+  lazy_handler = require "st.utils.lazy_handler"
+else
+  lazy_handler = require
+end
   local function lazy_load_if_possible(sub_driver_name)
     -- gets the current lua libs api version
     local version = require "version"
