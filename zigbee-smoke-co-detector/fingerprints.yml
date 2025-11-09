@@ -193,6 +193,12 @@ zigbeeManufacturer:
     deviceLabel: TS0212 Tuya CO-Sensor
     model: TS0212
     deviceProfileName: co-battery
+#added 310ct-25
+  - id: "ORVIBO/CO-Sensor"
+    deviceLabel: Orvibo CO-Sensor
+    manufacturer: Heiman
+    model: 1ccaa94c49a84abaa9e38687913947ba
+    deviceProfileName: co-battery
 
   # Gas Sensors
   - id: "TS0204/_TYZB01_mfccmeio"
