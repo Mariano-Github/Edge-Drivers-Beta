@@ -381,7 +381,7 @@ function driver_handler.do_init (self, device)
     }
     --device:send(zcl_clusters.OnOff.attributes.OnOff:configure_reporting(device, 0, device.preferences.onOffReports))
     device:add_configured_attribute(config)
-    device:add_monitored_attribute(config)
+  
   end
 end
 
@@ -586,7 +586,7 @@ function driver_handler.do_Preferences (self, device, event, args)
         }
         device:send(zcl_clusters.OnOff.attributes.OnOff:configure_reporting(device, 0, interval))
         --device:add_configured_attribute(config)
-        device:add_monitored_attribute(config)
+      
 
         break
         --- Configure on-off cluster, attributte 0x8002 and 4003 to value restore state in preferences
