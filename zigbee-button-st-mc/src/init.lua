@@ -108,7 +108,7 @@ local function do_preferences (self, device, event, args)
             data_type = zcl_clusters.TemperatureMeasurement.attributes.MeasuredValue.base_type,
             reportable_change = changeRep
           }
-          device:add_monitored_attribute(config)
+          
         elseif id == "batteryType" and newParameterValue ~= nil then
           device:emit_event(capabilities.battery.type(newParameterValue))
         elseif id == "batteryQuantity" and newParameterValue ~= nil then
@@ -148,7 +148,7 @@ end
         reportable_change = changeRep
       }
       device:add_configured_attribute(config)
-      device:add_monitored_attribute(config)
+
     end
     device:configure()
   end
@@ -194,11 +194,19 @@ local function do_init(self,device)
       reportable_change = changeRep
     }
     device:add_configured_attribute(config)
-    device:add_monitored_attribute(config)
+    
   end
 end
 
 -- this new function in libraries version 9 allow load only subdrivers with devices paired
+  local version = require "version"
+
+local lazy_handler
+if version.api >= 15 then
+  lazy_handler = require "st.utils.lazy_handler"
+else
+  lazy_handler = require
+end
 local function lazy_load_if_possible(sub_driver_name)
   -- gets the current lua libs api version
   local version = require "version"
