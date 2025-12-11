@@ -13,15 +13,6 @@ local mirror_Out = capabilities["legendabsolute60149.mirrorOut"]
 local random_On_Off = capabilities["legendabsolute60149.randomOnOff2"]
 local random_Next_Step = capabilities["legendabsolute60149.randomNextStep2"]
 
--- device can_handle
-local can_handle = function(opts, driver, device)
-  if device.preferences.switchNumber == 1 then
-    local subdriver = require("virtual-mirror-switch")
-    return true, subdriver
-  else
-    return false
-  end  
-end
 
 -- refresh handler
 local function device_refresh(driver, device, command)
@@ -128,6 +119,6 @@ local virtual_mirror_switch = {
     init = device_init,
   },
 
-  can_handle = can_handle
+  can_handle = require("virtual-mirror-switch.can_handle")
 }
 return virtual_mirror_switch

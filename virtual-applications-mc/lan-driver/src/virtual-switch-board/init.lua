@@ -15,14 +15,6 @@ local name_Switch5 = capabilities["legendabsolute60149.nameSwitch5"]
 local switchBoard_Type = capabilities["legendabsolute60149.switchBoardType"]
 --local switchBoard_Status = capabilities["legendabsolute60149.switchBoardStatus"]
 
-local can_handle = function(opts, driver, device)
-  if device.preferences.switchNumber > 1 and  device.preferences.switchNumber < 6 then
-    local subdriver = require("virtual-switch-board")
-    return true, subdriver
-  else
-    return false
-  end  
-end
 
 -- refresh handler
 local function device_refresh(driver, device, command)
@@ -205,6 +197,6 @@ local virtual_switch_board = {
     init = device_init,
   },
 
-  can_handle = can_handle
+  can_handle = require("virtual-switch-board.can_handle")
 }
 return virtual_switch_board

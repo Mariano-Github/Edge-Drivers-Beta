@@ -14,14 +14,6 @@ local DEVICE_CODE_STAY
 local DEVICE_CODE_DISARM
 local set_routine_code = "-"
 
-local can_handle = function(opts, driver, device)
-      if device.preferences.switchNumber == 13 then
-        local subdriver = require("virtual-security")
-        return true, subdriver
-      else
-        return false
-      end     
-end
 
 -- print instruction to userdata
 local function print_text(driver, device)
@@ -367,7 +359,7 @@ local virtual_security_device = {
       added = added_device,
       init = added_device,
     },
-	can_handle = can_handle
+	can_handle = require("virtual-security.can_handle")
 }
 
 return virtual_security_device

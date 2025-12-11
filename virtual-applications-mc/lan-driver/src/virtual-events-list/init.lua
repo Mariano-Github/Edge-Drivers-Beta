@@ -9,14 +9,6 @@ local device_Info = capabilities["legendabsolute60149.deviceInfo"]
 
 local device_list = {}
 
-local can_handle = function(opts, driver, device)
-    if device.preferences.switchNumber == 12 then
-      local subdriver = require("virtual-events-list")
-      return true, subdriver
-    else
-      return false
-    end  
-  end
 
 -- emit battery_list
 local function emit_list(driver, device)
@@ -240,6 +232,6 @@ local virtual_events_list = {
     infoChanged = do_preferences,
   },
 
-  can_handle = can_handle
+  can_handle =  require("virtual-events-list.can_handle")
 }
 return virtual_events_list

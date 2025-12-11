@@ -16,14 +16,6 @@ local loops_Number = capabilities["legendabsolute60149.loopsNumber"]
 local current_Loop = capabilities["legendabsolute60149.currentLoop"]
 local reset_button = capabilities["legendabsolute60149.resetbutton"]
 
-local can_handle = function(opts, driver, device)
-  if device.preferences.switchNumber == 10 then
-    local subdriver = require("virtual-timer-seconds")
-    return true, subdriver
-  else
-    return false
-  end  
-end
 
 local function timer_cancel(driver, device)
   print("<<< timer_cancel function >>>")
@@ -487,6 +479,6 @@ local virtual_timer_seconds = {
     init = device_init,
   },
 
-  can_handle = can_handle
+  can_handle = require("virtual-timer-seconds.can_handle")
 }
 return virtual_timer_seconds

@@ -12,15 +12,6 @@ local device_list_level = {}
 
 local loop = {}
 
-local can_handle = function(opts, driver, device)
-    if device.preferences.switchNumber == 11 then
-      local subdriver = require("virtual-battery-list")
-      return true, subdriver
-    else
-      return false
-    end  
-end
-
 -- emit battery_list
 local function emit_list(driver, device)
     print("<< emit list >>")
@@ -364,7 +355,7 @@ local virtual_battery_list = {
     infoChanged = do_preferences,
   },
 
-  can_handle = can_handle
+  can_handle = require("virtual-battery-list.can_handle")
 }
 
 return virtual_battery_list

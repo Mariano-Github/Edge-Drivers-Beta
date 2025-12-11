@@ -14,15 +14,6 @@ local device_Info = capabilities["legendabsolute60149.deviceInfo"]
 
 --local number_fields = {}
 
-local can_handle = function(opts, driver, device)
-  if device.preferences.switchNumber == 7 then
-    local subdriver = require("virtual-number-fields")
-    return true, subdriver
-  else
-    return false
-  end
-end
-
 ---- Calculator functions
 local function calculator(driver, device, command, set_text_formula)
 
@@ -466,6 +457,6 @@ local virtual_number_fields = {
     init = device_init,
   },
 
-  can_handle = can_handle
+  can_handle = require("virtual-number-fields.can_handle")
 }
 return virtual_number_fields

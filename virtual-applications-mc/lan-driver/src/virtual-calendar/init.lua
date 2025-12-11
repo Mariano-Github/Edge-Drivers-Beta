@@ -35,15 +35,6 @@ local local_Week_Day = capabilities["legendabsolute60149.localWeekDay"]
 
 local offset
 
-
-local can_handle = function(opts, driver, device)
-  if device.preferences.switchNumber == 8 then
-    local subdriver = require("virtual-calendar")
-    return true, subdriver
-  else
-    return false
-  end  
-end
 -----------------------------------------------------------------
 -- local functions
 -----------------------------------------------------------------
@@ -417,6 +408,6 @@ local virtual_calendar = {
     infoChanged = do_preferences,
   },
 
-  can_handle = can_handle
+  can_handle = require("virtual-calendar.can_handle")
 }
 return virtual_calendar

@@ -10,14 +10,6 @@ local timer_For_Number_Of_Days = capabilities["legendabsolute60149.timerForNumbe
 local timer_Next_Change = capabilities["legendabsolute60149.timerNextChange"]
 local local_Hour_Offset = capabilities["legendabsolute60149.localHourOffset"]
 
-local can_handle = function(opts, driver, device)
-  if device.preferences.switchNumber == 9 then
-    local subdriver = require("virtual-timer-days")
-    return true, subdriver
-  else
-    return false
-  end  
-end
 
 --- Timer for days timer
 local function timer_days_calculation(driver, device)
@@ -344,6 +336,6 @@ local virtual_timer_days = {
     init = device_init,
   },
 
-  can_handle = can_handle
+  can_handle = require("virtual-timer-days.can_handle")
 }
 return virtual_timer_days

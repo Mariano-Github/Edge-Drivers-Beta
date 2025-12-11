@@ -11,14 +11,6 @@ local text_Field_Three = capabilities["legendabsolute60149.textFieldThree"]
 local text_Field_Four = capabilities["legendabsolute60149.textFieldFour"]
 local text_Field_Five = capabilities["legendabsolute60149.textFieldFive"]
 
-local can_handle = function(opts, driver, device)
-  if device.preferences.switchNumber == 6 then
-    local subdriver = require("virtual-text-fields")
-    return true, subdriver
-  else
-    return false
-  end  
-end
 
 
 -- added and refresh device
@@ -148,6 +140,6 @@ local virtual_text_fields = {
     init = device_init,
   },
 
-  can_handle = can_handle
+  can_handle =  require("virtual-text-fields.can_handle")
 }
 return virtual_text_fields
