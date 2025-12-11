@@ -5,20 +5,6 @@ local contact_sensor_defaults = require "st.zigbee.defaults.contactSensor_defaul
 local common = require("multi-contact/common")
 local signal = require "signal-metrics"
 
-local can_handle = function(opts, driver, device)
-    if device.network_type ~= "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE
-        local subdriver = require("multi-contact")
-        if device:get_manufacturer() == "SmartThings" and device:get_model() ~="PGC313" and device:get_model() ~="PGC313EU" then
-        return true, subdriver
-        elseif device:get_manufacturer() == "Samjin" then
-            return true, subdriver
-        elseif device:get_manufacturer() == "CentraLite" and device:get_model() == "3321-S" then
-            return true, subdriver
-        end
-        subdriver = nil
-    end
-    return false
-end
 
 local function ias_zone_status_change_handler(driver, device, zb_rx)
     -- emit signal metrics
@@ -70,7 +56,7 @@ local multipurpose_driver_template = {
         require("multi-contact/smartthings")
     },
 
-    can_handle = can_handle
+    can_handle = require("multi-contact.can_handle"),
 }
 
 return multipurpose_driver_template

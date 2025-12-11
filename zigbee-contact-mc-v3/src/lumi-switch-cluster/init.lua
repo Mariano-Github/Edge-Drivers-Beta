@@ -9,16 +9,6 @@ local device_management = require "st.zigbee.device_management"
 local xiaomi_utils = require "xiaomi_utils"
 local signal = require "signal-metrics"
 
-local can_handle = function(opts, driver, device)
-  if device.network_type ~= "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE
-    if device:get_manufacturer() == "LUMI" and 
-    (device:get_model() == "lumi.sensor_magnet.aq2" or device:get_model() == "lumi.sensor_magnet") then
-      local subdriver = require("lumi-switch-cluster")
-      return true, subdriver
-    end
-  end
-  return false
-end
 
 -- on-off handle to open close events
 local function on_off_attr_handler(driver, device, value, zb_rx)
@@ -56,7 +46,7 @@ local lumi_switch_cluster = {
       doConfigure = do_configure,
       driverSwitched = do_configure
     },
-	  can_handle = can_handle
+	  can_handle =  require("lumi-switch-cluster.can_handle"),
 }
 
 return lumi_switch_cluster

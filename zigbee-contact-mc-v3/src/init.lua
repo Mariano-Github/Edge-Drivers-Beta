@@ -421,6 +421,15 @@ local function do_driverSwitched(self, device)
   end
 end
 
+local function do_refresh(driver, device)
+  if device:supports_capability_by_id(capabilities.temperatureMeasurement.ID) then
+    device:send(tempMeasurement.attributes.MeasuredValue:read(device))
+    --device:send(tempMeasurement.attributes.MaxMeasuredValue:read(device))
+    --device:send(tempMeasurement.attributes.MinMeasuredValue:read(device))
+  end
+  device:refresh()
+end
+
 -- this new function in libraries version 9 allow load only subdrivers with devices paired
 local version = require "version"
 
@@ -430,27 +439,9 @@ if version.api >= 15 then
 else
   lazy_handler = require
 end
-local function lazy_load_if_possible(sub_driver_name)
-  -- gets the current lua libs api version
-  local version = require "version"
 
-  --print("<<<<< Library Version:", version.api)
-  -- version 9 will include the lazy loading functions
-  if version.api >= 9 then
-    return ZigbeeDriver.lazy_load_sub_driver(require(sub_driver_name))
-  else
-    return require(sub_driver_name)
-  end
-end
-
-local function do_refresh(driver, device)
-  if device:supports_capability_by_id(capabilities.temperatureMeasurement.ID) then
-    device:send(tempMeasurement.attributes.MeasuredValue:read(device))
-    --device:send(tempMeasurement.attributes.MaxMeasuredValue:read(device))
-    --device:send(tempMeasurement.attributes.MinMeasuredValue:read(device))
-  end
-  device:refresh()
-end
+--lazy-v2
+  local lazy_load_if_possible = require "lazy_load_subdriver"
 
 ---Driver template
 local zigbee_contact_driver_template = {

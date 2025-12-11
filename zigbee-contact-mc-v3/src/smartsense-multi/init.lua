@@ -26,27 +26,6 @@ local SMARTSENSE_MULTI_STATUS_CMD = 0x07
 local SMARTSENSE_MULTI_STATUS_REPORT_CMD = 0x09
 local SMARTSENSE_PROFILE_ID = 0xFC01
 
-local SMARTSENSE_MULTI_FINGERPRINTS = {
-  { mfr = "SmartThings", model = "PGC313" },
-  { mfr = "SmartThings", model = "PGC313EU" }
-}
-
-local function can_handle(opts, driver, device, ...)
-  if device.network_type ~= "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE
-    for _, fingerprint in ipairs(SMARTSENSE_MULTI_FINGERPRINTS) do
-      if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-        --print("<< SmartSense-multi subdriver >>")
-        local subdriver = require("smartsense-multi")
-      return true, subdriver
-      end
-    end
-    --print("device.zigbee_endpoints[1].profileId",device.zigbee_endpoints[1].profileId)
-    --if device.zigbee_endpoints[1].profileId ~= nil then
-      --if device.zigbee_endpoints[1].profileId == SMARTSENSE_PROFILE_ID then return true end
-    --end
-  end
-  return false
-end
 
 local function acceleration_handler(driver, device, zb_rx)
   -- This is a custom cluster command for the kickstarter multi.
@@ -174,7 +153,7 @@ local smartsense_multi = {
       }
     }
   },
-  can_handle = can_handle
+  can_handle = require("smartsense-multi.can_handle"),
 }
 
 return smartsense_multi
