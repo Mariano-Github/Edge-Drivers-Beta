@@ -19,22 +19,6 @@ local OccupancySensing = zcl_clusters.OccupancySensing
 --module emit signal metrics
 local signal = require "signal-metrics"
 
-local ZIGBEE_PLUGIN_MOTION_SENSOR_FINGERPRINTS = {
-  { mfr = "eZEX", model = "E280-KR0A0Z0-HA" },
-  { mfr = "LUMI", model = "lumi.sensor_motion.aq2" }
-}
-
-local is_zigbee_plugin_motion_sensor = function(opts, driver, device)
-  if device.network_type ~= "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE
-    for _, fingerprint in ipairs(ZIGBEE_PLUGIN_MOTION_SENSOR_FINGERPRINTS) do
-      if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-        local subdriver = require("zigbee-plugin-motion-sensor")
-          return true, subdriver
-      end
-    end
-  end
-  return false
-end
 
 local function occupancy_attr_handler(driver, device, occupancy, zb_rx)
   -- emit signal metrics
@@ -71,7 +55,7 @@ local zigbee_plugin_motion_sensor = {
   capability_handlers = {
     
   },
-  can_handle = is_zigbee_plugin_motion_sensor
+  can_handle = require("zigbee-plugin-motion-sensor.can_handle"),
 }
 
 return zigbee_plugin_motion_sensor

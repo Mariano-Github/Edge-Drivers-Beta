@@ -120,16 +120,13 @@ local battery_voltage = {
             [zcl_clusters.PowerConfiguration.ID] = {
               [zcl_clusters.PowerConfiguration.attributes.BatteryVoltage.ID] = battery_handler
             },
-            --[zcl_clusters.PowerConfiguration.ID] = {
-              --[zcl_clusters.PowerConfiguration.attributes.BatteryPercentageRemaining.ID] = samjin_battery_percentage_handler
-            --}
           }
     },
     lifecycle_handlers = {
-        --init = battery_defaults.build_linear_voltage_init(2.3, 3.0)
         --init = do_init
     },
-	can_handle = can_handle
+
+	can_handle = require ("battery.can_handle")
 }
 
 return battery_voltage

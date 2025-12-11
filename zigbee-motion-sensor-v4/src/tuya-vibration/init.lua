@@ -43,23 +43,6 @@ local generic_body = require "st.zigbee.generic_body"
 -- custom capabilities
 local sensor_Sensitivity = capabilities["legendabsolute60149.sensorSensitivity"]
 
-local TUYA_VIBRATION_SENSOR_FINGERPRINTS = {
-    { mfr = "_TZE200_iba1ckek", model = "TS0601" },
-    { mfr = "_TZE200_jfw0a4aa", model = "TS0601" },
-}
-
-local is_tuya_vibration = function(opts, driver, device)
-  if device.network_type ~= "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE
-    for _, fingerprint in ipairs(TUYA_VIBRATION_SENSOR_FINGERPRINTS) do
-        if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-          local subdriver = require("tuya-vibration")
-          return true, subdriver
-        end
-    end
-  end
-    return false
-end
-
 -- Send command to cluster EF00
 local function SendCommand(device, DpId, Type, Value, command)
   local addrh = messages.AddressHeader(
@@ -254,7 +237,7 @@ local tuya_vibration_sensor = {
     doConfigure = do_configure,
     infoChanged = do_preferences,
   },
-  can_handle = is_tuya_vibration
+  can_handle = require("tuya-vibration.can_handle")
 }
 
 return tuya_vibration_sensor

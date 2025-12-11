@@ -19,23 +19,6 @@ local device_management = require "st.zigbee.device_management"
 --module emit signal metrics
 local signal = require "signal-metrics"
 
-local ZIGBEE_NAMRON_MOTION_SENSOR_FINGERPRINTS = {
-  { mfr = "NAMRON AS", model = "4512770" },
-  { mfr = "NAMRON AS", model = "4512771" },
-  { mfr = "Sunricher", model = "HK-SENSOR-4IN1-A" },
-}
-
-local is_zigbee_namron_motion_sensor = function(opts, driver, device)
-  if device.network_type ~= "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE
-    for _, fingerprint in ipairs(ZIGBEE_NAMRON_MOTION_SENSOR_FINGERPRINTS) do
-        if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-          local subdriver = require("namron")
-          return true, subdriver
-        end
-    end
-  end
-  return false
-end
 
 local function do_configure(self,device)
 
@@ -114,7 +97,7 @@ local namron_motion_handler = {
       }
     }
   },
-  can_handle = is_zigbee_namron_motion_sensor
+  can_handle = require("namron.can_handle")
 }
 
 return namron_motion_handler

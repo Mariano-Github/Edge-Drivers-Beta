@@ -33,18 +33,6 @@ local ZIGBEE_MOTION_SENSOR_FINGERPRINTS = {
   {mfr = "_TZ3000_lzdjjfss", model = "TS0210", timeout = 30 },
 }
 
-local is_zigbee_motion_sensor = function(opts, driver, device)
-  if device.network_type ~= "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE
-    for _, fingerprint in ipairs(ZIGBEE_MOTION_SENSOR_FINGERPRINTS) do
-        if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-          local subdriver = require("motion_timeout")
-          return true, subdriver
-        end
-    end
-  end
-  return false
-end
-
 local generate_event_from_zone_status = function(driver, device, zone_status, zigbee_message)
   device:emit_event(
       (zone_status:is_alarm1_set() or zone_status:is_alarm2_set()) and capabilities.motionSensor.motion.active() or capabilities.motionSensor.motion.inactive())
@@ -86,7 +74,7 @@ local motion_timeout_handler = {
       }
     }
   },
-  can_handle = is_zigbee_motion_sensor
+  can_handle = require("motion_timeout.can_handle"),
 }
 
 return motion_timeout_handler

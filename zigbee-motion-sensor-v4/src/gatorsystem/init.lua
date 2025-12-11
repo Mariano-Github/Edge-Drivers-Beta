@@ -92,16 +92,7 @@ local gator_handler = {
     added = device_added,
     doConfigure = do_configure
   },
-  can_handle = function(opts, driver, device, ...)
-    if device.network_type ~= "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE
-      --return device:get_manufacturer() == "GatorSystem" and device:get_model() == "GSHW01"
-      if device:get_manufacturer() == "GatorSystem" and device:get_model() == "GSHW01" then
-        local subdriver = require("gatorsystem")
-        return true, subdriver
-      end
-    end
-    return false
-  end
+  can_handle =require("gatorsystem.can_handle"),
 }
 
 return gator_handler

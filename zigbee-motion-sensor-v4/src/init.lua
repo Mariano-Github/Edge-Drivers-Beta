@@ -471,6 +471,7 @@ local function do_driverSwitched(self, device)
     do_configure(self, device)
   end, "configure") 
 end
+
 local version = require "version"
 
 local lazy_handler
@@ -479,19 +480,6 @@ if version.api >= 15 then
 else
   lazy_handler = require
 end
--- this new function in libraries version 9 allow load only subdrivers with devices paired
-  local function lazy_load_if_possible(sub_driver_name)
-    -- gets the current lua libs api version
-    local version = require "version"
-  
-    --print("<<<<< Library Version:", version.api)
-    -- version 9 will include the lazy loading functions
-    if version.api >= 9 then
-      return ZigbeeDriver.lazy_load_sub_driver(require(sub_driver_name))
-    else
-      return require(sub_driver_name)
-    end
-  end
 
   local function illuminance_state_handler(driver, device, value, zb_rx)
     print("<<< Illuminance handler >>>")
@@ -524,6 +512,9 @@ end
     end
     device:refresh()
   end
+
+--lazy-v2
+  local lazy_load_if_possible = require "lazy_load_subdriver"
 
 local zigbee_motion_driver = {
   supported_capabilities = {

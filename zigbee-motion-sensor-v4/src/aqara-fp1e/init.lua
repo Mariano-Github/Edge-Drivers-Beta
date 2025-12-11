@@ -21,21 +21,6 @@ local signal = require "signal-metrics"
 
 local motion_Type = capabilities["legendabsolute60149.motionType"]
 
-local AQARA_FP1_SENSOR_FINGERPRINTS = {
-  { mfr = "aqara", model = "lumi.sensor_occupy.agl1" },
-}
-
-local is_zigbee_aqara_sensor = function(opts, driver, device)
-  if device.network_type ~= "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE
-    for _, fingerprint in ipairs(AQARA_FP1_SENSOR_FINGERPRINTS) do
-        if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-          local subdriver = require("aqara-fp1e")
-          return true, subdriver
-        end
-    end
-  end
-  return false
-end
 
 -- preferences update
 local function do_preferences(self, device)
@@ -200,7 +185,8 @@ local aqara_fp1e_presence_sensor = {
       },
     }
   },
-  can_handle = is_zigbee_aqara_sensor
+
+  can_handle = require ("aqara-fp1e.can_handle")
 }
 
 return aqara_fp1e_presence_sensor

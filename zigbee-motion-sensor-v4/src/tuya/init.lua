@@ -25,23 +25,6 @@ local signal = require "signal-metrics"
 local PowerConfiguration = clusters.PowerConfiguration
 local TUYA_CLUSTER = 0xEF00
 
-local TUYA_MOTION_SENSOR_FINGERPRINTS = {
-    { mfr = "_TZE200_3towulqd", model = "TS0601" },
-    { mfr = "_TZE200_mgxy2d9f", model = "TS0601" },
-    { mfr = "_TZE200_bh3n6gk8", model = "TS0601" }
-}
-
-local is_tuya_motion = function(opts, driver, device)
-  if device.network_type ~= "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE
-    for _, fingerprint in ipairs(TUYA_MOTION_SENSOR_FINGERPRINTS) do
-        if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-          local subdriver = require("tuya")
-          return true, subdriver
-        end
-    end
-  end
-    return false
-end
 
 local function zdo_binding_table_handler(driver, device, zb_rx)
   for _, binding_table in pairs(zb_rx.body.zdo_body.binding_table_entries) do
@@ -143,7 +126,7 @@ local tuya_motion_sensor = {
     added = device_added,
     doConfigure = do_configure
   },
-  can_handle = is_tuya_motion
+  can_handle =  require("tuya.can_handle")
 }
 
 return tuya_motion_sensor

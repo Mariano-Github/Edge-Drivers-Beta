@@ -20,22 +20,6 @@ local device_management = require "st.zigbee.device_management"
 --module emit signal metrics
 local signal = require "signal-metrics"
 
-local ZIGBEE_IKEA_VALLHORN_MOTION_SENSOR_FINGERPRINTS = {
-  { mfr = "IKEA of Sweden", model = "VALLHORN Wireless Motion Sensor" },
-}
-
-local is_zigbee_ikea_vallhorn_motion_sensor = function(opts, driver, device)
-  if device.network_type ~= "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE
-    for _, fingerprint in ipairs(ZIGBEE_IKEA_VALLHORN_MOTION_SENSOR_FINGERPRINTS) do
-        if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-          local subdriver = require("ikea-vallhorn")
-          return true, subdriver
-        end
-    end
-  end
-  return false
-end
-
 local function do_configure(self,device)
 
 --illuminance configuration
@@ -113,7 +97,7 @@ local ikea_vallhorn_motion = {
     }
     }
   },
-  can_handle = is_zigbee_ikea_vallhorn_motion_sensor
+  can_handle = require("ikea-vallhorn.can_handle")
 }
 
 return ikea_vallhorn_motion

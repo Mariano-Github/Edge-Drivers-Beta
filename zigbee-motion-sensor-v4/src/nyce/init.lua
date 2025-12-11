@@ -19,24 +19,6 @@ local OccupancySensing = zcl_clusters.OccupancySensing
 --module emit signal metrics
 local signal = require "signal-metrics"
 
-local ZIGBEE_NYCE_MOTION_SENSOR_FINGERPRINTS = {
-  { mfr = "NYCE", model = "3041" },
-  { mfr = "NYCE", model = "3043" },
-  { mfr = "NYCE", model = "3045" }
-}
-
-local is_zigbee_nyce_motion_sensor = function(opts, driver, device)
-  if device.network_type ~= "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE
-    for _, fingerprint in ipairs(ZIGBEE_NYCE_MOTION_SENSOR_FINGERPRINTS) do
-        if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-          local subdriver = require("nyce")
-          return true, subdriver
-        end
-    end
-  end
-  return false
-end
-
 local function occupancy_attr_handler(driver, device, occupancy, zb_rx)
   -- emit signal metrics
   signal.metrics(device, zb_rx)
@@ -57,7 +39,7 @@ local nyce_motion_handler = {
       }
     }
   },
-  can_handle = is_zigbee_nyce_motion_sensor
+  can_handle =  require("nyce.can_handle"),
 }
 
 return nyce_motion_handler

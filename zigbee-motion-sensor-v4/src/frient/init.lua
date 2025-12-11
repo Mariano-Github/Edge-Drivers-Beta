@@ -20,24 +20,6 @@ local device_management = require "st.zigbee.device_management"
 --module emit signal metrics
 local signal = require "signal-metrics"
 
-local ZIGBEE_FRIENT_MOTION_SENSOR_FINGERPRINTS = {
-  { mfr = "frient A/S", model = "MOSZB-140" },
-  { mfr = "Develco Products A/S", model = "MOSZB-140" },
-  { mfr = "Develco Products A/S", model = "MOSZB-130" },
-}
-
-local is_zigbee_frient_motion_sensor = function(opts, driver, device)
-  if device.network_type ~= "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE
-    for _, fingerprint in ipairs(ZIGBEE_FRIENT_MOTION_SENSOR_FINGERPRINTS) do
-        if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-          local subdriver = require("frient")
-          return true, subdriver
-        end
-    end
-  end
-  return false
-end
-
 
 local function add_illuminance(self,device)
   local maxTime = 1800
@@ -72,7 +54,6 @@ end
 local frient_motion_handler = {
   NAME = "FRIENT Motion Handler",
   lifecycle_handlers = {
-    --init = battery_defaults.build_linear_voltage_init(2.1, 3.0)
     added = add_illuminance
   },
   zigbee_handlers = {
@@ -82,7 +63,7 @@ local frient_motion_handler = {
       }
     }
   },
-  can_handle = is_zigbee_frient_motion_sensor
+  can_handle = require("frient.can_handle"),
 }
 
 return frient_motion_handler
