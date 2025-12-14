@@ -25,20 +25,6 @@ local signal = require "signal-metrics"
 --local configurationMap = require "configurations"
 
 
-local is_gas_detector = function(opts, driver, device)
-  if device.network_type ~= "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE
-  if device.preferences.changeProfile == "Gas" then
-    --if (device:get_manufacturer() == "LUMI" and device:get_model() == "lumi.sensor_gas.acn02") or
-      --(device:get_manufacturer() == "feibit" and device:get_model() == "FNB56-GAS05FB1.4") or
-      --(device:get_manufacturer() == "_TYZB01_mfccmeio" and device:get_model() == "TS0204") or
-      --(device:get_manufacturer() == "_TYZB01_0w3d5uw3" and device:get_model() == "TS0204") then -- gas detector
-      local subdriver = require("gas-handler")
-      return true, subdriver
-    end
-  end
-  return false
-end
-
 -- emit event defaults
 local generate_event_from_zone_status = function(driver, device, zone_status, zigbee_message)
 
@@ -106,7 +92,7 @@ local gas_detector = {
   },
   ias_zone_configuration_method = constants.IAS_ZONE_CONFIGURE_TYPE.AUTO_ENROLL_RESPONSE,
 
-  can_handle = is_gas_detector
+  can_handle = require("gas-handler.can_handle"),
 }
 
 return gas_detector

@@ -20,16 +20,6 @@ local battery = capabilities.battery
 -- required module
 local signal = require "signal-metrics"
 
-local is_frient_smoke_detector = function(opts, driver, device)
-  if device.network_type ~= "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE
-    if device:get_manufacturer() == "frient A/S" or device:get_manufacturer() == "LUMI" or device:get_manufacturer() == "Develco Products A/S" then
-      local subdriver = require("frient")
-      return true, subdriver
-    end
-  end
-  return false
-end
-
 local battery_handler = function(driver, device, value, zb_rx)
   -- Emit Battery voltage event
     
@@ -72,7 +62,7 @@ local frient_smoke_detector = {
   lifecycle_handlers = {
     init = battery_defaults.build_linear_voltage_init(2.3, 3.0)
   },
-  can_handle = is_frient_smoke_detector
+  can_handle = require("frient.can_handle"),
 }
 
 return frient_smoke_detector

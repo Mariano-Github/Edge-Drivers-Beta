@@ -77,7 +77,7 @@ local heiman_SMOK_V16 = {
   },
   ias_zone_configuration_method = constants.IAS_ZONE_CONFIGURE_TYPE.AUTO_ENROLL_RESPONSE,
 
-  can_handle = is_heiman_SMOK_V16
+  can_handle =  require("heiman-SMOK_V16.can_handle"),
 }
 
 return heiman_SMOK_V16
