@@ -12,30 +12,14 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 
-local capabilities = require "st.capabilities"
-local ZigbeeDriver = require "st.zigbee"
-local defaults = require "st.zigbee.defaults"
+--local capabilities = require "st.capabilities"
+--local ZigbeeDriver = require "st.zigbee"
+--local defaults = require "st.zigbee.defaults"
 local constants = require "st.zigbee.constants"
 local clusters = require "st.zigbee.zcl.clusters"
-local ElectricalMeasurement = clusters.ElectricalMeasurement
-local SimpleMetering = clusters.SimpleMetering
+--local ElectricalMeasurement = clusters.ElectricalMeasurement
+--local SimpleMetering = clusters.SimpleMetering
 
-local ZIGBEE_POWER_METER_FINGERPRINTS = {
-  { model = "ZHEMI101" },
-  { model = "EMIZB-132" },
-  { model = "Meter Reader" } -- Eva Meter Reader
-}
-
-local is_frient_power_meter = function(opts, driver, device)
-  for _, fingerprint in ipairs(ZIGBEE_POWER_METER_FINGERPRINTS) do
-      if device:get_model() == fingerprint.model then
-        local subdriver = require("frient")
-        return true, subdriver
-      end
-  end
-
-  return false
-end
 
 -- preferences update
 local function do_preferences(self, device)
@@ -88,7 +72,7 @@ local frient_power_meter_handler = {
     --infoChanged = do_preferences,
     driverSwitched = do_configure
   },
-  can_handle = is_frient_power_meter
+  can_handle = require("frient.can_handle"),
 }
 
 return frient_power_meter_handler

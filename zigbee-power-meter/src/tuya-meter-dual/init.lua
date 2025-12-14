@@ -54,19 +54,6 @@ local SeqNum = 0
 local power_Factor = capabilities["legendabsolute60149.powerFactor"]
 local ac_Frequency = capabilities["legendabsolute60149.acFrequency"]
 
-local TUYA_METER_FINGERPRINTS = {
-    { mfr = "_TZE200_rks0sgb7", model = "TS0601" }
-}
-
-local is_tuya_meter = function(opts, driver, device)
-    for _, fingerprint in ipairs(TUYA_METER_FINGERPRINTS) do
-        if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-          local subdriver = require("tuya-meter-dual")
-          return true, subdriver
-        end
-    end
-    return false
-end
 
 -- Send command to cluster EF00
 local function SendCommand(device, DpId, Type, Value)
@@ -673,7 +660,7 @@ local tuya_meter_dual = {
     driverSwitched = do_driverSwitched,
     doConfigure = do_configure
   },
-  can_handle = is_tuya_meter
+  can_handle =  require("tuya-meter-dual.can_handle"),
 }
 
 return tuya_meter_dual

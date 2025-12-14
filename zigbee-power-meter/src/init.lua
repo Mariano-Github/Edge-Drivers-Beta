@@ -135,19 +135,8 @@ else
   lazy_handler = require
 end
 
-
-local function lazy_load_if_possible(sub_driver_name)
-  -- gets the current lua libs api version
-  local version = require "version"
-
-  --print("<<<<< Library Version:", version.api)
-  -- version 9 will include the lazy loading functions
-  if version.api >= 9 then
-    return ZigbeeDriver.lazy_load_sub_driver(require(sub_driver_name))
-  else
-    return require(sub_driver_name)
-  end
-end
+--lazy-v2
+  local lazy_load_if_possible = require "lazy_load_subdriver"
 
 local zigbee_power_meter_driver_template = {
   supported_capabilities = {

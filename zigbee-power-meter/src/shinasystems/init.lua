@@ -12,28 +12,14 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 
-local capabilities = require "st.capabilities"
-local ZigbeeDriver = require "st.zigbee"
-local defaults = require "st.zigbee.defaults"
+--local capabilities = require "st.capabilities"
+--local ZigbeeDriver = require "st.zigbee"
+--local defaults = require "st.zigbee.defaults"
 local constants = require "st.zigbee.constants"
 local clusters = require "st.zigbee.zcl.clusters"
-local ElectricalMeasurement = clusters.ElectricalMeasurement
-local SimpleMetering = clusters.SimpleMetering
+--local ElectricalMeasurement = clusters.ElectricalMeasurement
+--local SimpleMetering = clusters.SimpleMetering
 
-local ZIGBEE_POWER_METER_FINGERPRINTS = {
-  { model = "PMM-300Z1" }
-}
-
-local is_shinasystems_power_meter = function(opts, driver, device)
-  for _, fingerprint in ipairs(ZIGBEE_POWER_METER_FINGERPRINTS) do
-      if device:get_model() == fingerprint.model then
-        local subdriver = require("shinasystems")
-        return true, subdriver
-      end
-  end
-
-  return false
-end
 
 local do_configure = function(self, device)
   device:refresh()
@@ -51,7 +37,7 @@ local shinasystems_power_meter_handler = {
     init = device_init,
     doConfigure = do_configure,
   },
-  can_handle = is_shinasystems_power_meter
+  can_handle = require("shinasystems.can_handle"),
 }
 
 return shinasystems_power_meter_handler
