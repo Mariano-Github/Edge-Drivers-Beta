@@ -32,14 +32,6 @@ local thermostat_Mode = "off"
 local thermostatFan_Mode = "auto"
 local thermostatOperatingState = "idle"
 
-local can_handle = function(opts, driver, device)
-  if device.network_type == "DEVICE_EDGE_CHILD" and device.preferences.profileType ~= "Batteries" then
-    local subdriver = require("thermostat")
-    return true, subdriver
-  else
-    return false
-  end
-end
 
 ----- thermostatMode_handler -------------------
 
@@ -641,7 +633,7 @@ local thermostat_sub_driver = {
     attr = {
     }
   },
-  can_handle = can_handle
+  can_handle = require("thermostat.can_handle"),
 }
 
 return thermostat_sub_driver

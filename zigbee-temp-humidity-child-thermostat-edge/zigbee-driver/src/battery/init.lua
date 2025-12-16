@@ -5,19 +5,6 @@ local battery_defaults = require "st.zigbee.defaults.battery_defaults"
 local utils = require "st.utils"
 local signal = require "signal-metrics"
 
-local can_handle = function(opts, driver, device)
-  if device.network_type ~= "DEVICE_EDGE_CHILD" then -- is NO CHILD DEVICE
-  --if device.manufacturer ~= nil then return false end
-    if device:get_manufacturer() == "_TZ2000_a476raq2" or
-      (device:get_manufacturer() == "LUMI" and device:get_model() == "lumi.sensor_ht.agl02") then
-      --(device:get_manufacturer() == "SONOFF" and device:get_model() == "SNZB-02D") then
-      local subdriver = require("battery")
-      return true, subdriver
-    end
-  end
-  return false
-end
-
 local battery_handler = function(driver, device, value, zb_rx)
 
   -- emit signal metrics
@@ -67,7 +54,7 @@ local battery_voltage = {
         --init = battery_defaults.build_linear_voltage_init(2.3, 3.0)
         --added = battery_defaults.build_linear_voltage_init(2.3, 3.0)
     },
-	can_handle = can_handle
+	can_handle =  require("battery.can_handle"),
 }
 
 return battery_voltage
