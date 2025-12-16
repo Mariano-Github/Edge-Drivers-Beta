@@ -1,5 +1,0 @@
-name: 'Z-Wave Siren Mc'
-packageKey: 'zwave-siren-v2'
-description: 'Devices Supported: https://github.com/Mariano-Github/Edge-Drivers-Beta/blob/main/zwave-drivers/zwave-siren-mc/fingerprints.yml'
-permissions:
-  zwave: {}
