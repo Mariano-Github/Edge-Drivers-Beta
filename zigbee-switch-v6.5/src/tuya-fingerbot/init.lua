@@ -55,21 +55,6 @@ local fingerbot_UpMotion = capabilities["legendabsolute60149.fingerbotUpMotion"]
 local fingerbot_SustainTime = capabilities["legendabsolute60149.fingerbotSustainTime"]
 local fingerbot_Reverse = capabilities["legendabsolute60149.fingerbotReverse"]
 
-local TUYA_FINGERBOT_FINGERPRINTS = {
-    { mfr = "_TZ3210_dse8ogfy", model = "TS0001" },
-    { mfr = "_TZ3210_j4pdtz9v", model = "TS0001" },
-    { mfr = "_TZ3210_cm9mbpr1", model = "TS0001" }
-}
-
-local is_tuya_fingerbot = function(opts, driver, device)
-    for _, fingerprint in ipairs(TUYA_FINGERBOT_FINGERPRINTS) do
-        if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-          local subdriver = require("tuya-fingerbot")
-          return true, subdriver
-        end
-    end
-    return false
-end
 
 -- Send command to cluster EF00
 local function SendCommand(device, DpId, Type, Value)
@@ -403,7 +388,7 @@ local tuya_fingerbot = {
     driverSwitched = do_driverSwitched,
     doConfigure = do_configure
   },
-  can_handle = is_tuya_fingerbot
+  can_handle = require("tuya-fingerbot.can_handle"),
 }
 
 return tuya_fingerbot

@@ -38,20 +38,6 @@ local DP_TYPE_VALUE = "\x02"
 local DP_TYPE_ENUM = "\x04"
 local SeqNum = 0
 
-local TUYA_MHCOZY_FINGERPRINTS = {
-    { mfr = "_TZ3218_7fiyo3kv", model = "TS000F" },
-}
-
-local is_tuya_mhcozy = function(opts, driver, device)
-    for _, fingerprint in ipairs(TUYA_MHCOZY_FINGERPRINTS) do
-        if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-          local subdriver = require("tuya-MHCOZY")
-          return true, subdriver
-        end
-    end
-    return false
-end
-
 -- Send command to cluster EF00
 local function SendCommand(device, DpId, Type, Value)
   local addrh = messages.AddressHeader(
@@ -242,7 +228,7 @@ local tuya_mhcozy = {
     driverSwitched = do_driverSwitched,
     doConfigure = do_configure
   },
-  can_handle = is_tuya_mhcozy
+  can_handle = require("tuya-MHCOZY.can_handle"),
 }
 
 return tuya_mhcozy
