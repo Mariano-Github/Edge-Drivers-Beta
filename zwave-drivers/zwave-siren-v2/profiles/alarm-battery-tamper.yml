@@ -1,0 +1,71 @@
+name: alarm-battery-tamper
+components:
+- id: main
+  capabilities:
+  - id: alarm
+    version: 1
+    config:
+      values:
+        - key: "alarm.value"
+          enabledValues:
+            - 'off'
+            - both
+        - key: "{{enumCommands}}"
+          enabledValues:
+            - 'off'
+            - both
+  - id: battery
+    version: 1
+  - id: tamperAlert
+    version: 1
+  categories:
+  - name: Siren
+preferences:
+  - name: "batteryType"
+    title: "Device battery model"
+    description: Set your device Battery model to see it in App
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Unspecified": Unspecified
+        "Customed": Customed
+        "A": A
+        "AA": AA
+        "AAA": AAA
+        "B": B
+        "C": C
+        "D": D
+        "CR123A": CR123A
+        "CR2": CR2
+        "CR2016": CR2016
+        "CR2022": CR2020
+        "CR2025": CR2025
+        "CR2032": CR2032
+        "CR2040": CR2040
+        "CR2430": CR2430
+        "CR2450": CR2450
+        "CR_V3": CR_V3
+        "4v5": 4v5
+        "6v0": 6v0
+        "9v0": 9v0
+      default: "Unspecified"
+  - name: "batteryQuantity"
+    title: "Device battery quantity"
+    description: Set your device Battery quantity to see it in App
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 10
+      default: 1
+  - name: "batteryChangeDate"
+    title: "Date of batterry change"
+    description: "You can write the date you changed the new battery and your comments such as manufacturer, lifespan, etc." 
+    required: false
+    preferenceType: string
+    definition:
+      stringType: text
+      minLength: 0
+      maxLength: 100
+      default: ""

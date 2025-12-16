@@ -1,0 +1,258 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{bellSounds.value}}"  
+            }
+        ],
+        "actions": []
+    },
+    "detailView": [
+        {
+            "label": "Bell Sounds",
+            "displayType": "list",
+            "list": {
+                "command": {
+                    "name": "setBellSounds",     
+                    "alternatives": [
+                        {
+                            "key": "1",
+                            "value": "Doorbell", 
+                            "type": "active"     
+                        },
+                        {
+                            "key": "2",
+                            "value": "Fur Elise",
+                            "type": "active"     
+                        },
+                        {
+                            "key": "3",
+                            "value": "Doorbell Extended",
+                            "type": "active"
+                        },
+                        {
+                            "key": "4",
+                            "value": "Alert",
+                            "type": "active"
+                        },
+                        {
+                            "key": "5",
+                            "value": "William Tell",
+                            "type": "active"
+                        },
+                        {
+                            "key": "6",
+                            "value": "Rondo Alla Turca",
+                            "type": "active"
+                        },
+                        {
+                            "key": "7",
+                            "value": "Police Siren",
+                            "type": "active"
+                        },
+                        {
+                            "key": "8",
+                            "value": "Evacuation",
+                            "type": "active"
+                        },
+                        {
+                            "key": "9",
+                            "value": "Beep Beep",
+                            "type": "active"
+                        },
+                        {
+                            "key": "10",
+                            "value": "Beep",
+                            "type": "active"
+                        }
+                    ],
+                    "argumentType": "string"
+                },
+                "state": {
+                    "value": "bellSounds.value",
+                    "valueType": "string",
+                    "alternatives": [
+                        {
+                            "key": "1",
+                            "value": "Doorbell",
+                            "type": "active"
+                        },
+                        {
+                            "key": "2",
+                            "value": "Fur Elise",
+                            "type": "active"
+                        },
+                        {
+                            "key": "3",
+                            "value": "Doorbell Extended",
+                            "type": "active"
+                        },
+                        {
+                            "key": "4",
+                            "value": "Alert",
+                            "type": "active"
+                        },
+                        {
+                            "key": "5",
+                            "value": "William Tell",
+                            "type": "active"
+                        },
+                        {
+                            "key": "6",
+                            "value": "Rondo Alla Turca",
+                            "type": "active"
+                        },
+                        {
+                            "key": "7",
+                            "value": "Police Siren",
+                            "type": "active"
+                        },
+                        {
+                            "key": "8",
+                            "value": "Evacuation",
+                            "type": "active"
+                        },
+                        {
+                            "key": "9",
+                            "value": "Beep Beep",
+                            "type": "active"
+                        },
+                        {
+                            "key": "10",
+                            "value": "Beep",
+                            "type": "active"
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "automation": {
+        "conditions": [
+            {
+                "label": "Bell Sounds",
+                "displayType": "list",
+                "list": {
+                    "alternatives": [
+                        {
+                            "key": "1",
+                            "value": "Doorbell",
+                            "type": "active"
+                        },
+                        {
+                            "key": "2",
+                            "value": "Fur Elise",
+                            "type": "active"
+                        },
+                        {
+                            "key": "3",
+                            "value": "Doorbell Extended",
+                            "type": "active"
+                        },
+                        {
+                            "key": "4",
+                            "value": "Alert",
+                            "type": "active"
+                        },
+                        {
+                            "key": "5",
+                            "value": "William Tell",
+                            "type": "active"
+                        },
+                        {
+                            "key": "6",
+                            "value": "Rondo Alla Turca",
+                            "type": "active"
+                        },
+                        {
+                            "key": "7",
+                            "value": "Police Siren",
+                            "type": "active"
+                        },
+                        {
+                            "key": "8",
+                            "value": "Evacuation",
+                            "type": "active"
+                        },
+                        {
+                            "key": "9",
+                            "value": "Beep Beep",
+                            "type": "active"
+                        },
+                        {
+                            "key": "10",
+                            "value": "Beep",
+                            "type": "active"
+                        }
+                    ],
+                    "value": "bellSounds.value",
+                    "valueType": "string"
+                }
+            }
+        ],
+        "actions": [
+            {
+                "label": "Bell Sounds",
+                "displayType": "list",
+                "list": {
+                    "alternatives": [
+                        {
+                            "key": "1",
+                            "value": "Doorbell",
+                            "type": "active"
+                        },
+                        {
+                            "key": "2",
+                            "value": "Fur Elise",
+                            "type": "active"
+                        },
+                        {
+                            "key": "3",
+                            "value": "Doorbell Extended",
+                            "type": "active"
+                        },
+                        {
+                            "key": "4",
+                            "value": "Alert",
+                            "type": "active"
+                        },
+                        {
+                            "key": "5",
+                            "value": "William Tell",
+                            "type": "active"
+                        },
+                        {
+                            "key": "6",
+                            "value": "Rondo Alla Turca",
+                            "type": "active"
+                        },
+                        {
+                            "key": "7",
+                            "value": "Police Siren",
+                            "type": "active"
+                        },
+                        {
+                            "key": "8",
+                            "value": "Evacuation",
+                            "type": "active"
+                        },
+                        {
+                            "key": "9",
+                            "value": "Beep Beep",
+                            "type": "active"
+                        },
+                        {
+                            "key": "10",
+                            "value": "Beep",
+                            "type": "active"
+                        }
+                    ],
+                    "command": "setBellSounds",
+                    "argumentType": "string"
+                }
+            }
+        ]
+    },
+    "id": "legendabsolute60149.bellSounds",
+    "version": 1
+}
