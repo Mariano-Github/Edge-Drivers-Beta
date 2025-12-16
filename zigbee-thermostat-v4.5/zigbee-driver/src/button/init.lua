@@ -81,7 +81,7 @@ local st_button = {
       added = added_handler,
     },
     ias_zone_configuration_method = constants.IAS_ZONE_CONFIGURE_TYPE.AUTO_ENROLL_RESPONSE,
-	  can_handle = can_handle
+	  can_handle = require("button.can_handle"),
 }
 
 return st_button

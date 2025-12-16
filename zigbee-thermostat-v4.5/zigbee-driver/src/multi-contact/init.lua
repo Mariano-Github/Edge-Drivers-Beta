@@ -9,19 +9,6 @@ local common = require("multi-contact/common")
 local device_management = require "st.zigbee.device_management"
 local battery_defaults = require "st.zigbee.defaults.battery_defaults"
 
-local can_handle = function(opts, driver, device)
-    local subdriver = require("multi-contact")
-    if device:get_manufacturer() == "SmartThings" and device:get_model()== "multiv4" then
-      return true, subdriver
-    elseif device:get_manufacturer() == "Samjin" and device:get_model()== "multi" then
-        return true, subdriver
-    elseif device:get_manufacturer() == "CentraLite" and device:get_model() == "3321-S" then
-        return true, subdriver
-    end
-    subdriver = nil
-    return false
-end
-
 local function ias_zone_status_change_handler(driver, device, zb_rx)
     if (device.preferences.garageSensor ~= "Yes") then
         contact_sensor_defaults.ias_zone_status_change_handler(driver, device, zb_rx)
@@ -85,7 +72,7 @@ local multipurpose_driver_template = {
         require("multi-contact/smartthings")
     },
 
-    can_handle = can_handle
+    can_handle = require("multi-contact.can_handle"),
 }
 
 return multipurpose_driver_template

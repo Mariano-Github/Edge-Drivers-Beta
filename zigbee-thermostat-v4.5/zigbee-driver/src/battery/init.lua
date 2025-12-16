@@ -4,25 +4,6 @@ local battery = capabilities.battery
 --local battery_defaults = require "st.zigbee.defaults.battery_defaults"
 local utils = require "st.utils"
 
-local can_handle = function(opts, driver, device)
-    local subdriver = require("battery")
-    if device:get_manufacturer() == "_TZ2000_a476raq2" then
-      return true, subdriver
-    elseif device:get_manufacturer() == "CentraLite" then
-      return true, subdriver
-    elseif device:get_manufacturer() == "iMagic by GreatStar" then
-      return true, subdriver
-    elseif device:get_manufacturer() == "SmartThings" then
-      return true, subdriver
-    elseif device:get_manufacturer() == "Bosch" then
-      return true, subdriver
-    elseif device:get_manufacturer() == "Samjin" and device:get_model() == "button" then
-      return true, subdriver
-    end
-    subdriver = nil
-    return false
-end
-
 local battery_handler = function(driver, device, value, zb_rx)
   
    if device:get_manufacturer() == "SmartThings" or device:get_manufacturer() == "CentraLite" or device:get_manufacturer() == "Samjin" then
@@ -73,7 +54,7 @@ local battery_voltage = {
     lifecycle_handlers = {
         --init = battery_defaults.build_linear_voltage_init(2.3, 3.0)
     },
-	can_handle = can_handle
+	can_handle = require("battery.can_handle"),
 }
 
 return battery_voltage
