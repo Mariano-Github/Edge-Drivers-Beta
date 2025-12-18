@@ -18,19 +18,6 @@ local THERMOSTAT_MODE_MAP = {
   [ThermostatSystemMode.AUTO]              = ThermostatMode.thermostatMode.auto
 }
 
-local IRIS_THERMOSTAT_FINGERPRINTS = {
-  { mfr = "Twin-Star International", model = "20QI071ARA" }
-}
-
-local is_iris_duraflame_thermostat = function(opts, driver, device)
-  for _, fingerprint in ipairs(IRIS_THERMOSTAT_FINGERPRINTS) do
-    if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-      local subdriver = require("iris-duraflame")
-      return true, subdriver
-    end
-  end
-  return false
-end
 
 --- Update preferences after infoChanged recived ---
 local function do_preferences (driver, device)
@@ -245,7 +232,7 @@ local iris_duraflame_thermostat = {
     added = device_added,
     infoChanged = do_preferences,
   },
-  can_handle = is_iris_duraflame_thermostat
+  can_handle = require("iris-duraflame.can_handle"),
 }
 
 return  iris_duraflame_thermostat

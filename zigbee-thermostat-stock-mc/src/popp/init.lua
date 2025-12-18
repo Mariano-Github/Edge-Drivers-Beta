@@ -35,14 +35,6 @@ local ThermostatMode = capabilities.thermostatMode
 local TemperatureAlarm = capabilities.temperatureAlarm
 local Switch = capabilities.switch
 
-local POPP_THERMOSTAT_FINGERPRINTS = { {
-  mfr = "D5X84YU",
-  model = "eT093WRO"
-}, {
-  mfr = "D5X84YU",
-  model = "eT093WRG"
-} }
-
 local STORED_HEAT_MODE = "stored_heat_mode"
 
 local MFG_CODE = 0x1246
@@ -114,16 +106,6 @@ local PREFERENCE_TABLES = {
 }
 
 local SUPPORTED_MODES = { ThermostatMode.thermostatMode.heat.NAME, ThermostatMode.thermostatMode.eco.NAME }
-
-local is_popp_thermostat = function(opts, driver, device)
-  for _, fingerprint in ipairs(POPP_THERMOSTAT_FINGERPRINTS) do
-    if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-    local subdriver = require("popp")  
-      return true, subdriver
-    end
-  end
-  return false
-end
 
 -- Helpers
 
@@ -307,7 +289,7 @@ local function device_init(driver, device)
     -- Add the manufacturer-specific attributes to generate their configure reporting and bind requests
     for _, config in pairs(cluster_configurations) do
       device:add_configured_attribute(config)
-      device:add_monitored_attribute(config)
+      --device:add_monitored_attribute(config)
     end
     -- initial set of heating mode
     local stored_heat_mode = device:get_field(STORED_HEAT_MODE) or 'eco'
@@ -429,7 +411,7 @@ local popp_thermostat = {
     doConfigure = do_configure,
     infoChanged = info_changed
   },
-  can_handle = is_popp_thermostat
+  can_handle = require("popp.can_handle"),
 }
 
 return popp_thermostat

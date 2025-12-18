@@ -260,18 +260,17 @@ local function do_preferences (driver, device)
 end
 
 -- this new function in libraries version 9 allow load only subdrivers with devices paired
-  local function lazy_load_if_possible(sub_driver_name)
-    -- gets the current lua libs api version
-    local version = require "version"
-  
-    --print("<<<<< Library Version:", version.api)
-    -- version 9 will include the lazy loading functions
-    if version.api >= 9 then
-      return ZigbeeDriver.lazy_load_sub_driver(require(sub_driver_name))
-    else
-      return require(sub_driver_name)
-    end
-  end
+   local version = require "version"
+
+local lazy_handler
+if version.api >= 15 then
+  lazy_handler = require "st.utils.lazy_handler"
+else
+  lazy_handler = require
+end
+
+  --lazy-v2
+  local lazy_load_if_possible = require "lazy_load_subdriver"
 
 local zigbee_thermostat_driver = {
   supported_capabilities = {
@@ -358,6 +357,7 @@ local zigbee_thermostat_driver = {
     lazy_load_if_possible("namrom-thermostat-Hvit"),
     lazy_load_if_possible("avatto")
   },
+  health_check = false,
 }
 
 defaults.register_for_default_handlers(zigbee_thermostat_driver, zigbee_thermostat_driver.supported_capabilities)

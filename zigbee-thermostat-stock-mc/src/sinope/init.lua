@@ -26,8 +26,6 @@ local ThermostatOperatingState  = capabilities.thermostatOperatingState
 local ThermostatHeatingSetpoint = capabilities.thermostatHeatingSetpoint
 local TemperatureMeasurement    = capabilities.temperatureMeasurement
 
-local SINOPE_TECHNOLOGIES_MFR_STRING = "Sinope Technologies"
-
 local SINOPE_CUSTOM_CLUSTER = 0xFF01
 local MFR_TIME_FORMAT_ATTRIBUTE = 0x0114
 local MFR_AIR_FLOOR_MODE_ATTRIBUTE = 0x0105
@@ -86,14 +84,6 @@ local PREFERENCE_TABLES = {
   }
 }
 
-local is_sinope_thermostat = function(opts, driver, device)
-  if device:get_manufacturer() == SINOPE_TECHNOLOGIES_MFR_STRING then
-    local subdriver = require("sinope")
-    return true, subdriver
-  else
-    return false
-  end
-end
 
 local do_refresh = function(self, device)
   local attributes = {
@@ -167,7 +157,7 @@ local sinope_thermostat = {
     doConfigure = do_configure,
     infoChanged = info_changed
   },
-  can_handle = is_sinope_thermostat
+  can_handle = require("sinope.can_handle"),
 }
 
 return sinope_thermostat

@@ -121,13 +121,7 @@ local leviton_thermostat = {
       }
     }
   },
-  can_handle = function(opts, driver, device, ...)
-    if device:get_manufacturer() == "HAI" and device:get_model() == "65A01-1" then
-      local subdriver = require("leviton")
-      return true, subdriver
-    end
-    return false
-  end
+  can_handle = require("leviton.can_handle"),
 }
 
 return leviton_thermostat

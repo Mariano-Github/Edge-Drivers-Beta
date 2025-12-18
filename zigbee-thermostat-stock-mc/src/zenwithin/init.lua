@@ -220,13 +220,7 @@ local zenwithin_thermostat = {
     infoChanged = info_changed,
     init = battery_defaults.build_linear_voltage_init(BAT_MIN, BAT_MAX)
   },
-  can_handle = function(opts, driver, device, ...)
-    if device:get_manufacturer() == "Zen Within" and device:get_model() == "Zen-01" then
-      local subdriver = require("zenwithin")
-      return true, subdriver
-    end
-    return false
-  end
+  can_handle = require("zenwithin.can_handle"),
 }
 
 return zenwithin_thermostat

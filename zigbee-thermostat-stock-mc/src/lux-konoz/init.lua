@@ -18,21 +18,6 @@ local Thermostat      = clusters.Thermostat
 local capabilities    = require "st.capabilities"
 local ThermostatMode  = capabilities.thermostatMode
 
-
-local LUX_KONOZ_THERMOSTAT_FINGERPRINTS = {
-  { mfr = "LUX", model = "KONOZ" }
-}
-
-local is_lux_konoz = function(opts, driver, device)
-  for _, fingerprint in ipairs(LUX_KONOZ_THERMOSTAT_FINGERPRINTS) do
-      if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-        local subdriver = require("lux-konoz")
-        return true, subdriver
-      end
-  end
-  return false
-end
-
 -- LUX KONOz reports extra ["auto", "emergency heat"] which, actually, aren't supported
 local supported_thermostat_modes_handler = function(driver, device, supported_modes)
   device:emit_event(ThermostatMode.supportedThermostatModes({"off", "heat", "cool"}, { visibility = { displayed = false } }))
@@ -47,7 +32,7 @@ local lux_konoz = {
       }
     }
   },
-  can_handle = is_lux_konoz
+  can_handle = require("lux-konoz.can_handle"),
 }
 
 return lux_konoz

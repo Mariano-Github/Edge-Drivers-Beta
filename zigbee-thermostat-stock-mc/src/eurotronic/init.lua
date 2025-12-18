@@ -16,20 +16,6 @@ local THERMOSTAT_MODE_MAP = {
   [ThermostatSystemMode.EMERGENCY_HEATING] = ThermostatMode.thermostatMode.emergency_heat
 }
 
-local EUROTRONIC_THERMOSTAT_FINGERPRINTS = {
-  { mfr = "Eurotronic", model = "SPZB0001" }
-}
-
-local is_eurotronic_thermostat = function(opts, driver, device)
-  for _, fingerprint in ipairs(EUROTRONIC_THERMOSTAT_FINGERPRINTS) do
-    if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-      local subdriver = require("eurotronic")
-      return true, subdriver
-    end
-  end
-  return false
-end
-
 local thermostat_mode_handler = function(driver, device, thermostat_mode)
   if THERMOSTAT_MODE_MAP[thermostat_mode.value] then
     device:emit_event(THERMOSTAT_MODE_MAP[thermostat_mode.value]())
@@ -165,7 +151,7 @@ local eurotronic_thermostat = {
     doConfigure = do_configure,
     added = device_added
   },
-  can_handle = is_eurotronic_thermostat
+  can_handle = require("eurotronic.can_handle"),
 }
 
 return eurotronic_thermostat

@@ -5,22 +5,6 @@ local PowerConfiguration = clusters.PowerConfiguration
 local ThermostatMode = capabilities.thermostatMode
 local Thermostat = clusters.Thermostat
 
-local POPP_DANFOSS_THERMOSTAT_FINGERPRINTS = {
-  --{ mfr = "D5X84YU", model = "eT093WRO" },
-  --{ mfr = "D5X84YU", model = "eT093WRG" },
-  { mfr = "Danfoss", model = "eTRV0100" },
-  { mfr = "Danfoss", model = "eTRV0103" }
-}
-
-local is_popp_danfoss_thermostat = function(opts, driver, device)
-  for _, fingerprint in ipairs(POPP_DANFOSS_THERMOSTAT_FINGERPRINTS) do
-    if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-      local subdriver = require("popp_danfoss")
-      return true, subdriver
-    end
-  end
-  return false
-end
 
 local supported_thermostat_modes_handler = function(driver, device, supported_modes)
   device:emit_event(ThermostatMode.supportedThermostatModes({"heat"}, { visibility = { displayed = false } }))
@@ -41,7 +25,7 @@ local popp_danfoss_thermostat = {
   lifecycle_handlers = {
     init = battery_defaults.build_linear_voltage_init(2.4, 3.2)
   },
-  can_handle = is_popp_danfoss_thermostat
+  can_handle = require("popp_danfoss.can_handle"),
 }
 
 return popp_danfoss_thermostat

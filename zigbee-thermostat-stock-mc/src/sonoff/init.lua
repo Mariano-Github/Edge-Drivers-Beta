@@ -16,20 +16,6 @@ local THERMOSTAT_MODE_MAP = {
   --[ThermostatSystemMode.AUTO]              = ThermostatMode.thermostatMode.auto
 }
 
-local SONOFF_THERMOSTAT_FINGERPRINTS = {
-  { mfr = "SONOFF", model = "TRVZB" }
-}
-
-local is_sonoff_thermostat = function(opts, driver, device)
-  for _, fingerprint in ipairs(SONOFF_THERMOSTAT_FINGERPRINTS) do
-    if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-      local subdriver = require("sonoff")
-      return true, subdriver
-    end
-  end
-  return false
-end
-
 local thermostat_mode_handler = function(driver, device, thermostat_mode)
   if THERMOSTAT_MODE_MAP[thermostat_mode.value] then
     device:emit_event(THERMOSTAT_MODE_MAP[thermostat_mode.value]())
@@ -156,7 +142,7 @@ local sonoff_thermostat = {
     doConfigure = do_configure,
     added = device_added
   },
-  can_handle = is_sonoff_thermostat
+  can_handle = require("sonoff.can_handle"),
 }
 
 return sonoff_thermostat

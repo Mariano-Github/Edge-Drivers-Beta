@@ -9,22 +9,6 @@ local SimpleMetering = clusters.SimpleMetering
 local device_management = require "st.zigbee.device_management"
 
 
-local NAMROM_THERMOSTAT_FINGERPRINTS = {
-  { mfr = "Namron AS", model = "4512758" }, -- white color
-  { mfr = "Namron AS", model = "4512759" }, -- black color
-  { mfr = "Namron AS", model = "4512783" } -- black color
-}
-
-local is_namrom_thermostat = function(opts, driver, device)
-  for _, fingerprint in ipairs(NAMROM_THERMOSTAT_FINGERPRINTS) do
-    if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-      local subdriver = require("namrom-thermostat-Hvit")
-      return true, subdriver
-    end
-  end
-  return false
-end
-
 local function thermostat_operating_state_handler(driver, device, operating_state)
   if  operating_state == 0x04 then
     device:emit_event(ThermostatOperatingState.thermostatOperatingState.heating())
@@ -112,7 +96,7 @@ local namrom_hvit_thermostat = {
     doConfigure = do_configure,
     added = device_added
   },
-  can_handle = is_namrom_thermostat
+  can_handle = require("namrom-thermostat-Hvit.can_handle"),
 }
 
 return namrom_hvit_thermostat

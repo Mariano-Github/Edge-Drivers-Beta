@@ -22,21 +22,6 @@ local THERMOSTAT_MODE_MAP = {
   [ThermostatSystemMode.DRY]               = ThermostatMode.thermostatMode.dryair
 }
 
-local NAMROM_THERMOSTAT_FINGERPRINTS = {
-  { mfr = "NAMRON AS", model = "4512737" }, -- white color
-  { mfr = "NAMRON AS", model = "4512738" } -- black color
-}
-
-local is_namrom_thermostat = function(opts, driver, device)
-  for _, fingerprint in ipairs(NAMROM_THERMOSTAT_FINGERPRINTS) do
-    if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-      local subdriver = require("namrom-thermostat")
-      return true, subdriver
-    end
-  end
-  return false
-end
-
 local thermostat_mode_handler = function(driver, device, thermostat_mode)
   print("<<<<< thermostat_mode.value >>>", thermostat_mode.value)
   print("<<<< device:get_field(away_mode)", device:get_field("away_mode"))
@@ -137,7 +122,7 @@ local function do_configure(self, device)
     mfg_code = 0x1224
   }
   device:add_configured_attribute(config)
-  device:add_monitored_attribute(config)
+  --device:add_monitored_attribute(config)
   device:configure()
 
   device:send(device_management.build_bind_request(device, Thermostat.ID, self.environment_info.hub_zigbee_eui))
@@ -224,7 +209,7 @@ local namrom_thermostat = {
     doConfigure = do_configure,
     added = device_added
   },
-  can_handle = is_namrom_thermostat
+  can_handle = require("namrom-thermostat.can_handle"),
 }
 
 return namrom_thermostat

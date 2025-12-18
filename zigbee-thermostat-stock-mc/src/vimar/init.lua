@@ -38,35 +38,12 @@ local VIMAR_THERMOSTAT_MODE_MAP = {
   [ThermostatSystemMode.HEAT] = ThermostatMode.thermostatMode.heat,
 }
 
---local VIMAR_THERMOSTAT_FINGERPRINT = {
-  --mfr = "Vimar",
-  --model = "WheelThermostat_v1.0"
---}
-
-local VIMAR_THERMOSTAT_FINGERPRINT = {
-    { mfr = "Vimar", model = "WheelThermostat_v1.0" },
-    { mfr = "Vimar", model = "Thermostat_v1.0" },
-
-}
-
 -- NOTE: This is a global variable to use in order to save the current thermostat profile
 local VIMAR_CURRENT_PROFILE = "_vimarThermostatCurrentProfile"
 
 local VIMAR_THERMOSTAT_HEATING_PROFILE = "thermostat-fanless-heating-no-fw"
 local VIMAR_THERMOSTAT_COOLING_PROFILE = "thermostat-fanless-cooling-no-fw"
 
-
-local vimar_thermostat_can_handle = function(opts, driver, device)
-    for _, fingerprint in ipairs(VIMAR_THERMOSTAT_FINGERPRINT) do
-        if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-          local subdriver = require("vimar")
-          return true, subdriver
-        end
-    end
-    return false
-    --return device:get_manufacturer() == VIMAR_THERMOSTAT_FINGERPRINT.mfr and
-    --device:get_model() == VIMAR_THERMOSTAT_FINGERPRINT.model
-end
 
 local vimar_thermostat_supported_modes_handler = function(driver, device, supported_modes)
   device:emit_event(
@@ -195,7 +172,7 @@ local vimar_thermostat_subdriver = {
     }
   },
   doConfigure = vimar_thermostat_do_configure,
-  can_handle = vimar_thermostat_can_handle
+  can_handle = require("vimar.can_handle"),
 }
 
 return vimar_thermostat_subdriver

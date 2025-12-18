@@ -29,24 +29,6 @@ local RX_HEAT_VALUE = 0x7fff
 local FREEZE_ALRAM_TEMPERATURE = 0
 local HEAT_ALRAM_TEMPERATURE = 50
 
-local STELPRO_THERMOSTAT_FINGERPRINTS = {
-  { mfr = "Stelpro", model = "MaestroStat" },
-  { mfr = "Stelpro", model = "SORB" },
-  { mfr = "Stelpro", model = "SonomaStyle" },
-  { mfr = "Stelpro", model = "SMT402AD" }, -- added M.Colmenarejo
-  { mfr = "Stelpro", model = "SMT402AD01" }, -- added M.Colmenarejo
-  { mfr = "Stelpro", model = "" } -- added M.Colmenarejo "SMT402AD01" is nil in fingerprints
-}
-
-local is_stelpro_thermostat = function(opts, driver, device)
-  for _, fingerprint in ipairs(STELPRO_THERMOSTAT_FINGERPRINTS) do
-      if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-        local subdriver = require("stelpro")
-        return true, subdriver
-      end
-  end
-  return false
-end
 
 local function get_temperature(temperature)
   return temperature / 100
@@ -137,7 +119,7 @@ local stelpro_thermostat = {
     infoChanged = info_changed
   },
   sub_drivers = { require("stelpro.stelpro_sorb"), require("stelpro.stelpro_maestrostat") },
-  can_handle = is_stelpro_thermostat
+  can_handle = require("stelpro.can_handle"),
 }
 
 return stelpro_thermostat

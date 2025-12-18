@@ -22,20 +22,6 @@ local THERMOSTAT_MODE_MAP = {
   [ThermostatSystemMode.SLEEP]              = ThermostatMode.thermostatMode.asleep,
 }
 
-local NAMROM_THERMOSTAT_FINGERPRINTS = {
-  { mfr = "NAMRON AS", model = "4512749-N" }
-}
-
-local is_namrom_plug_thermostat = function(opts, driver, device)
-  for _, fingerprint in ipairs(NAMROM_THERMOSTAT_FINGERPRINTS) do
-    if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-      local subdriver = require("namrom-plug")
-      return true, subdriver
-    end
-  end
-  return false
-end
-
 local thermostat_mode_handler = function(driver, device, thermostat_mode)
   print("<<<<< thermostat_mode.value >>>", thermostat_mode.value)
   if THERMOSTAT_MODE_MAP[thermostat_mode.value] then
@@ -180,7 +166,7 @@ local namrom_plug_thermostat = {
     doConfigure = do_configure,
     added = device_added
   },
-  can_handle = is_namrom_plug_thermostat
+  can_handle = require("namrom-plug.can_handle"),
 }
 
 return namrom_plug_thermostat

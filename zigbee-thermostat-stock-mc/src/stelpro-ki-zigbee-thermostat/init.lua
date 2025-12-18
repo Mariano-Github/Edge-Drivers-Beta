@@ -30,10 +30,6 @@ local ThermostatHeatingSetpoint = capabilities.thermostatHeatingSetpoint
 local TemperatureMeasurement = capabilities.temperatureMeasurement
 local TemperatureAlarm = capabilities.temperatureAlarm
 
-local STELPRO_KI_ZIGBEE_THERMOSTAT_FINGERPRINTS = {
-  { mfr = "Stelpro", model = "STZB402+" },
-  { mfr = "Stelpro", model = "ST218" },
-}
 
 -- The Groovy DTH stored the raw Celsius values because it was responsible for converting
 -- to Farenheit if the user's location necessitated. Right now the driver only operates
@@ -59,16 +55,6 @@ local THERMOSTAT_MODE_MAP = {
   [ThermostatSystemMode.HEAT]              = ThermostatMode.thermostatMode.heat,
   [ThermostatSystemMode.EMERGENCY_HEATING] = ThermostatMode.thermostatMode.eco
 }
-
-local is_stelpro_ki_zigbee_thermostat = function(opts, driver, device)
-  for _, fingerprint in ipairs(STELPRO_KI_ZIGBEE_THERMOSTAT_FINGERPRINTS) do
-      if device:get_manufacturer() == fingerprint.mfr and device:get_model() == fingerprint.model then
-        local subdriver = require("stelpro-ki-zigbee-thermostat")     
-        return true, subdriver
-      end
-  end
-  return false
-end
 
 local function has_member(haystack, needle)
   for _, value in ipairs(haystack) do
@@ -345,7 +331,7 @@ local stelpro_ki_zigbee_thermostat = {
     added = device_added,
     doConfigure = do_configure
   },
-  can_handle = is_stelpro_ki_zigbee_thermostat
+  can_handle = require("stelpro-ki-zigbee-thermostat.can_handle"),
 }
 
 return stelpro_ki_zigbee_thermostat

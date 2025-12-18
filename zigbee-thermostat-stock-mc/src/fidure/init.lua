@@ -35,14 +35,7 @@ local fidure_thermostat = {
   lifecycle_handlers = {
     doConfigure = do_configure,
   },
-  can_handle = function(opts, driver, device, ...)
-
-    if device:get_manufacturer() == "Fidure" and device:get_model() == "A1732R3" then
-      local subdriver = require("fidure")
-      return true, subdriver
-    end
-    return false
-  end
+  can_handle = require("fidure.can_handle")
 }
 
 return fidure_thermostat
