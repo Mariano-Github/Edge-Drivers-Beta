@@ -1,0 +1,228 @@
+name: child-thermostat-sonoff
+components:
+- id: main
+  capabilities:
+  - id: temperatureMeasurement
+    version: 1
+  - id: legendabsolute60149.thermostatLocked
+    version: 1
+  - id: thermostatMode
+    version: 1
+  - id: thermostatOperatingState
+    version: 1
+  - id: thermostatFanMode
+    version: 1
+  - id: legendabsolute60149.fanCyclicMode
+    version: 1
+  - id: legendabsolute60149.fanNextChange
+    version: 1
+  - id: thermostatHeatingSetpoint
+    version: 1
+  - id: thermostatCoolingSetpoint
+    version: 1
+  - id: legendabsolute60149.infoPanel
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: Thermostat
+preferences:
+  - preferenceId: tempOffset
+    explicit: true  
+  - name: "version"
+    title: "Version 7 (Sep 2023)"
+    description: "Added: Thermal Inertia and modified installation type preferences"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      minLength: 0
+      maxLength: 0
+      default: ""
+  - name: "localTimeOffset"
+    title: "Local Time Offset to UTC (-12 to 12)"
+    description: "Select Your Local Time Offset to UTC Time Hours (-12 to 12)"
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: -12
+      maximum: 12
+      default: 0
+  - name: "thermTempUnits"
+    title: "Select Thermostat Temperature Units"
+    description: "Select Thermostat Temperature Units"
+    required: true
+    preferenceType: enumeration
+    definition:
+      options:
+        "Celsius" : "Celsius"
+        "Fahrenheit": "Fahrenheit"
+      default: "Celsius"
+  - name: "multiTile"
+    title: "Use Multiple Tile Thermostat"
+    required: true
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "changeProfileTherm"
+    title: "Temp Set Points Steps(tenth degree)"
+    description: "Select Temperature Set Points Steps in Tenths of a degree:"
+    required: true
+    preferenceType: enumeration
+    definition:
+      options:
+        "1" : "0.1"
+        "5": "0.5"
+      default: "5"
+  - name: "floorRadaint"
+    title: "Select Your Heating and Cooling Type"
+    description: "Type Heating & Cooling you will use to calculate start-stop temperature points. Air type has not thermal inertia, Radiators type has medium thermal inertia and Underfloor type has high thermal inertia. Check your selection in the -Thermal Inertia of your Installation- preference."
+    required: true
+    preferenceType: enumeration
+    definition:
+      options:
+        "AirCoolHeat" : "Air for Heat & Cool"
+        "AirCool" : "Radiators for Heat & Air for Cool"
+        "No" : "Radiators for Heat & Cool"
+        "Heat": "Floor for Heat & Air for Cool"
+        "HeatCool": "Floor for Heat & Cool"
+      default: "No"
+  - name: "diffStartStop"
+    title: "Difference Set Point to Turn-On Temp"
+    description: "Select the desired Maximum difference between Final Temperature Target (set Points) and Heating or Cooling Turn On temperature. Take into account the thermal inertia of your selected installation type. Values (0.3º to 4.0º). Units = (F or C) acoording your selection. Default= 0.6º"
+    required: true
+    preferenceType: number
+    definition:
+      minimum: 0.3
+      maximum: 4.0
+      default: 0.6
+  - name: "thermalInertia"
+    title: "Thermal Inertia of your Installation"
+    description: "How much temperature your home continues to increase or decrease since the heating or cooling is turned off. You can use the App history to see what temperature has when turned off and what temperature it finally reached. Values=(0º to 1.5º). Units =(F or C) acoording your selection. Default=0.3º"
+    required: true
+    preferenceType: number
+    definition:
+      minimum: 0
+      maximum: 1.5
+      default: 0.3
+  - name: "heatTempSleep"
+    title: "SLEEP Mode, HEAT Temperature"
+    description: "Set Temperature For HEAT SLEEP Mode (-50.0º to 250.0º)"
+    required: true
+    preferenceType: number
+    definition:
+      minimum: -50.0
+      maximum: 250.0
+      default: 19.0
+  - name: "coolTempSleep"
+    title: "SLEEP Mode, COOL Temperature"
+    description: "Set Temperature For COOL SLEEP Mode (-50.0º to 250.0º)"
+    required: true
+    preferenceType: number
+    definition:
+      minimum: -500.0
+      maximum: 250.0
+      default: 26.0
+  - name: "heatTempAuto"
+    title: "AUTO Mode, HEAT Temperature"
+    description: "Set Temperature For HEAT AUTO Mode (-50.0º to 250.0º)"
+    required: true
+    preferenceType: number
+    definition:
+      minimum: -50.0
+      maximum: 250.0
+      default: 20.0
+  - name: "coolTempAuto"
+    title: "AUTO Mode, COOL Temperature"
+    description: "Set Temperature For COOL AUTO Mode (-50.0º to 250.0º)"
+    required: true
+    preferenceType: number
+    definition:
+      minimum: -50.0
+      maximum: 250.0
+      default: 25.0
+  - name: "heatTempRush"
+    title: "RUSH HOUR Mode, HEAT Temperature"
+    description: "Set Temperature For HEAT RUSH HOUR Mode (-50.0º to 250.0º)"
+    required: true
+    preferenceType: number
+    definition:
+      minimum: -50.0
+      maximum: 250.0
+      default: 21.0
+  - name: "coolTempRush"
+    title: "RUSH HOUR Mode, COOL Temperature"
+    description: "Set Temperature For COOL RUSH HOUR Mode (-50.0º to 250.0º)"
+    required: true
+    preferenceType: number
+    definition:
+      minimum: -50.0
+      maximum: 250.0
+      default: 24.0
+  - name: "heatTempEco"
+    title: "ECO Mode, HEAT Temperature"
+    description: "Set Temperature For HEAT ECO Mode (-50.0º to 250.0º)"
+    required: true
+    preferenceType: number
+    definition:
+      minimum: -50.0
+      maximum: 250.0
+      default: 17.0
+  - name: "coolTempEco"
+    title: "ECO Mode, COOL Temperature"
+    description: "Set Temperature For COOL ECO Mode (-50.0º to 250.0º)"
+    required: true
+    preferenceType: number
+    definition:
+      minimum: -50.0
+      maximum: 250.0
+      default: 27.0
+  - name: "heatTempAway"
+    title: "AWAY Mode, HEAT Temperature"
+    description: "Set Temperature For HEAT AWAY Mode (-50.0º to 250.0º)"
+    required: true
+    preferenceType: number
+    definition:
+      minimum: -50.0
+      maximum: 250.0
+      default: 15.0
+  - name: "coolTempAway"
+    title: "AWAY Mode, COOL Temperature"
+    description: "Set Temperature For COOL AWAY Mode (-50.0º to 250.0º)"
+    required: true
+    preferenceType: number
+    definition:
+      minimum: -50.0
+      maximum: 250.0
+      default: 28.0
+  - name: "onTime"
+    title: "Select time for ON Fan Programmed"
+    description: "Select time for ON Fan Programmed Mode (1 min to 60 min)"
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 1
+      maximum: 60
+      default: 10
+  - name: "offTime"
+    title: "Select time for OFF Fan Programmed"
+    description: "Select time for OFF Fan Programmed Mode (1 min to 60 min)"
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 1
+      maximum: 60
+      default: 10
+  - name: "logDebugPrint"
+    title: "Show Logs Debug Prints in CLI"
+    #description: "Show Logs Debug Prints in CLI:"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+metadata:
+  deviceType: Thermostat	
+  ocfDeviceType: oic.d.thermostat
+  deviceTypeId: Thermostat
+  mnmn: SmartThingsCommunity
+  vid: 2aa78da1-545f-377a-97e2-3c9e4b9f1d42

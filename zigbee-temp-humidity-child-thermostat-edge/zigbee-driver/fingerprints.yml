@@ -154,6 +154,12 @@ zigbeeManufacturer:
     manufacturer: SONOFF
     model: SNZB-02D
     deviceProfileName: temp-humid-battery
+    #added dec-25
+  - id: SONOFF/SNZB-02LD
+    deviceLabel: SONOFF Temperature Sensor
+    manufacturer: SONOFF
+    model: SNZB-02LD
+    deviceProfileName: temp-battery
   - id: "_TYZB01_kvwjujy9/TS0222"
     deviceLabel: Tuya TS0222
     manufacturer: _TYZB01_kvwjujy9

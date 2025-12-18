@@ -129,25 +129,27 @@ if device.network_type == "DEVICE_EDGE_CHILD" then return end
   
   end
   -- configure Humidity
-  maxTime = device.preferences.humMaxTime * 60
-  changeRep = device.preferences.humChangeRep * 100
-  print ("Humidity maxTime & changeRep: ", maxTime, changeRep)
-  if device:get_manufacturer() == "_TZ3000_qaaysllp" then
-    device:send(device_management.build_bind_request(device, HumidityCluster.ID, self.environment_info.hub_zigbee_eui,2):to_endpoint (2) )
-    device:send(HumidityCluster.attributes.MeasuredValue:configure_reporting(device, 60, maxTime, changeRep):to_endpoint (2))
-  else
-    device:send(device_management.build_bind_request(device, HumidityCluster.ID, self.environment_info.hub_zigbee_eui))
-    device:send(HumidityCluster.attributes.MeasuredValue:configure_reporting(device, 60, maxTime, changeRep))
-    local config ={
-      cluster = zcl_clusters.RelativeHumidity.ID,
-      attribute = zcl_clusters.RelativeHumidity.attributes.MeasuredValue.ID,
-      minimum_interval = 30,
-      maximum_interval = maxTime,
-      data_type = zcl_clusters.RelativeHumidity.attributes.MeasuredValue.base_type,
-      reportable_change = changeRep
-    }
-  
-    --device:configure()
+  if device:supports_capability_by_id(capabilities.relativeHumidityMeasurement.ID) then
+    maxTime = device.preferences.humMaxTime * 60
+    changeRep = device.preferences.humChangeRep * 100
+    print ("Humidity maxTime & changeRep: ", maxTime, changeRep)
+    if device:get_manufacturer() == "_TZ3000_qaaysllp" then
+      device:send(device_management.build_bind_request(device, HumidityCluster.ID, self.environment_info.hub_zigbee_eui,2):to_endpoint (2) )
+      device:send(HumidityCluster.attributes.MeasuredValue:configure_reporting(device, 60, maxTime, changeRep):to_endpoint (2))
+    else
+      device:send(device_management.build_bind_request(device, HumidityCluster.ID, self.environment_info.hub_zigbee_eui))
+      device:send(HumidityCluster.attributes.MeasuredValue:configure_reporting(device, 60, maxTime, changeRep))
+      local config ={
+        cluster = zcl_clusters.RelativeHumidity.ID,
+        attribute = zcl_clusters.RelativeHumidity.attributes.MeasuredValue.ID,
+        minimum_interval = 30,
+        maximum_interval = maxTime,
+        data_type = zcl_clusters.RelativeHumidity.attributes.MeasuredValue.base_type,
+        reportable_change = changeRep
+      }
+    
+      --device:configure()
+    end
   end
   -- configure pressure reports
   if device.preferences.pressMaxTime ~= nil and device.preferences.pressChangeRep  ~= nil then
@@ -375,7 +377,12 @@ local function do_preferences(self, device, event, args)
 
       if id == "childThermostat" then
         if oldPreferenceValue ~= nil and newParameterValue == true then
-         child_devices.create_new(self, device, "main", "child-thermostat")
+         if device:supports_capability_by_id(capabilities.relativeHumidityMeasurement.ID) then
+            child_devices.create_new(self, device, "main", "child-thermostat")
+          else
+            print("<<<< child sonoff >>>>>")
+            child_devices.create_new(self, device, "main", "child-thermostat-sonoff")
+          end
         end
         break
       end
@@ -592,7 +599,7 @@ end
 
 ---humidity_attr_handler
 local function humidity_attr_handler(driver, device, value, zb_rx)
-
+ if device:supports_capability_by_id(capabilities.relativeHumidityMeasurement.ID) then
   -- emit signal metrics
   signal.metrics(device, zb_rx)
 
@@ -646,6 +653,7 @@ local function humidity_attr_handler(driver, device, value, zb_rx)
   if child_device ~= nil then
     child_device:emit_event(capabilities.relativeHumidityMeasurement.humidity(utils.round(value.value / 100.0) + device.preferences.humidityOffset))
   end
+ end
 end
 
 --- illuminance_measurement_defaults
@@ -843,11 +851,13 @@ local function do_init(self,device)
       end
     end
 
-    humidity_Condition_set = device:get_latest_state("main", humidity_Condition.ID, humidity_Condition.humidityCondition.NAME)
-    print("<< humidity_Condition_set:",humidity_Condition_set)
-    if humidity_Condition_set == nil then 
-      humidity_Condition_set = 0
-      device:emit_event(humidity_Condition.humidityCondition(humidity_Condition_set))
+    if device:supports_capability_by_id(humidity_Condition.ID) then
+      humidity_Condition_set = device:get_latest_state("main", humidity_Condition.ID, humidity_Condition.humidityCondition.NAME)
+      print("<< humidity_Condition_set:",humidity_Condition_set)
+      if humidity_Condition_set == nil then 
+        humidity_Condition_set = 0
+        device:emit_event(humidity_Condition.humidityCondition(humidity_Condition_set))
+      end
     end
 
     temp_Condition_set.value = device:get_latest_state("main", temp_Condition.ID, temp_Condition.tempCondition.NAME)
@@ -867,10 +877,12 @@ local function do_init(self,device)
       device:emit_event(illumin_Target.illuminTarget(illumin_Target_set))
     end
 
-    humidity_Target_set = device:get_latest_state("main", humidity_Target.ID, humidity_Target.humidityTarget.NAME)
-    if humidity_Target_set == nil then 
-      humidity_Target_set = " "
-      device:emit_event(humidity_Target.humidityTarget(humidity_Target_set))
+     if device:supports_capability_by_id(humidity_Target.ID) then
+      humidity_Target_set = device:get_latest_state("main", humidity_Target.ID, humidity_Target.humidityTarget.NAME)
+      if humidity_Target_set == nil then 
+        humidity_Target_set = " "
+        device:emit_event(humidity_Target.humidityTarget(humidity_Target_set))
+      end
     end
 
     temp_Target_set = device:get_latest_state("main", temp_Target.ID, temp_Target.tempTarget.NAME)
@@ -948,19 +960,20 @@ local function do_init(self,device)
       reportable_change = changeRep
     }
     device:add_configured_attribute(config)
-  
-    maxTime = device.preferences.humMaxTime * 60
-    changeRep = device.preferences.humChangeRep * 100
-    config ={
-      cluster = zcl_clusters.RelativeHumidity.ID,
-      attribute = zcl_clusters.RelativeHumidity.attributes.MeasuredValue.ID,
-      minimum_interval = 30,
-      maximum_interval = maxTime,
-      data_type = zcl_clusters.RelativeHumidity.attributes.MeasuredValue.base_type,
-      reportable_change = changeRep
-    }
-    device:add_configured_attribute(config)
-  
+    
+    if device:supports_capability_by_id(capabilities.relativeHumidityMeasurement.ID) then
+      maxTime = device.preferences.humMaxTime * 60
+      changeRep = device.preferences.humChangeRep * 100
+      config ={
+        cluster = zcl_clusters.RelativeHumidity.ID,
+        attribute = zcl_clusters.RelativeHumidity.attributes.MeasuredValue.ID,
+        minimum_interval = 30,
+        maximum_interval = maxTime,
+        data_type = zcl_clusters.RelativeHumidity.attributes.MeasuredValue.base_type,
+        reportable_change = changeRep
+      }
+      device:add_configured_attribute(config)
+    end
 
     if device:supports_capability_by_id(atm_Pressure_Rate_Change.ID) then
       if device:get_latest_state("main", atm_Pressure_Rate_Change.ID, atm_Pressure_Rate_Change.atmPressureRateChange.NAME) == nil then

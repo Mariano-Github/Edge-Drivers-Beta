@@ -370,16 +370,32 @@ local function do_init (self, device)
   end
   if device.preferences.changeProfileTherm == "1" and device.preferences.multiTile == false then
     --print("<<< child-thermostat >>>")
-    device:try_update_metadata({profile = "child-thermostat"})
+    if device:supports_capability_by_id(capabilities.relativeHumidityMeasurement.ID) then
+      device:try_update_metadata({profile = "child-thermostat"})
+    else
+      device:try_update_metadata({profile = "child-thermostat-sonoff"})
+    end
   elseif device.preferences.changeProfileTherm == "1" and device.preferences.multiTile == true then
     --print("<<< child-thermostat-multi >>>")
-    device:try_update_metadata({profile = "child-thermostat-multi"})
+    if device:supports_capability_by_id(capabilities.relativeHumidityMeasurement.ID) then
+      device:try_update_metadata({profile = "child-thermostat-multi"})
+    else
+      device:try_update_metadata({profile = "child-thermostat-multi-sonoff"})
+    end
   elseif device.preferences.changeProfileTherm == "5" and device.preferences.multiTile == false then
     --print("<<< child-thermostat-05 >>>")
-    device:try_update_metadata({profile = "child-thermostat-05"})
+    if device:supports_capability_by_id(capabilities.relativeHumidityMeasurement.ID) then
+      device:try_update_metadata({profile = "child-thermostat-05"})
+    else
+      device:try_update_metadata({profile = "child-thermostat-05-sonoff"})
+    end
   elseif device.preferences.changeProfileTherm == "5" and device.preferences.multiTile == true then
     --print("<<< child-thermostat-multi-05 >>>")
+    if device:supports_capability_by_id(capabilities.relativeHumidityMeasurement.ID) then
     device:try_update_metadata({profile = "child-thermostat-multi-05"})
+    else
+      device:try_update_metadata({profile = "child-thermostat-multi-05-sonoff"})
+    end
   end
 
   thermostat_Run = "stopped"
@@ -498,10 +514,11 @@ local function added_device(self,device)
       end
 
       -- emit last parent device humidity
-      local last_humidity = parent_device:get_latest_state("main", capabilities.relativeHumidityMeasurement.ID, capabilities.relativeHumidityMeasurement.humidity.NAME)
-      if last_humidity == nil then last_humidity = 0 end
-      device:emit_event(capabilities.relativeHumidityMeasurement.humidity(last_humidity))
-
+       if device:supports_capability_by_id(capabilities.relativeHumidityMeasurement.ID) then
+        local last_humidity = parent_device:get_latest_state("main", capabilities.relativeHumidityMeasurement.ID, capabilities.relativeHumidityMeasurement.humidity.NAME)
+        if last_humidity == nil then last_humidity = 0 end
+        device:emit_event(capabilities.relativeHumidityMeasurement.humidity(last_humidity))
+       end
       do_init(self, device)
 
       -- thermostat calculations
@@ -535,16 +552,32 @@ local function do_Preferences (self, device, event, args)
         end
         if device.preferences.changeProfileTherm == "1" and device.preferences.multiTile == false then
           print("<<< child-thermostat >>>")
-          device:try_update_metadata({profile = "child-thermostat"})
+           if device:supports_capability_by_id(capabilities.relativeHumidityMeasurement.ID) then
+            device:try_update_metadata({profile = "child-thermostat"})
+          else
+             device:try_update_metadata({profile = "child-thermostat-sonoff"})
+          end
         elseif device.preferences.changeProfileTherm == "1" and device.preferences.multiTile == true then
           print("<<< child-thermostat-multi >>>")
-          device:try_update_metadata({profile = "child-thermostat-multi"})
+          if device:supports_capability_by_id(capabilities.relativeHumidityMeasurement.ID) then
+            device:try_update_metadata({profile = "child-thermostat-multi"})
+          else
+            device:try_update_metadata({profile = "child-thermostat-multi-sonoff"})
+          end
         elseif device.preferences.changeProfileTherm == "5" and device.preferences.multiTile == false then
           print("<<< child-thermostat-05 >>>")
-          device:try_update_metadata({profile = "child-thermostat-05"})
+          if device:supports_capability_by_id(capabilities.relativeHumidityMeasurement.ID) then
+           device:try_update_metadata({profile = "child-thermostat-05"})
+          else
+            device:try_update_metadata({profile = "child-thermostat-05-sonoff"})
+          end
         elseif device.preferences.changeProfileTherm == "5" and device.preferences.multiTile == true then
           print("<<< child-thermostat-multi-05 >>>")
-          device:try_update_metadata({profile = "child-thermostat-multi-05"})
+          if device:supports_capability_by_id(capabilities.relativeHumidityMeasurement.ID) then
+            device:try_update_metadata({profile = "child-thermostat-multi-05"})
+          else
+            device:try_update_metadata({profile = "child-thermostat-multi-05-sonoff"})
+          end
         end
       end
       -- thermostat calculations
@@ -579,10 +612,12 @@ local function refresh_handler(self, device)
     end
     
   -- emit last parent device humidity
-  local parent_device = device:get_parent_device()
-  local last_humidity = parent_device:get_latest_state("main", capabilities.relativeHumidityMeasurement.ID, capabilities.relativeHumidityMeasurement.humidity.NAME)
-  if last_humidity ~= nil then
-    device:emit_event(capabilities.relativeHumidityMeasurement.humidity(last_humidity))
+   if device:supports_capability_by_id(capabilities.relativeHumidityMeasurement.ID) then
+    local parent_device = device:get_parent_device()
+    local last_humidity = parent_device:get_latest_state("main", capabilities.relativeHumidityMeasurement.ID, capabilities.relativeHumidityMeasurement.humidity.NAME)
+    if last_humidity ~= nil then
+      device:emit_event(capabilities.relativeHumidityMeasurement.humidity(last_humidity))
+    end
   end
 
   -- thermostat calculations
