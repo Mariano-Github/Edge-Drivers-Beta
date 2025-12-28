@@ -1,10 +1,8 @@
 # EDGE DRIVERS BETA CREATED OR MODIFIED BY Mariano Colmenarejo
 
-# WARNING:The Lua code for the drivers in this repository has has updated sep 2025 to last version of my drivers in my shared channel.
+# WARNING:The Lua code for the drivers in this repository They are updated from time to time and may temporarily not be up to date, just like the drivers shared on my channel.
 
-# The code is valid as a reference or as an help for modifying or creating new drivers. Drivers generated directly with this code may display errors when packaging the driver or may not work correctly and require several modifications.
-
-# The packaged drivers, shared, and available on my Edge drivers Shared Channel, work perfectly with the smartthings hub firmware 57.14, although they no longer implement some non-essential features of firmware 56.x and 57.x.
+# The packaged drivers, shared, and available on my Edge drivers Shared Channel, work perfectly with the smartthings hub firmware 59.8 and previous, although they no longer implement some non-essential features of firmware 56.x and 57.x.
 
 - Some Drivers created with default libraries smartthings edge and added fingerprint of devices
 - Some Drivers created with default libraries smartthings edge and added custom code funtions or custom profilesCancel changes
