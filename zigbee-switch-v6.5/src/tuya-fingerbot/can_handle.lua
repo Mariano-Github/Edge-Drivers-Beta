@@ -4,7 +4,9 @@
 local TUYA_FINGERBOT_FINGERPRINTS = {
     { mfr = "_TZ3210_dse8ogfy", model = "TS0001" },
     { mfr = "_TZ3210_j4pdtz9v", model = "TS0001" },
-    { mfr = "_TZ3210_cm9mbpr1", model = "TS0001" }
+    { mfr = "_TZ3210_cm9mbpr1", model = "TS0001" },
+    { mfr = "_TZ3210_a04acm9s", model = "TS0001" },
+    { mfr = "_TZ3210_7vgttna6", model = "TS0001" },
 }
 
 return function(opts, driver, device, ...)
