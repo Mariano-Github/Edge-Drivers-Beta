@@ -526,7 +526,12 @@ zigbeeManufacturer:
     manufacturer: _TZ3000_c8ozah8n
     model: TS0202
     deviceProfileName: motion-battery
-  
+  - id: "HOBEIAN/ZG-204Z"
+    deviceLabel: HOBEIAN Motion Sensor
+    manufacturer: HOBEIAN
+    model: ZG-204Z
+    deviceProfileName: motion-battery
+
   #Tuya TS0202 generic
   - id: "TS0202/Motion Sensor"
     deviceLabel: TS0202 Motion Sensor
