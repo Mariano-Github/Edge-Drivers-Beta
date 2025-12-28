@@ -595,6 +595,17 @@ zigbeeManufacturer:
     manufacturer: _TZ3210_cm9mbpr1
     model: TS0001
     deviceProfileName: switch-battery
+   #added dec-25
+  - id: "_TZ3210_a04acm9s/Fingerboot"
+    deviceLabel: Hej Fingerbot Plus
+    manufacturer: _TZ3210_a04acm9s
+    model: TS0001
+    deviceProfileName: switch-battery 
+  - id: "_TZ3210_7vgttna6/Fingerboot"
+    deviceLabel: Hej Fingerbot Plus
+    manufacturer: _TZ3210_7vgttna6
+    model: TS0001
+    deviceProfileName: switch-battery 
   - id: "_TZ3000_jrpdaujd/TS0001"
     deviceLabel: WL-SW01 Switch 30A
     manufacturer: _TZ3000_jrpdaujd
