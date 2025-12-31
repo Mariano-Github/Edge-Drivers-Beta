@@ -1,6 +1,0 @@
-name: 'Z-Wave Electric Meter Mc'
-packageKey: 'zwave-electric-meter-v1'
-permissions:
-  zwave: {}
-description: 'Devices Supported: https://github.com/Mariano-Github/Edge-Drivers-Beta/blob/main/zwave-drivers/zwave-electric-meter-mc/fingerprints.yml'
-vendorSupportInformation: "https://support.smartthings.com"
