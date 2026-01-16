@@ -3,6 +3,7 @@
 
 local AVATTO_THERMOSTAT_FINGERPRINTS = {
   { mfr = "_TZE204_xnbkhhdr", model = "TS0601" }, --ZWT198 battery
+  { mfr = "_TZE284_xnbkhhdr", model = "TS0601" }, --ZWT198 battery (16/ene/26)
   { mfr = "_TZE204_lzriup1j", model = "TS0601" },
   { mfr = "_TZE200_viy9ihs7", model = "TS0601" }
 }

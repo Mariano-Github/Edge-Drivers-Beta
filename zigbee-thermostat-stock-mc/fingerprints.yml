@@ -212,6 +212,12 @@ zigbeeManufacturer:
     manufacturer: _TZE204_xnbkhhdr
     model: TS0601
     deviceProfileName: thermostat-tuya-avatto
+  #added 16/ene/26
+  - id: Avatto/_TZE284_xnbkhhdr
+    deviceLabel: Avatto Thermostat ZWT198
+    manufacturer: _TZE284_xnbkhhdr
+    model: TS0601
+    deviceProfileName: thermostat-tuya-avatto
   - id: Avatto/_TZE204_lzriup1j
     deviceLabel: Avatto Thermostat ZWT198/ZWT100
     manufacturer: _TZE204_lzriup1j
