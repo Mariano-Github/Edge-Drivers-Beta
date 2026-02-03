@@ -243,6 +243,11 @@ zigbeeManufacturer:
     deviceLabel: TS0301 Window Treatment
     model: TS0301
     deviceProfileName: window-treatment-battery-invert
+  - id: "TS0601/window-treatment"
+    deviceLabel: TS0601 Window Treatment
+    model: TS0601
+    manufacturer: _TZE200_fb2erdok
+    deviceProfileName: window-treatment-battery
 
 zigbeeGeneric:
   - id: "genericShade"
