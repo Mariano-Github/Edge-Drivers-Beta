@@ -21,7 +21,7 @@ local windowShadeDefaults = require "st.zigbee.defaults.windowShade_defaults"
 
 local function is_ts0302_window_shade(opts, driver, device)
 
-    if device:get_model() == "TS0302" then
+    if device:get_model() == "TS0302" or device:get_model() == "MINI-ZBRBS" then
       local subdriver = require("ts0302")
       return true, subdriver
     end
@@ -29,9 +29,9 @@ local function is_ts0302_window_shade(opts, driver, device)
 end
 
 local function set_shade_level(device, value, command)
-  local level = 100 - value
-  if device.preferences.invert == true then
-    level = value
+  local level = value
+  if device.preferences.invertPercentage == true then
+    level = 100 - value
   end
   device:send_to_component(command.component, WindowCovering.server.commands.GoToLiftPercentage(device, level))
 end
@@ -51,9 +51,9 @@ local function set_window_shade_level(level)
 end
 
 local function current_position_attr_handler(driver, device, value, zb_rx)
-  local level = 100 - value.value
+  local level = value.value
   if device.preferences.invertPercentage == true then
-    level = value.value
+    level = 100 - value.value
   end
   --windowShadeDefaults.default_current_lift_percentage_handler(driver, device, {value = 100 - value.value}, zb_rx)
   windowShadeDefaults.default_current_lift_percentage_handler(driver, device, {value = level}, zb_rx)
@@ -63,11 +63,11 @@ end
 local ts0302_window_shade = {
   NAME = "TS0302 window shade",
   capability_handlers = {
-    [capabilities.windowShade.ID] = {
-      [capabilities.windowShadeLevel.commands.setShadeLevel.NAME] = window_shade_level_cmd,
-      [capabilities.windowShade.commands.open.NAME] = set_window_shade_level(100),
-      [capabilities.windowShade.commands.close.NAME] = set_window_shade_level(0),
-    },
+    --[capabilities.windowShade.ID] = {
+      --[capabilities.windowShadeLevel.commands.setShadeLevel.NAME] = window_shade_level_cmd,
+      --[capabilities.windowShade.commands.open.NAME] = set_window_shade_level(100),
+      --[capabilities.windowShade.commands.close.NAME] = set_window_shade_level(0),
+   -- },
     [capabilities.windowShadePreset.ID] = {
       [capabilities.windowShadePreset.commands.presetPosition.NAME] = window_shade_preset_cmd
     }

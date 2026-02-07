@@ -243,6 +243,11 @@ zigbeeManufacturer:
     deviceLabel: TS0301 Window Treatment
     model: TS0301
     deviceProfileName: window-treatment-battery-invert
+  #added 04-feb-26
+  - id: "SONOFF/MINI-ZBRBS"
+    deviceLabel: SONOFF MINI-ZBRBS
+    model: MINI-ZBRBS
+    deviceProfileName: window-treatment-profile-invert
 
 zigbeeGeneric:
   - id: "genericShade"
