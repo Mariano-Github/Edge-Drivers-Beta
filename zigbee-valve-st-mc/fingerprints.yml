@@ -102,6 +102,12 @@ zigbeeManufacturer :
     manufacturer: SONOFF
     model: SWV
     deviceProfileName: valve-battery-powerSource
+  #added feb-26
+  - id: "LUMI/T1"
+    deviceLabel: Water Valve Aqara T1
+    manufacturer: Aqara
+    model: lumi.valve.agl001
+    deviceProfileName: water-valve-battery-1
 
   #Tuya Valve generic
   - id: "TS0001/Tuya"
