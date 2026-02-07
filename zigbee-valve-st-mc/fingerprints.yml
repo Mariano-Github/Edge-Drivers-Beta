@@ -112,3 +112,10 @@ zigbeeManufacturer :
     deviceLabel: TS0011 Water Valve
     model: TS00011
     deviceProfileName: water-valve
+
+  #Aqara Valve Controller T1
+  - id: "LUMI/lumi.valve.agl001"
+    deviceLabel: Aqara Valve Controller T1
+    manufacturer: LUMI
+    model: lumi.valve.agl001
+    deviceProfileName: water-valve-battery
