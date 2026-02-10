@@ -146,6 +146,11 @@ zigbeeManufacturer:
     manufacturer: _TYZB01_yt1wd5db
     model: TS0205
     deviceProfileName: smoke-battery
+  - id: "Schneider/755WSA"
+    deviceLabel: Schneider Smoke Detector
+    manufacturer: Schneider Electric
+    model: 755WSA
+    deviceProfileName: smoke-battery-temp
   #Tuya TS0205 Smoke generic
   - id: "TS0205/Tuya Smoke-Sensor"
     deviceLabel: TS0205 Tuya CO-Sensor
