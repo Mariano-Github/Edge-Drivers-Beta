@@ -4,12 +4,18 @@ local battery_defaults = require "st.zigbee.defaults.battery_defaults"
 local PowerConfiguration = clusters.PowerConfiguration
 local ThermostatMode = capabilities.thermostatMode
 local Thermostat = clusters.Thermostat
-
+local ThermostatOperatingState = capabilities.thermostatOperatingState
 
 local supported_thermostat_modes_handler = function(driver, device, supported_modes)
   device:emit_event(ThermostatMode.supportedThermostatModes({"heat"}, { visibility = { displayed = false } }))
 end
 
+-- this device use PI heating demand
+local function thermostat_heating_demand_attr_handler(driver, device, value, zb_rx)
+  local event = value.value < 5 and ThermostatOperatingState.thermostatOperatingState.idle() or
+                 ThermostatOperatingState.thermostatOperatingState.heating()
+  device:emit_event(event)
+end
 local popp_danfoss_thermostat = {
   NAME = "POPP Danfoss Thermostat Handler",
   zigbee_handlers = {
@@ -18,7 +24,8 @@ local popp_danfoss_thermostat = {
         [PowerConfiguration.attributes.BatteryVoltage.ID] = battery_defaults.battery_volt_attr_handler
       },
       [Thermostat.ID] = {
-        [Thermostat.attributes.ControlSequenceOfOperation.ID] = supported_thermostat_modes_handler
+        [Thermostat.attributes.ControlSequenceOfOperation.ID] = supported_thermostat_modes_handler,
+        [Thermostat.attributes.PIHeatingDemand.ID] = thermostat_heating_demand_attr_handler,
       }
     }
   },

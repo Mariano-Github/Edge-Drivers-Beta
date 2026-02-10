@@ -229,6 +229,7 @@ local do_configure = function(self, device)
   device:send(Thermostat.attributes.ThermostatRunningState:configure_reporting(device, 30, 300))
   device:send(Thermostat.attributes.SystemMode:configure_reporting(device, 1, 0, 1))
   device:send(Thermostat.attributes.ThermostatRunningMode:configure_reporting(device, 30, 300))
+  device:send(Thermostat.attributes.PIHeatingDemand:configure_reporting(device, 30, 3600, 1)) --feb/26 for danfoss TRV
 end
 
 local device_added = function(self, device)
