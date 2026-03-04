@@ -1141,7 +1141,7 @@ zigbeeManufacturer:
     deviceLabel: IKEA E27 Bulb
     manufacturer: IKEA of Sweden
     model: TRADFRI bulb E27 CWS opal 600lm
-    deviceProfileName: level-rgb # no es RGBW @amin300
+    deviceProfileName: rgbw-level-colortemp-2200-4000 #level-rgb
   - id: "TRADFRI bulb E26 CWS opal 600lm"
     deviceLabel: IKEA E26 Bulb
     manufacturer: IKEA of Sweden
