@@ -283,7 +283,8 @@ end
 
 local function do_configure(self, device)
   device:send(device_management.build_bind_request(device, Thermostat.ID, self.environment_info.hub_zigbee_eui))
-  device:send(Thermostat.attributes.LocalTemperature:configure_reporting(device, 10, 60, 50))
+  --device:send(Thermostat.attributes.LocalTemperature:configure_reporting(device, 10, 60, 50))
+  device:send(Thermostat.attributes.LocalTemperature:configure_reporting(device, 10, 300, 50))-- mod feb-26
   device:send(Thermostat.attributes.OccupiedHeatingSetpoint:configure_reporting(device, 1, 600, 50))
   device:send(Thermostat.attributes.SystemMode:configure_reporting(device, 1, 0, 1))
   device:send(Thermostat.attributes.PIHeatingDemand:configure_reporting(device, 1, 3600, 1))
