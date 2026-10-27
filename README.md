@@ -2,7 +2,7 @@
 
 # WARNING:The Lua code for the drivers in this repository They are updated from time to time and may temporarily not be up to date, just like the drivers shared on my channel.
 
-# The packaged drivers, shared, and available on my Edge drivers Shared Channel, work perfectly with the smartthings hub firmware 59.8 and previous, although they no longer implement some non-essential features of firmware 56.x and 57.x.
+# The packaged drivers, shared, and available on my Edge drivers Shared Channel, work perfectly with the smartthings hub last firmware and previous, although they no longer implement some non-essential features of firmware 56.x and 57.x.
 
 - Some Drivers created with default libraries smartthings edge and added fingerprint of devices
 - Some Drivers created with default libraries smartthings edge and added custom code funtions or custom profilesCancel changes
