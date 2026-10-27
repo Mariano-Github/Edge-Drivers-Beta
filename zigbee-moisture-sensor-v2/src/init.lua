@@ -159,6 +159,11 @@ end
       device:send(zcl_clusters.IASZone.attributes.ZoneStatus:configure_reporting(device, 30, 600, 1))
     
       device:configure() -- mod (19/04/2024)
+      
+    else
+       device:send(device_management.build_bind_request(device, zcl_clusters.IASZone.ID, driver.environment_info.hub_zigbee_eui))
+      device:send(zcl_clusters.IASZone.attributes.ZoneStatus:configure_reporting(device, 30, 600, 1))
+      -- mod (6/09/2026)
     end
   end
 
@@ -260,6 +265,7 @@ sub_drivers = {
 },
   ias_zone_configuration_method = constants.IAS_ZONE_CONFIGURE_TYPE.AUTO_ENROLL_RESPONSE,
   health_check = false,
+  shared_device_thread_enabled = true,
 }
 
 --------- driver run ------
