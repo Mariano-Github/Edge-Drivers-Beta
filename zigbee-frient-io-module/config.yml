@@ -1,0 +1,5 @@
+name: 'Zigbee Frient I/O Module Mc'
+packageKey: 'zigbee-frient-io'
+description: 'Devices Supported: Frient and Develco I/O Module model:IOMZB-110'
+permissions:
+  zigbee: {}

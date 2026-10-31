@@ -1,0 +1,16 @@
+zigbeeManufacturer :
+  - id : frient/IOMZB-110
+    deviceLabel : Frient/IOMZB-110
+    manufacturer: frient A/S
+    model: IOMZB-110
+    deviceProfileName: two-switch-four-input
+  - id : Frient/IOMZB-110
+    deviceLabel : Frient/IOMZB-110
+    manufacturer: Frient A/S
+    model: IOMZB-110
+    deviceProfileName: two-switch-four-input
+  - id : Develco/IOMZB-110
+    deviceLabel : Develco/IOMZB-110
+    manufacturer: Develco Products A/S
+    model: IOMZB-110
+    deviceProfileName: two-switch-four-input

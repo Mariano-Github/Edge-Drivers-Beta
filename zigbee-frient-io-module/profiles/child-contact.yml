@@ -1,0 +1,24 @@
+name: child-contact
+components:
+- id: main
+  capabilities:
+  - id: contactSensor
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: MultiFunctionalSensor
+preferences:
+  - name: "profileType"
+    title: "Child Profile Type"
+    description: "Child Profile Type: DO NOT CHANGE"
+    required: true
+    preferenceType: enumeration
+    definition:
+      options:
+        "contact": "child-contact"
+      default: "contact"
+metadata:
+  #deviceType: ContactSensor
+  #ocfDeviceType: x.com.st.d.sensor.contact
+  #deviceTypeId: ContactSensor

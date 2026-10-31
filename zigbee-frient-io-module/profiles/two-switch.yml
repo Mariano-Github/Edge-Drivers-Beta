@@ -1,0 +1,174 @@
+name: two-switch-four-input
+components:
+- id: main
+  capabilities:
+  - id: legendabsolute60149.switchAllOnOff1
+    version: 1
+  - id: legendabsolute60149.signalMetrics
+    version: 1
+  - id: refresh
+    version: 1
+  - id: firmwareUpdate
+    version: 1
+  categories:
+  - name: Switch
+- id: switch1
+  label: Out Relay-1
+  capabilities:
+  - id: switch
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: Switch
+- id: switch2
+  label: Out Relay-2
+  capabilities:
+  - id: switch
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: Switch
+- id: in1
+  label: Open-Close Input-1
+  capabilities:
+    - id: contactSensor
+      version: 1
+    - id: refresh
+      version: 1
+  categories:
+  - name: ContactSensor
+- id: in2
+  label: Open-Close Input-2
+  capabilities:
+    - id: contactSensor
+      version: 1
+    - id: refresh
+      version: 1
+  categories:
+  - name: ContactSensor
+- id: in3
+  label: Open-Close Input-3
+  capabilities:
+    - id: contactSensor
+      version: 1
+    - id: refresh
+      version: 1
+  categories:
+  - name: ContactSensor
+- id: in4
+  label: Open-Close Input-4
+  capabilities:
+    - id: contactSensor
+      version: 1
+    - id: refresh
+      version: 1
+  categories:
+  - name: ContactSensor
+preferences:
+  - name: "version"
+    title: "Version 1 (Oct 2023)"
+    description: "Added: Device custom interval reports" 
+    required: false
+    preferenceType: string
+    definition:
+      stringType: text
+      minLength: 0
+      maxLength: 0
+      default: ""
+  - name: "onOffReports"
+    title: "Device On-Off Interval Report"
+    description: "IF YOUR DEVICE & NETWORK WORK FINE THEN DON'T TOUCH. Set Device Interval Report (300 to 1200 sec). Smartthings Default = 900. Longer intervals reduce zigbee network traffic and Hub work. If Offline states occur with high values, then reduce the interval. Restore default Value before Driver Change."
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 300
+      maximum: 1200
+      default:  900
+  - name: "switch1Child"
+    title: "Create Single Device for Switch1"
+    description: "Create Single Device for Switch1:"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "switch2Child"
+    title: "Create Single Device for Switch2"
+    description: "Create Single Device for Switch2:"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "childContact1"
+    title: "Create Single Contat Sensor Input-1"
+    description: "Create Single Contat Sensor Input-1"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "childContact2"
+    title: "Create Single Contat Sensor Input-2"
+    description: "Create Single Contat Sensor Input-2"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "childContact3"
+    title: "Create Single Contat Sensor Input-3"
+    description: "Create Single Contat Sensor Input-3"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "childContact4"
+    title: "Create Single Contat Sensor Input-4"
+    description: "Create Single Contat Sensor Input-4"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "invertIN1"
+    title: "Invert Input-1 Open-Closed status"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "invertIN2"
+    title: "Invert Input-2 Open-Closed status"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "invertIN3"
+    title: "Invert Input-3 Open-Closed status"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "invertIN4"
+    title: "Invert Input-4 Open-Closed status"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+  - name: "signalMetricsVisibles"
+    title: "Signal Metrics Visible in History"
+    description: "Signal Metrics Visible in App History:"
+    required: false
+    preferenceType: enumeration
+    definition:
+      options:
+        "Yes" : "Signal Metrics Visible"
+        "No": "Signal Metrics No Visible"
+      default: "No"
+  - name: "logDebugPrint"
+    title: "Show Logs Debug Prints in CLI"
+    required: false
+    preferenceType: boolean
+    definition:
+      default: false
+metadata:
+  deviceType: Switch
+  ocfDeviceType: oic.d.switch
+  deviceTypeId: Switch  
