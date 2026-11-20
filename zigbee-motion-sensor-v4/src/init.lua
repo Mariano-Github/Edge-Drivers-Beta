@@ -495,7 +495,8 @@ end
 
   --illuminance_measurement_defaults
 local function illuminance_measurement_defaults(driver, device, value, zb_rx)
-
+  if device:get_manufacturer() == "AOYAN" then return end
+          
   -- emit signal metrics
   signal.metrics(device, zb_rx)
 
@@ -547,6 +548,10 @@ capability_handlers = {
     [capabilities.refresh.commands.refresh.NAME] = do_refresh,
   }
 },
+local function tuya_ef00_handler(driver, device, zb_rx)
+  local body = zb_rx.body.zcl_body.body_bytes
+  -- (기존 [0x02] 안에 있던 내용 그대로 유지 + 2단계 영하 보정 포함)
+end
 zigbee_handlers = {
   attr = {
     [zcl_clusters.TemperatureMeasurement.ID] = {
@@ -578,32 +583,8 @@ zigbee_handlers = {
   },
   cluster = {
     [0xEF00] = {
-      [0x02] = function(driver, device, zb_rx)
-        local body = zb_rx.body.zcl_body.body_bytes
-        if #body < 7 then return end
-        local dp = string.byte(body, 3)
-        local len = string.unpack(">I2", body, 5)
-        if #body < 6 + len then return end
-
-        local val = 0
-        for i = 1, len do
-          val = (val << 8) | string.byte(body, 6 + i)
-        end
-
-        if dp == 1 then -- 진짜 재실 (DP 1)
-          if val == 1 then
-            device:emit_event(capabilities.motionSensor.motion.active())
-          else
-            device:emit_event(capabilities.motionSensor.motion.inactive())
-          end
-          -- 재실로 기기가 깨어났을 때 표준 온도(0x0402) 강제 조회
-          device:send(zcl_clusters.TemperatureMeasurement.attributes.MeasuredValue:read(device))
-        elseif dp == 106 then -- 진짜 조도 (DP 106)
-          device:emit_event(capabilities.illuminanceMeasurement.illuminance(val))
-        elseif dp == 111 then -- 투야 온도 백업 (DP 111)
-          device:emit_event(capabilities.temperatureMeasurement.temperature({ value = val / 10.0, unit = "C" }))
-        end
-      end
+      [0x01] = tuya_ef00_handler,
+      [0x02] = tuya_ef00_handler
     }
   }
 },
