@@ -1,5 +1,5 @@
-name: 'Zigbee Motion Sensor Mc'
-packageKey: 'zigbee-motion-sensor-v4'
+name: 'Zigbee Motion Sensor Custom'
+packageKey: 'zigbee-motion-sensor-custom'
 description: 'Devices Supported: https://github.com/Mariano-Github/Edge-Drivers-Beta/blob/main/zigbee-motion-sensor-v4/fingerprints.yml'
 permissions:
   zigbee: {}
