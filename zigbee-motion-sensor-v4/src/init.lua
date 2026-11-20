@@ -517,7 +517,10 @@ end
     end
     device:refresh()
   end
-
+  local function tuya_ef00_handler(driver, device, zb_rx)
+    local body = zb_rx.body.zcl_body.body_bytes
+    -- (기존 [0x02] 안에 있던 내용 그대로 유지 + 2단계 영하 보정 포함)
+  end
 --lazy-v2
   local lazy_load_if_possible = require "lazy_load_subdriver"
 
@@ -548,10 +551,6 @@ capability_handlers = {
     [capabilities.refresh.commands.refresh.NAME] = do_refresh,
   }
 },
-local function tuya_ef00_handler(driver, device, zb_rx)
-  local body = zb_rx.body.zcl_body.body_bytes
-  -- (기존 [0x02] 안에 있던 내용 그대로 유지 + 2단계 영하 보정 포함)
-end
 zigbee_handlers = {
   attr = {
     [zcl_clusters.TemperatureMeasurement.ID] = {
