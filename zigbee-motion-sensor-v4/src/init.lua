@@ -523,7 +523,7 @@ end
 local zigbee_motion_driver = {
   supported_capabilities = {
     capabilities.motionSensor,
-    --capabilities.temperatureMeasurement,
+    capabilities.temperatureMeasurement,
     capabilities.relativeHumidityMeasurement,
     capabilities.battery,
     capabilities.presenceSensor,
