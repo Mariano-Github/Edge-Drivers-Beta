@@ -495,7 +495,7 @@ end
 
   --illuminance_measurement_defaults
 local function illuminance_measurement_defaults(driver, device, value, zb_rx)
-  if device:get_manufacturer() == "AOYAN" then return end
+  if string.find(device:get_manufacturer() or "", "AOYAN") then return end
           
   -- emit signal metrics
   signal.metrics(device, zb_rx)
