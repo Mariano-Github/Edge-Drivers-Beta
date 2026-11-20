@@ -538,7 +538,7 @@ end
       -- 재실로 기기가 깨어났을 때 표준 온도(0x0402) 강제 조회
       device:send(zcl_clusters.TemperatureMeasurement.attributes.MeasuredValue:read(device))
     elseif dp == 106 then -- 진짜 조도 (DP 106)
-      device:emit_event(capabilities.illuminanceMeasurement.illuminance(val))
+      device:emit_event(capabilities.illuminanceMeasurement.illuminance({ value = val, unit = "lux" }))
     elseif dp == 111 then -- 투야 온도 백업 (DP 111)
       device:emit_event(capabilities.temperatureMeasurement.temperature({ value = val / 10.0, unit = "C" }))
     end
