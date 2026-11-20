@@ -549,6 +549,12 @@ capability_handlers = {
 },
 zigbee_handlers = {
   attr = {
+    [zcl_clusters.TemperatureMeasurement.ID] = {
+      [zcl_clusters.TemperatureMeasurement.attributes.MeasuredValue.ID] = function(driver, device, value, zb_rx)
+        local temp_c = value.value / 100.0
+        device:emit_event(capabilities.temperatureMeasurement.temperature({ value = temp_c, unit = "C" }))
+      end
+    },
     --[zcl_clusters.Basic.ID] = {
        --[zcl_clusters.Basic.attributes.ApplicationVersion.ID] = applicationVersion_handler
     --},
