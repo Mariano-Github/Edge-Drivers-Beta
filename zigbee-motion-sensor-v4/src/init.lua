@@ -34,6 +34,7 @@ local signal = require "signal-metrics"
 local write = require "writeAttribute"
 --local child_devices = require "child-devices"
 local xiaomi_utils = require "xiaomi_utils"
+local tuya_ef00 = require "tuya_ef00"
 
 -- custom capabilities
 local sensor_Sensitivity = capabilities["legendabsolute60149.sensorSensitivity"]
@@ -192,6 +193,26 @@ local function do_preferences(self, device, event, args)
   print("<<<<< Firmware Version >>>>>",firmware_full_version)
 end
 
+-- AOYAN manufacturer string is padded with spaces, so match with find
+local function is_aoyan(device)
+  return string.find(device:get_manufacturer() or "", "AOYAN") ~= nil
+end
+
+local AOYAN_REPORTING_FIELD = "aoyan_reporting_v1"
+
+-- bind and configure humidity / illuminance reporting (temperature is done in do_configure)
+local function configure_aoyan_reporting(self, device)
+  local hub_eui = self.environment_info.hub_zigbee_eui
+  local humidity = zcl_clusters.RelativeHumidity
+  local illuminance = zcl_clusters.IlluminanceMeasurement
+  print("<<< AOYAN: configure humidity & illuminance reporting >>>")
+  device:send(device_management.build_bind_request(device, humidity.ID, hub_eui))
+  device:send(humidity.attributes.MeasuredValue:configure_reporting(device, 30, 3600, 100)) -- 1 %
+  device:send(device_management.build_bind_request(device, illuminance.ID, hub_eui))
+  device:send(illuminance.attributes.MeasuredValue:configure_reporting(device, 30, 3600, 1000)) -- ~26 % lux change
+  device:set_field(AOYAN_REPORTING_FIELD, true, { persist = true })
+end
+
 -- do_configure
 local function do_configure(self,device)
   if device.network_type == "DEVICE_EDGE_CHILD" then return end-- is CHILD DEVICE
@@ -266,6 +287,9 @@ local function do_configure(self,device)
     device:send(device_management.build_bind_request(device, tempMeasurement.ID, self.environment_info.hub_zigbee_eui))
     device:send(tempMeasurement.attributes.MeasuredValue:configure_reporting(device, 30, maxTime, changeRep))
   end
+  if is_aoyan(device) then
+    configure_aoyan_reporting(self, device)
+  end
   print("doConfigure performed, transitioning device to PROVISIONED") --23/12/23
   device:try_update_metadata({ provisioning_state = "PROVISIONED" })
 
@@ -292,7 +316,6 @@ local function do_configure(self,device)
     device:send(zcl_clusters.OccupancySensing.attributes.UltrasonicOccupiedToUnoccupiedDelay:write(device, value_send))
   end
 
-  device:send(zcl_clusters.TemperatureMeasurement.attributes.MeasuredValue:configure_reporting(device, 30, 3600, 10))
   device:send(zcl_clusters.TemperatureMeasurement.attributes.MeasuredValue:read(device))
 end
 
@@ -431,6 +454,15 @@ local function do_init(self, device)
         battery_defaults.build_linear_voltage_init(2.3, 3.0)
     end
   end
+
+  -- already paired AOYAN devices never ran the new reporting config: do it once
+  if is_aoyan(device) and device:get_field(AOYAN_REPORTING_FIELD) == nil then
+    local maxTime = (device.preferences.maxTime or 5) * 60
+    local changeRep = device.preferences.changeRep or 10
+    device:send(device_management.build_bind_request(device, tempMeasurement.ID, self.environment_info.hub_zigbee_eui))
+    device:send(tempMeasurement.attributes.MeasuredValue:configure_reporting(device, 30, maxTime, changeRep))
+    configure_aoyan_reporting(self, device)
+  end
   device:refresh()
 end
 
@@ -495,8 +527,6 @@ end
 
   --illuminance_measurement_defaults
 local function illuminance_measurement_defaults(driver, device, value, zb_rx)
-  if string.find(device:get_manufacturer() or "", "AOYAN") then return end
-          
   -- emit signal metrics
   signal.metrics(device, zb_rx)
 
@@ -516,32 +546,6 @@ end
       --device:send(tempMeasurement.attributes.MinMeasuredValue:read(device))
     end
     device:refresh()
-  end
-  local function tuya_ef00_handler(driver, device, zb_rx)
-    local body = zb_rx.body.zcl_body.body_bytes
-    if #body < 7 then return end
-    local dp = string.byte(body, 3)
-    local len = string.unpack(">I2", body, 5)
-    if #body < 6 + len then return end
-
-    local val = 0
-    for i = 1, len do
-      val = (val << 8) | string.byte(body, 6 + i)
-    end
-
-    if dp == 1 then -- 진짜 재실 (DP 1)
-      if val == 1 then
-        device:emit_event(capabilities.motionSensor.motion.active())
-      else
-        device:emit_event(capabilities.motionSensor.motion.inactive())
-      end
-      -- 재실로 기기가 깨어났을 때 표준 온도(0x0402) 강제 조회
-      device:send(zcl_clusters.TemperatureMeasurement.attributes.MeasuredValue:read(device))
-    elseif dp == 106 then -- 진짜 조도 (DP 106)
-      device:emit_event(capabilities.illuminanceMeasurement.illuminance({ value = val, unit = "lux" }))
-    elseif dp == 111 then -- 투야 온도 백업 (DP 111)
-      device:emit_event(capabilities.temperatureMeasurement.temperature({ value = val / 10.0, unit = "C" }))
-    end
   end
 --lazy-v2
   local lazy_load_if_possible = require "lazy_load_subdriver"
@@ -604,22 +608,24 @@ zigbee_handlers = {
   },
   cluster = {
     [0xEF00] = {
-      [0x01] = tuya_ef00_handler,
-      [0x02] = tuya_ef00_handler
+      [0x01] = tuya_ef00.data_report_handler,
+      [0x02] = tuya_ef00.data_report_handler,
+      [0x06] = tuya_ef00.data_report_handler,
+      [0x24] = tuya_ef00.time_sync_handler
     }
   }
 },
 
   sub_drivers = { lazy_load_if_possible("aurora"),
                   lazy_load_if_possible("ikea"),
-                  -- lazy_load_if_possible("tuya"),
+                  lazy_load_if_possible("tuya"),
                   lazy_load_if_possible("tuya-vibration"),
                   lazy_load_if_possible("gatorsystem"),
                   lazy_load_if_possible("motion_timeout"),
                   lazy_load_if_possible("nyce"),
                   lazy_load_if_possible("zigbee-plugin-motion-sensor"),
                   lazy_load_if_possible("battery"),
-                  -- lazy_load_if_possible("temperature"),
+                  lazy_load_if_possible("temperature"),
                   lazy_load_if_possible("frient"),
                   lazy_load_if_possible("namron"),
                   lazy_load_if_possible("ikea-vallhorn"),
