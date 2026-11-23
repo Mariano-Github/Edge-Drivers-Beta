@@ -21,6 +21,9 @@ local defaults = require "st.zwave.defaults"
 local Battery = (require "st.zwave.CommandClass.Battery")({version=1})
 --- @type st.zwave.CommandClass.SensorMultilevel
 local SensorMultilevel = (require "st.zwave.CommandClass.SensorMultilevel")({version=2})
+--- v5 instance used ONLY for the Honeywell T6 typed humidity Get, so the generic
+--- v2 Get behavior for every other thermostat on this driver is left untouched.
+local SensorMultilevelV5 = (require "st.zwave.CommandClass.SensorMultilevel")({version=5})
 --- @type st.zwave.CommandClass.ThermostatFanMode
 local ThermostatFanMode = (require "st.zwave.CommandClass.ThermostatFanMode")({version=3})
 --- @type st.zwave.CommandClass.ThermostatMode
@@ -86,6 +89,11 @@ local do_refresh = function(self, device)
   device:send(ThermostatMode:Get({}))
   device:send(ThermostatOperatingState:Get({}))
   device:send(SensorMultilevel:Get({}))
+  -- Honeywell T6 (mfr 0x0039) only answers a typed v5 humidity Get and never volunteers
+  -- it; gate this so no other thermostat on the driver sees the extra command.
+  if device.zwave_manufacturer_id == 0x0039 then
+    device:send(SensorMultilevelV5:Get({sensor_type = SensorMultilevelV5.sensor_type.RELATIVE_HUMIDITY}))
+  end
   device:send(ThermostatSetpoint:Get({}))
   --device:send(ThermostatSetpoint:Get({}))
   device:send(Battery:Get({}))
@@ -154,6 +162,18 @@ end
 local function do_init(self, device)
   if device.zwave_manufacturer_id == 0x0002 and device.zwave_product_type == 0x0003 and device.zwave_product_id == 0x8010 then -- Danfoss & Devolo RS 014G0160 Thermostat
     device:try_update_metadata({profile = "temp-thermostat-heating-battery"})
+  end
+
+  -- Honeywell T6 (mfr 0x0039) never volunteers humidity and ignores a bare v1 Get,
+  -- but answers a typed v5 Get. Poll relative humidity every 60s so the tile stays live.
+  if device.zwave_manufacturer_id == 0x0039 then
+    device.thread:call_on_schedule(
+      60,
+      function()
+        device:send(SensorMultilevelV5:Get({sensor_type = SensorMultilevelV5.sensor_type.RELATIVE_HUMIDITY}))
+      end,
+      "t6_humidity_poll"
+    )
   end
 end
 
